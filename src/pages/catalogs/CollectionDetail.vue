@@ -54,7 +54,16 @@
       <div class="col-12" v-for="product in collectionProducts" :key="product.id">
         <q-card>
           <q-list>
-            <q-item>
+            <q-item
+              :to="{
+                name: 'product-detail',
+                params: {
+                  catalogSlug: catalog.slug,
+                  referenceId: product.reference_id,
+                  productSlug: product.slug
+                }
+              }"
+            >
               <q-item-section avatar>
                 <q-avatar v-if="product.photos.length > 0" rounded size="56px">
                   <img :src="product.photos[0].photo.thumbnail">
