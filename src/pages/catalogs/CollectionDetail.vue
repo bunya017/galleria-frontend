@@ -31,7 +31,7 @@
     </div>
 
     <!-- Title -->
-    <div v-if="collection"  class="row items-center q-pt-sm q-pb-lg">
+    <div v-if="collection" class="row items-center q-pt-sm q-pb-lg">
       <div class="text-h4 col-12 col-sm-6">
         {{ collection.name }} Collection
       </div>
@@ -46,6 +46,35 @@
         >
           <q-tooltip>Add new product to this collection</q-tooltip>
         </q-btn>
+      </div>
+    </div>
+
+    <!-- Colection products-->
+    <div class="row q-pt-sm q-col-gutter-md">
+      <div class="col-12" v-for="product in collectionProducts" :key="product.id">
+        <q-card>
+          <q-list>
+            <q-item>
+              <q-item-section avatar>
+                <q-avatar v-if="product.photos.length > 0" rounded size="56px">
+                  <img :src="product.photos[0].photo.thumbnail">
+                </q-avatar>
+                <q-avatar v-else color="primary" text-color="white">
+                  {{ product.name.charAt(0).toUpperCase() }}
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ product.name }}</q-item-label>
+                <q-item-label caption  lines="1">
+                  {{ product.description }}
+                </q-item-label>
+                <q-item-label caption class="q-pt-sm text-weight-bold">
+                  ₦{{ product.price }}
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card>
       </div>
     </div>
 
@@ -128,6 +157,7 @@ export default {
     return {
       collection: {},
       catalog: {},
+      collectionProducts: [],
       products: [],
       options: [],
       addProd: false,
@@ -202,6 +232,7 @@ export default {
       )
         .then(function (response) {
           if (response.status === 200) {
+            self.collectionProducts = response.data
             for (let i = 0; i < response.data.length; i++) {
               self.products.push({
                 label: response.data[i].name,
