@@ -2,79 +2,30 @@
   <q-layout view="hHh Lpr fFf"> <!-- Be sure to play with the Layout demo on docs -->
 
     <!-- (Optional) The Header -->
-    <q-header elevated>
+    <!-- @click="leftDrawer = !leftDrawer" -->
+    <q-header elevated class="bg-white text-primary">
       <q-toolbar>
-        <q-btn
-          flat
-          round
-          dense
-          icon="menu"
-          @click="leftDrawer = !leftDrawer"
-        />
         <q-toolbar-title>
-          Header
+          Galleria
         </q-toolbar-title>
-      </q-toolbar>
+        <q-space />
+        <q-btn-group flat class="sm">
+          <q-btn
+            flat
+            label="menu"
+          />
+          <q-btn
+            flat
+            label="menu"
+          />
+          <q-btn
+            flat
+            label="menu"
+          />
+        </q-btn-group>
 
-      <q-tabs>
-        <q-route-tab
-          icon="map"
-          to="/your/route"
-          replace
-          label="One Tab"
-        />
-        <q-route-tab
-          icon="assignment"
-          to="/some/other/route"
-          replace
-          label="Other Tab"
-        />
-      </q-tabs>
+      </q-toolbar>
     </q-header>
-
-    <!-- (Optional) The Footer -->
-    <q-footer>
-      <q-tabs top-indicator>
-        <q-route-tab
-          icon="map"
-          to="/your/route"
-          replace
-          label="One Tab"
-        />
-        <q-route-tab
-          icon="assignment"
-          to="/some/other/route"
-          replace
-          label="Other Tab"
-        />
-      </q-tabs>
-
-      <q-toolbar>
-        <q-btn
-          flat
-          round
-          dense
-          icon="menu"
-          @click="leftDrawer = !leftDrawer"
-        />
-        <q-toolbar-title>
-          Footer
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-footer>
-
-    <!-- (Optional) A Drawer; you can add one more with side="right" or change this one's side -->
-    <q-drawer
-      v-model="leftDrawer"
-      side="left"
-      bordered
-      content-class="bg-grey-2"
-    >
-      <!-- QScrollArea is optional -->
-      <q-scroll-area class="fit q-pa-sm">
-        <!-- Content here -->
-      </q-scroll-area>
-    </q-drawer>
 
     <q-page-container>
       <!-- This is where pages get injected -->
