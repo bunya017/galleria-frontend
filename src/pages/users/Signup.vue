@@ -12,7 +12,7 @@
 
           <q-card-section>
             <div class="q-pa-md">
-              <form v-on:submit.prevent>
+              <form v-on:submit.prevent="registerUser">
                 <div class="q-gutter-y-lg">
                   <q-input outlined dense v-model="user.username" type="text" label="Username">
                     <template v-slot:prepend>
@@ -26,7 +26,13 @@
                     </template>
                   </q-input>
 
-                  <q-input outlined dense v-model="user.password" :type="isPwd ? 'password' : 'text'" label="Password">
+                  <q-input
+                    outlined
+                    dense
+                    label="Password"
+                    v-model="user.password"
+                    :type="isPwd ? 'password' : 'text'"
+                  >
                     <template v-slot:prepend>
                       <q-icon name="vpn_key" />
                     </template>
@@ -59,6 +65,20 @@ export default {
     return {
       isPwd: true,
       user: {}
+    }
+  },
+  methods: {
+    registerUser: function () {
+      this.$axios.post(
+        '/users/signup/',
+        this.user
+      )
+        .then(function (response) {
+          console.log(response.data)
+        })
+        .catch(function (error) {
+          console.log(error.response.data)
+        })
     }
   }
 }
