@@ -78,7 +78,7 @@ export default {
     return {
       isPwd: true,
       user: {
-        usernames: '',
+        username: '',
         email: '',
         password: ''
       },
