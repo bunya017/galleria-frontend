@@ -15,11 +15,13 @@
           <q-btn
             flat
             label="Login"
+            type="a"
+            to="/login"
           />
           <q-btn
-            type="a"
             flat
             label="Signup"
+            type="a"
             to="/signup"
           />
         </q-btn-group>
@@ -27,14 +29,14 @@
         <q-btn flat icon="menu" class="xs">
           <q-menu auto-close>
             <q-list style="min-width: 70vw;">
-              <q-item clickable>
+              <q-item clickable to='/login'>
                 <q-item-section>
                   Login
                 </q-item-section>
               </q-item>
-              <q-item clickable>
+              <q-item clickable to='/signup'>
                 <q-item-section>
-                  Login
+                  Signup
                 </q-item-section>
               </q-item>
             </q-list>
