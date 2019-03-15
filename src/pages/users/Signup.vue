@@ -4,13 +4,13 @@
       <div class="col-12 col-sm-6 col-md-4">
         <q-card class="q-mt-lg" >
           <q-card-section>
-            <div class="text-h6 text-center">Sign up</div>
+            <div class="text-h4 text-center">Sign up</div>
             <div class="tesx-subtitle-2 text-center">
               To create and manage your product catalogues.
             </div>
           </q-card-section>
 
-          <q-card-section>
+          <q-card-section class="q-pb-lg">
             <div class="q-pa-md">
               <form v-on:submit.prevent="registerUser">
                 <div class="q-gutter-y-lg">

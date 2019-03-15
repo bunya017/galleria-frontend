@@ -4,13 +4,13 @@
       <div class="col-12 col-sm-6 col-md-4">
         <q-card class="q-mt-lg" >
           <q-card-section>
-            <div class="text-h6 text-center">Welcome back!</div>
+            <div class="text-h4 text-center">Welcome back!</div>
             <div class="tesx-subtitle-2 text-center">
               Log into your galleria acconut.
             </div>
           </q-card-section>
 
-          <q-card-section>
+          <q-card-section class="q-py-xl">
             <div class="q-pa-md">
               <form v-on:submit.prevent>
                 <div class="q-gutter-y-lg">
@@ -62,6 +62,7 @@ export default {
   // name: 'PageName',
   data: function () {
     return {
+      isPwd: true,
       user: {
         username: '',
         password: ''
