@@ -14,24 +14,37 @@
             <div class="q-pa-md">
               <form v-on:submit.prevent="registerUser">
                 <div class="q-gutter-y-lg">
-                  <q-input outlined dense v-model="user.username" type="text" label="Username">
+                  <q-input
+                    dense
+                    autofocus
+                    type="text"
+                    label="Username"
+                    v-model="user.username"
+                  >
                     <template v-slot:prepend>
                       <q-icon name="person" />
                     </template>
                   </q-input>
 
-                  <q-input outlined dense v-model="user.email" type="email" label="Email">
+                  <q-input
+                    dense
+                    type="email"
+                    label="Email"
+                    v-model="user.email"
+                  >
                     <template v-slot:prepend>
                       <q-icon name="mail" />
                     </template>
                   </q-input>
 
                   <q-input
-                    outlined
                     dense
                     label="Password"
+                    hint="Minimum of 8 characters"
+                    counter
                     v-model="user.password"
                     :type="isPwd ? 'password' : 'text'"
+                    :rules="[ val => val.length >= 8 || 'Password must be atleast of 8 characters ' ]"
                   >
                     <template v-slot:prepend>
                       <q-icon name="vpn_key" />
@@ -46,7 +59,7 @@
                   </q-input>
 
                   <div class="col-6">
-                    <q-btn flat class="full-width bg-primary" type="submit" text-color="white" color="primary" label="Sign up" />
+                    <q-btn no-caps flat class="full-width bg-primary" type="submit" text-color="white" color="primary" label="Sign up" />
                   </div>
                 </div>
               </form>
@@ -64,20 +77,26 @@ export default {
   data: function () {
     return {
       isPwd: true,
-      user: {}
+      user: {
+        usernames: '',
+        email: '',
+        password: ''
+      },
+      passwordError: {
+        status: false,
+        message: ''
+      }
     }
   },
   methods: {
     registerUser: function () {
-      this.$axios.post(
+      let self = this
+      self.$axios.post(
         '/users/signup/',
-        this.user
+        self.user
       )
         .then(function (response) {
-          console.log(response.data)
-        })
-        .catch(function (error) {
-          console.log(error.response.data)
+          sessionStorage.setItem('authToken', response.data.token)
         })
     }
   }
