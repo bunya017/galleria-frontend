@@ -8,6 +8,13 @@ const routes = [
       { path: 'signup', component: () => import('pages/users/Signup.vue') },
       { path: 'login', component: () => import('pages/users/Login.vue') }
     ]
+  },
+  {
+    path: '/my-catalogs',
+    component: () => import('layouts/DashboardLayout.vue'),
+    //children: [
+      //{ path: '', component: () => import('pages/Index.vue') }
+    //]
   }
 ]
 
