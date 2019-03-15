@@ -12,7 +12,7 @@
 
           <q-card-section class="q-py-xl">
             <div class="q-pa-md">
-              <form v-on:submit.prevent>
+              <form v-on:submit.prevent="login">
                 <div class="q-gutter-y-lg">
                   <q-input
                     dense
@@ -66,7 +66,48 @@ export default {
       user: {
         username: '',
         password: ''
+      },
+      alertPayload: {
+        color: 'negative',
+        textColor: 'white',
+        icon: 'report_problem',
+        position: 'top',
+        message: '',
+        closeBtn: 'Close',
+        classes: 'q-mt-xl'
       }
+    }
+  },
+  methods: {
+    login: function () {
+      let self = this
+      self.$axios.post(
+        '/users/token-auth/',
+        self.user
+      )
+        .then(function (response) {
+          console.log(response.data.token)
+          sessionStorage.setItem('authToken', response.data.token)
+        })
+        .catch(function (error) {
+          if (error.response.data.non_field_errors) {
+            self.alertPayload.message = error.response.data.non_field_errors[0]
+            self.showAlert(self.alertPayload)
+          }
+        })
+    },
+    showAlert: function (payload) {
+      const { color, textColor, message, icon, position, closeBtn, classes } = payload
+
+      this.$q.notify({
+        color,
+        textColor,
+        icon,
+        message,
+        position,
+        closeBtn,
+        classes
+      })
     }
   }
 }
