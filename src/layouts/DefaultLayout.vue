@@ -17,8 +17,10 @@
             label="Login"
           />
           <q-btn
+            type="a"
             flat
             label="Signup"
+            to="/signup"
           />
         </q-btn-group>
 

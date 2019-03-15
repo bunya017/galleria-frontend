@@ -42,7 +42,11 @@ module.exports = function (ctx) {
         'QSeparator',
         'QAvatar',
         'QMenu',
-        'QSpace'
+        'QSpace',
+        'QCard',
+        'QCardSection',
+        'QCardActions',
+        'QInput'
       ],
 
       directives: [
