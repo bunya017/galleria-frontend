@@ -76,7 +76,16 @@ export default {
       )
         .then(function (response) {
           self.catalog = response.data
+          self.categoryCount = response.data.categories.length
+          self.productCount = self.getProductCount(response.data.categories)
         })
+    },
+    getProductCount: function (payload) {
+      let productsAmount = 0
+      for (let i = 0; i < payload.length; i++) {
+        productsAmount += payload[i].product_entries.length
+      }
+      return productsAmount
     }
   },
   created: function () {
