@@ -21,7 +21,17 @@
 
 <script>
 export default {
-  name: 'CatalogDetail'
+  name: 'CatalogDetail',
+  data: function () {
+    return {
+      catalog: {}
+    }
+  },
+  methods: {
+    getAuthToken: function () {
+      return sessionStorage.getItem('authToken')
+    }
+  }
 }
 </script>
 
