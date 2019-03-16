@@ -9,7 +9,7 @@
 
     <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
       <div class="col-12 col-sm-6 col-md-3">
-        <q-card @click="addNewCatalog = true" style="min-height: 100px;">
+        <q-card @click="newCat = true" style="min-height: 100px;">
           <div class="text-center">
             <div class="text-h5">Add new catlog</div>
           </div>
@@ -40,7 +40,7 @@
       </div>
     </div>
 
-    <q-dialog v-model="addNewCatalog" persistent>
+    <q-dialog v-model="newCat" persistent>
       <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
         <q-card-section class="text-center">
           <div class="text-h5">New catalog</div>
@@ -49,39 +49,44 @@
 
         <q-card-section class="q-pt-xl">
           <div class="q-pa-md">
-            <form v-on:submit.prevent="alert">
+            <form v-on:submit.prevent="addNewCatalog">
               <div class="q-gutter-y-lg">
                 <q-input
                   dense
                   autofocus
                   type="text"
                   label="Name"
+                  v-model="newCatalog.name"
                 />
                 <q-input
                   dense
                   type="text"
                   label="Description"
+                  v-model="newCatalog.description"
                 />
                 <q-input
                   dense
                   autofocus
                   type="text"
                   label="Shop address"
+                  v-model="newCatalog.contact_address"
                 />
                 <q-input
                   dense
                   type="text"
                   label="Contact email"
+                  v-model="newCatalog.contact_email"
                 />
                 <q-input
                   dense
                   type="text"
                   label="Contact phone"
+                  v-model="newCatalog.contact_phone"
                 />
               </div>
               <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
                 <q-btn flat label="Cancel" color="negative" v-close-dialog />
-                <q-btn flat class="bg-primary" type="submit" label="Add new" color="white" />
+                <q-btn flat class="bg-primary" type="submit" label="Add new" color="white" v-close-dialog />
               </q-card-actions>
             </form>
           </div>
@@ -123,15 +128,31 @@
 
 <script>
 export default {
-  // name: 'PageName',
+  name: 'CatalogsList',
   data: function () {
     return {
       numberOfCatalogs: 0,
       numberOfProducts: 0,
       activeCatalogs: 0,
-      addNewCatalog: false,
-      newCatalog: {},
-      catalogs: {}
+      newCat: false,
+      newCatalog: {
+        name: '',
+        description: '',
+        contact_address: '',
+        contact_email: '',
+        contact_phone: ''
+      },
+      catalogs: {},
+      alertPayload: {
+        color: 'positive',
+        textColor: 'white',
+        icon: 'report_problem',
+        position: 'top',
+        message: '',
+        closeBtn: 'Close',
+        classes: 'q-mt-xl',
+        onDismiss: this.dismiss
+      }
     }
   },
   methods: {
@@ -140,7 +161,7 @@ export default {
     },
     getCatalogs: function () {
       let self = this
-      self.$axios.defaults.headers.common = {
+      this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
       }
       self.$axios.get(
@@ -151,8 +172,41 @@ export default {
           self.numberOfCatalogs = response.data.length
         })
     },
-    alert: function () {
-      return alert('Yes')
+    addNewCatalog: function () {
+      let self = this
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.post(
+        'catalogs/',
+        self.newCatalog
+      )
+        .then(function (response) {
+          if (response.status === 201) {
+            self.alertPayload.message = 'Catalog created successfully!'
+            self.showAlert(self.alertPayload)
+          }
+        })
+    },
+    showAlert: function (payload) {
+      const {
+        color, textColor, message, icon,
+        position, closeBtn, classes, onDismiss
+      } = payload
+
+      this.$q.notify({
+        color,
+        textColor,
+        icon,
+        message,
+        position,
+        closeBtn,
+        classes,
+        onDismiss
+      })
+    },
+    dismiss: function () {
+      this.getCatalogs()
     }
   },
   created: function () {
