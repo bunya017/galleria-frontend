@@ -52,7 +52,8 @@ module.exports = function (ctx) {
         'QRouteTab',
         'QScrollArea',
         'QBreadcrumbs',
-        'QBreadcrumbsEl'
+        'QBreadcrumbsEl',
+        'QBadge'
       ],
 
       directives: [

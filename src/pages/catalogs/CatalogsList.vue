@@ -40,6 +40,34 @@
       </div>
     </div>
 
+    <div class="text-h5">My Catalogs</div>
+    <div class="row q-pt-sm q-pb-xl q-col-gutter-md">
+      <div class="col-12" v-for="catalog in catalogs" :key="catalog.id">
+        <q-card>
+          <q-list>
+            <q-item clickable>
+              <q-item-section avatar>
+                <q-avatar color="primary" text-color="white">V</q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ catalog.name }}</q-item-label>
+                <q-item-label caption>{{ catalog.description }}</q-item-label>
+              </q-item-section>
+              <q-item-section class="gt-xs">
+                <q-item-label>{{ catalog.categories.length }} Categories</q-item-label>
+              </q-item-section>
+              <q-item-section side class="gt-xs">
+                <q-badge color="green-10" text-color="white" label="active" />
+              </q-item-section>
+              <q-item-section top side>
+                <q-btn size="12px" flat dense round icon="more_vert" />
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card>
+      </div>
+    </div>
+
   </q-page>
 </template>
 
@@ -50,8 +78,30 @@ export default {
     return {
       numberOfCatalogs: 0,
       numberOfProducts: 0,
-      activeCatalogs: 0
+      activeCatalogs: 0,
+      catalogs: {}
     }
+  },
+  methods: {
+    getAuthToken: function () {
+      return sessionStorage.getItem('authToken')
+    },
+    getCatalogs: function () {
+      let self = this
+      self.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.get(
+        'catalogs/'
+      )
+        .then(function (response) {
+          self.catalogs = response.data
+          self.numberOfCatalogs = response.data.length
+        })
+    }
+  },
+  created: function () {
+    this.getCatalogs()
   }
 }
 </script>
