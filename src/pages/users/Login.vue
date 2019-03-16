@@ -86,8 +86,8 @@ export default {
         self.user
       )
         .then(function (response) {
-          console.log(response.data.token)
           sessionStorage.setItem('authToken', response.data.token)
+          self.$router.push({ name: 'my-catalogs' })
         })
         .catch(function (error) {
           if (error.response.data.non_field_errors) {

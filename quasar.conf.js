@@ -46,18 +46,30 @@ module.exports = function (ctx) {
         'QCard',
         'QCardSection',
         'QCardActions',
-        'QInput'
+        'QInput',
+        'QTabs',
+        'QTab',
+        'QRouteTab',
+        'QScrollArea',
+        'QBreadcrumbs',
+        'QBreadcrumbsEl',
+        'QBadge',
+        'QDialog',
+        'QTooltip'
       ],
 
       directives: [
         'Ripple',
-        'CloseMenu'
+        'CloseMenu',
+        'CloseDialog'
       ],
 
       // Quasar plugins
       plugins: [
         'Notify'
-      ]
+      ],
+
+      cssAddon: true
 
       // iconSet: 'ionicons-v4'
       // lang: 'de' // Quasar language
