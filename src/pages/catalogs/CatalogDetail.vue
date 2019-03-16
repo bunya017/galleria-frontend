@@ -35,7 +35,7 @@
         <q-card style="min-height: 100px;">
           <div class="text-center">
             <div class="text-h5">{{ productCount }} Products</div>
-            <div class="text-subtitle2">across all categories</div>
+            <div class="text-subtitle2">(Click to view all products)</div>
           </div>
         </q-card>
       </div>
@@ -45,6 +45,29 @@
             <div class="text-h5">{{ activeProducts }} Active</div>
             <div class="text-subtitle2">Products</div>
           </div>
+        </q-card>
+      </div>
+    </div>
+    <div class="text-h5">Categories</div>
+    <div class="row q-pt-sm q-pb-xl q-col-gutter-md">
+      <div class="col-12" v-for="category in catalog.categories" :key="category.name">
+        <q-card>
+          <q-list>
+            <q-item clickable>
+              <q-item-section avatar>
+                <q-avatar color="primary" text-color="white">
+                  {{ getFirstLetter(category.name) }}
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ category.name }}</q-item-label>
+                <q-item-label caption>{{ category.description }}</q-item-label>
+              </q-item-section>
+              <q-item-section top side>
+                <q-btn size="12px" flat dense round icon="more_vert" />
+              </q-item-section>
+            </q-item>
+          </q-list>
         </q-card>
       </div>
     </div>
@@ -86,6 +109,9 @@ export default {
         productsAmount += payload[i].product_entries.length
       }
       return productsAmount
+    },
+    getFirstLetter: function (payload) {
+      return payload.charAt(0).toUpperCase()
     }
   },
   created: function () {
