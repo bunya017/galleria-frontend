@@ -9,9 +9,9 @@
 
     <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
       <div class="col-12 col-sm-6 col-md-3">
-        <q-card @click="newCat = true" style="min-height: 100px;">
+        <q-card class="cursor-pointer" @click="newCat = true" style="min-height: 100px;">
           <div class="text-center">
-            <div class="text-h5">Add new catlog</div>
+            <div class="text-h5">Add new catalog</div>
           </div>
         </q-card>
       </div>
@@ -40,6 +40,7 @@
       </div>
     </div>
 
+    <!-- New catalog dialog/modal -->
     <q-dialog v-model="newCat" persistent>
       <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
         <q-card-section class="text-center">
@@ -50,38 +51,42 @@
         <q-card-section class="q-pt-xl">
           <div class="q-pa-md">
             <form v-on:submit.prevent="addNewCatalog">
-              <div class="q-gutter-y-lg">
+              <div class="q-gutter-y-sm">
                 <q-input
                   dense
                   autofocus
                   type="text"
                   label="Name"
                   v-model="newCatalog.name"
+                  :rules="[ val => !!val || 'This field is required.' ]"
                 />
                 <q-input
                   dense
                   type="text"
                   label="Description"
                   v-model="newCatalog.description"
+                  :rules="[ val => !!val || 'This field is required.' ]"
                 />
                 <q-input
                   dense
-                  autofocus
                   type="text"
                   label="Shop address"
                   v-model="newCatalog.contact_address"
+                  :rules="[ val => !!val || 'This field is required.' ]"
                 />
                 <q-input
                   dense
                   type="text"
                   label="Contact email"
                   v-model="newCatalog.contact_email"
+                  :rules="[ val => !!val || 'This field is required.' ]"
                 />
                 <q-input
                   dense
                   type="text"
                   label="Contact phone"
                   v-model="newCatalog.contact_phone"
+                  :rules="[ val => !!val || 'This field is required.' ]"
                 />
               </div>
               <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
