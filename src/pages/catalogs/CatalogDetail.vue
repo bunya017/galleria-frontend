@@ -15,6 +15,39 @@
         />
       </q-breadcrumbs>
     </div>
+
+    <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
+      <div class="col-12 col-sm-6 col-md-3">
+        <q-card class="cursor-pointer" style="min-height: 100px;">
+          <div class="text-center">
+            <div class="text-h5">Add new category</div>
+          </div>
+        </q-card>
+      </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <q-card style="min-height: 100px;">
+          <div class="text-center">
+            <div class="text-h5">{{ categoryCount }} Categories</div>
+          </div>
+        </q-card>
+      </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <q-card style="min-height: 100px;">
+          <div class="text-center">
+            <div class="text-h5">{{ productCount }} Products</div>
+            <div class="text-subtitle2">across all categories</div>
+          </div>
+        </q-card>
+      </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <q-card style="min-height: 100px;">
+          <div class="text-center">
+            <div class="text-h5">{{ activeProducts }} Active</div>
+            <div class="text-subtitle2">Products</div>
+          </div>
+        </q-card>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -23,6 +56,9 @@ export default {
   name: 'CatalogDetail',
   data: function () {
     return {
+      categoryCount: 0,
+      productCount: 0,
+      activeProducts: 0,
       catalog: {}
     }
   },
