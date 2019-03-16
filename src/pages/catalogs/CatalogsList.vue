@@ -9,7 +9,7 @@
 
     <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
       <div class="col-12 col-sm-6 col-md-3">
-        <q-card style="min-height: 100px;">
+        <q-card @click="addNewCatalog = true" style="min-height: 100px;">
           <div class="text-center">
             <div class="text-h5">Add new catlog</div>
           </div>
@@ -39,6 +39,56 @@
         </q-card>
       </div>
     </div>
+
+    <q-dialog v-model="addNewCatalog" persistent>
+      <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
+        <q-card-section class="text-center">
+          <div class="text-h5">New catalog</div>
+          <div class="text-subtitle2">Create new product catalog</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-xl">
+          <div class="q-pa-md">
+            <form v-on:submit.prevent="alert">
+              <div class="q-gutter-y-lg">
+                <q-input
+                  dense
+                  autofocus
+                  type="text"
+                  label="Name"
+                />
+                <q-input
+                  dense
+                  type="text"
+                  label="Description"
+                />
+                <q-input
+                  dense
+                  autofocus
+                  type="text"
+                  label="Shop address"
+                />
+                <q-input
+                  dense
+                  type="text"
+                  label="Contact email"
+                />
+                <q-input
+                  dense
+                  type="text"
+                  label="Contact phone"
+                />
+              </div>
+              <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
+                <q-btn flat label="Cancel" color="negative" v-close-dialog />
+                <q-btn flat class="bg-primary" type="submit" label="Add new" color="white" />
+              </q-card-actions>
+            </form>
+          </div>
+        </q-card-section>
+
+      </q-card>
+    </q-dialog>
 
     <div class="text-h5">My Catalogs</div>
     <div class="row q-pt-sm q-pb-xl q-col-gutter-md">
@@ -79,6 +129,8 @@ export default {
       numberOfCatalogs: 0,
       numberOfProducts: 0,
       activeCatalogs: 0,
+      addNewCatalog: false,
+      newCatalog: {},
       catalogs: {}
     }
   },
@@ -98,6 +150,9 @@ export default {
           self.catalogs = response.data
           self.numberOfCatalogs = response.data.length
         })
+    },
+    alert: function () {
+      return alert('Yes')
     }
   },
   created: function () {

@@ -53,12 +53,15 @@ module.exports = function (ctx) {
         'QScrollArea',
         'QBreadcrumbs',
         'QBreadcrumbsEl',
-        'QBadge'
+        'QBadge',
+        'QDialog',
+        'QTooltip'
       ],
 
       directives: [
         'Ripple',
-        'CloseMenu'
+        'CloseMenu',
+        'CloseDialog'
       ],
 
       // Quasar plugins
