@@ -96,7 +96,6 @@
             </form>
           </div>
         </q-card-section>
-
       </q-card>
     </q-dialog>
 
@@ -105,7 +104,15 @@
       <div class="col-12" v-for="catalog in catalogs" :key="catalog.id">
         <q-card>
           <q-list>
-            <q-item clickable>
+            <q-item
+              clickable
+              :to="{
+                name: 'catalog-detail',
+                params: {
+                  slug: catalog.slug
+                }
+              }"
+            >
               <q-item-section avatar>
                 <q-avatar color="primary" text-color="white">
                   {{ getFirstLetter(catalog.name) }}
