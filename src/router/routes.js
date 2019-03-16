@@ -6,13 +6,16 @@ const routes = [
     children: [
       { path: '',
         name: 'home',
-        component: () => import('pages/Index.vue') },
+        component: () => import('pages/Index.vue')
+      },
       { path: 'signup',
         name: 'signup',
-        component: () => import('pages/users/Signup.vue') },
+        component: () => import('pages/users/Signup.vue')
+      },
       { path: 'login',
         name: 'login',
-        component: () => import('pages/users/Login.vue') }
+        component: () => import('pages/users/Login.vue')
+      }
     ]
   },
   {
@@ -21,7 +24,12 @@ const routes = [
     children: [
       { path: '',
         name: 'my-catalogs',
-        component: () => import('pages/catalogs/CatalogsList.vue') }
+        component: () => import('pages/catalogs/CatalogsList.vue')
+      },
+      { path: 'c/:slug',
+        name: 'catalog-detail',
+        component: () => import('pages/catalogs/CatalogDetail.vue')
+      }
     ]
   }
 ]
