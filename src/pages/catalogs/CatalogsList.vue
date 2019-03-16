@@ -102,7 +102,9 @@
           <q-list>
             <q-item clickable>
               <q-item-section avatar>
-                <q-avatar color="primary" text-color="white">V</q-avatar>
+                <q-avatar color="primary" text-color="white">
+                  {{ getFirstLetter(catalog.name) }}
+                </q-avatar>
               </q-item-section>
               <q-item-section>
                 <q-item-label>{{ catalog.name }}</q-item-label>
@@ -207,6 +209,9 @@ export default {
     },
     dismiss: function () {
       this.getCatalogs()
+    },
+    getFirstLetter: function (payload) {
+      return payload.charAt(0).toUpperCase()
     }
   },
   created: function () {
