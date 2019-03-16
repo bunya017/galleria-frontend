@@ -18,7 +18,7 @@
 
     <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
       <div class="col-12 col-sm-6 col-md-3">
-        <q-card class="cursor-pointer" style="min-height: 100px;">
+        <q-card class="cursor-pointer" @click="newCat = true" style="min-height: 100px;">
           <div class="text-center">
             <div class="text-h5">Add new category</div>
           </div>
@@ -48,6 +48,45 @@
         </q-card>
       </div>
     </div>
+
+    <!-- New category modal/dialog -->
+    <q-dialog v-model="newCat" persistent>
+      <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
+        <q-card-section class="text-center">
+          <div class="text-h5">New category</div>
+          <div class="text-subtitle2">Add new product category</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-xl">
+          <div class="q-pa-md">
+            <form v-on:submit.prevent>
+              <div class="q-gutter-y-sm">
+                <q-input
+                  dense
+                  autofocus
+                  type="text"
+                  label="Name"
+                  v-model="newCategory.name"
+                  :rules="[ val => !!val || 'This field is required.' ]"
+                />
+                <q-input
+                  dense
+                  type="text"
+                  label="Description"
+                  v-model="newCategory.description"
+                  :rules="[ val => !!val || 'This field is required.' ]"
+                />
+              </div>
+              <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
+                <q-btn flat label="Cancel" color="negative" v-close-dialog />
+                <q-btn flat class="bg-primary" type="submit" label="Add new" color="white" v-close-dialog />
+              </q-card-actions>
+            </form>
+          </div>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
     <div class="text-h5">Categories</div>
     <div class="row q-pt-sm q-pb-xl q-col-gutter-md">
       <div class="col-12" v-for="category in catalog.categories" :key="category.name">
@@ -82,7 +121,13 @@ export default {
       categoryCount: 0,
       productCount: 0,
       activeProducts: 0,
-      catalog: {}
+      newCat: false,
+      catalog: {},
+      newCategory: {
+        name: '',
+        description: '',
+        catalog: null
+      }
     }
   },
   methods: {
