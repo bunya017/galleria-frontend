@@ -59,7 +59,7 @@
 
         <q-card-section class="q-pt-xl">
           <div class="q-pa-md">
-            <form v-on:submit.prevent>
+            <form v-on:submit.prevent="addNewCategory">
               <div class="q-gutter-y-sm">
                 <q-input
                   dense
@@ -157,6 +157,22 @@ export default {
     },
     getFirstLetter: function (payload) {
       return payload.charAt(0).toUpperCase()
+    },
+    addNewCategory: function () {
+      let self = this
+      self.newCategory.catalog = self.catalog.id
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.post(
+        'catalogs/' + self.catalog.slug + '/categories/',
+        self.newCategory
+      )
+        .then(function (response) {
+          if (response.status === 201) {
+            console.log('yes')
+          }
+        })
     }
   },
   created: function () {
