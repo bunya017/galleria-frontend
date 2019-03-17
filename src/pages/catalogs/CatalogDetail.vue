@@ -207,6 +207,12 @@ export default {
               self.showAlert(self.alertPayload)
             }
           })
+          .catch(function (error) {
+            if (error.response.data.non_field_errors) {
+              self.nameError.message = 'Oops! This category already exists in this catalog.'
+              self.nameError.status = true
+            }
+          })
       }
     },
     showAlert: function (payload) {
