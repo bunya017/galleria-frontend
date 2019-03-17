@@ -63,17 +63,25 @@
 
         <q-card-section class="q-pt-xl">
           <div class="q-pa-md">
-            <form v-on:submit.prevent="addNewCategory">
+            <form v-on:submit.prevent.stop="addNewCategory">
               <div class="q-gutter-y-sm">
                 <q-input
+                  ref="name"
                   dense
                   autofocus
                   type="text"
                   label="Name"
+                  bottom-slots
+                  :error="nameError.status"
                   v-model="newCategory.name"
                   :rules="[ val => !!val || 'This field is required.' ]"
-                />
+                >
+                  <template v-slot:error>
+                    {{ nameError.message }}
+                  </template>
+                </q-input>
                 <q-input
+                  ref="description"
                   dense
                   type="text"
                   label="Description"
@@ -83,7 +91,7 @@
               </div>
               <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
                 <q-btn flat label="Cancel" color="negative" v-close-dialog />
-                <q-btn flat class="bg-primary" type="submit" label="Add new" color="white" v-close-dialog />
+                <q-btn flat class="bg-primary" type="submit" label="Add new" color="white"  />
               </q-card-actions>
             </form>
           </div>
@@ -122,6 +130,7 @@ export default {
   name: 'CatalogDetail',
   data: function () {
     return {
+      isError: true,
       categoryCount: 0,
       productCount: 0,
       activeProducts: 0,
@@ -141,6 +150,10 @@ export default {
         closeBtn: 'Close',
         classes: 'q-mt-xl',
         onDismiss: this.dismiss
+      },
+      nameError: {
+        status: false,
+        message: ''
       }
     }
   },
@@ -174,20 +187,26 @@ export default {
     },
     addNewCategory: function () {
       let self = this
-      self.newCategory.catalog = self.catalog.id
-      this.$axios.defaults.headers.common = {
-        'Authorization': 'Token ' + self.getAuthToken()
+      self.$refs.name.validate()
+
+      if (self.$refs.name.hasError) {
+        self.formHasError = true
+      } else {
+        self.newCategory.catalog = self.catalog.id
+        this.$axios.defaults.headers.common = {
+          'Authorization': 'Token ' + self.getAuthToken()
+        }
+        self.$axios.post(
+          'catalogs/' + self.catalog.slug + '/categories/',
+          self.newCategory
+        )
+          .then(function (response) {
+            if (response.status === 201) {
+              self.alertPayload.message = 'Category added successfully!'
+              self.showAlert(self.alertPayload)
+            }
+          })
       }
-      self.$axios.post(
-        'catalogs/' + self.catalog.slug + '/categories/',
-        self.newCategory
-      )
-        .then(function (response) {
-          if (response.status === 201) {
-            self.alertPayload.message = 'Category added successfully!'
-            self.showAlert(self.alertPayload)
-          }
-        })
     },
     showAlert: function (payload) {
       const {
