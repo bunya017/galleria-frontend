@@ -127,6 +127,16 @@ export default {
         name: '',
         description: '',
         catalog: null
+      },
+      alertPayload: {
+        color: 'positive',
+        textColor: 'white',
+        icon: 'report_problem',
+        position: 'top',
+        message: '',
+        closeBtn: 'Close',
+        classes: 'q-mt-xl',
+        onDismiss: this.dismiss
       }
     }
   },
@@ -170,9 +180,30 @@ export default {
       )
         .then(function (response) {
           if (response.status === 201) {
-            console.log('yes')
+            self.alertPayload.message = 'Category added successfully!'
+            self.showAlert(self.alertPayload)
           }
         })
+    },
+    showAlert: function (payload) {
+      const {
+        color, textColor, message, icon,
+        position, closeBtn, classes, onDismiss
+      } = payload
+
+      this.$q.notify({
+        color,
+        textColor,
+        icon,
+        message,
+        position,
+        closeBtn,
+        classes,
+        onDismiss
+      })
+    },
+    dismiss: function () {
+      this.getCatalogDetail()
     }
   },
   created: function () {
