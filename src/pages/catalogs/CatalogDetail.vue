@@ -18,32 +18,36 @@
 
     <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
       <div class="col-12 col-sm-6 col-md-3">
-        <q-card class="cursor-pointer" @click="newCat = true" style="min-height: 100px;">
-          <div class="text-center">
+        <q-card class="cursor-pointer" @click="newCat = true">
+          <div class="row justify-center items-center" style="min-height: 100px;">
             <div class="text-h5">Add new category</div>
           </div>
         </q-card>
       </div>
       <div class="col-12 col-sm-6 col-md-3">
-        <q-card style="min-height: 100px;">
-          <div class="text-center">
+        <q-card>
+          <div class="row justify-center items-center" style="min-height: 100px;">
             <div class="text-h5">{{ categoryCount }} Categories</div>
           </div>
         </q-card>
       </div>
       <div class="col-12 col-sm-6 col-md-3">
-        <q-card style="min-height: 100px;">
-          <div class="text-center">
-            <div class="text-h5">{{ productCount }} Products</div>
-            <div class="text-subtitle2">(Click to view all products)</div>
+        <q-card>
+          <div class="row justify-center items-center" style="min-height: 100px;">
+            <div class="text-center">
+              <div class="text-h5">{{ productCount }} Products</div>
+              <div class="text-subtitle2">(Click to view)</div>
+            </div>
           </div>
         </q-card>
       </div>
       <div class="col-12 col-sm-6 col-md-3">
-        <q-card style="min-height: 100px;">
-          <div class="text-center">
-            <div class="text-h5">{{ activeProducts }} Active</div>
-            <div class="text-subtitle2">Products</div>
+        <q-card>
+          <div class="row justify-center items-center" style="min-height: 100px;">
+            <div class="text-center">
+              <div class="text-h5">{{ activeProducts }} Active</div>
+              <div class="text-subtitle2">Products</div>
+            </div>
           </div>
         </q-card>
       </div>
