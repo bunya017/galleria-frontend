@@ -188,8 +188,9 @@ export default {
     addNewCategory: function () {
       let self = this
       self.$refs.name.validate()
+      self.$refs.description.validate()
 
-      if (self.$refs.name.hasError) {
+      if (self.$refs.name.hasError || self.$refs.description.hasError) {
         self.formHasError = true
       } else {
         self.newCategory.catalog = self.catalog.id
