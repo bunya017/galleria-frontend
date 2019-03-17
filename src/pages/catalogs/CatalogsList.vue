@@ -9,32 +9,40 @@
 
     <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
       <div class="col-12 col-sm-6 col-md-3">
-        <q-card class="cursor-pointer" @click="newCat = true" style="min-height: 100px;">
-          <div class="text-center">
-            <div class="text-h5">Add new catalog</div>
+        <q-card class="cursor-pointer" @click="newCat = true">
+          <div class="row justify-center items-center" style="min-height: 100px;">
+            <div class="text-center">
+              <div class="text-h5">Add new catalog</div>
+            </div>
           </div>
         </q-card>
       </div>
       <div class="col-12 col-sm-6 col-md-3">
-        <q-card style="min-height: 100px;">
-          <div class="text-center">
-            <div class="text-h5">{{ numberOfCatalogs }} Catalogs</div>
+        <q-card>
+          <div class="row justify-center items-center" style="min-height: 100px;">
+            <div class="text-center">
+              <div class="text-h5">{{ numberOfCatalogs }} Catalogs</div>
+            </div>
           </div>
         </q-card>
       </div>
       <div class="col-12 col-sm-6 col-md-3">
-        <q-card style="min-height: 100px;">
-          <div class="text-center">
-            <div class="text-h5">{{ numberOfProducts }} Products</div>
-            <div class="text-subtitle2">across all catalogs</div>
+        <q-card>
+          <div class="row justify-center items-center" style="min-height: 100px;">
+            <div class="text-center">
+              <div class="text-h5">{{ numberOfProducts }} Products</div>
+              <div class="text-subtitle2">across all catalogs</div>
+            </div>
           </div>
         </q-card>
       </div>
       <div class="col-12 col-sm-6 col-md-3">
-        <q-card style="min-height: 100px;">
-          <div class="text-center">
-            <div class="text-h5">{{ activeCatalogs }} Active</div>
-            <div class="text-subtitle2">Catalogs</div>
+        <q-card>
+          <div class="row justify-center items-center" style="min-height: 100px;">
+            <div class="text-center">
+              <div class="text-h5">{{ activeCatalogs }} Active</div>
+              <div class="text-subtitle2">Catalogs</div>
+            </div>
           </div>
         </q-card>
       </div>
