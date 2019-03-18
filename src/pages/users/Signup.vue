@@ -29,10 +29,12 @@
                   </q-input>
 
                   <q-input
+                    ref="email"
                     dense
                     type="email"
                     label="Email"
                     v-model="user.email"
+                    :rules="[ val => !!val || 'This field is required.' ]"
                   >
                     <template v-slot:prepend>
                       <q-icon name="mail" />
@@ -94,7 +96,11 @@ export default {
     registerUser: function () {
       let self = this
       self.$refs.username.validate()
-      if (self.$refs.username.hasError) {
+      self.$refs.email.validate()
+      if (
+        self.$refs.username.hasError ||
+        self.$refs.email.hasError
+      ) {
         self.formHasError = true
       } else {
         self.$axios.post(
