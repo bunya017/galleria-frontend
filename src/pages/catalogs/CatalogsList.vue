@@ -58,48 +58,88 @@
 
         <q-card-section class="q-pt-xl">
           <div class="q-pa-md">
-            <form v-on:submit.prevent="addNewCatalog">
+            <form v-on:submit.prevent.stop="addNewCatalog">
               <div class="q-gutter-y-sm">
                 <q-input
+                  ref="name"
                   dense
                   autofocus
                   type="text"
                   label="Name"
+                  bottom-slots
+                  :error="nameError.status"
                   v-model="newCatalog.name"
                   :rules="[ val => !!val || 'This field is required.' ]"
-                />
+                  @input="nameError.status = false"
+                >
+                  <template v-slot:error>
+                    {{ nameError.message }}
+                  </template>
+                </q-input>
                 <q-input
+                  ref="description"
                   dense
                   type="text"
                   label="Description"
+                  bottom-slots
+                  :error="descriptionError"
                   v-model="newCatalog.description"
                   :rules="[ val => !!val || 'This field is required.' ]"
-                />
+                  @input="descriptionError.status = false"
+                >
+                  <template v-slot:error>
+                    {{ descriptionError.message }}
+                  </template>
+                </q-input>
                 <q-input
+                  ref="contactAddress"
                   dense
                   type="text"
                   label="Shop address"
+                  bottom-slots
+                  :error="contactAddressError.status"
                   v-model="newCatalog.contact_address"
                   :rules="[ val => !!val || 'This field is required.' ]"
-                />
+                  @input="contactAddressError.status = false"
+                >
+                  <template v-slot:error>
+                    {{ contactAddressError.message }}
+                  </template>
+                </q-input>
                 <q-input
+                  ref="contactEmail"
                   dense
                   type="text"
                   label="Contact email"
+                  bottom-slots
+                  :error="contactEmailError.status"
                   v-model="newCatalog.contact_email"
                   :rules="[ val => !!val || 'This field is required.' ]"
-                />
+                  @input="contactEmailError.status = false"
+                >
+                  <template v-slot:error>
+                    {{ contactEmailError.message }}
+                  </template>
+                </q-input>
                 <q-input
+                  ref="contactPhone"
                   dense
                   type="text"
                   label="Contact phone"
+                  bottom-slots
+                  :error="contactPhoneError.status"
                   v-model="newCatalog.contact_phone"
                   :rules="[ val => !!val || 'This field is required.' ]"
-                />
+                  @input="contactPhoneError.status = false"
+                >
+                  <template v-slot:error>
+                    {{ contactPhoneError.message }}
+                  </template>
+                </q-input>
               </div>
               <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
                 <q-btn flat label="Cancel" color="negative" v-close-dialog />
-                <q-btn flat class="bg-primary" type="submit" label="Add new" color="white" v-close-dialog />
+                <q-btn flat class="bg-primary" type="submit" label="Add new" color="white" />
               </q-card-actions>
             </form>
           </div>
@@ -174,6 +214,26 @@ export default {
         closeBtn: 'Close',
         classes: 'q-mt-xl',
         onDismiss: this.dismiss
+      },
+      nameError: {
+        status: false,
+        message: ''
+      },
+      descriptionError: {
+        status: false,
+        message: 'This field is required.'
+      },
+      contactAddressError: {
+        status: false,
+        message: 'This field is required.'
+      },
+      contactPhoneError: {
+        status: false,
+        message: 'This field is required.'
+      },
+      contactEmailError: {
+        status: false,
+        message: 'This field is required.'
       }
     }
   },
@@ -196,6 +256,21 @@ export default {
     },
     addNewCatalog: function () {
       let self = this
+      self.$refs.name.validate()
+      self.$refs.description.validate()
+      self.$refs.contactAddress.validate()
+      self.$refs.contactPhone.validate()
+      self.$refs.contactEmail.validate()
+      if (
+        self.$refs.name.hasError ||
+        self.$refs.description.hasError ||
+        self.$refs.contactAddress.hasError ||
+        self.$refs.contactPhone.hasError ||
+        self.$refs.contactPhone.hasError ||
+        self.$refs.contactEmail.hasError
+      ) {
+        self.formHasError = true
+      }
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
       }
@@ -207,6 +282,24 @@ export default {
           if (response.status === 201) {
             self.alertPayload.message = 'Catalog created successfully!'
             self.showAlert(self.alertPayload)
+          }
+        })
+        .catch(function (error) {
+          if (error.response.data.name) {
+            self.nameError.message = error.response.data.name[0]
+            self.nameError.status = true
+          }
+          if (error.response.data.description) {
+            self.descriptionError.status = true
+          }
+          if (error.response.data.contact_address) {
+            self.contactAddressError.status = true
+          }
+          if (error.response.data.contact_phone) {
+            self.contactPhoneError.status = true
+          }
+          if (error.response.data.contact_email) {
+            self.contactEmailError.status = true
           }
         })
     },
