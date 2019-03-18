@@ -12,14 +12,16 @@
 
           <q-card-section class="q-pb-lg">
             <div class="q-pa-md">
-              <form v-on:submit.prevent="registerUser">
+              <form v-on:submit.prevent.stop="registerUser">
                 <div class="q-gutter-y-lg">
                   <q-input
+                    ref="username"
                     dense
                     autofocus
                     type="text"
                     label="Username"
                     v-model="user.username"
+                    :rules="[ val => !!val || 'This field is required.' ]"
                   >
                     <template v-slot:prepend>
                       <q-icon name="person" />
@@ -91,14 +93,19 @@ export default {
   methods: {
     registerUser: function () {
       let self = this
-      self.$axios.post(
-        '/users/signup/',
-        self.user
-      )
-        .then(function (response) {
-          sessionStorage.setItem('authToken', response.data.token)
-          self.$router.push({ name: 'my-catalogs' })
-        })
+      self.$refs.username.validate()
+      if (self.$refs.username.hasError) {
+        self.formHasError = true
+      } else {
+        self.$axios.post(
+          '/users/signup/',
+          self.user
+        )
+          .then(function (response) {
+            sessionStorage.setItem('authToken', response.data.token)
+            self.$router.push({ name: 'my-catalogs' })
+          })
+      }
     }
   }
 }
