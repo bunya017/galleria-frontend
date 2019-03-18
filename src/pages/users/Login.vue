@@ -19,10 +19,15 @@
                     autofocus
                     type="text"
                     label="Username"
+                    bottom-slots
+                    :error="usernameError.status"
                     v-model="user.username"
                   >
                     <template v-slot:prepend>
                       <q-icon name="person" />
+                    </template>
+                    <template v-slot:error>
+                    {{ usernameError.message }}
                     </template>
                   </q-input>
 
@@ -75,6 +80,10 @@ export default {
         message: '',
         closeBtn: 'Close',
         classes: 'q-mt-xl'
+      },
+      usernameError: {
+        status: false,
+        message: ''
       }
     }
   },
@@ -90,6 +99,10 @@ export default {
           self.$router.push({ name: 'my-catalogs' })
         })
         .catch(function (error) {
+          if (error.response.data.username) {
+            self.usernameError.message = error.response.data.username[0]
+            self.usernameError.status = true
+          }
           if (error.response.data.non_field_errors) {
             self.alertPayload.message = error.response.data.non_field_errors[0]
             self.showAlert(self.alertPayload)
