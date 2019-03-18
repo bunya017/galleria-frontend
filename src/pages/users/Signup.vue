@@ -12,14 +12,16 @@
 
           <q-card-section class="q-pb-lg">
             <div class="q-pa-md">
-              <form v-on:submit.prevent="registerUser">
+              <form v-on:submit.prevent.stop="registerUser">
                 <div class="q-gutter-y-lg">
                   <q-input
+                    ref="username"
                     dense
                     autofocus
                     type="text"
                     label="Username"
                     v-model="user.username"
+                    :rules="[ val => !!val || 'This field is required.' ]"
                   >
                     <template v-slot:prepend>
                       <q-icon name="person" />
@@ -27,10 +29,16 @@
                   </q-input>
 
                   <q-input
+                    ref="email"
                     dense
-                    type="email"
+                    type="text"
                     label="Email"
                     v-model="user.email"
+                    lazy-rules
+                    :rules="[
+                      val => !!val || 'This field is required.',
+                      validateEmail
+                    ]"
                   >
                     <template v-slot:prepend>
                       <q-icon name="mail" />
@@ -38,13 +46,17 @@
                   </q-input>
 
                   <q-input
+                    ref="password"
                     dense
                     label="Password"
                     hint="Minimum of 8 characters"
                     counter
                     v-model="user.password"
                     :type="isPwd ? 'password' : 'text'"
-                    :rules="[ val => val.length >= 8 || 'Password must be atleast of 8 characters ' ]"
+                    :rules="[
+                      val => val.length >= 8 || 'Password must be atleast of 8 characters',
+                      val => !!val || 'This field is required.'
+                    ]"
                   >
                     <template v-slot:prepend>
                       <q-icon name="vpn_key" />
@@ -91,14 +103,29 @@ export default {
   methods: {
     registerUser: function () {
       let self = this
-      self.$axios.post(
-        '/users/signup/',
-        self.user
-      )
-        .then(function (response) {
-          sessionStorage.setItem('authToken', response.data.token)
-          self.$router.push({ name: 'my-catalogs' })
-        })
+      self.$refs.username.validate()
+      self.$refs.email.validate()
+      self.$refs.password.validate()
+      if (
+        self.$refs.username.hasError ||
+        self.$refs.email.hasError ||
+        self.$refs.password.hasError
+      ) {
+        self.formHasError = true
+      } else {
+        self.$axios.post(
+          '/users/signup/',
+          self.user
+        )
+          .then(function (response) {
+            sessionStorage.setItem('authToken', response.data.token)
+            self.$router.push({ name: 'my-catalogs' })
+          })
+      }
+    },
+    validateEmail: function (val) {
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return (re.test(val) || 'Please enter a valid email.')
     }
   }
 }
