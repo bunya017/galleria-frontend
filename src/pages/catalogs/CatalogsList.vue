@@ -110,12 +110,18 @@
                   :rules="[ val => !!val || 'This field is required.' ]"
                 />
                 <q-input
+                  ref="contactPhone"
                   dense
                   type="text"
                   label="Contact phone"
+                  :error="contactPhoneError.status"
                   v-model="newCatalog.contact_phone"
                   :rules="[ val => !!val || 'This field is required.' ]"
-                />
+                >
+                  <template v-slot:error>
+                    {{ contactPhoneError.message }}
+                  </template>
+                </q-input>
               </div>
               <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
                 <q-btn flat label="Cancel" color="negative" v-close-dialog />
@@ -206,6 +212,10 @@ export default {
       contactAddressError: {
         status: true,
         message: 'This field is required.'
+      },
+      contactPhoneError: {
+        status: true,
+        message: 'This field is required.'
       }
     }
   },
@@ -231,9 +241,12 @@ export default {
       self.$refs.name.validate()
       self.$refs.description.validate()
       self.$refs.contactAddress.validate()
+      self.$refs.contactPhone.validate()
       if (
-        self.$refs.name.hasError || self.$refs.description.hasError ||
-        self.$refs.contactAddress.hasError
+        self.$refs.name.hasError ||
+        self.$refs.description.hasError ||
+        self.$refs.contactAddress.hasError ||
+        self.$refs.contactPhone.hasError
       ) {
         self.formHasError = true
       }
@@ -261,6 +274,9 @@ export default {
           }
           if (error.response.data.contact_address) {
             self.contactAddressError.status = true
+          }
+          if (error.response.data.contact_phone) {
+            self.contactPhoneError.status = true
           }
         })
     },
