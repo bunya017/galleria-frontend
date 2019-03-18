@@ -62,6 +62,9 @@
                     label="Password"
                     hint="Minimum of 8 characters"
                     counter
+                    bottom-slots
+                    lazy-rules
+                    :error="passwordError.status"
                     v-model="user.password"
                     :type="isPwd ? 'password' : 'text'"
                     :rules="[
@@ -79,7 +82,10 @@
                         @click="isPwd = !isPwd"
                       />
                     </template>
-                  </q-input>
+                    <template v-slot:error>
+                        {{ passwordError.message }}
+                      </template>
+                    </q-input>
 
                   <div class="col-6">
                     <q-btn no-caps flat class="full-width bg-primary" type="submit" text-color="white" color="primary" label="Sign up" />
@@ -148,6 +154,10 @@ export default {
             if (error.response.data.email) {
               self.emailError.message = error.response.data.email[0]
               self.emailError.status = true
+            }
+            if (error.response.data.password) {
+              self.passwordError.message = error.response.data.password[0]
+              self.passwordError.status = true
             }
           })
       }
