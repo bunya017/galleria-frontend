@@ -207,7 +207,7 @@ export default {
       },
       descriptionError: {
         status: false,
-        message: ''
+        message: 'This field is required.'
       },
       contactAddressError: {
         status: true,
@@ -269,7 +269,6 @@ export default {
             self.nameError.status = true
           }
           if (error.response.data.description) {
-            self.descriptionError.message = 'This field is required.'
             self.descriptionError.status = true
           }
           if (error.response.data.contact_address) {
