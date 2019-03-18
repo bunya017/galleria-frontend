@@ -42,13 +42,17 @@
                   </q-input>
 
                   <q-input
+                    ref="password"
                     dense
                     label="Password"
                     hint="Minimum of 8 characters"
                     counter
                     v-model="user.password"
                     :type="isPwd ? 'password' : 'text'"
-                    :rules="[ val => val.length >= 8 || 'Password must be atleast of 8 characters ' ]"
+                    :rules="[
+                      val => val.length >= 8 || 'Password must be atleast of 8 characters',
+                      val => !!val || 'This field is required.'
+                    ]"
                   >
                     <template v-slot:prepend>
                       <q-icon name="vpn_key" />
@@ -97,9 +101,11 @@ export default {
       let self = this
       self.$refs.username.validate()
       self.$refs.email.validate()
+      self.$refs.password.validate()
       if (
         self.$refs.username.hasError ||
-        self.$refs.email.hasError
+        self.$refs.email.hasError ||
+        self.$refs.password.hasError
       ) {
         self.formHasError = true
       } else {
