@@ -75,6 +75,7 @@
                   :error="nameError.status"
                   v-model="newCategory.name"
                   :rules="[ val => !!val || 'This field is required.' ]"
+                  @input="nameError.status = false"
                 >
                   <template v-slot:error>
                     {{ nameError.message }}
