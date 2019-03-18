@@ -19,18 +19,25 @@
                     autofocus
                     type="text"
                     label="Username"
+                    bottom-slots
+                    :error="usernameError.status"
                     v-model="user.username"
                   >
                     <template v-slot:prepend>
                       <q-icon name="person" />
                     </template>
+                    <template v-slot:error>
+                      {{ usernameError.message }}
+                    </template>
                   </q-input>
 
                   <q-input
                     dense
-                    label="Password"
-                    v-model="user.password"
                     :type="isPwd ? 'password' : 'text'"
+                    label="Password"
+                    bottom-slots
+                    :error="passwordError.status"
+                    v-model="user.password"
                   >
                     <template v-slot:prepend>
                       <q-icon name="vpn_key" />
@@ -41,6 +48,9 @@
                         class="cursor-pointer"
                         @click="isPwd = !isPwd"
                       />
+                    </template>
+                    <template v-slot:error>
+                      {{ passwordError.message }}
                     </template>
                   </q-input>
 
@@ -75,6 +85,14 @@ export default {
         message: '',
         closeBtn: 'Close',
         classes: 'q-mt-xl'
+      },
+      usernameError: {
+        status: false,
+        message: ''
+      },
+      passwordError: {
+        status: false,
+        message: ''
       }
     }
   },
@@ -90,6 +108,14 @@ export default {
           self.$router.push({ name: 'my-catalogs' })
         })
         .catch(function (error) {
+          if (error.response.data.username) {
+            self.usernameError.message = error.response.data.username[0]
+            self.usernameError.status = true
+          }
+          if (error.response.data.password) {
+            self.passwordError.message = error.response.data.password[0]
+            self.passwordError.status = true
+          }
           if (error.response.data.non_field_errors) {
             self.alertPayload.message = error.response.data.non_field_errors[0]
             self.showAlert(self.alertPayload)
