@@ -90,12 +90,18 @@
                   </template>
                 </q-input>
                 <q-input
+                  ref="contactAddress"
                   dense
                   type="text"
                   label="Shop address"
+                  :error="contactAddressError.status"
                   v-model="newCatalog.contact_address"
                   :rules="[ val => !!val || 'This field is required.' ]"
-                />
+                >
+                  <template v-slot:error>
+                    {{ contactAddressError.message }}
+                  </template>
+                </q-input>
                 <q-input
                   dense
                   type="text"
@@ -196,6 +202,10 @@ export default {
       descriptionError: {
         status: false,
         message: ''
+      },
+      contactAddressError: {
+        status: true,
+        message: 'This field is required.'
       }
     }
   },
@@ -220,7 +230,11 @@ export default {
       let self = this
       self.$refs.name.validate()
       self.$refs.description.validate()
-      if (self.$refs.name.hasError || self.$refs.description.hasError) {
+      self.$refs.contactAddress.validate()
+      if (
+        self.$refs.name.hasError || self.$refs.description.hasError ||
+        self.$refs.contactAddress.hasError
+      ) {
         self.formHasError = true
       }
       this.$axios.defaults.headers.common = {
@@ -244,6 +258,9 @@ export default {
           if (error.response.data.description) {
             self.descriptionError.message = 'This field is required.'
             self.descriptionError.status = true
+          }
+          if (error.response.data.contact_address) {
+            self.contactAddressError.status = true
           }
         })
     },
