@@ -31,10 +31,14 @@
                   <q-input
                     ref="email"
                     dense
-                    type="email"
+                    type="text"
                     label="Email"
                     v-model="user.email"
-                    :rules="[ val => !!val || 'This field is required.' ]"
+                    lazy-rules
+                    :rules="[
+                      val => !!val || 'This field is required.',
+                      validateEmail
+                    ]"
                   >
                     <template v-slot:prepend>
                       <q-icon name="mail" />
@@ -118,6 +122,10 @@ export default {
             self.$router.push({ name: 'my-catalogs' })
           })
       }
+    },
+    validateEmail: function (val) {
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return (re.test(val) || 'Please enter a valid email.')
     }
   }
 }
