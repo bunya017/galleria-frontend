@@ -70,6 +70,7 @@
                   :error="nameError.status"
                   v-model="newCatalog.name"
                   :rules="[ val => !!val || 'This field is required.' ]"
+                  @input="nameError.status = false"
                 >
                   <template v-slot:error>
                     {{ nameError.message }}
@@ -84,6 +85,7 @@
                   :error="descriptionError"
                   v-model="newCatalog.description"
                   :rules="[ val => !!val || 'This field is required.' ]"
+                  @input="descriptionError.status = false"
                 >
                   <template v-slot:error>
                     {{ descriptionError.message }}
@@ -98,6 +100,7 @@
                   :error="contactAddressError.status"
                   v-model="newCatalog.contact_address"
                   :rules="[ val => !!val || 'This field is required.' ]"
+                  @input="contactAddressError.status = false"
                 >
                   <template v-slot:error>
                     {{ contactAddressError.message }}
@@ -112,6 +115,7 @@
                   :error="contactEmailError.status"
                   v-model="newCatalog.contact_email"
                   :rules="[ val => !!val || 'This field is required.' ]"
+                  @input="contactEmailError.status = false"
                 >
                   <template v-slot:error>
                     {{ contactEmailError.message }}
@@ -126,6 +130,7 @@
                   :error="contactPhoneError.status"
                   v-model="newCatalog.contact_phone"
                   :rules="[ val => !!val || 'This field is required.' ]"
+                  @input="contactPhoneError.status = false"
                 >
                   <template v-slot:error>
                     {{ contactPhoneError.message }}
@@ -255,7 +260,7 @@ export default {
       self.$refs.description.validate()
       self.$refs.contactAddress.validate()
       self.$refs.contactPhone.validate()
-      self.$refs.contactemail.validate()
+      self.$refs.contactEmail.validate()
       if (
         self.$refs.name.hasError ||
         self.$refs.description.hasError ||
