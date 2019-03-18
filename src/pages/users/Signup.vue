@@ -20,11 +20,16 @@
                     autofocus
                     type="text"
                     label="Username"
+                    bottom-slots
+                    :error="usernameError.status"
                     v-model="user.username"
                     :rules="[ val => !!val || 'This field is required.' ]"
                   >
                     <template v-slot:prepend>
                       <q-icon name="person" />
+                    </template>
+                    <template v-slot:error>
+                      {{ usernameError.message }}
                     </template>
                   </q-input>
 
@@ -97,6 +102,10 @@ export default {
       passwordError: {
         status: false,
         message: ''
+      },
+      usernameError: {
+        status: false,
+        message: ''
       }
     }
   },
@@ -120,6 +129,12 @@ export default {
           .then(function (response) {
             sessionStorage.setItem('authToken', response.data.token)
             self.$router.push({ name: 'my-catalogs' })
+          })
+          .catch(function (error) {
+            if (error.response.data.username) {
+              self.usernameError.message = error.response.data.username[0]
+              self.usernameError.status = true
+            }
           })
       }
     },
