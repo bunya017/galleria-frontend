@@ -20,11 +20,17 @@
                     autofocus
                     type="text"
                     label="Username"
+                    bottom-slots
+                    lazy-rules
+                    :error="usernameError.status"
                     v-model="user.username"
                     :rules="[ val => !!val || 'This field is required.' ]"
                   >
                     <template v-slot:prepend>
                       <q-icon name="person" />
+                    </template>
+                    <template v-slot:error>
+                      {{ usernameError.message }}
                     </template>
                   </q-input>
 
@@ -34,7 +40,9 @@
                     type="text"
                     label="Email"
                     v-model="user.email"
+                    bottom-slots
                     lazy-rules
+                    :error="emailError.status"
                     :rules="[
                       val => !!val || 'This field is required.',
                       validateEmail
@@ -42,6 +50,9 @@
                   >
                     <template v-slot:prepend>
                       <q-icon name="mail" />
+                    </template>
+                    <template v-slot:error>
+                      {{ emailError.message }}
                     </template>
                   </q-input>
 
@@ -51,6 +62,9 @@
                     label="Password"
                     hint="Minimum of 8 characters"
                     counter
+                    bottom-slots
+                    lazy-rules
+                    :error="passwordError.status"
                     v-model="user.password"
                     :type="isPwd ? 'password' : 'text'"
                     :rules="[
@@ -68,7 +82,10 @@
                         @click="isPwd = !isPwd"
                       />
                     </template>
-                  </q-input>
+                    <template v-slot:error>
+                        {{ passwordError.message }}
+                      </template>
+                    </q-input>
 
                   <div class="col-6">
                     <q-btn no-caps flat class="full-width bg-primary" type="submit" text-color="white" color="primary" label="Sign up" />
@@ -97,6 +114,14 @@ export default {
       passwordError: {
         status: false,
         message: ''
+      },
+      usernameError: {
+        status: false,
+        message: ''
+      },
+      emailError: {
+        status: false,
+        message: ''
       }
     }
   },
@@ -120,6 +145,20 @@ export default {
           .then(function (response) {
             sessionStorage.setItem('authToken', response.data.token)
             self.$router.push({ name: 'my-catalogs' })
+          })
+          .catch(function (error) {
+            if (error.response.data.username) {
+              self.usernameError.message = error.response.data.username[0]
+              self.usernameError.status = true
+            }
+            if (error.response.data.email) {
+              self.emailError.message = error.response.data.email[0]
+              self.emailError.status = true
+            }
+            if (error.response.data.password) {
+              self.passwordError.message = error.response.data.password[0]
+              self.passwordError.status = true
+            }
           })
       }
     },
