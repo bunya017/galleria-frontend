@@ -94,6 +94,7 @@
                   dense
                   type="text"
                   label="Shop address"
+                  bottom-slots
                   :error="contactAddressError.status"
                   v-model="newCatalog.contact_address"
                   :rules="[ val => !!val || 'This field is required.' ]"
@@ -103,17 +104,25 @@
                   </template>
                 </q-input>
                 <q-input
+                  ref="contactEmail"
                   dense
                   type="text"
                   label="Contact email"
+                  bottom-slots
+                  :error="contactEmailError.status"
                   v-model="newCatalog.contact_email"
                   :rules="[ val => !!val || 'This field is required.' ]"
-                />
+                >
+                  <template v-slot:error>
+                    {{ contactEmailError.message }}
+                  </template>
+                </q-input>
                 <q-input
                   ref="contactPhone"
                   dense
                   type="text"
                   label="Contact phone"
+                  bottom-slots
                   :error="contactPhoneError.status"
                   v-model="newCatalog.contact_phone"
                   :rules="[ val => !!val || 'This field is required.' ]"
@@ -210,11 +219,15 @@ export default {
         message: 'This field is required.'
       },
       contactAddressError: {
-        status: true,
+        status: false,
         message: 'This field is required.'
       },
       contactPhoneError: {
-        status: true,
+        status: false,
+        message: 'This field is required.'
+      },
+      contactEmailError: {
+        status: false,
         message: 'This field is required.'
       }
     }
@@ -242,11 +255,14 @@ export default {
       self.$refs.description.validate()
       self.$refs.contactAddress.validate()
       self.$refs.contactPhone.validate()
+      self.$refs.contactemail.validate()
       if (
         self.$refs.name.hasError ||
         self.$refs.description.hasError ||
         self.$refs.contactAddress.hasError ||
-        self.$refs.contactPhone.hasError
+        self.$refs.contactPhone.hasError ||
+        self.$refs.contactPhone.hasError ||
+        self.$refs.contactEmail.hasError
       ) {
         self.formHasError = true
       }
@@ -276,6 +292,9 @@ export default {
           }
           if (error.response.data.contact_phone) {
             self.contactPhoneError.status = true
+          }
+          if (error.response.data.contact_email) {
+            self.contactEmailError.status = true
           }
         })
     },
