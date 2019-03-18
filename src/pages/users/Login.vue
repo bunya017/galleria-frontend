@@ -27,15 +27,17 @@
                       <q-icon name="person" />
                     </template>
                     <template v-slot:error>
-                    {{ usernameError.message }}
+                      {{ usernameError.message }}
                     </template>
                   </q-input>
 
                   <q-input
                     dense
-                    label="Password"
-                    v-model="user.password"
                     :type="isPwd ? 'password' : 'text'"
+                    label="Password"
+                    bottom-slots
+                    :error="passwordError.status"
+                    v-model="user.password"
                   >
                     <template v-slot:prepend>
                       <q-icon name="vpn_key" />
@@ -46,6 +48,9 @@
                         class="cursor-pointer"
                         @click="isPwd = !isPwd"
                       />
+                    </template>
+                    <template v-slot:error>
+                      {{ passwordError.message }}
                     </template>
                   </q-input>
 
@@ -84,6 +89,10 @@ export default {
       usernameError: {
         status: false,
         message: ''
+      },
+      passwordError: {
+        status: false,
+        message: ''
       }
     }
   },
@@ -102,6 +111,10 @@ export default {
           if (error.response.data.username) {
             self.usernameError.message = error.response.data.username[0]
             self.usernameError.status = true
+          }
+          if (error.response.data.password) {
+            self.passwordError.message = error.response.data.password[0]
+            self.passwordError.status = true
           }
           if (error.response.data.non_field_errors) {
             self.alertPayload.message = error.response.data.non_field_errors[0]
