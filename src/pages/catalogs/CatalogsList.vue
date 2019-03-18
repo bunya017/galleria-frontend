@@ -76,12 +76,19 @@
                   </template>
                 </q-input>
                 <q-input
+                  ref="description"
                   dense
                   type="text"
                   label="Description"
+                  bottom-slots
+                  :error="descriptionError"
                   v-model="newCatalog.description"
                   :rules="[ val => !!val || 'This field is required.' ]"
-                />
+                >
+                  <template v-slot:error>
+                    {{ descriptionError.message }}
+                  </template>
+                </q-input>
                 <q-input
                   dense
                   type="text"
@@ -185,6 +192,10 @@ export default {
       nameError: {
         status: false,
         message: ''
+      },
+      descriptionError: {
+        status: false,
+        message: ''
       }
     }
   },
@@ -208,7 +219,8 @@ export default {
     addNewCatalog: function () {
       let self = this
       self.$refs.name.validate()
-      if (self.$refs.name.hasError) {
+      self.$refs.description.validate()
+      if (self.$refs.name.hasError || self.$refs.description.hasError) {
         self.formHasError = true
       }
       this.$axios.defaults.headers.common = {
@@ -228,6 +240,10 @@ export default {
           if (error.response.data.name) {
             self.nameError.message = error.response.data.name[0]
             self.nameError.status = true
+          }
+          if (error.response.data.description) {
+            self.descriptionError.message = 'This field is required.'
+            self.descriptionError.status = true
           }
         })
     },
