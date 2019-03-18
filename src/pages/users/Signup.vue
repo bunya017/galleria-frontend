@@ -21,6 +21,7 @@
                     type="text"
                     label="Username"
                     bottom-slots
+                    lazy-rules
                     :error="usernameError.status"
                     v-model="user.username"
                     :rules="[ val => !!val || 'This field is required.' ]"
@@ -39,7 +40,9 @@
                     type="text"
                     label="Email"
                     v-model="user.email"
+                    bottom-slots
                     lazy-rules
+                    :error="emailError.status"
                     :rules="[
                       val => !!val || 'This field is required.',
                       validateEmail
@@ -47,6 +50,9 @@
                   >
                     <template v-slot:prepend>
                       <q-icon name="mail" />
+                    </template>
+                    <template v-slot:error>
+                      {{ emailError.message }}
                     </template>
                   </q-input>
 
@@ -106,6 +112,10 @@ export default {
       usernameError: {
         status: false,
         message: ''
+      },
+      emailError: {
+        status: false,
+        message: ''
       }
     }
   },
@@ -134,6 +144,10 @@ export default {
             if (error.response.data.username) {
               self.usernameError.message = error.response.data.username[0]
               self.usernameError.status = true
+            }
+            if (error.response.data.email) {
+              self.emailError.message = error.response.data.email[0]
+              self.emailError.status = true
             }
           })
       }
