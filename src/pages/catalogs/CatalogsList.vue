@@ -58,16 +58,23 @@
 
         <q-card-section class="q-pt-xl">
           <div class="q-pa-md">
-            <form v-on:submit.prevent="addNewCatalog">
+            <form v-on:submit.prevent.stop="addNewCatalog">
               <div class="q-gutter-y-sm">
                 <q-input
+                  ref="name"
                   dense
                   autofocus
                   type="text"
                   label="Name"
+                  bottom-slots
+                  :error="nameError.status"
                   v-model="newCatalog.name"
                   :rules="[ val => !!val || 'This field is required.' ]"
-                />
+                >
+                  <template v-slot:error>
+                    {{ nameError.message }}
+                  </template>
+                </q-input>
                 <q-input
                   dense
                   type="text"
@@ -99,7 +106,7 @@
               </div>
               <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
                 <q-btn flat label="Cancel" color="negative" v-close-dialog />
-                <q-btn flat class="bg-primary" type="submit" label="Add new" color="white" v-close-dialog />
+                <q-btn flat class="bg-primary" type="submit" label="Add new" color="white" />
               </q-card-actions>
             </form>
           </div>
@@ -174,6 +181,10 @@ export default {
         closeBtn: 'Close',
         classes: 'q-mt-xl',
         onDismiss: this.dismiss
+      },
+      nameError: {
+        status: false,
+        message: ''
       }
     }
   },
@@ -196,6 +207,10 @@ export default {
     },
     addNewCatalog: function () {
       let self = this
+      self.$refs.name.validate()
+      if (self.$refs.name.hasError) {
+        self.formHasError = true
+      }
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
       }
@@ -207,6 +222,12 @@ export default {
           if (response.status === 201) {
             self.alertPayload.message = 'Catalog created successfully!'
             self.showAlert(self.alertPayload)
+          }
+        })
+        .catch(function (error) {
+          if (error.response.data.name) {
+            self.nameError.message = error.response.data.name[0]
+            self.nameError.status = true
           }
         })
     },
