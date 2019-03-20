@@ -22,5 +22,23 @@ export default function (/* { store, ssrContext } */) {
     base: process.env.VUE_ROUTER_BASE
   })
 
+  Router.beforeEach((to, from, next) => {
+    let isLoggedIn = () => {
+      return sessionStorage.getItem('authToken')
+    }
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      if (!isLoggedIn()) {
+        next({
+          path: '/login',
+          query: { redirect: to.fullPath }
+        })
+      } else {
+        next()
+      }
+    } else {
+      next()
+    }
+  })
+
   return Router
 }
