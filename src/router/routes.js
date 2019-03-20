@@ -10,7 +10,8 @@ const routes = [
       },
       { path: 'signup',
         name: 'signup',
-        component: () => import('pages/users/Signup.vue')
+        component: () => import('pages/users/Signup.vue'),
+        meta: { requiresAuth: false }
       },
       { path: 'login',
         name: 'login',
