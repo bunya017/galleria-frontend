@@ -25,6 +25,9 @@ const routes = [
       { path: '',
         name: 'my-catalogs',
         component: () => import('pages/catalogs/CatalogsList.vue')
+        meta: {
+          requiresAuth: true
+        }
       },
       { path: 'c/:slug',
         name: 'catalog-detail',
