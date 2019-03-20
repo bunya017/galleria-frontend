@@ -29,7 +29,8 @@ const routes = [
       },
       { path: 'c/:slug',
         name: 'catalog-detail',
-        component: () => import('pages/catalogs/CatalogDetail.vue')
+        component: () => import('pages/catalogs/CatalogDetail.vue'),
+        meta: { requiresAuth: true }
       }
     ]
   }
