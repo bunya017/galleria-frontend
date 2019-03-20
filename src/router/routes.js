@@ -6,7 +6,8 @@ const routes = [
     children: [
       { path: '',
         name: 'home',
-        component: () => import('pages/Index.vue')
+        component: () => import('pages/Index.vue'),
+        meta: { requiresAuth: false }
       },
       { path: 'signup',
         name: 'signup',
