@@ -282,6 +282,8 @@ export default {
           if (response.status === 201) {
             self.alertPayload.message = 'Catalog created successfully!'
             self.showAlert(self.alertPayload)
+            self.newCat = false
+            self.clearNewCatalogModel()
           }
         })
         .catch(function (error) {
@@ -325,6 +327,13 @@ export default {
     },
     getFirstLetter: function (payload) {
       return payload.charAt(0).toUpperCase()
+    },
+    clearNewCatalogModel: function () {
+      this.newCatalog.name = ''
+      this.newCatalog.description = ''
+      this.newCatalog.contact_address = ''
+      this.newCatalog.contact_email = ''
+      this.newCatalog.contact_phone = ''
     }
   },
   created: function () {
