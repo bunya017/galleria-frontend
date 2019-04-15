@@ -205,8 +205,9 @@ export default {
           .then(function (response) {
             if (response.status === 201) {
               self.alertPayload.message = 'Category added successfully!'
-              self.newCat = false
               self.showAlert(self.alertPayload)
+              self.newCat = false
+              self.clearNewCategoryModel()
             }
           })
           .catch(function (error) {
@@ -236,6 +237,11 @@ export default {
     },
     dismiss: function () {
       this.getCatalogDetail()
+    },
+    clearNewCategoryModel: function () {
+      this.newCategory.name = ''
+      this.newCategory.description = ''
+      this.newCategory.catalog = null
     }
   },
   created: function () {
