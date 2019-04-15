@@ -163,7 +163,7 @@
             >
               <q-item-section avatar>
                 <q-avatar color="primary" text-color="white">
-                  {{ getFirstLetter(catalog.name) }}
+                  {{ getFirstLetters(catalog.name) }}
                 </q-avatar>
               </q-item-section>
               <q-item-section>
@@ -325,8 +325,13 @@ export default {
     dismiss: function () {
       this.getCatalogs()
     },
-    getFirstLetter: function (payload) {
-      return payload.charAt(0).toUpperCase()
+    getFirstLetters: function (payload) {
+      let wordsList = payload.split(' ')
+      if (!!wordsList[1] === true) {
+        return wordsList[0].charAt(0).toUpperCase() + wordsList[1].charAt(0)
+      } else {
+        return wordsList[0].charAt(0).toUpperCase()
+      }
     },
     clearNewCatalogModel: function () {
       this.newCatalog.name = ''
