@@ -8,23 +8,23 @@
 export default {
   data: function () {
     return {
-      catalog: {}
+      products: []
     }
   },
   methods: {
     getAuthToken: function () {
       return sessionStorage.getItem('authToken')
     },
-    getCatalogDetail: function () {
+    getProductsList: function () {
       let self = this
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
       }
       self.$axios.get(
-        'catalogs/' + self.$route.params.slug
+        'catalogs/' + self.$route.params.catalogSlug + '/p/products/'
       )
         .then(function (response) {
-          self.catalog = response.data
+          self.products = response.data
         })
     }
   },
