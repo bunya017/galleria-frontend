@@ -12,6 +12,9 @@ export default {
     }
   },
   methods: {
+    getAuthToken: function () {
+      return sessionStorage.getItem('authToken')
+    },
     getCatalogDetail: function () {
       let self = this
       this.$axios.defaults.headers.common = {
@@ -24,6 +27,9 @@ export default {
           self.catalog = response.data
         })
     }
+  },
+  created: function () {
+    this.getCatalogDetail()
   }
 }
 </script>
