@@ -1,6 +1,21 @@
 <template>
   <q-page padding>
     <div class="text-h4">Products List</div>
+    <div class="q-px-sm q-gutter-sm">
+      <q-breadcrumbs separator=">>">
+        <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
+        <q-breadcrumbs-el
+          :label="catalog.name"
+          :to="{
+            name:'catalog-detail',
+            params: {
+              slug: this.$route.params.catalogSlug
+            }
+          }"
+        />
+        <q-breadcrumbs-el label="Products List" />
+      </q-breadcrumbs>
+    </div>
   </q-page>
 </template>
 
