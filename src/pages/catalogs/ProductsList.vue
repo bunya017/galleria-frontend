@@ -9,7 +9,8 @@ export default {
   name: 'ProductsList',
   data: function () {
     return {
-      products: []
+      products: [],
+      catalog: {}
     }
   },
   methods: {
@@ -27,10 +28,23 @@ export default {
         .then(function (response) {
           self.products = response.data
         })
+    },
+    getproductsCatalog: function () {
+      let self = this
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.get(
+        'catalogs/' + self.$route.params.catalogSlug
+      )
+        .then(function (response) {
+          self.catalog = response.data
+        })
     }
   },
   created: function () {
-    this.getCatalogDetail()
+    this.getProductsList()
+    this.getproductsCatalog()
   }
 }
 </script>
