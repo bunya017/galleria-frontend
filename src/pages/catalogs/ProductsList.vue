@@ -29,7 +29,7 @@ export default {
           self.products = response.data
         })
     },
-    getproductsCatalog: function () {
+    getProductsCatalog: function () {
       let self = this
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
@@ -44,7 +44,7 @@ export default {
   },
   created: function () {
     this.getProductsList()
-    this.getproductsCatalog()
+    this.getProductsCatalog()
   }
 }
 </script>
