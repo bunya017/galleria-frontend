@@ -16,6 +16,32 @@
         <q-breadcrumbs-el label="Products List" />
       </q-breadcrumbs>
     </div>
+    <div class="row q-pt-sm q-pb-xl q-col-gutter-md">
+      <div class="col-12" v-for="product in products" :key="product.id">
+        <q-card>
+          <q-list>
+            <q-item>
+              <q-item-section avatar>
+                <q-avatar color="primary" text-color="white">
+                  Pro
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ product.name }}</q-item-label>
+                <q-item-label caption>{{ product.description }}</q-item-label>
+              </q-item-section>
+              <q-item-section side class="gt-xs">
+                <q-badge color="green-10" text-color="white" label="active" />
+              </q-item-section>
+              <q-item-section top side>
+                <q-btn size="12px" flat dense round icon="more_vert" />
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card>
+      </div>
+    </div>
+
   </q-page>
 </template>
 
