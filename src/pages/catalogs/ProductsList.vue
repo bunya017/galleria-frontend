@@ -22,18 +22,21 @@
           <q-list>
             <q-item>
               <q-item-section avatar>
-                <q-avatar color="primary" text-color="white">
-                  Pro
+                <q-avatar rounded size="75px">
+                  <img :src="product.photos[0].photo">
                 </q-avatar>
               </q-item-section>
               <q-item-section>
                 <q-item-label>{{ product.name }}</q-item-label>
                 <q-item-label caption>{{ product.description }}</q-item-label>
               </q-item-section>
-              <q-item-section side class="gt-xs">
-                <q-badge color="green-10" text-color="white" label="active" />
+              <q-item-section>
+                {{ product.price }}
               </q-item-section>
-              <q-item-section top side>
+              <q-item-section class="gt-xs">
+                {{ product.description }}
+              </q-item-section>
+              <q-item-section side>
                 <q-btn size="12px" flat dense round icon="more_vert" />
               </q-item-section>
             </q-item>
