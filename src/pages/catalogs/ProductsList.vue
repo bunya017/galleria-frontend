@@ -27,7 +27,7 @@
         >
           <template v-slot:body-cell-name="props">
             <q-td :props="props">
-              <q-item>
+              <q-item class="q-pa-none">
                 <q-item-section side>
                   <q-avatar rounded size="50px">
                     <img :src="props.row.photos[0].photo">
