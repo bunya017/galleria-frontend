@@ -56,7 +56,11 @@ module.exports = function (ctx) {
         'QBadge',
         'QDialog',
         'QTooltip',
-        'QImg'
+        'QImg',
+        'QTable',
+        'QTh',
+        'QTr',
+        'QTd'
       ],
 
       directives: [
