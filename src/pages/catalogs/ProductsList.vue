@@ -1,6 +1,7 @@
 <template>
   <q-page padding>
     <div class="text-h4">Products List</div>
+    <!-- Breadcrumbs -->
     <div class="q-px-sm q-gutter-sm">
       <q-breadcrumbs separator=">>">
         <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
@@ -44,7 +45,17 @@
         </q-card>
       </div>
     </div>
-
+    <!-- Products List -->
+    <div class="row q-pt-sm q-pb-xl">
+      <div class="col-12">
+        <q-table
+          title="Products"
+          :data="products"
+          :columns="columns"
+          row-key="name"
+        />
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -54,7 +65,13 @@ export default {
   data: function () {
     return {
       products: [],
-      catalog: {}
+      catalog: {},
+      columns: [
+        { name: 'name', label: 'Name', field: 'name', align: 'left', sortable: true },
+        { name: 'price', label: 'Price', field: 'price', align: 'left', sortable: true },
+        { name: 'description', label: 'Description', field: 'description', align: 'left', sortable: false }
+      ],
+      data: []
     }
   },
   methods: {
