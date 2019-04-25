@@ -17,43 +17,31 @@
         <q-breadcrumbs-el label="Products List" />
       </q-breadcrumbs>
     </div>
-    <div class="row q-pt-sm q-pb-xl q-col-gutter-md">
-      <div class="col-12" v-for="product in products" :key="product.id">
-        <q-card>
-          <q-list>
-            <q-item>
-              <q-item-section avatar>
-                <q-avatar rounded size="75px">
-                  <img :src="product.photos[0].photo">
-                </q-avatar>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>{{ product.name }}</q-item-label>
-                <q-item-label caption>{{ product.description }}</q-item-label>
-              </q-item-section>
-              <q-item-section>
-                {{ product.price }}
-              </q-item-section>
-              <q-item-section class="gt-xs">
-                {{ product.description }}
-              </q-item-section>
-              <q-item-section side>
-                <q-btn size="12px" flat dense round icon="more_vert" />
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-card>
-      </div>
-    </div>
     <!-- Products List -->
     <div class="row q-pt-sm q-pb-xl">
       <div class="col-12">
         <q-table
-          title="Products"
           :data="products"
           :columns="columns"
           row-key="name"
-        />
+        >
+          <template v-slot:body-cell-name="props">
+            <q-td :props="props">
+              <q-item>
+                <q-item-section side>
+                  <q-avatar rounded size="50px">
+                    <img :src="props.row.photos[0].photo">
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>
+                    {{ props.row.name }}
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-td>
+          </template>
+        </q-table>
       </div>
     </div>
   </q-page>
@@ -67,11 +55,10 @@ export default {
       products: [],
       catalog: {},
       columns: [
-        { name: 'name', label: 'Name', field: 'name', align: 'left', sortable: true },
+        { name: 'name', field: 'name', align: 'left', sortable: true },
         { name: 'price', label: 'Price', field: 'price', align: 'left', sortable: true },
         { name: 'description', label: 'Description', field: 'description', align: 'left', sortable: false }
-      ],
-      data: []
+      ]
     }
   },
   methods: {
