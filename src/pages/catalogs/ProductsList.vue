@@ -55,9 +55,9 @@ export default {
       products: [],
       catalog: {},
       columns: [
-        { name: 'name', field: 'name', align: 'left', sortable: true },
-        { name: 'price', label: 'Price', field: 'price', align: 'left', sortable: true },
-        { name: 'description', label: 'Description', field: 'description', align: 'left', sortable: false }
+        { name: 'name', label: 'PRODUCTS', field: 'name', align: 'left', sortable: true },
+        { name: 'price', label: 'PRICE', field: 'price', align: 'left', sortable: true },
+        { name: 'description', label: 'DESCRIPTION', field: 'description', align: 'left', sortable: false }
       ]
     }
   },
