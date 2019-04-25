@@ -55,7 +55,8 @@ module.exports = function (ctx) {
         'QBreadcrumbsEl',
         'QBadge',
         'QDialog',
-        'QTooltip'
+        'QTooltip',
+        'QMarkupTable'
       ],
 
       directives: [
