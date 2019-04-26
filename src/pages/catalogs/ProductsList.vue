@@ -2,7 +2,7 @@
   <q-page padding>
     <div class="text-h4">Products List</div>
     <!-- Breadcrumbs -->
-    <div class="q-px-sm q-gutter-sm">
+    <div class="q-pa-sm q-gutter-sm">
       <q-breadcrumbs separator=">>">
         <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
         <q-breadcrumbs-el
@@ -17,8 +17,16 @@
         <q-breadcrumbs-el label="Products List" />
       </q-breadcrumbs>
     </div>
+    <!-- Add new product-->
+    <div class="q-pa-md">
+      <div class="column items-end">
+        <div class="col">
+          <q-btn color="primary" label="Add new product" />
+        </div>
+      </div>
+    </div>
     <!-- Products List -->
-    <div class="row q-pt-sm q-pb-xl">
+    <div class="row q-at-sm q-pb-xl">
       <div class="col-12">
         <q-table
           :data="products"
