@@ -26,45 +26,46 @@
       </div>
     </div>
     <!-- New product dialog -->
-    <q-dialog v-model="newProd" persistent>
+    <q-dialog v-model="newProd" position="top" persistent full-height>
       <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
         <q-card-section>
           <div class="text-h5">New Product</div>
           <div class="text-subtitle2">Add new product</div>
         </q-card-section>
         <q-card-section>
-          <form>
-            <div class="q-gutter-y-md">
-              <q-input
-                dense
-                auto-focus
-                label="Name"
-                type="text"
-                v-model="newProduct.name"
-              />
-              <q-input
-                dense
-                auto-focus
-                label="Category"
-                type="text"
-                v-model="newProduct.category"
-              />
-              <q-input
-                dense
-                auto-focus
-                label="Price"
-                type="number"
-                v-model="newProduct.price"
-              />
-              <q-input
-                dense
-                auto-focus
-                label="Description"
-                type="text"
-                v-model="newProduct.description"
-              />
-            </div>
-          </form>
+          <div class="q-px-md">
+            <form>
+              <div class="q-gutter-y-md">
+                <q-input
+                  dense
+                  auto-focus
+                  label="Name"
+                  type="text"
+                  v-model="newProduct.name"
+                />
+                <q-select
+                  dense
+                  :options="options"
+                  label="Category"
+                  v-model="newProduct.category"
+                />
+                <q-input
+                  dense
+                  auto-focus
+                  label="Price"
+                  type="number"
+                  v-model="newProduct.price"
+                />
+                <q-input
+                  dense
+                  auto-focus
+                  label="Description"
+                  type="text"
+                  v-model="newProduct.description"
+                />
+              </div>
+            </form>
+          </div>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -103,6 +104,7 @@ export default {
   name: 'ProductsList',
   data: function () {
     return {
+      options: [], // Category drop-down options
       newProd: false,
       newProduct: {
         name: '',
@@ -145,6 +147,12 @@ export default {
       )
         .then(function (response) {
           self.catalog = response.data
+          for (let i = 0; i < response.data.categories.length; i++) {
+            self.options.push({
+              label: response.data.categories[i].name,
+              value: response.data.categories[i].id
+            })
+          }
         })
     }
   },
