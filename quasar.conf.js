@@ -60,7 +60,8 @@ module.exports = function (ctx) {
         'QTable',
         'QTh',
         'QTr',
-        'QTd'
+        'QTd',
+        'QSelect'
       ],
 
       directives: [
