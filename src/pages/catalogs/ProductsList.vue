@@ -21,16 +21,50 @@
     <div class="q-pa-md">
       <div class="column items-end">
         <div class="col">
-          <q-btn color="primary" label="Add new product" @click="newProduct = true" />
+          <q-btn color="primary" label="Add new product" @click="newProd = true" />
         </div>
       </div>
     </div>
     <!-- New product dialog -->
-    <q-dialog v-model="newProduct" persistent>
+    <q-dialog v-model="newProd" persistent>
       <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
         <q-card-section>
           <div class="text-h5">New Product</div>
           <div class="text-subtitle2">Add new product</div>
+        </q-card-section>
+        <q-card-section>
+          <form>
+            <div class="q-gutter-y-md">
+              <q-input
+                dense
+                auto-focus
+                label="Name"
+                type="text"
+                v-model="newProduct.name"
+              />
+              <q-input
+                dense
+                auto-focus
+                label="Category"
+                type="text"
+                v-model="newProduct.category"
+              />
+              <q-input
+                dense
+                auto-focus
+                label="Price"
+                type="number"
+                v-model="newProduct.price"
+              />
+              <q-input
+                dense
+                auto-focus
+                label="Description"
+                type="text"
+                v-model="newProduct.description"
+              />
+            </div>
+          </form>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -69,7 +103,13 @@ export default {
   name: 'ProductsList',
   data: function () {
     return {
-      newProduct: false,
+      newProd: false,
+      newProduct: {
+        name: '',
+        category: null,
+        price: null,
+        description: ''
+      },
       products: [],
       catalog: {},
       columns: [
