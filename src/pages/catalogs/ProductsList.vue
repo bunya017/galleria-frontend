@@ -34,7 +34,7 @@
         </q-card-section>
         <q-card-section>
           <div class="q-px-md">
-            <form>
+            <form v-on:submit.prevent.stop="addNewProduct">
               <div class="q-gutter-y-md">
                 <q-input
                   dense
@@ -165,6 +165,33 @@ export default {
               value: response.data.categories[i].id
             })
           }
+        })
+    },
+    addNewProduct: function () {
+      let self = this
+      let uploads = this.$refs.photoFiles.files
+      let payload = new FormData()
+      payload.append('name', self.newProduct.name)
+      payload.append('category', self.newProduct.category.value)
+      payload.append('price', self.newProduct.price)
+      payload.append('description', self.newProduct.description)
+      for (let i = 0; i < uploads.length; i++) {
+        payload.append('photos', uploads[i])
+      }
+
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken(),
+        'Content-Type': 'multipart/form'
+      }
+      self.$axios.post(
+        'catalogs/' + this.$route.params.catalogSlug + '/p/products/',
+        payload
+      )
+        .then(function (response) {
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error.response)
         })
     }
   },
