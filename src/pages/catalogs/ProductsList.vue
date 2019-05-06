@@ -63,7 +63,16 @@
                   type="text"
                   v-model="newProduct.description"
                 />
+                <!-- Image uploader -->
+                <q-uploader
+                  ref="photoFiles"
+                  multiple
+                />
               </div>
+              <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
+                <q-btn flat label="Cancel" color="negative" v-close-dialog />
+                <q-btn flat class="bg-primary" type="submit" label="Add new" color="white" />
+              </q-card-actions>
             </form>
           </div>
         </q-card-section>
@@ -81,8 +90,11 @@
             <q-td :props="props">
               <q-item class="q-pa-none">
                 <q-item-section side>
-                  <q-avatar rounded size="50px">
+                  <q-avatar v-if="props.row.photos.length > 1" rounded size="50px">
                     <img :src="props.row.photos[0].photo">
+                  </q-avatar>
+                  <q-avatar v-else color="primary" text-color="white" size="50px">
+                    {{ props.row.name.charAt(0).toUpperCase() }}
                   </q-avatar>
                 </q-item-section>
                 <q-item-section>
