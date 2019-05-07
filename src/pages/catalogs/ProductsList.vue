@@ -58,12 +58,20 @@
                   v-model="newProduct.category"
                 />
                 <q-input
+                  ref="price"
                   dense
                   auto-focus
                   label="Price"
                   type="number"
                   v-model="newProduct.price"
-                />
+                  :error="priceError.status"
+                  :rules="[ val => !!val || 'Please enter a valid number.' ]"
+                  @input="priceError.status = false"
+                >
+                  <template v-slot:error>
+                    {{ nameError.message }}
+                  </template>
+                </q-input>
                 <q-input
                   dense
                   auto-focus
@@ -143,6 +151,10 @@ export default {
       nameError: {
         message: '',
         status: false
+      },
+      priceError: {
+        message: '',
+        status: false
       }
     }
   },
@@ -208,6 +220,10 @@ export default {
           if (error.response.data.name) {
             self.nameError.message = error.response.data.name[0]
             self.nameError.status = true
+          }
+          if (error.response.data.price) {
+            self.priceError.message = error.response.data.price[0]
+            self.priceError.status = true
           }
         })
     }
