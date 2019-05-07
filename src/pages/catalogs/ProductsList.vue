@@ -37,12 +37,20 @@
             <form v-on:submit.prevent.stop="addNewProduct">
               <div class="q-gutter-y-md">
                 <q-input
+                  ref="name"
                   dense
                   auto-focus
                   label="Name"
                   type="text"
                   v-model="newProduct.name"
-                />
+                  :error="nameError.status"
+                  :rules="[ val => !!val || 'This field is required.' ]"
+                  @input="nameError.status = false"
+                >
+                  <template v-slot:error>
+                    {{ nameError.message }}
+                  </template>
+                </q-input>
                 <q-select
                   dense
                   :options="options"
@@ -67,6 +75,7 @@
                 <q-uploader
                   ref="photoFiles"
                   multiple
+                  hide-upload-btn
                 />
               </div>
               <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
@@ -130,7 +139,11 @@ export default {
         { name: 'name', label: 'PRODUCTS', field: 'name', align: 'left', sortable: true },
         { name: 'price', label: 'PRICE', field: 'price', align: 'left', sortable: true },
         { name: 'description', label: 'DESCRIPTION', field: 'description', align: 'left', sortable: false }
-      ]
+      ],
+      nameError: {
+        message: '',
+        status: false
+      }
     }
   },
   methods: {
@@ -169,6 +182,7 @@ export default {
     },
     addNewProduct: function () {
       let self = this
+
       let uploads = this.$refs.photoFiles.files
       let payload = new FormData()
       payload.append('name', self.newProduct.name)
@@ -191,7 +205,10 @@ export default {
           console.log(response)
         })
         .catch(function (error) {
-          console.log(error.response)
+          if (error.response.data.name) {
+            self.nameError.message = error.response.data.name[0]
+            self.nameError.status = true
+          }
         })
     }
   },
