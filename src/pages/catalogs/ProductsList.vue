@@ -39,6 +39,7 @@
                 <q-input
                   ref="name"
                   dense
+                  lazy-rules
                   auto-focus
                   label="Name"
                   type="text"
@@ -52,14 +53,24 @@
                   </template>
                 </q-input>
                 <q-select
+                  ref="category"
                   dense
+                  lazy-rules
                   :options="options"
                   label="Category"
                   v-model="newProduct.category"
-                />
+                  :error="categoryError.status"
+                  :rules="[ val => !!val || 'This field is required.' ]"
+                  @input="categoryError.status = false"
+                >
+                  <template v-slot:error>
+                    {{ categoryError.message }}
+                  </template>
+                </q-select>
                 <q-input
                   ref="price"
                   dense
+                  lazy-rules
                   auto-focus
                   label="Price"
                   type="number"
@@ -75,6 +86,7 @@
                 <q-input
                   ref="description"
                   dense
+                  lazy-rules
                   auto-focus
                   label="Description"
                   type="text"
@@ -160,6 +172,10 @@ export default {
         message: '',
         status: false
       },
+      categoryError: {
+        message: '',
+        status: false
+      },
       priceError: {
         message: '',
         status: false
@@ -232,6 +248,10 @@ export default {
           if (error.response.data.name) {
             self.nameError.message = error.response.data.name[0]
             self.nameError.status = true
+          }
+          if (error.response.data.category) {
+            self.categoryError.message = error.response.data.category[0]
+            self.categoryError.status = true
           }
           if (error.response.data.price) {
             self.priceError.message = error.response.data.price[0]
