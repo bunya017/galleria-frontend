@@ -69,16 +69,24 @@
                   @input="priceError.status = false"
                 >
                   <template v-slot:error>
-                    {{ nameError.message }}
+                    {{ priceError.message }}
                   </template>
                 </q-input>
                 <q-input
+                  ref="description"
                   dense
                   auto-focus
                   label="Description"
                   type="text"
                   v-model="newProduct.description"
-                />
+                  :error="descriptionError.status"
+                  :rules="[ val => !!val || 'This field is required.' ]"
+                  @input="descriptionError.status = false"
+                >
+                  <template v-slot:error>
+                    {{ descriptionError.message }}
+                  </template>
+                </q-input>
                 <!-- Image uploader -->
                 <q-uploader
                   ref="photoFiles"
@@ -155,6 +163,10 @@ export default {
       priceError: {
         message: '',
         status: false
+      },
+      descriptionError: {
+        message: '',
+        status: false
       }
     }
   },
@@ -224,6 +236,10 @@ export default {
           if (error.response.data.price) {
             self.priceError.message = error.response.data.price[0]
             self.priceError.status = true
+          }
+          if (error.response.data.description) {
+            self.descriptionError.message = error.response.data.description[0]
+            self.descriptionError.status = true
           }
         })
     }
