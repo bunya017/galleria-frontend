@@ -27,7 +27,7 @@
     </div>
     <!-- New product dialog -->
     <q-dialog v-model="newProd" position="top" persistent full-height>
-      <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
+      <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
         <q-card-section>
           <div class="text-h5">New Product</div>
           <div class="text-subtitle2">Add new product</div>
@@ -35,7 +35,7 @@
         <q-card-section>
           <div class="q-px-md">
             <form v-on:submit.prevent.stop="addNewProduct">
-              <div class="q-gutter-y-md">
+              <div class="q-gutter-y-sm">
                 <q-input
                   ref="name"
                   dense
@@ -100,11 +100,49 @@
                   </template>
                 </q-input>
                 <!-- Image uploader -->
-                <q-uploader
-                  ref="photoFiles"
-                  multiple
-                  hide-upload-btn
-                />
+                <div class="row">
+                  <q-uploader
+                    class="col"
+                    ref="photoFiles"
+                    label="Photos"
+                    color="white"
+                    text-color="grey-8"
+                    accept=".png, .jpeg, .jpg, .gif"
+                    multiple
+                    hide-upload-btn
+                  >
+                    <template v-slot:list="scope">
+                      <q-list separator>
+                        <q-item v-for="file in scope.files" :key="file.name">
+                          <q-item-section>
+                            <q-item-label class="full-width ellipsis">
+                              {{ file.name }}
+                            </q-item-label>
+                            <q-item-label caption>
+                              {{ file.__sizeLabel }}
+                            </q-item-label>
+                          </q-item-section>
+                          <q-item-section
+                            v-if="file.__img"
+                            thumbnail
+                          >
+                            <img :src="file.__img.src" class="product-photo">
+                          </q-item-section>
+                          <q-item-section top side>
+                            <q-btn
+                              size="12px"
+                              flat
+                              dense
+                              round
+                              icon="delete"
+                              @click="scope.removeFile(file)"
+                            />
+                          </q-item-section>
+                        </q-item>
+                      </q-list>
+                    </template>
+                  </q-uploader>
+                </div>
               </div>
               <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
                 <q-btn flat label="Cancel" color="negative" v-close-dialog />
@@ -127,10 +165,10 @@
             <q-td :props="props">
               <q-item class="q-pa-none">
                 <q-item-section side>
-                  <q-avatar v-if="props.row.photos.length > 1" rounded size="50px">
+                  <q-avatar v-if="props.row.photos.length > 1" rounded size="56px">
                     <img :src="props.row.photos[0].photo">
                   </q-avatar>
-                  <q-avatar v-else color="primary" text-color="white" size="50px">
+                  <q-avatar v-else color="primary" text-color="white" size="56px">
                     {{ props.row.name.charAt(0).toUpperCase() }}
                   </q-avatar>
                 </q-item-section>
@@ -271,5 +309,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.product-photo {
+  width: 56px;
+  height: 56px;
+  border-radius: 5px;
+}
 </style>
