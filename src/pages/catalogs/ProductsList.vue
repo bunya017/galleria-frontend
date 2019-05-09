@@ -111,6 +111,38 @@
                     multiple
                     hide-upload-btn
                   >
+                    <template v-slot:header="scope">
+                      <div class="row no-wrap items-center q-pa-sm q-gutter-xs" :class="{ 'negative-border': photosError.status }">
+                        <q-btn
+                          v-if="scope.queuedFiles.length > 0"
+                          icon="clear_all" @click="scope.removeQueuedFiles"
+                          round
+                          dense
+                          flat
+                        />
+                        <div class="col">
+                          <div class="q-uploader__title" :class="{ 'text-negative': photosError.status }">Photos</div>
+                          <div class="q-uploader__subtitle" v-if="scope.queuedFiles.length > 0">{{ scope.uploadSizeLabel }}</div>
+                          <div class="q-uploader__subtitle text-negative" v-if="photosError.status === true">This field is required.</div>
+                        </div>
+                        <q-btn
+                          v-if="photosError.status === true"
+                          icon="error"
+                          color="negative"
+                          round
+                          dense
+                          flat
+                        />
+                        <q-btn
+                          v-if="scope.editable"
+                          icon="add_box"
+                          @click="scope.pickFiles"
+                          round
+                          dense
+                          flat
+                        />
+                      </div>
+                    </template>
                     <template v-slot:list="scope">
                       <q-list separator>
                         <q-item v-for="file in scope.files" :key="file.name">
@@ -221,6 +253,10 @@ export default {
       descriptionError: {
         message: '',
         status: false
+      },
+      photosError: {
+        message: '',
+        status: false
       }
     }
   },
@@ -299,6 +335,10 @@ export default {
             self.descriptionError.message = error.response.data.description[0]
             self.descriptionError.status = true
           }
+          if (error.response.data.photos) {
+            self.photosError.message = error.response.data.photos[0]
+            self.photosError.status = true
+          }
         })
     }
   },
@@ -314,5 +354,9 @@ export default {
   width: 56px;
   height: 56px;
   border-radius: 5px;
+}
+.negative-border {
+  border-bottom: 2px solid #c10015;
+  margin: auto;
 }
 </style>
