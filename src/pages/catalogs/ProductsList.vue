@@ -26,7 +26,7 @@
       </div>
     </div>
     <!-- New product dialog -->
-    <q-dialog v-model="newProd" position="top" persistent full-height>
+    <q-dialog v-model="newProd" position="top" no-backdrop-dismiss>
       <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
         <q-card-section class="q-py-sm">
           <div class="text-h5">New Product</div>
