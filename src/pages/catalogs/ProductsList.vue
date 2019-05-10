@@ -190,6 +190,7 @@
           :data="products"
           :columns="columns"
           row-key="name"
+          :pagination="{ rowsPerPage: 10 }"
         >
           <template v-slot:body-cell-name="props">
             <q-td :props="props">
