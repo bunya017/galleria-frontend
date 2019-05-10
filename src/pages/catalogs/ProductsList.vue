@@ -257,6 +257,16 @@ export default {
       photosError: {
         message: '',
         status: false
+      },
+      alertPayload: {
+        color: 'positive',
+        textColor: 'white',
+        icon: 'thumb_up',
+        position: 'top',
+        message: '',
+        actions: [{ label: 'Dismiss', color: 'negative' }],
+        classes: 'q-mt-xl',
+        onDismiss: this.dismiss
       }
     }
   },
@@ -316,7 +326,12 @@ export default {
         payload
       )
         .then(function (response) {
-          console.log(response)
+          if (response.status === 201) {
+            self.alertPayload.message = 'New product added successfully!'
+            self.showAlert(self.alertPayload)
+            self.newProd = false
+            self.clearNewProductModel()
+          }
         })
         .catch(function (error) {
           if (error.response.data.name) {
@@ -340,6 +355,33 @@ export default {
             self.photosError.status = true
           }
         })
+    },
+    showAlert: function (payload) {
+      const {
+        color, textColor, message, icon,
+        position, actions, classes, onDismiss
+      } = payload
+
+      this.$q.notify({
+        color,
+        textColor,
+        icon,
+        message,
+        position,
+        actions,
+        classes,
+        onDismiss
+      })
+    },
+    clearNewProductModel: function () {
+      this.newProduct.name = ''
+      this.newProduct.category = null
+      this.newProduct.price = null
+      this.newProduct.description = ''
+    },
+    dismiss: function () {
+      this.getProductsList()
+      this.getProductsCatalog()
     }
   },
   created: function () {
