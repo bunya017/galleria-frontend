@@ -4,17 +4,20 @@ const routes = [
     path: '/',
     component: () => import('layouts/DefaultLayout.vue'),
     children: [
-      { path: '',
+      {
+        path: '',
         name: 'home',
         component: () => import('pages/Index.vue'),
         meta: { requiresAuth: false }
       },
-      { path: 'signup',
+      {
+        path: 'signup',
         name: 'signup',
         component: () => import('pages/users/Signup.vue'),
         meta: { requiresAuth: false }
       },
-      { path: 'login',
+      {
+        path: 'login',
         name: 'login',
         component: () => import('pages/users/Login.vue'),
         meta: { requiresAuth: false }
@@ -25,17 +28,20 @@ const routes = [
     path: '/my-catalogs',
     component: () => import('layouts/DashboardLayout.vue'),
     children: [
-      { path: '',
+      {
+        path: '',
         name: 'my-catalogs',
         component: () => import('pages/catalogs/CatalogsList.vue'),
         meta: { requiresAuth: true }
       },
-      { path: 'c/:slug',
+      {
+        path: 'c/:slug',
         name: 'catalog-detail',
         component: () => import('pages/catalogs/CatalogDetail.vue'),
         meta: { requiresAuth: true }
       },
-      { path: 'c/:catalogSlug/products',
+      {
+        path: 'c/:catalogSlug/products',
         name: 'products-list',
         component: () => import('pages/catalogs/ProductsList.vue'),
         meta: { requiresAuth: true }
