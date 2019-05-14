@@ -1,6 +1,7 @@
 <template>
   <q-page class="q-pa-lg">
     <div class="text-h4">Dashboard</div>
+    <!-- Breadcrumbs -->
     <div class="q-px-sm q-gutter-sm">
       <q-breadcrumbs>
         <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
@@ -49,7 +50,7 @@
     </div>
 
     <!-- New catalog dialog/modal -->
-    <q-dialog v-model="newCat" persistent>
+    <q-dialog v-model="newCat" position="top" no-backdrop-dismiss>
       <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
         <q-card-section class="text-center">
           <div class="text-h5">New catalog</div>
@@ -138,7 +139,7 @@
                 </q-input>
               </div>
               <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
-                <q-btn flat label="Cancel" color="negative" v-close-dialog />
+                <q-btn flat label="Cancel" color="negative" v-close-popup />
                 <q-btn flat class="bg-primary" type="submit" label="Add new" color="white" />
               </q-card-actions>
             </form>

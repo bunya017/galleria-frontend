@@ -72,7 +72,7 @@
     </div>
 
     <!-- New category modal/dialog -->
-    <q-dialog v-model="newCat" persistent>
+    <q-dialog v-model="newCat" position="top" no-backdrop-dismiss>
       <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
         <q-card-section class="text-center">
           <div class="text-h5">New category</div>
@@ -109,7 +109,7 @@
                 />
               </div>
               <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
-                <q-btn flat label="Cancel" color="negative" v-close-dialog />
+                <q-btn flat label="Cancel" color="negative" v-close-popup />
                 <q-btn flat class="bg-primary" type="submit" label="Add new" color="white"  />
               </q-card-actions>
             </form>
