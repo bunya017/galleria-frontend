@@ -17,14 +17,7 @@
         <q-breadcrumbs-el label="Products List" />
       </q-breadcrumbs>
     </div>
-    <!-- Add new product-->
-    <div class="q-pa-md">
-      <div class="column items-end">
-        <div class="col">
-          <q-btn color="primary" label="Add new product" @click="newProd = true" />
-        </div>
-      </div>
-    </div>
+
     <!-- New product dialog -->
     <q-dialog v-model="newProd" position="top" no-backdrop-dismiss>
       <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
@@ -176,7 +169,7 @@
               </div>
               <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
                 <q-btn flat label="Cancel" color="negative" v-close-popup />
-                <q-btn flat class="bg-primary" type="submit" label="Add new" color="white" />
+                <q-btn flat type="submit" label="Add new" color="primary" />
               </q-card-actions>
             </form>
           </div>
@@ -192,6 +185,17 @@
           row-key="name"
           :pagination.sync="pagination"
         >
+          <template v-slot:top>
+            <!--
+            <q-input dense label='Search' debounce="300" color="primary">
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+            <q-space />
+          -->
+            <q-btn flat color="primary" label="Add new product" @click="newProd = true" />
+          </template>
           <template v-slot:body-cell-name="props">
             <q-td :props="props">
               <q-item class="q-pa-none">
@@ -237,7 +241,7 @@ export default {
       products: [],
       catalog: {},
       columns: [
-        { name: 'name', label: 'PRODUCTS', field: 'name', align: 'left', sortable: true },
+        { name: 'name', label: 'PRODUCTS', field: 'name', align: 'left', sortable: true, classes: 'ellipsis' },
         { name: 'price', label: 'PRICE', field: 'price', align: 'left', sortable: true },
         { name: 'description', label: 'DESCRIPTION', field: 'description', align: 'left', sortable: false }
       ],
