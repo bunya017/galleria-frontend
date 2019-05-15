@@ -208,11 +208,15 @@
                   </q-avatar>
                 </q-item-section>
                 <q-item-section>
-                  <q-item-label>
-                    {{ props.row.name }}
-                  </q-item-label>
+                  <q-item-label lines="1">{{ props.row.name }}</q-item-label>
+                  <q-item-label caption lines="1">{{ props.row.description }}</q-item-label>
                 </q-item-section>
               </q-item>
+            </q-td>
+          </template>
+          <template v-slot:body-cell-actions="props">
+            <q-td auto-width :props="props">
+              <q-btn size="12px" flat dense round icon="more_vert" />
             </q-td>
           </template>
         </q-table>
@@ -241,9 +245,9 @@ export default {
       products: [],
       catalog: {},
       columns: [
-        { name: 'name', label: 'PRODUCTS', field: 'name', align: 'left', sortable: true, classes: 'ellipsis' },
+        { name: 'name', label: 'PRODUCTS', field: 'name', align: 'left', sortable: true },
         { name: 'price', label: 'PRICE', field: 'price', align: 'left', sortable: true },
-        { name: 'description', label: 'DESCRIPTION', field: 'description', align: 'left', sortable: false }
+        { name: 'actions', label: 'ACTIONS', align: 'top' }
       ],
       nameError: {
         message: '',
