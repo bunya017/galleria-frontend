@@ -190,7 +190,7 @@
           :data="products"
           :columns="columns"
           row-key="name"
-          :pagination="{ rowsPerPage: 10 }"
+          :pagination.sync="pagination"
         >
           <template v-slot:body-cell-name="props">
             <q-td :props="props">
@@ -223,6 +223,10 @@ export default {
   data: function () {
     return {
       options: [], // Category drop-down options
+      pagination: {
+        sortBy: 'name',
+        rowsPerPage: 10
+      },
       newProd: false,
       newProduct: {
         name: '',
