@@ -208,9 +208,9 @@
                   </q-avatar>
                 </q-item-section>
                 <q-item-section>
-                  <q-item-label lines="1">{{ props.row.name }}</q-item-label>
+                  <q-item-label>{{ props.row.name }}</q-item-label>
                   <q-item-label caption lines="1">{{ props.row.description }}</q-item-label>
-                  <q-item-label class="q-pt-sm xs font-weight-heavy">{{ props.row.price }}</q-item-label>
+                  <q-item-label class="q-pt-sm xs text-weight-bold">{{ props.row.price }}</q-item-label>
                 </q-item-section>
               </q-item>
             </q-td>
@@ -261,7 +261,7 @@ export default {
       columns: [
         { name: 'name', label: 'PRODUCTS', field: 'name', align: 'left', sortable: true },
         { name: 'price', label: 'PRICE', field: 'price', align: 'left', classes: 'gt-xs', sortable: true },
-        { name: 'actions', label: 'ACTIONS', align: 'top' }
+        { name: 'actions', label: 'ACTIONS', align: 'left' }
       ],
       nameError: {
         message: '',
