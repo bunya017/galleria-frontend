@@ -176,6 +176,7 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+
     <!-- Products List -->
     <div class="row q-at-sm q-pb-xl">
       <div class="col-12">
@@ -220,7 +221,7 @@
               <q-btn size="12px" flat dense round icon="more_vert">
                 <q-menu auto-close>
                   <q-list style="width: 200px;">
-                    <q-item clickable>
+                    <q-item clickable @click="makeDeleteProductPayload(props.row)">
                       <q-item-section avatar>
                         <q-avatar rounded icon="delete" />
                       </q-item-section>
@@ -236,6 +237,24 @@
         </q-table>
       </div>
     </div>
+
+    <!-- Delete product dialog -->
+    <q-dialog
+      v-model="deleteProd"
+      @hide="clearDeleteProductPayload"
+      persistent
+    >
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-avatar icon="warning" color="white" text-color="negative" />
+          <span class="q-ml-md">Are you sure you want to delete this?</span>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="primary" v-close-popup />
+          <q-btn flat label="Delete" color="negative" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -250,6 +269,13 @@ export default {
         rowsPerPage: 10
       },
       newProd: false,
+      deleteProd: false,
+      deleteProductPayload: {
+        name: '',
+        category: null,
+        price: null,
+        description: ''
+      },
       newProduct: {
         name: '',
         category: null,
@@ -407,6 +433,19 @@ export default {
     dismiss: function () {
       this.getProductsList()
       this.getProductsCatalog()
+    },
+    makeDeleteProductPayload: function (payload) {
+      this.deleteProd = true
+      this.deleteProductPayload.name = payload.name
+      this.deleteProductPayload.description = payload.description
+      this.deleteProductPayload.category = payload.category
+      this.deleteProductPayload.price = payload.price
+    },
+    clearDeleteProductPayload: function () {
+      this.deleteProductPayload.name = ''
+      this.deleteProductPayload.category = null
+      this.deleteProductPayload.price = null
+      this.deleteProductPayload.description = ''
     }
   },
   created: function () {
