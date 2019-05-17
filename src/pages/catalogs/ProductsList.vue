@@ -221,6 +221,14 @@
               <q-btn size="12px" flat dense round icon="more_vert">
                 <q-menu auto-close>
                   <q-list style="width: 200px;">
+                    <q-item clickable>
+                      <q-item-section avatar>
+                        <q-avatar rounded icon="edit" />
+                      </q-item-section>
+                      <q-item-section>
+                        Edit
+                      </q-item-section>
+                    </q-item>
                     <q-item clickable @click="makeDeleteProductPayload(props.row)">
                       <q-item-section avatar>
                         <q-avatar rounded icon="delete" />
