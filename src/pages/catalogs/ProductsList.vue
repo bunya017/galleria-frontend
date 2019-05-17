@@ -273,8 +273,8 @@
           <div class="text-subtitle2">Edit product details</div>
         </q-card-section>
         <q-card-section class="q-px-sm q-py-lg">
-          <div class="q-px-md">
-            <form>
+          <div class="q-px-md" v-if="editProductPayload.category">
+            <form v-on:submit.prevent.stop="editProduct">
               <q-input
                 lazy-rules
                 auto-focus
@@ -304,7 +304,7 @@
               />
               <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
                 <q-btn flat label="Cancel" color="primary" v-close-popup />
-                <q-btn flat label="Add new" color="primary" type="submit" />
+                <q-btn flat label="Edit" color="primary" type="submit" />
               </q-card-actions>
             </form>
           </div>
@@ -381,10 +381,18 @@ export default {
         position: 'top',
         message: '',
         actions: [{ label: 'Dismiss', color: 'negative' }],
-        classes: 'q-mt-xl',
-        onDismiss: this.dismiss
+        classes: 'q-mt-xl'
       },
       deleteAlertPayload: {
+        color: 'positive',
+        textColor: 'white',
+        icon: 'thumb_up',
+        position: 'top',
+        message: '',
+        actions: [{ label: 'Dismiss', color: 'negative' }],
+        classes: 'q-mt-xl'
+      },
+      editAlertPayload: {
         color: 'positive',
         textColor: 'white',
         icon: 'thumb_up',
@@ -485,7 +493,7 @@ export default {
     showAlert: function (payload) {
       const {
         color, textColor, message, icon,
-        position, actions, classes, onDismiss
+        position, actions, classes
       } = payload
 
       this.$q.notify({
@@ -495,8 +503,7 @@ export default {
         message,
         position,
         actions,
-        classes,
-        onDismiss
+        classes
       })
     },
     clearNewProductModel: function () {
@@ -504,10 +511,6 @@ export default {
       this.newProduct.category = null
       this.newProduct.price = null
       this.newProduct.description = ''
-    },
-    dismiss: function () {
-      this.getProductsList()
-      this.getProductsCatalog()
     },
     makeDeleteProductPayload: function (payload) {
       this.deleteProd = true
@@ -549,9 +552,37 @@ export default {
       )
         .then(function (response) {
           if (response.status === 204) {
-            self.deleteAlertPayload.message = 'Deleted successfully!'
-            self.showAlert(self.deleteAlertPayload)
+            self.getProductsList()
+            self.getProductsCatalog()
+            self.editAlertPayload.message = 'Edited successfully!'
+            self.showAlert(self.editAlertPayload)
             self.deleteProd = false
+          }
+        })
+    },
+    editProduct: function () {
+      let self = this
+      let payload = {}
+      payload.name = self.editProductPayload.name
+      payload.category = self.editProductPayload.category
+      payload.price = self.editProductPayload.price
+      payload.description = self.editProductPayload.description
+
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken(),
+        'Content-Type': 'multipart/form'
+      }
+      self.$axios.put(
+        self.editProductPayload.url,
+        payload
+      )
+        .then(function (response) {
+          if (response.status === 200) {
+            self.getProductsList()
+            self.getProductsCatalog()
+            self.editAlertPayload.message = 'Edited successfully!'
+            self.showAlert(self.editAlertPayload)
+            self.editProd = false
           }
         })
     }
