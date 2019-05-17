@@ -246,12 +246,13 @@
     >
       <q-card>
         <q-card-section class="row items-center">
-          <q-avatar icon="warning" color="white" text-color="negative" />
-          <span class="q-ml-md">Are you sure you want to delete <span class="text-weight-bold">{{ deleteProductPayload.name }}</span> permanently?</span>
+          <span class="q-ml-md q-py-md text-center">
+            Are you sure you want to delete <span class="text-weight-bold">{{ deleteProductPayload.name }}</span> permanently?
+          </span>
         </q-card-section>
         <q-card-actions align="right">
           <q-btn flat label="Cancel" color="primary" v-close-popup />
-          <q-btn flat label="Delete" color="negative" v-close-popup />
+          <q-btn flat label="Delete" color="negative" @click="deleteProduct" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -274,7 +275,8 @@ export default {
         name: '',
         category: null,
         price: null,
-        description: ''
+        description: '',
+        url: ''
       },
       newProduct: {
         name: '',
@@ -310,6 +312,16 @@ export default {
         status: false
       },
       alertPayload: {
+        color: 'positive',
+        textColor: 'white',
+        icon: 'thumb_up',
+        position: 'top',
+        message: '',
+        actions: [{ label: 'Dismiss', color: 'negative' }],
+        classes: 'q-mt-xl',
+        onDismiss: this.dismiss
+      },
+      deleteAlertPayload: {
         color: 'positive',
         textColor: 'white',
         icon: 'thumb_up',
@@ -440,12 +452,31 @@ export default {
       this.deleteProductPayload.description = payload.description
       this.deleteProductPayload.category = payload.category
       this.deleteProductPayload.price = payload.price
+      this.deleteProductPayload.url = payload.url
     },
     clearDeleteProductPayload: function () {
       this.deleteProductPayload.name = ''
       this.deleteProductPayload.category = null
       this.deleteProductPayload.price = null
       this.deleteProductPayload.description = ''
+    },
+    deleteProduct: function () {
+      let self = this
+
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken(),
+        'Content-Type': 'multipart/form'
+      }
+      self.$axios.delete(
+        self.deleteProductPayload.url
+      )
+        .then(function (response) {
+          if (response.status === 204) {
+            self.deleteAlertPayload.message = 'Deleted successfully!'
+            self.showAlert(self.deleteAlertPayload)
+            self.deleteProd = false
+          }
+        })
     }
   },
   created: function () {
