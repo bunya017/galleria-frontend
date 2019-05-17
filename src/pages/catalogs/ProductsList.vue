@@ -176,6 +176,7 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+
     <!-- Products List -->
     <div class="row q-at-sm q-pb-xl">
       <div class="col-12">
@@ -208,21 +209,53 @@
                   </q-avatar>
                 </q-item-section>
                 <q-item-section>
-                  <q-item-label lines="1">{{ props.row.name }}</q-item-label>
+                  <q-item-label>{{ props.row.name }}</q-item-label>
                   <q-item-label caption lines="1">{{ props.row.description }}</q-item-label>
-                  <q-item-label class="q-pt-sm xs font-weight-heavy">{{ props.row.price }}</q-item-label>
+                  <q-item-label class="q-pt-sm xs text-weight-bold">{{ props.row.price }}</q-item-label>
                 </q-item-section>
               </q-item>
             </q-td>
           </template>
           <template v-slot:body-cell-actions="props">
             <q-td auto-width :props="props">
-              <q-btn size="12px" flat dense round icon="more_vert" />
+              <q-btn size="12px" flat dense round icon="more_vert">
+                <q-menu auto-close>
+                  <q-list style="width: 200px;">
+                    <q-item clickable @click="makeDeleteProductPayload(props.row)">
+                      <q-item-section avatar>
+                        <q-avatar rounded icon="delete" />
+                      </q-item-section>
+                      <q-item-section>
+                        Delete
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-menu>
+              </q-btn>
             </q-td>
           </template>
         </q-table>
       </div>
     </div>
+
+    <!-- Delete product dialog -->
+    <q-dialog
+      v-model="deleteProd"
+      @hide="clearDeleteProductPayload"
+      persistent
+    >
+      <q-card>
+        <q-card-section class="row items-center">
+          <span class="q-ml-md q-py-md text-center">
+            Are you sure you want to delete <span class="text-weight-bold">{{ deleteProductPayload.name }}</span> permanently?
+          </span>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="primary" v-close-popup />
+          <q-btn flat label="Delete" color="negative" @click="deleteProduct" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -237,6 +270,14 @@ export default {
         rowsPerPage: 10
       },
       newProd: false,
+      deleteProd: false,
+      deleteProductPayload: {
+        name: '',
+        category: null,
+        price: null,
+        description: '',
+        url: ''
+      },
       newProduct: {
         name: '',
         category: null,
@@ -248,7 +289,7 @@ export default {
       columns: [
         { name: 'name', label: 'PRODUCTS', field: 'name', align: 'left', sortable: true },
         { name: 'price', label: 'PRICE', field: 'price', align: 'left', classes: 'gt-xs', sortable: true },
-        { name: 'actions', label: 'ACTIONS', align: 'top' }
+        { name: 'actions', label: 'ACTIONS', align: 'left' }
       ],
       nameError: {
         message: '',
@@ -271,6 +312,16 @@ export default {
         status: false
       },
       alertPayload: {
+        color: 'positive',
+        textColor: 'white',
+        icon: 'thumb_up',
+        position: 'top',
+        message: '',
+        actions: [{ label: 'Dismiss', color: 'negative' }],
+        classes: 'q-mt-xl',
+        onDismiss: this.dismiss
+      },
+      deleteAlertPayload: {
         color: 'positive',
         textColor: 'white',
         icon: 'thumb_up',
@@ -394,6 +445,38 @@ export default {
     dismiss: function () {
       this.getProductsList()
       this.getProductsCatalog()
+    },
+    makeDeleteProductPayload: function (payload) {
+      this.deleteProd = true
+      this.deleteProductPayload.name = payload.name
+      this.deleteProductPayload.description = payload.description
+      this.deleteProductPayload.category = payload.category
+      this.deleteProductPayload.price = payload.price
+      this.deleteProductPayload.url = payload.url
+    },
+    clearDeleteProductPayload: function () {
+      this.deleteProductPayload.name = ''
+      this.deleteProductPayload.category = null
+      this.deleteProductPayload.price = null
+      this.deleteProductPayload.description = ''
+    },
+    deleteProduct: function () {
+      let self = this
+
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken(),
+        'Content-Type': 'multipart/form'
+      }
+      self.$axios.delete(
+        self.deleteProductPayload.url
+      )
+        .then(function (response) {
+          if (response.status === 204) {
+            self.deleteAlertPayload.message = 'Deleted successfully!'
+            self.showAlert(self.deleteAlertPayload)
+            self.deleteProd = false
+          }
+        })
     }
   },
   created: function () {
