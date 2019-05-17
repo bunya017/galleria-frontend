@@ -221,6 +221,14 @@
               <q-btn size="12px" flat dense round icon="more_vert">
                 <q-menu auto-close>
                   <q-list style="width: 200px;">
+                    <q-item clickable @click="makeEditProductPayload(props.row)">
+                      <q-item-section avatar>
+                        <q-avatar rounded icon="edit" />
+                      </q-item-section>
+                      <q-item-section>
+                        Edit
+                      </q-item-section>
+                    </q-item>
                     <q-item clickable @click="makeDeleteProductPayload(props.row)">
                       <q-item-section avatar>
                         <q-avatar rounded icon="delete" />
@@ -256,6 +264,53 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+
+    <!-- Edit product dialog -->
+    <q-dialog v-model="editProd" position="top" no-backdrop-dismiss>
+      <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
+        <q-card-section class="q-py-sm">
+          <div class="text-h5">Edit Product</div>
+          <div class="text-subtitle2">Edit product details</div>
+        </q-card-section>
+        <q-card-section class="q-px-sm q-py-lg">
+          <div class="q-px-md" v-if="editProductPayload.category">
+            <form v-on:submit.prevent.stop="editProduct">
+              <q-input
+                lazy-rules
+                auto-focus
+                label="Name"
+                type="text"
+                v-model="editProductPayload.name"
+              />
+              <q-select
+                lazy-rules
+                :options="options"
+                label="Category"
+                v-model="options[editProductPayload.category - 1].label"
+              />
+              <q-input
+                lazy-rules
+                auto-focus
+                label="Price"
+                type="number"
+                v-model="editProductPayload.price"
+              />
+              <q-input
+                lazy-rules
+                auto-focus
+                label="Description"
+                type="text"
+                v-model="editProductPayload.description"
+              />
+              <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
+                <q-btn flat label="Cancel" color="primary" v-close-popup />
+                <q-btn flat label="Edit" color="primary" type="submit" />
+              </q-card-actions>
+            </form>
+          </div>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -271,7 +326,15 @@ export default {
       },
       newProd: false,
       deleteProd: false,
+      editProd: false,
       deleteProductPayload: {
+        name: '',
+        category: null,
+        price: null,
+        description: '',
+        url: ''
+      },
+      editProductPayload: {
         name: '',
         category: null,
         price: null,
@@ -318,10 +381,18 @@ export default {
         position: 'top',
         message: '',
         actions: [{ label: 'Dismiss', color: 'negative' }],
-        classes: 'q-mt-xl',
-        onDismiss: this.dismiss
+        classes: 'q-mt-xl'
       },
       deleteAlertPayload: {
+        color: 'positive',
+        textColor: 'white',
+        icon: 'thumb_up',
+        position: 'top',
+        message: '',
+        actions: [{ label: 'Dismiss', color: 'negative' }],
+        classes: 'q-mt-xl'
+      },
+      editAlertPayload: {
         color: 'positive',
         textColor: 'white',
         icon: 'thumb_up',
@@ -422,7 +493,7 @@ export default {
     showAlert: function (payload) {
       const {
         color, textColor, message, icon,
-        position, actions, classes, onDismiss
+        position, actions, classes
       } = payload
 
       this.$q.notify({
@@ -432,8 +503,7 @@ export default {
         message,
         position,
         actions,
-        classes,
-        onDismiss
+        classes
       })
     },
     clearNewProductModel: function () {
@@ -441,10 +511,6 @@ export default {
       this.newProduct.category = null
       this.newProduct.price = null
       this.newProduct.description = ''
-    },
-    dismiss: function () {
-      this.getProductsList()
-      this.getProductsCatalog()
     },
     makeDeleteProductPayload: function (payload) {
       this.deleteProd = true
@@ -454,11 +520,25 @@ export default {
       this.deleteProductPayload.price = payload.price
       this.deleteProductPayload.url = payload.url
     },
+    makeEditProductPayload: function (payload) {
+      this.editProd = true
+      this.editProductPayload.name = payload.name
+      this.editProductPayload.description = payload.description
+      this.editProductPayload.category = payload.category
+      this.editProductPayload.price = payload.price
+      this.editProductPayload.url = payload.url
+    },
     clearDeleteProductPayload: function () {
       this.deleteProductPayload.name = ''
       this.deleteProductPayload.category = null
       this.deleteProductPayload.price = null
       this.deleteProductPayload.description = ''
+    },
+    clearEditProductPayload: function () {
+      this.editProductPayload.name = ''
+      this.editProductPayload.category = null
+      this.editProductPayload.price = null
+      this.editProductPayload.description = ''
     },
     deleteProduct: function () {
       let self = this
@@ -472,9 +552,37 @@ export default {
       )
         .then(function (response) {
           if (response.status === 204) {
-            self.deleteAlertPayload.message = 'Deleted successfully!'
-            self.showAlert(self.deleteAlertPayload)
+            self.getProductsList()
+            self.getProductsCatalog()
+            self.editAlertPayload.message = 'Edited successfully!'
+            self.showAlert(self.editAlertPayload)
             self.deleteProd = false
+          }
+        })
+    },
+    editProduct: function () {
+      let self = this
+      let payload = {}
+      payload.name = self.editProductPayload.name
+      payload.category = self.editProductPayload.category
+      payload.price = self.editProductPayload.price
+      payload.description = self.editProductPayload.description
+
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken(),
+        'Content-Type': 'multipart/form'
+      }
+      self.$axios.put(
+        self.editProductPayload.url,
+        payload
+      )
+        .then(function (response) {
+          if (response.status === 200) {
+            self.getProductsList()
+            self.getProductsCatalog()
+            self.editAlertPayload.message = 'Edited successfully!'
+            self.showAlert(self.editAlertPayload)
+            self.editProd = false
           }
         })
     }
