@@ -180,6 +180,7 @@
           :columns="columns"
           row-key="name"
           :pagination.sync="pagination"
+          :filter="filter"
         >
           <template v-slot:top>
             <q-input dense label='Search' v-model="filter" debounce="300" color="primary">
