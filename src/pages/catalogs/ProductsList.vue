@@ -521,12 +521,14 @@ export default {
       this.deleteProductPayload.category = null
       this.deleteProductPayload.price = null
       this.deleteProductPayload.description = ''
+      this.deleteProductPayload.url = ''
     },
     clearEditProductPayload: function () {
       this.editProductPayload.name = ''
       this.editProductPayload.category = null
       this.editProductPayload.price = null
       this.editProductPayload.description = ''
+      this.editProductPayload.url = ''
     },
     deleteProduct: function () {
       let self = this
