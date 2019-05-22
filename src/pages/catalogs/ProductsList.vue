@@ -125,14 +125,9 @@
                         dense
                         flat
                       />
-                      <q-btn
-                        v-if="scope.editable"
-                        icon="add_box"
-                        @click="scope.pickFiles"
-                        round
-                        dense
-                        flat
-                      />
+                      <q-btn v-if="scope.canAddFiles" icon="add_box" round dense flat>
+                        <q-uploader-add-trigger />
+                      </q-btn>
                     </div>
                   </template>
                   <template v-slot:list="scope">
@@ -247,11 +242,7 @@
     </div>
 
     <!-- Delete product dialog -->
-    <q-dialog
-      v-model="deleteProd"
-      @hide="clearDeleteProductPayload"
-      persistent
-    >
+    <q-dialog v-model="deleteProd" @hide="clearDeleteProductPayload" persistent>
       <q-card>
         <q-card-section class="row items-center">
           <span class="q-ml-md q-py-md text-center">
