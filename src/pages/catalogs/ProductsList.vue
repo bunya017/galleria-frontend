@@ -19,7 +19,7 @@
     </div>
 
     <!-- New product dialog -->
-    <q-dialog v-model="newProd" position="top" no-backdrop-dismiss>
+    <q-dialog v-model="newProd" @hide="clearNewProductModel" position="top" no-backdrop-dismiss>
       <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
         <q-card-section class="q-py-sm">
           <div class="text-h5">New Product</div>
@@ -453,7 +453,6 @@ export default {
             self.alertPayload.message = 'New product added successfully!'
             self.showAlert(self.alertPayload)
             self.newProd = false
-            self.clearNewProductModel()
           }
         })
         .catch(function (error) {

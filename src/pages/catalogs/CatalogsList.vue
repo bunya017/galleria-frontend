@@ -50,7 +50,7 @@
     </div>
 
     <!-- New catalog dialog/modal -->
-    <q-dialog v-model="newCat" position="top" no-backdrop-dismiss>
+    <q-dialog v-model="newCat" position="top" @hide="clearNewCatalogModel" no-backdrop-dismiss>
       <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
         <q-card-section class="text-center">
           <div class="text-h5">New catalog</div>
@@ -283,7 +283,6 @@ export default {
             self.alertPayload.message = 'Catalog created successfully!'
             self.showAlert(self.alertPayload)
             self.newCat = false
-            self.clearNewCatalogModel()
           }
         })
         .catch(function (error) {
@@ -325,6 +324,13 @@ export default {
     dismiss: function () {
       this.getCatalogs()
     },
+    clearNewCatalogModel: function () {
+      this.newCatalog.name = ''
+      this.newCatalog.description = ''
+      this.newCatalog.contact_address = ''
+      this.newCatalog.contact_email = ''
+      this.newCatalog.contact_phone = ''
+    },
     getFirstLetters: function (payload) {
       let wordsList = payload.split(' ')
       if (!!wordsList[1] === true) {
@@ -332,13 +338,6 @@ export default {
       } else {
         return wordsList[0].charAt(0).toUpperCase()
       }
-    },
-    clearNewCatalogModel: function () {
-      this.newCatalog.name = ''
-      this.newCatalog.description = ''
-      this.newCatalog.contact_address = ''
-      this.newCatalog.contact_email = ''
-      this.newCatalog.contact_phone = ''
     }
   },
   created: function () {
