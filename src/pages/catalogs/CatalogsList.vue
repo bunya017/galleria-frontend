@@ -83,7 +83,7 @@
                   type="text"
                   label="Description"
                   bottom-slots
-                  :error="descriptionError"
+                  :error="descriptionError.status"
                   v-model="newCatalog.description"
                   :rules="[ val => !!val || 'This field is required.' ]"
                   @input="descriptionError.status = false"
