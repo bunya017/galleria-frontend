@@ -182,14 +182,12 @@
           :pagination.sync="pagination"
         >
           <template v-slot:top>
-            <!--
-            <q-input dense label='Search' debounce="300" color="primary">
+            <q-input dense label='Search' v-model="filter" debounce="300" color="primary">
               <template v-slot:append>
                 <q-icon name="search" />
               </template>
             </q-input>
             <q-space />
-          -->
             <q-btn flat color="primary" label="Add new product" @click="newProd = true" />
           </template>
           <template v-slot:body-cell-name="props">
@@ -315,6 +313,7 @@ export default {
         sortBy: 'name',
         rowsPerPage: 10
       },
+      filter: '',
       newProd: false,
       deleteProd: false,
       editProd: false,
