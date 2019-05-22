@@ -22,7 +22,7 @@
         <q-card>
           <div class="row justify-center items-center" style="min-height: 100px;">
             <div class="text-center">
-              <div class="text-h5">{{ numberOfCatalogs }} Catalogs</div>
+              <div class="text-h5">{{ catalogsCount }} Catalogs</div>
             </div>
           </div>
         </q-card>
@@ -194,7 +194,7 @@ export default {
   name: 'CatalogsList',
   data: function () {
     return {
-      numberOfCatalogs: 0,
+      catalogsCount: 0,
       numberOfProducts: 0,
       activeCatalogs: 0,
       newCat: false,
@@ -252,7 +252,7 @@ export default {
       )
         .then(function (response) {
           self.catalogs = response.data
-          self.numberOfCatalogs = response.data.length
+          self.catalogsCount = response.data.length
         })
     },
     addNewCatalog: function () {
