@@ -15,6 +15,15 @@ export default {
   methods: {
     getAuthToken: function () {
       return sessionStorage.getItem('authToken')
+    },
+    getProductDetail: function () {
+      let self = this
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.get(
+        'catalogs/' + self.$route.params.catalogSlug + '/p/' + self.$route.params.productSlug + '/' + self.$route.params.refrenceId
+      )
     }
   }
 }
