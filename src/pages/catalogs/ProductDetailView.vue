@@ -1,6 +1,17 @@
 <template>
   <q-page padding>
-    <!-- content -->
+    <div class="row q-gutter-lg">
+      <div class="col">
+        <q-img
+          :src="product.photos[0].photo"
+        />
+      </div>
+      <div class="col">
+        <div class="text-h4">{{ product.name }}</div>
+        <div class="text-h4 text-bold q-pt-xl">{{ product.price }}</div>
+        <div class="text-caption q-pt-xl">{{ product.description }}</div>
+      </div>
+    </div>
   </q-page>
 </template>
 
