@@ -22,7 +22,7 @@ export default {
         'Authorization': 'Token ' + self.getAuthToken()
       }
       self.$axios.get(
-        'catalogs/' + self.$route.params.catalogSlug + '/p/' + self.$route.params.productSlug + '/' + self.$route.params.refrenceId
+        'catalogs/' + self.$route.params.catalogSlug + '/p/' + self.$route.params.productSlug + '/' + self.$route.params.referenceId
       )
     }
   }
