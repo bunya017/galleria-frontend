@@ -179,6 +179,7 @@
           row-key="name"
           :pagination.sync="pagination"
           :filter="filter"
+          binary-state-sort
         >
           <template v-slot:top>
             <q-input dense label='Search' class="col-sm-6 col-xs-12" v-model="filter" debounce="300" color="primary">
