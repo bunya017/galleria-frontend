@@ -24,7 +24,13 @@ export default {
       self.$axios.get(
         'catalogs/' + self.$route.params.catalogSlug + '/p/' + self.$route.params.productSlug + '/' + self.$route.params.referenceId
       )
+        .then(function (response) {
+          self.product = response.data
+        })
     }
+  },
+  created: function () {
+    this.getProductDetail()
   }
 }
 </script>
