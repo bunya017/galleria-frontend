@@ -6,7 +6,17 @@
 
 <script>
 export default {
-  // name: 'PageName',
+  name: 'ProductDetailView',
+  data: function () {
+    return {
+      product: {}
+    }
+  },
+  methods: {
+    getAuthToken: function () {
+      return sessionStorage.getItem('authToken')
+    }
+  }
 }
 </script>
 
