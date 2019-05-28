@@ -1,17 +1,16 @@
 <template>
   <q-page padding>
-    <div class="row q-gutter-lg">
-      <div class="col">
-        <q-img
-          :src="product.photos[0].photo"
-        />
+    <q-card flat class="row q-pa-md">
+      <div class="col-12 col-sm-6">
+        <q-img :src="product.photos[0].photo" />
       </div>
-      <div class="col">
-        <div class="text-h4">{{ product.name }}</div>
-        <div class="text-h4 text-bold q-pt-xl">{{ product.price }}</div>
-        <div class="text-caption q-pt-xl">{{ product.description }}</div>
+      <div class="col-12 col-sm-6 q-pl-sm-md q-pt-lg q-pt-sm-lg">
+        <div class="text-uppercase text-h5">{{ product.name }}</div>
+        <div class="text-caption text-italic text-grey-6">in {{ product.description }}</div>
+        <div class="text-subtitle1 text-grey-8">{{ product.description }}</div>
+        <div class="text-h5 q-pt-md q-pt-sm-xl">{{ product.price }}</div>
       </div>
-    </div>
+    </q-card>
   </q-page>
 </template>
 
