@@ -1,5 +1,30 @@
 <template>
   <q-page padding>
+    <!-- Breadcrumbs -->
+    <div class="q-pa-sm q-gutter-sm">
+      <q-breadcrumbs separator=">>">
+        <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
+        <q-breadcrumbs-el
+          :label="product.category.catalog.name"
+          :to="{
+            name:'catalog-detail',
+            params: {
+              slug: this.$route.params.catalogSlug
+            }
+          }"
+        />
+        <q-breadcrumbs-el
+          label="Products List"
+          :to="{
+            name:'products-list',
+            params: {
+              slug: this.$route.params.catalogSlug
+            }
+          }"
+        />
+        <q-breadcrumbs-el :label="product.name" />
+      </q-breadcrumbs>
+    </div>
     <q-card flat class="row q-pa-md">
       <div class="col-12 col-sm-6">
         <q-img :src="product.photos[0].photo" />
