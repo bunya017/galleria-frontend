@@ -63,7 +63,8 @@ module.exports = function (ctx) {
         'QTd',
         'QSelect',
         'QUploader',
-        'QUploaderAddTrigger'
+        'QUploaderAddTrigger',
+        'QPopupEdit'
       ],
 
       directives: [
