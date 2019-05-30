@@ -1,8 +1,8 @@
 <template>
   <q-page padding>
-    <!-- Breadcrumbs -->
     <div class="row justify-center">
       <div class="col-12 col-sm-10">
+        <!-- Breadcrumbs -->
         <div class="q-pa-sm q-gutter-sm">
           <q-breadcrumbs separator=">>">
             <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
@@ -32,9 +32,15 @@
             <q-img :src="product.photos[0].photo" />
           </div>
           <div class="col-12 col-sm-6 q-pl-sm-md q-pt-lg q-pt-sm-lg">
-            <div class="text-uppercase text-h5">{{ product.name }}</div>
-            <div class="q-pt-none text-caption text-italic text-grey-6">in {{ product.category.name }}</div>
-            <div class="text-subtitle1 text-grey-8">{{ product.description }}</div>
+            <div>
+              <span class="text-uppercase text-h5">{{ product.name }}</span>
+              <span class="text-caption text-grey-7 q-pl-xs"><q-icon name="edit" />Click to edit</span>
+              <q-popup-edit buttons v-model="editProduct.name" title="Edit product name">
+                <q-input v-model="editProduct.name" type="text" dense autofocus counter />
+              </q-popup-edit>
+            </div>
+            <div class="q-pt-none text-caption text-italic text-grey-6">in {{ product.category.name }} category.</div>
+            <div class="text-subtitle1 text-grey-9">{{ product.description }}</div>
             <div class="text-h5 q-pt-md q-pt-sm-xl">₦ {{ product.price }}</div>
           </div>
         </q-card>
@@ -48,7 +54,12 @@ export default {
   name: 'ProductDetailView',
   data: function () {
     return {
-      product: {}
+      product: {},
+      editProduct: {
+        name: '',
+        price: null,
+        description: ''
+      }
     }
   },
   methods: {
@@ -65,6 +76,9 @@ export default {
       )
         .then(function (response) {
           self.product = response.data
+          self.editProduct.name = self.product.name
+          self.editProduct.price = self.product.price
+          self.editProduct.description = self.product.description
         })
     }
   },
