@@ -47,7 +47,13 @@
                 <q-input v-model="editProduct.description" type="text" dense autofocus counter />
               </q-popup-edit>
             </div>
-            <div class="text-h5 q-pt-md q-pt-sm-xl">₦ {{ product.price }}</div>
+            <div class="q-pt-md q-pt-sm-xl">
+              <span class="text-h5">₦ {{ product.price }}</span>
+              <span class="text-caption text-grey-7 q-pl-xs"><q-icon name="edit" />Click to edit</span>
+              <q-popup-edit buttons v-model="editProduct.price" title="Edit product price (₦)">
+                <q-input v-model="editProduct.price" type="number" dense autofocus counter />
+              </q-popup-edit>
+            </div>
           </div>
         </q-card>
       </div>
