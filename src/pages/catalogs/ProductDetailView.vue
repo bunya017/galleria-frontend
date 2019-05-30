@@ -40,7 +40,13 @@
               </q-popup-edit>
             </div>
             <div class="q-pt-none text-caption text-italic text-grey-6">in {{ product.category.name }} category.</div>
-            <div class="text-subtitle1 text-grey-9">{{ product.description }}</div>
+            <div>
+              <span class="text-subtitle1 text-grey-9">{{ product.description }}</span>
+              <span class="text-caption text-grey-7 q-pl-xs"><q-icon name="edit" />Click to edit</span>
+              <q-popup-edit buttons v-model="editProduct.description" title="Edit product description">
+                <q-input v-model="editProduct.description" type="text" dense autofocus counter />
+              </q-popup-edit>
+            </div>
             <div class="text-h5 q-pt-md q-pt-sm-xl">₦ {{ product.price }}</div>
           </div>
         </q-card>
