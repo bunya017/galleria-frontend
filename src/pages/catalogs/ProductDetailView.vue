@@ -33,9 +33,9 @@
           </div>
           <div class="col-12 col-sm-6 q-pl-sm-md q-pt-lg q-pt-sm-lg">
             <div class="text-uppercase text-h5">{{ product.name }}</div>
-            <div class="text-caption text-italic text-grey-6">in {{ product.description }}</div>
+            <div class="q-pt-none text-caption text-italic text-grey-6">in {{ product.category.name }}</div>
             <div class="text-subtitle1 text-grey-8">{{ product.description }}</div>
-            <div class="text-h5 q-pt-md q-pt-sm-xl">{{ product.price }}</div>
+            <div class="text-h5 q-pt-md q-pt-sm-xl">₦ {{ product.price }}</div>
           </div>
         </q-card>
       </div>
