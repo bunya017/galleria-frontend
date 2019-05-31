@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <div class="row justify-center">
-      <div class="col-12 col-sm-10">
+      <div class="col-12 col-sm-10" v-if="product.category">
         <!-- Breadcrumbs -->
         <div class="q-pa-sm q-gutter-sm">
           <q-breadcrumbs separator=">>">
@@ -35,7 +35,12 @@
             <div>
               <span class="text-uppercase text-h5">{{ product.name }}</span>
               <span class="text-caption text-grey-7 q-pl-xs"><q-icon name="edit" />Click to edit</span>
-              <q-popup-edit buttons v-model="editProduct.name" title="Edit product name">
+              <q-popup-edit
+                buttons
+                @save="editProductName"
+                v-model="editProduct.name"
+                title="Edit product name"
+              >
                 <q-input v-model="editProduct.name" type="text" dense autofocus counter />
               </q-popup-edit>
             </div>
@@ -71,7 +76,9 @@ export default {
         name: '',
         price: null,
         description: ''
-      }
+      },
+      catalogSlug: this.$route.params.catalogSlug
+
     }
   },
   methods: {
@@ -92,6 +99,37 @@ export default {
           self.editProduct.price = self.product.price
           self.editProduct.description = self.product.description
         })
+    },
+    editProductName: function () {
+      let self = this
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.patch(
+        'catalogs/' + self.$route.params.catalogSlug + '/p/' + self.$route.params.productSlug + '/' + self.$route.params.referenceId + '/',
+        { 'name': self.editProduct.name }
+      )
+        .then(function (response) {
+          self.clearEditProductModel()
+          console.log({
+            'catalogSlug': self.catalogSlug,
+            'referenceId': response.data.reference_id,
+            'productSlug': response.data.slug
+          })
+          self.$router.push({
+            name: 'product-detail',
+            params: {
+              catalogSlug: self.catalogSlug,
+              referenceId: response.data.reference_id,
+              productSlug: response.data.slug
+            }
+          })
+        })
+    },
+    clearEditProductModel: function () {
+      this.editProduct.name = ''
+      this.editProduct.description = ''
+      this.editProduct.price = null
     }
   },
   created: function () {
