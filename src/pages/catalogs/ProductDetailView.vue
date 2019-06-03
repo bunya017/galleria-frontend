@@ -77,8 +77,16 @@ export default {
         price: null,
         description: ''
       },
-      catalogSlug: this.$route.params.catalogSlug
-
+      catalogSlug: this.$route.params.catalogSlug,
+      alertPayload: {
+        color: 'positive',
+        textColor: 'white',
+        icon: 'thumb_up',
+        position: 'top',
+        message: '',
+        actions: [{ label: 'Dismiss', color: 'negative' }],
+        classes: 'q-mt-xl'
+      }
     }
   },
   methods: {
@@ -120,12 +128,30 @@ export default {
             }
           })
           self.getProductDetail()
+          self.alertPayload.message = 'Product name changed successfully!'
+          self.showAlert(self.alertPayload)
         })
     },
     clearEditProductModel: function () {
       this.editProduct.name = ''
       this.editProduct.description = ''
       this.editProduct.price = null
+    },
+    showAlert: function (payload) {
+      const {
+        color, textColor, message, icon,
+        position, actions, classes
+      } = payload
+
+      this.$q.notify({
+        color,
+        textColor,
+        icon,
+        message,
+        position,
+        actions,
+        classes
+      })
     }
   },
   created: function () {
