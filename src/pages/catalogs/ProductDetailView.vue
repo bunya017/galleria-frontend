@@ -111,11 +111,6 @@ export default {
       )
         .then(function (response) {
           self.clearEditProductModel()
-          console.log({
-            'catalogSlug': self.catalogSlug,
-            'referenceId': response.data.reference_id,
-            'productSlug': response.data.slug
-          })
           self.$router.push({
             name: 'product-detail',
             params: {
@@ -124,6 +119,7 @@ export default {
               productSlug: response.data.slug
             }
           })
+          self.getProductDetail()
         })
     },
     clearEditProductModel: function () {
