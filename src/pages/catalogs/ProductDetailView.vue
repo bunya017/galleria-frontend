@@ -27,6 +27,7 @@
             <q-breadcrumbs-el :label="product.name" />
           </q-breadcrumbs>
         </div>
+        <!-- Product Deatial -->
         <q-card flat class="row q-pa-md">
           <div class="col-12 col-sm-6">
             <q-img :src="product.photos[0].photo" />
@@ -45,10 +46,15 @@
               </q-popup-edit>
             </div>
             <div class="q-pt-none text-caption text-italic text-grey-6">in {{ product.category.name }} category.</div>
-            <div>
+            <div class="q-pt-md">
               <span class="text-subtitle1 text-grey-9">{{ product.description }}</span>
               <span class="text-caption text-grey-7 q-pl-xs"><q-icon name="edit" />Click to edit</span>
-              <q-popup-edit buttons v-model="editProduct.description" title="Edit product description">
+              <q-popup-edit
+                buttons
+                @save="editProductDescription"
+                v-model="editProduct.description"
+                title="Edit product description"
+              >
                 <q-input v-model="editProduct.description" type="text" dense autofocus counter />
               </q-popup-edit>
             </div>
@@ -129,6 +135,22 @@ export default {
           })
           self.getProductDetail()
           self.alertPayload.message = 'Product name changed successfully!'
+          self.showAlert(self.alertPayload)
+        })
+    },
+    editProductDescription: function () {
+      let self = this
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.patch(
+        'catalogs/' + self.$route.params.catalogSlug + '/p/' + self.$route.params.productSlug + '/' + self.$route.params.referenceId + '/',
+        { 'description': self.editProduct.description }
+      )
+        .then(function (response) {
+          self.clearEditProductModel()
+          self.getProductDetail()
+          self.alertPayload.message = 'Product description changed successfully!'
           self.showAlert(self.alertPayload)
         })
     },
