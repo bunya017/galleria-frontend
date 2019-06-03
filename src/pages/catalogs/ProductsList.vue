@@ -286,7 +286,7 @@
                 lazy-rules
                 :options="options"
                 label="Category"
-                v-model="options[editProductPayload.category - 1].label"
+                v-model="options[editProductPayload.category.id - 1].label"
               />
               <q-input
                 lazy-rules
