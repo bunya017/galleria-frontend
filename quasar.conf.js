@@ -64,7 +64,10 @@ module.exports = function (ctx) {
         'QSelect',
         'QUploader',
         'QUploaderAddTrigger',
-        'QPopupEdit'
+        'QPopupEdit',
+        'QCarousel',
+        'QCarouselControl',
+        'QCarouselSlide'
       ],
 
       directives: [
