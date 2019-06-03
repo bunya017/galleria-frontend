@@ -27,12 +27,13 @@
             <q-breadcrumbs-el :label="product.name" />
           </q-breadcrumbs>
         </div>
-        <!-- Product Deatial -->
+        <!-- Product Detial -->
         <q-card flat class="row q-pa-md">
           <div class="col-12 col-sm-6">
             <q-img :src="product.photos[0].photo" />
           </div>
           <div class="col-12 col-sm-6 q-pl-sm-md q-pt-lg q-pt-sm-lg">
+            <!-- Product Name -->
             <div>
               <span class="text-uppercase text-h5">{{ product.name }}</span>
               <span class="text-caption text-grey-7 q-pl-xs"><q-icon name="edit" />Click to edit</span>
@@ -45,7 +46,11 @@
                 <q-input v-model="editProduct.name" type="text" dense autofocus counter />
               </q-popup-edit>
             </div>
-            <div class="q-pt-none text-caption text-italic text-grey-6">in {{ product.category.name }} category.</div>
+            <!-- Product Category -->
+            <div class="q-pt-none text-caption text-italic text-grey-6">
+              in {{ product.category.name }} category.
+            </div>
+            <!-- Product Description -->
             <div class="q-pt-md">
               <span class="text-subtitle1 text-grey-9">{{ product.description }}</span>
               <span class="text-caption text-grey-7 q-pl-xs"><q-icon name="edit" />Click to edit</span>
@@ -58,10 +63,16 @@
                 <q-input v-model="editProduct.description" type="text" dense autofocus counter />
               </q-popup-edit>
             </div>
+            <!-- Product Price -->
             <div class="q-pt-md q-pt-sm-xl">
               <span class="text-h5">₦ {{ product.price }}</span>
               <span class="text-caption text-grey-7 q-pl-xs"><q-icon name="edit" />Click to edit</span>
-              <q-popup-edit buttons v-model="editProduct.price" title="Edit product price (₦)">
+              <q-popup-edit
+                buttons
+                @save="editProductPrice"
+                v-model="editProduct.price"
+                title="Edit product price (₦)"
+              >
                 <q-input v-model="editProduct.price" type="number" dense autofocus counter />
               </q-popup-edit>
             </div>
@@ -151,6 +162,22 @@ export default {
           self.clearEditProductModel()
           self.getProductDetail()
           self.alertPayload.message = 'Product description changed successfully!'
+          self.showAlert(self.alertPayload)
+        })
+    },
+    editProductPrice: function () {
+      let self = this
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.patch(
+        'catalogs/' + self.$route.params.catalogSlug + '/p/' + self.$route.params.productSlug + '/' + self.$route.params.referenceId + '/',
+        { 'price': self.editProduct.price }
+      )
+        .then(function (response) {
+          self.clearEditProductModel()
+          self.getProductDetail()
+          self.alertPayload.message = 'Product price changed successfully!'
           self.showAlert(self.alertPayload)
         })
     },
