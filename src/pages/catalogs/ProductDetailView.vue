@@ -136,6 +136,7 @@ export default {
       )
         .then(function (response) {
           self.product = response.data
+          self.imageSlide = response.data.photos[0].id
           self.editProduct.name = self.product.name
           self.editProduct.price = self.product.price
           self.editProduct.description = self.product.description
