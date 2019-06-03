@@ -30,7 +30,22 @@
         <!-- Product Detial -->
         <q-card flat class="row q-pa-md">
           <div class="col-12 col-sm-6">
-            <q-img :src="product.photos[0].photo" />
+            <q-carousel
+              swipeable
+              arrows
+              animated
+              v-model="imageSlide"
+              thumbnails
+              infinite
+            >
+              <q-carousel-slide
+                contain
+                v-for="productPhoto in product.photos"
+                :key="productPhoto.id"
+                :name="productPhoto.id"
+                :img-src="productPhoto.photo"
+              />
+            </q-carousel>
           </div>
           <div class="col-12 col-sm-6 q-pl-sm-md q-pt-lg q-pt-sm-lg">
             <!-- Product Name -->
@@ -89,12 +104,13 @@ export default {
   data: function () {
     return {
       product: {},
+      imageSlide: null,
+      catalogSlug: this.$route.params.catalogSlug,
       editProduct: {
         name: '',
         price: null,
         description: ''
       },
-      catalogSlug: this.$route.params.catalogSlug,
       alertPayload: {
         color: 'positive',
         textColor: 'white',
