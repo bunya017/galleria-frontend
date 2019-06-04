@@ -194,8 +194,7 @@ export default {
         position: 'top',
         message: '',
         closeBtn: 'Close',
-        classes: 'q-mt-xl',
-        onDismiss: this.dismiss
+        classes: 'q-mt-xl'
       },
       nameError: {
         status: false,
@@ -255,6 +254,7 @@ export default {
           .then(function (response) {
             if (response.status === 201) {
               self.alertPayload.message = 'Category added successfully!'
+              self.getCatalogDetail()
               self.showAlert(self.alertPayload)
               self.newCat = false
               self.clearNewCategoryModel()
@@ -271,7 +271,7 @@ export default {
     showAlert: function (payload) {
       const {
         color, textColor, message, icon,
-        position, closeBtn, classes, onDismiss
+        position, closeBtn, classes
       } = payload
 
       this.$q.notify({
@@ -281,12 +281,8 @@ export default {
         message,
         position,
         closeBtn,
-        classes,
-        onDismiss
+        classes
       })
-    },
-    dismiss: function () {
-      this.getCatalogDetail()
     },
     clearNewCategoryModel: function () {
       this.newCategory.name = ''
