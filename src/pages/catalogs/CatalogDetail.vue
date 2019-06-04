@@ -1,6 +1,7 @@
 <template>
   <q-page padding>
     <div class="text-h4">{{ catalog.name }}</div>
+    <!-- Breadcrumbs -->
     <div class="q-px-sm q-gutter-sm">
       <q-breadcrumbs separator=">">
         <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
@@ -119,11 +120,12 @@
     </q-dialog>
 
     <div class="text-h5">Categories</div>
+    <!-- Categories List -->
     <div class="row q-pt-sm q-pb-xl q-col-gutter-md">
       <div class="col-12" v-for="category in catalog.categories" :key="category.name">
         <q-card>
           <q-list>
-            <q-item clickable>
+            <q-item>
               <q-item-section avatar>
                 <q-avatar color="primary" text-color="white">
                   {{ getFirstLetters(category.name) }}
@@ -133,14 +135,41 @@
                 <q-item-label>{{ category.name }}</q-item-label>
                 <q-item-label caption>{{ category.description }}</q-item-label>
               </q-item-section>
-              <q-item-section top side>
-                <q-btn size="12px" flat dense round icon="more_vert" />
+              <q-item-section side>
+                <q-btn size="12px" flat dense round icon="more_vert">
+                  <q-menu auto-close>
+                    <q-list style="width: 200px;">
+                      <q-item clickable @click="makeDeleteCategoryPayload(category)">
+                        <q-item-section avatar>
+                          <q-avatar rounded icon="delete" />
+                        </q-item-section>
+                        <q-item-section>
+                          Delete
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                </q-btn>
               </q-item-section>
             </q-item>
           </q-list>
         </q-card>
       </div>
     </div>
+    <!-- Delete category dialog -->
+    <q-dialog v-model="deleteCaty" @hide="clearDeleteCategoryPayload" persistent>
+      <q-card>
+        <q-card-section class="row items-center">
+          <span class="q-ml-md q-py-md text-center">
+            Are you sure you want to delete <span class="text-weight-bold">{{ deleteCategoryPayload.name }}</span> category permanently?
+          </span>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="primary" v-close-popup />
+          <q-btn flat label="Delete" color="negative" @click="deleteCategory" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -155,7 +184,14 @@ export default {
       activeProducts: 0,
       newCat: false,
       catalog: {},
+      deleteCaty: false,
+      deleteCategorySlug: '',
       newCategory: {
+        name: '',
+        description: '',
+        catalog: null
+      },
+      deleteCategoryPayload: {
         name: '',
         description: '',
         catalog: null
@@ -163,7 +199,7 @@ export default {
       alertPayload: {
         color: 'positive',
         textColor: 'white',
-        icon: 'report_problem',
+        icon: 'thumb_up',
         position: 'top',
         message: '',
         closeBtn: 'Close',
@@ -265,6 +301,37 @@ export default {
       this.newCategory.name = ''
       this.newCategory.description = ''
       this.newCategory.catalog = null
+    },
+    makeDeleteCategoryPayload: function (payload) {
+      this.deleteCaty = true
+      this.deleteCategoryPayload.name = payload.name
+      this.deleteCategoryPayload.description = payload.description
+      this.deleteCategoryPayload.catalog = payload.catalog
+      this.deleteCategorySlug = payload.slug
+    },
+    clearDeleteCategoryPayload: function () {
+      this.deleteCategoryPayload.name = ''
+      this.deleteCategoryPayload.description = ''
+      this.deleteCategoryPayload.catalog = null
+    },
+    deleteCategory: function () {
+      let self = this
+      self.newCategory.catalog = self.catalog.id
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.delete(
+        'catalogs/' + self.catalog.slug + '/' + self.deleteCategorySlug + '/',
+        self.deleteCategoryPayload
+      )
+        .then(function (response) {
+          if (response.status === 204) {
+            self.getCatalogDetail()
+            self.alertPayload.message = 'Category deleted successfully!'
+            self.showAlert(self.alertPayload)
+            self.deleteCaty = false
+          }
+        })
     }
   },
   created: function () {
