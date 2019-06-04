@@ -174,9 +174,6 @@
               <q-item-section class="gt-xs">
                 <q-item-label>{{ catalog.categories.length }} Categories</q-item-label>
               </q-item-section>
-              <q-item-section side class="gt-xs">
-                <q-badge color="green-10" text-color="white" label="active" />
-              </q-item-section>
               <q-item-section top side>
                 <q-btn size="12px" flat dense round icon="more_vert" />
               </q-item-section>
