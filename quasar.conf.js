@@ -63,12 +63,15 @@ module.exports = function (ctx) {
         'QTd',
         'QSelect',
         'QUploader',
-        'QUploaderAddTrigger'
+        'QUploaderAddTrigger',
+        'QPopupEdit',
+        'QCarousel',
+        'QCarouselControl',
+        'QCarouselSlide'
       ],
 
       directives: [
         'Ripple',
-        'CloseMenu',
         'ClosePopup'
       ],
 

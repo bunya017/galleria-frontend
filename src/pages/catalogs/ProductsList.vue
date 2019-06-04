@@ -179,6 +179,7 @@
           row-key="name"
           :pagination.sync="pagination"
           :filter="filter"
+          binary-state-sort
         >
           <template v-slot:top>
             <q-input dense label='Search' class="col-sm-6 col-xs-12" v-model="filter" debounce="300" color="primary">
@@ -191,7 +192,18 @@
           </template>
           <template v-slot:body-cell-name="props">
             <q-td :props="props">
-              <q-item class="q-pa-none">
+              <q-item
+                clickable
+                v-ripple
+                :to="{
+                  name: 'product-detail',
+                  params: {
+                    catalogSlug: slugCatalog,
+                    referenceId: props.row.reference_id,
+                    productSlug: props.row.slug
+                  }
+                }"
+                class="q-pa-none">
                 <q-item-section side>
                   <q-avatar v-if="props.row.photos.length > 1" rounded size="56px">
                     <img :src="props.row.photos[0].photo">
@@ -274,7 +286,7 @@
                 lazy-rules
                 :options="options"
                 label="Category"
-                v-model="options[editProductPayload.category - 1].label"
+                v-model="options[editProductPayload.category.id - 1].label"
               />
               <q-input
                 lazy-rules
@@ -307,6 +319,7 @@ export default {
   name: 'ProductsList',
   data: function () {
     return {
+      slugCatalog: this.$route.params.catalogSlug,
       options: [], // Category drop-down options
       pagination: {
         sortBy: 'name',

@@ -45,6 +45,12 @@ const routes = [
         name: 'products-list',
         component: () => import('pages/catalogs/ProductsList.vue'),
         meta: { requiresAuth: true }
+      },
+      {
+        path: 'c/:catalogSlug/product/:referenceId/:productSlug',
+        name: 'product-detail',
+        component: () => import('pages/catalogs/ProductDetailView.vue'),
+        meta: { requiresAuth: true }
       }
     ]
   }
