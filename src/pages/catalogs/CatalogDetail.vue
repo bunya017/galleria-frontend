@@ -125,7 +125,7 @@
       <div class="col-12" v-for="category in catalog.categories" :key="category.name">
         <q-card>
           <q-list>
-            <q-item clickable>
+            <q-item>
               <q-item-section avatar>
                 <q-avatar color="primary" text-color="white">
                   {{ getFirstLetters(category.name) }}
