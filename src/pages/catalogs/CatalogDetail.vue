@@ -1,6 +1,7 @@
 <template>
   <q-page padding>
     <div class="text-h4">{{ catalog.name }}</div>
+    <!-- Breadcrumbs -->
     <div class="q-px-sm q-gutter-sm">
       <q-breadcrumbs separator=">">
         <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
@@ -119,6 +120,7 @@
     </q-dialog>
 
     <div class="text-h5">Categories</div>
+    <!-- Categories List -->
     <div class="row q-pt-sm q-pb-xl q-col-gutter-md">
       <div class="col-12" v-for="category in catalog.categories" :key="category.name">
         <q-card>
@@ -133,8 +135,21 @@
                 <q-item-label>{{ category.name }}</q-item-label>
                 <q-item-label caption>{{ category.description }}</q-item-label>
               </q-item-section>
-              <q-item-section top side>
-                <q-btn size="12px" flat dense round icon="more_vert" />
+              <q-item-section side>
+                <q-btn size="12px" flat dense round icon="more_vert">
+                  <q-menu auto-close>
+                    <q-list style="width: 200px;">
+                      <q-item clickable>
+                        <q-item-section avatar>
+                          <q-avatar rounded icon="delete" />
+                        </q-item-section>
+                        <q-item-section>
+                          Delete
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                </q-btn>
               </q-item-section>
             </q-item>
           </q-list>
