@@ -157,7 +157,7 @@
       </div>
     </div>
     <!-- Delete category dialog -->
-    <q-dialog v-model="deleteCaty" persistent>
+    <q-dialog v-model="deleteCaty" @hide="clearDeleteCategoryPayload" persistent>
       <q-card>
         <q-card-section class="row items-center">
           <span class="q-ml-md q-py-md text-center">
@@ -306,6 +306,11 @@ export default {
       this.deleteCategoryPayload.name = payload.name
       this.deleteCategoryPayload.description = payload.description
       this.deleteCategoryPayload.catalog = payload.catalog
+    },
+    clearDeleteCategoryPayload: function () {
+      this.deleteCategoryPayload.name = ''
+      this.deleteCategoryPayload.description = ''
+      this.deleteCategoryPayload.catalog = null
     }
   },
   created: function () {
