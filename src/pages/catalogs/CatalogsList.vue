@@ -209,8 +209,7 @@ export default {
         position: 'top',
         message: '',
         closeBtn: 'Close',
-        classes: 'q-mt-xl',
-        onDismiss: this.dismiss
+        classes: 'q-mt-xl'
       },
       nameError: {
         status: false,
@@ -277,6 +276,7 @@ export default {
       )
         .then(function (response) {
           if (response.status === 201) {
+            self.getCatalogs()
             self.alertPayload.message = 'Catalog created successfully!'
             self.showAlert(self.alertPayload)
             self.newCat = false
@@ -304,7 +304,7 @@ export default {
     showAlert: function (payload) {
       const {
         color, textColor, message, icon,
-        position, closeBtn, classes, onDismiss
+        position, closeBtn, classes
       } = payload
 
       this.$q.notify({
@@ -314,12 +314,8 @@ export default {
         message,
         position,
         closeBtn,
-        classes,
-        onDismiss
+        classes
       })
-    },
-    dismiss: function () {
-      this.getCatalogs()
     },
     clearNewCatalogModel: function () {
       this.newCatalog.name = ''
