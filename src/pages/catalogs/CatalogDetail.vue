@@ -139,7 +139,7 @@
                 <q-btn size="12px" flat dense round icon="more_vert">
                   <q-menu auto-close>
                     <q-list style="width: 200px;">
-                      <q-item clickable>
+                      <q-item clickable @click="makeDeleteCategoryPayload(category)">
                         <q-item-section avatar>
                           <q-avatar rounded icon="delete" />
                         </q-item-section>
@@ -171,6 +171,11 @@ export default {
       newCat: false,
       catalog: {},
       newCategory: {
+        name: '',
+        description: '',
+        catalog: null
+      },
+      deleteCategoryPayload: {
         name: '',
         description: '',
         catalog: null
@@ -280,6 +285,11 @@ export default {
       this.newCategory.name = ''
       this.newCategory.description = ''
       this.newCategory.catalog = null
+    },
+    makeDeleteCategoryPayload: function (payload) {
+      this.deleteCategoryPayload.name = payload.name
+      this.deleteCategoryPayload.description = payload.description
+      this.deleteCategoryPayload.catalog = payload.catalog
     }
   },
   created: function () {
