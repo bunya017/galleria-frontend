@@ -166,7 +166,7 @@
         </q-card-section>
         <q-card-actions align="right">
           <q-btn flat label="Cancel" color="primary" v-close-popup />
-          <q-btn flat label="Delete" color="negative" />
+          <q-btn flat label="Delete" color="negative" @click="deleteCategory" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -185,6 +185,7 @@ export default {
       newCat: false,
       catalog: {},
       deleteCaty: false,
+      deleteCategorySlug: '',
       newCategory: {
         name: '',
         description: '',
@@ -198,7 +199,7 @@ export default {
       alertPayload: {
         color: 'positive',
         textColor: 'white',
-        icon: 'report_problem',
+        icon: 'thumb_up',
         position: 'top',
         message: '',
         closeBtn: 'Close',
@@ -306,11 +307,31 @@ export default {
       this.deleteCategoryPayload.name = payload.name
       this.deleteCategoryPayload.description = payload.description
       this.deleteCategoryPayload.catalog = payload.catalog
+      this.deleteCategorySlug = payload.slug
     },
     clearDeleteCategoryPayload: function () {
       this.deleteCategoryPayload.name = ''
       this.deleteCategoryPayload.description = ''
       this.deleteCategoryPayload.catalog = null
+    },
+    deleteCategory: function () {
+      let self = this
+      self.newCategory.catalog = self.catalog.id
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.delete(
+        'catalogs/' + self.catalog.slug + '/' + self.deleteCategorySlug + '/',
+        self.deleteCategoryPayload
+      )
+        .then(function (response) {
+          if (response.status === 204) {
+            self.getCatalogDetail()
+            self.alertPayload.message = 'Category deleted successfully!'
+            self.showAlert(self.alertPayload)
+            self.deleteCaty = false
+          }
+        })
     }
   },
   created: function () {
