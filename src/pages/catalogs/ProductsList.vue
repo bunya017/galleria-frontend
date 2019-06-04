@@ -384,25 +384,6 @@ export default {
         message: '',
         actions: [{ label: 'Dismiss', color: 'negative' }],
         classes: 'q-mt-xl'
-      },
-      deleteAlertPayload: {
-        color: 'positive',
-        textColor: 'white',
-        icon: 'thumb_up',
-        position: 'top',
-        message: '',
-        actions: [{ label: 'Dismiss', color: 'negative' }],
-        classes: 'q-mt-xl'
-      },
-      editAlertPayload: {
-        color: 'positive',
-        textColor: 'white',
-        icon: 'thumb_up',
-        position: 'top',
-        message: '',
-        actions: [{ label: 'Dismiss', color: 'negative' }],
-        classes: 'q-mt-xl',
-        onDismiss: this.dismiss
       }
     }
   },
@@ -557,8 +538,8 @@ export default {
           if (response.status === 204) {
             self.getProductsList()
             self.getProductsCatalog()
-            self.editAlertPayload.message = 'Edited successfully!'
-            self.showAlert(self.editAlertPayload)
+            self.alertPayload.message = 'Edited successfully!'
+            self.showAlert(self.alertPayload)
             self.deleteProd = false
           }
         })
@@ -583,8 +564,8 @@ export default {
           if (response.status === 200) {
             self.getProductsList()
             self.getProductsCatalog()
-            self.editAlertPayload.message = 'Edited successfully!'
-            self.showAlert(self.editAlertPayload)
+            self.alertPayload.message = 'Edited successfully!'
+            self.showAlert(self.alertPayload)
             self.editProd = false
           }
         })
