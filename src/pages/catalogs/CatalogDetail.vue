@@ -156,6 +156,20 @@
         </q-card>
       </div>
     </div>
+    <!-- Delete category dialog -->
+    <q-dialog v-model="deleteCaty" persistent>
+      <q-card>
+        <q-card-section class="row items-center">
+          <span class="q-ml-md q-py-md text-center">
+            Are you sure you want to delete <span class="text-weight-bold">{{ deleteCategoryPayload.name }}</span> category permanently?
+          </span>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="primary" v-close-popup />
+          <q-btn flat label="Delete" color="negative" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -170,6 +184,7 @@ export default {
       activeProducts: 0,
       newCat: false,
       catalog: {},
+      deleteCaty: false,
       newCategory: {
         name: '',
         description: '',
@@ -287,6 +302,7 @@ export default {
       this.newCategory.catalog = null
     },
     makeDeleteCategoryPayload: function (payload) {
+      this.deleteCaty = true
       this.deleteCategoryPayload.name = payload.name
       this.deleteCategoryPayload.description = payload.description
       this.deleteCategoryPayload.catalog = payload.catalog
