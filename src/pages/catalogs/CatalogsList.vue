@@ -183,7 +183,7 @@
                 <q-btn size="12px" flat dense round icon="more_vert">
                   <q-menu auto-close>
                     <q-list style="width: 200px;">
-                      <q-item clickable>
+                      <q-item clickable @click="makeDeleteCategorypayload(catalog)">
                         <q-item-section avatar>
                           <q-avatar rounded icon="delete" />
                         </q-item-section>
@@ -201,6 +201,21 @@
       </div>
     </div>
 
+    <!-- Delete category dialog -->
+    <q-dialog v-model="deleteCat" persistent>
+      <q-card>
+        <q-card-section class="row items-center">
+          <span class="q-ml-md q-py-md text-center">
+            Are you sure you want to delete <span class="text-weight-bold">{{ deleteCategoryPayload.name }}</span> category permanently?
+          </span>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="primary" v-close-popup />
+          <q-btn flat label="Delete" color="negative"/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
   </q-page>
 </template>
 
@@ -212,6 +227,12 @@ export default {
       catalogsCount: 0,
       activeCatalogs: 0,
       newCat: false,
+      catalogs: {},
+      deleteCat: false,
+      deleteCategoryPayload: {
+        name: '',
+        url: ''
+      },
       newCatalog: {
         name: '',
         description: '',
@@ -219,7 +240,6 @@ export default {
         contact_email: '',
         contact_phone: ''
       },
-      catalogs: {},
       alertPayload: {
         color: 'positive',
         textColor: 'white',
@@ -349,6 +369,11 @@ export default {
       } else {
         return wordsList[0].charAt(0).toUpperCase()
       }
+    },
+    makeDeleteCategorypayload: function (payload) {
+      this.deleteCat = true
+      this.deleteCategoryPayload.name = payload.name
+      this.deleteCategoryPayload.url = payload.url
     }
   },
   created: function () {
