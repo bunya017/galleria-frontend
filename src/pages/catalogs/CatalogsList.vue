@@ -206,7 +206,7 @@
       <q-card>
         <q-card-section class="row items-center">
           <span class="q-ml-md q-py-md text-center">
-            Are you sure you want to delete <span class="text-weight-bold">{{ deleteCategoryPayload.name }}</span> category permanently?
+            Are you sure you want to delete <span class="text-weight-bold">{{ deleteCategoryPayload.name }}</span> permanently?
           </span>
         </q-card-section>
         <q-card-actions align="right">
