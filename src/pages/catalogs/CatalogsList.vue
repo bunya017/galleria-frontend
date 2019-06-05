@@ -148,19 +148,15 @@
       </q-card>
     </q-dialog>
 
+    <!-- New catalog dialog/modal -->
     <div class="text-h5">My Catalogs</div>
     <div class="row q-pt-sm q-pb-xl q-col-gutter-md">
-      <div class="col-12" v-for="catalog in catalogs" :key="catalog.id">
+      <div class="col-12">
         <q-card>
-          <q-list>
+          <q-list separator>
             <q-item
-              clickable
-              :to="{
-                name: 'catalog-detail',
-                params: {
-                  slug: catalog.slug
-                }
-              }"
+              v-for="catalog in catalogs"
+              :key="catalog.id"
             >
               <q-item-section avatar>
                 <q-avatar color="primary" text-color="white">
@@ -168,8 +164,17 @@
                 </q-avatar>
               </q-item-section>
               <q-item-section>
-                <q-item-label>{{ catalog.name }}</q-item-label>
-                <q-item-label caption>{{ catalog.description }}</q-item-label>
+                <router-link
+                  :to="{
+                    name: 'catalog-detail',
+                    params: {
+                      slug: catalog.slug
+                    }
+                  }"
+                >
+                  <q-item-label class="text-black">{{ catalog.name }}</q-item-label>
+                  <q-item-label caption>{{ catalog.description }}</q-item-label>
+                </router-link>
               </q-item-section>
               <q-item-section class="gt-xs">
                 <q-item-label>{{ catalog.categories.length }} Categories</q-item-label>
@@ -339,5 +344,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+a {
+  text-decoration: none;
+}
 </style>
