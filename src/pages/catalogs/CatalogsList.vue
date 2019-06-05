@@ -179,14 +179,42 @@
               <q-item-section class="gt-xs">
                 <q-item-label>{{ catalog.categories.length }} Categories</q-item-label>
               </q-item-section>
-              <q-item-section top side>
-                <q-btn size="12px" flat dense round icon="more_vert" />
+              <q-item-section side>
+                <q-btn size="12px" flat dense round icon="more_vert">
+                  <q-menu auto-close>
+                    <q-list style="width: 200px;">
+                      <q-item clickable @click="makeDeleteCatalogPayload(catalog)">
+                        <q-item-section avatar>
+                          <q-avatar rounded icon="delete" />
+                        </q-item-section>
+                        <q-item-section>
+                          Delete
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                </q-btn>
               </q-item-section>
             </q-item>
           </q-list>
         </q-card>
       </div>
     </div>
+
+    <!-- Delete category dialog -->
+    <q-dialog v-model="deleteCat" @hide="clearDeleteCatalogPayload" persistent>
+      <q-card>
+        <q-card-section class="row items-center">
+          <span class="q-ml-md q-py-md text-center">
+            Are you sure you want to delete <span class="text-weight-bold">{{ deleteCatalogPayload.name }}</span> permanently?
+          </span>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="primary" v-close-popup />
+          <q-btn flat label="Delete" color="negative" @click="deleteCatalog" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
 
   </q-page>
 </template>
@@ -199,6 +227,12 @@ export default {
       catalogsCount: 0,
       activeCatalogs: 0,
       newCat: false,
+      catalogs: {},
+      deleteCat: false,
+      deleteCatalogPayload: {
+        name: '',
+        url: ''
+      },
       newCatalog: {
         name: '',
         description: '',
@@ -206,7 +240,6 @@ export default {
         contact_email: '',
         contact_phone: ''
       },
-      catalogs: {},
       alertPayload: {
         color: 'positive',
         textColor: 'white',
@@ -336,6 +369,32 @@ export default {
       } else {
         return wordsList[0].charAt(0).toUpperCase()
       }
+    },
+    makeDeleteCatalogPayload: function (payload) {
+      this.deleteCat = true
+      this.deleteCatalogPayload.name = payload.name
+      this.deleteCatalogPayload.url = payload.url
+    },
+    clearDeleteCatalogPayload: function () {
+      this.deleteCatalogPayload.name = ''
+      this.deleteCatalogPayload.url = ''
+    },
+    deleteCatalog: function () {
+      let self = this
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.delete(
+        self.deleteCatalogPayload.url
+      )
+        .then(function (response) {
+          if (response.status === 204) {
+            self.getCatalogs()
+            self.alertPayload.message = 'Catalog deleted successfully!'
+            self.showAlert(self.alertPayload)
+            self.deleteCat = false
+          }
+        })
     }
   },
   created: function () {
