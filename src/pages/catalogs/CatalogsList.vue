@@ -183,7 +183,7 @@
                 <q-btn size="12px" flat dense round icon="more_vert">
                   <q-menu auto-close>
                     <q-list style="width: 200px;">
-                      <q-item clickable @click="makeDeleteCategorypayload(catalog)">
+                      <q-item clickable @click="makeDeleteCatalogPayload(catalog)">
                         <q-item-section avatar>
                           <q-avatar rounded icon="delete" />
                         </q-item-section>
@@ -202,11 +202,11 @@
     </div>
 
     <!-- Delete category dialog -->
-    <q-dialog v-model="deleteCat" @hide="clearDeleteCategorypayload" persistent>
+    <q-dialog v-model="deleteCat" @hide="clearDeleteCatalogPayload" persistent>
       <q-card>
         <q-card-section class="row items-center">
           <span class="q-ml-md q-py-md text-center">
-            Are you sure you want to delete <span class="text-weight-bold">{{ deleteCategoryPayload.name }}</span> permanently?
+            Are you sure you want to delete <span class="text-weight-bold">{{ deleteCatalogPayload.name }}</span> permanently?
           </span>
         </q-card-section>
         <q-card-actions align="right">
@@ -229,7 +229,7 @@ export default {
       newCat: false,
       catalogs: {},
       deleteCat: false,
-      deleteCategoryPayload: {
+      deleteCatalogPayload: {
         name: '',
         url: ''
       },
@@ -370,14 +370,14 @@ export default {
         return wordsList[0].charAt(0).toUpperCase()
       }
     },
-    makeDeleteCategorypayload: function (payload) {
+    makeDeleteCatalogPayload: function (payload) {
       this.deleteCat = true
-      this.deleteCategoryPayload.name = payload.name
-      this.deleteCategoryPayload.url = payload.url
+      this.deleteCatalogPayload.name = payload.name
+      this.deleteCatalogPayload.url = payload.url
     },
-    clearDeleteCategorypayload: function () {
-      this.deleteCategoryPayload.name = ''
-      this.deleteCategoryPayload.url = ''
+    clearDeleteCatalogPayload: function () {
+      this.deleteCatalogPayload.name = ''
+      this.deleteCatalogPayload.url = ''
     }
   },
   created: function () {
