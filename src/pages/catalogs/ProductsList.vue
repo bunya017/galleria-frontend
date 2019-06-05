@@ -548,7 +548,7 @@ export default {
       let self = this
       let payload = {}
       payload.name = self.editProductPayload.name
-      payload.category = self.editProductPayload.category
+      payload.category = self.editProductPayload.category.id
       payload.price = self.editProductPayload.price
       payload.description = self.editProductPayload.description
 
