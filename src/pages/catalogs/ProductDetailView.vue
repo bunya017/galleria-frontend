@@ -135,11 +135,13 @@ export default {
         'catalogs/' + self.$route.params.catalogSlug + '/p/' + self.$route.params.productSlug + '/' + self.$route.params.referenceId
       )
         .then(function (response) {
-          self.product = response.data
-          self.imageSlide = response.data.photos[0].id
-          self.editProduct.name = self.product.name
-          self.editProduct.price = self.product.price
-          self.editProduct.description = self.product.description
+          if (response.status === 200) {
+            self.product = response.data
+            self.imageSlide = response.data.photos[0].id
+            self.editProduct.name = self.product.name
+            self.editProduct.price = self.product.price
+            self.editProduct.description = self.product.description
+          }
         })
     },
     editProductName: function () {
