@@ -215,9 +215,11 @@ export default {
         'catalogs/' + self.$route.params.slug
       )
         .then(function (response) {
-          self.catalog = response.data
-          self.categoryCount = response.data.categories.length
-          self.productCount = self.getProductCount(response.data.categories)
+          if (response.status === 200) {
+            self.catalog = response.data
+            self.categoryCount = response.data.categories.length
+            self.productCount = self.getProductCount(response.data.categories)
+          }
         })
     },
     getProductCount: function (payload) {
