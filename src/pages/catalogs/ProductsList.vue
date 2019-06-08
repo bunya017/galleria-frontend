@@ -400,7 +400,9 @@ export default {
         'catalogs/' + self.$route.params.catalogSlug + '/p/products/'
       )
         .then(function (response) {
-          self.products = response.data
+          if (response.status === 200) {
+            self.products = response.data
+          }
         })
     },
     getProductsCatalog: function () {
