@@ -180,10 +180,12 @@ export default {
         { 'description': self.editProduct.description }
       )
         .then(function (response) {
-          self.clearEditProductModel()
-          self.getProductDetail()
-          self.alertPayload.message = 'Product description changed successfully!'
-          self.showAlert(self.alertPayload)
+          if (response.status === 200) {
+            self.clearEditProductModel()
+            self.getProductDetail()
+            self.alertPayload.message = 'Product description changed successfully!'
+            self.showAlert(self.alertPayload)
+          }
         })
     },
     editProductPrice: function () {
