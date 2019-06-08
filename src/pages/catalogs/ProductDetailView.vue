@@ -198,10 +198,12 @@ export default {
         { 'price': self.editProduct.price }
       )
         .then(function (response) {
-          self.clearEditProductModel()
-          self.getProductDetail()
-          self.alertPayload.message = 'Product price changed successfully!'
-          self.showAlert(self.alertPayload)
+          if (response.status === 200) {
+            self.clearEditProductModel()
+            self.getProductDetail()
+            self.alertPayload.message = 'Product price changed successfully!'
+            self.showAlert(self.alertPayload)
+          }
         })
     },
     clearEditProductModel: function () {
