@@ -154,18 +154,20 @@ export default {
         { 'name': self.editProduct.name }
       )
         .then(function (response) {
-          self.clearEditProductModel()
-          self.$router.push({
-            name: 'product-detail',
-            params: {
-              catalogSlug: self.catalogSlug,
-              referenceId: response.data.reference_id,
-              productSlug: response.data.slug
-            }
-          })
-          self.getProductDetail()
-          self.alertPayload.message = 'Product name changed successfully!'
-          self.showAlert(self.alertPayload)
+          if (response.status === 200) {
+            self.clearEditProductModel()
+            self.$router.push({
+              name: 'product-detail',
+              params: {
+                catalogSlug: self.catalogSlug,
+                referenceId: response.data.reference_id,
+                productSlug: response.data.slug
+              }
+            })
+            self.getProductDetail()
+            self.alertPayload.message = 'Product name changed successfully!'
+            self.showAlert(self.alertPayload)
+          }
         })
     },
     editProductDescription: function () {
