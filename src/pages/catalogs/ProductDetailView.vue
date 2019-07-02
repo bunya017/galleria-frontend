@@ -132,7 +132,7 @@ export default {
         'Authorization': 'Token ' + self.getAuthToken()
       }
       self.$axios.get(
-        'catalogs/' + self.$route.params.catalogSlug + '/p/' + self.$route.params.productSlug + '/' + self.$route.params.referenceId
+        'catalogs/' + self.$route.params.catalogSlug + '/products/' + self.$route.params.productSlug + '/' + self.$route.params.referenceId
       )
         .then(function (response) {
           if (response.status === 200) {
@@ -150,7 +150,7 @@ export default {
         'Authorization': 'Token ' + self.getAuthToken()
       }
       self.$axios.patch(
-        'catalogs/' + self.$route.params.catalogSlug + '/p/' + self.$route.params.productSlug + '/' + self.$route.params.referenceId + '/',
+        'catalogs/' + self.$route.params.catalogSlug + '/products/' + self.$route.params.productSlug + '/' + self.$route.params.referenceId + '/',
         { 'name': self.editProduct.name }
       )
         .then(function (response) {
@@ -176,7 +176,7 @@ export default {
         'Authorization': 'Token ' + self.getAuthToken()
       }
       self.$axios.patch(
-        'catalogs/' + self.$route.params.catalogSlug + '/p/' + self.$route.params.productSlug + '/' + self.$route.params.referenceId + '/',
+        'catalogs/' + self.$route.params.catalogSlug + '/products/' + self.$route.params.productSlug + '/' + self.$route.params.referenceId + '/',
         { 'description': self.editProduct.description }
       )
         .then(function (response) {
@@ -194,7 +194,7 @@ export default {
         'Authorization': 'Token ' + self.getAuthToken()
       }
       self.$axios.patch(
-        'catalogs/' + self.$route.params.catalogSlug + '/p/' + self.$route.params.productSlug + '/' + self.$route.params.referenceId + '/',
+        'catalogs/' + self.$route.params.catalogSlug + '/products/' + self.$route.params.productSlug + '/' + self.$route.params.referenceId + '/',
         { 'price': self.editProduct.price }
       )
         .then(function (response) {
