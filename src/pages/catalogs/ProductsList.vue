@@ -397,7 +397,7 @@ export default {
         'Authorization': 'Token ' + self.getAuthToken()
       }
       self.$axios.get(
-        'catalogs/' + self.$route.params.catalogSlug + '/p/products/'
+        'catalogs/' + self.$route.params.catalogSlug + '/products/'
       )
         .then(function (response) {
           if (response.status === 200) {
@@ -441,7 +441,7 @@ export default {
         'Content-Type': 'multipart/form'
       }
       self.$axios.post(
-        'catalogs/' + this.$route.params.catalogSlug + '/p/products/',
+        'catalogs/' + this.$route.params.catalogSlug + '/products/',
         payload
       )
         .then(function (response) {
