@@ -28,7 +28,7 @@
       <div class="col-12 col-sm-6 col-md-3">
         <q-card>
           <div class="row justify-center items-center" style="min-height: 100px;">
-            <div class="text-h5">{{ categoryCount }} Categories</div>
+            <div class="text-h5">Add new collection</div>
           </div>
         </q-card>
       </div>
@@ -170,7 +170,6 @@ export default {
   data: function () {
     return {
       isError: true,
-      categoryCount: 0,
       productCount: 0,
       activeProducts: 0,
       newCat: false,
@@ -217,7 +216,6 @@ export default {
         .then(function (response) {
           if (response.status === 200) {
             self.catalog = response.data
-            self.categoryCount = response.data.categories.length
             self.productCount = self.getProductCount(response.data.categories)
           }
         })
