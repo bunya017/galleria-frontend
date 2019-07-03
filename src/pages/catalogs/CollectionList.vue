@@ -19,6 +19,20 @@ export default {
   methods: {
     getAuthToken: function () {
       return sessionStorage.getItem('authToken')
+    },
+    getCollectionList: function () {
+      let self = this
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.get(
+        'catalogs/' + self.$route.params.catalogSlug + '/collections/'
+      )
+        .then(function (response) {
+          if (response.status === 200) {
+            self.collections = response.data
+          }
+        })
     }
   }
 }
