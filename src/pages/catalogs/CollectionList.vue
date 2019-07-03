@@ -4,6 +4,8 @@
     <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
       <div class="col-12 col-sm-6 col-md-3">
         <q-card>
+        </q-card>
+      </div>
     </div>
   </q-page>
 </template>
@@ -34,6 +36,9 @@ export default {
           }
         })
     }
+  },
+  created: function () {
+    this.getCollectionList()
   }
 }
 </script>
