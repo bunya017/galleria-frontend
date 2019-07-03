@@ -1,12 +1,26 @@
 <template>
   <q-page padding>
-    content -->
+    <div class="text-h4">Collections</div>
+    <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
+      <div class="col-12 col-sm-6 col-md-3">
+        <q-card>
+    </div>
   </q-page>
 </template>
 
 <script>
 export default {
-  name: 'CollectionList'
+  name: 'CollectionList',
+  data: function () {
+    return {
+      collections: {}
+    }
+  },
+  methods: {
+    getAuthToken: function () {
+      return sessionStorage.getItem('authToken')
+    }
+  }
 }
 </script>
 
