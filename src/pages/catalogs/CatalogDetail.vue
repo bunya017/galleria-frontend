@@ -26,11 +26,23 @@
         </q-card>
       </div>
       <div class="col-12 col-sm-6 col-md-3">
-        <q-card>
-          <div class="row justify-center items-center" style="min-height: 100px;">
-            <div class="text-h5">Add new collection</div>
-          </div>
-        </q-card>
+        <router-link
+          :to="{
+            name: 'collection-list',
+            params: {
+              catalogSlug: catalog.slug
+            }
+          }"
+        >
+          <q-card>
+            <div class="row justify-center items-center" style="min-height: 100px;">
+              <div class="text-center">
+                <div class="text-h5 text-black">Collections</div>
+                <div class="text-subtitle2 text-black">(Click to view)</div>
+              </div>
+            </div>
+          </q-card>
+        </router-link>
       </div>
       <div class="col-12 col-sm-6 col-md-3">
         <router-link
