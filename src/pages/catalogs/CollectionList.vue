@@ -27,6 +27,17 @@
           hide-header
           hide-bottom
         >
+          <template v-slot:top>
+            <div class="text-h4">Collections</div>
+            <q-space />
+            <q-btn
+              class="bg-primary q-mt-xs-md"
+              flat
+              color="white"
+              icon="add"
+              label="new collection"
+            />
+          </template>
         </q-table>
       </div>
     </div>
