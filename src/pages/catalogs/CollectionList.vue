@@ -1,13 +1,25 @@
 <template>
   <q-page padding>
+    <div class="row items-center q-pb-lg">
+      <div class="text-h4 col-12 col-sm-6">Products List</div>
+      <div class="col-12 col-sm-6">
+        <q-btn
+          class="bg-primary float-right"
+          flat
+          color="white"
+          icon="add"
+          label="new collection"
+        />
+      </div>
+    </div>
     <!-- Collections List -->
-    <div class="row q-pt-sm q-pb-xl q-col-gutter-md">
+    <div class="row q-pt-sm q-col-gutter-md">
       <div class="col-12" v-for="collection in collections" :key="collection.name">
         <q-card>
           <q-list>
             <q-item>
               <q-item-section avatar>
-                <q-avatar color="primary" text-color="white" size="56px">
+                <q-avatar color="primary" text-color="white">
                   {{ collection.name.charAt(0).toUpperCase() }}
                 </q-avatar>
               </q-item-section>
