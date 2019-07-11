@@ -24,11 +24,7 @@
           </template>
           <template v-slot:body-cell-name="props">
             <q-td :props="props">
-              <q-item
-                clickable
-                v-ripple
-                class="q-pa-none"
-              >
+              <q-item class="q-pa-none">
                 <q-item-section side>
                   <q-avatar color="primary" text-color="white" size="56px">
                     {{ props.row.name.charAt(0).toUpperCase() }}
