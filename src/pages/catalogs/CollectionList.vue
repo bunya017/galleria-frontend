@@ -1,8 +1,8 @@
 <template>
   <q-page padding>
-    <div class="row items-center q-pb-lg">
+    <div class="row items-center q-pt-sm q-pb-lg">
       <div class="text-h4 col-12 col-sm-6">Products List</div>
-      <div class="col-12 col-sm-6">
+      <div class="col-12 col-sm-6 gt-xs">
         <q-btn
           class="bg-primary float-right"
           flat
@@ -35,6 +35,9 @@
         </q-card>
       </div>
     </div>
+    <q-page-sticky class="lt-sm" position="bottom-right" :offset="[30, 30]">
+      <q-btn fab icon="add" color="primary" />
+    </q-page-sticky>
   </q-page>
 </template>
 
