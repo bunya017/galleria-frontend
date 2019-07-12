@@ -49,6 +49,21 @@
       </div>
     </div>
 
+    <!-- Delete collection dialog -->
+    <q-dialog v-model="deleteColl" persistent>
+      <q-card>
+        <q-card-section class="row items-center">
+          <span class="q-ml-md q-py-md text-center">
+            Are you sure you want to delete <span class="text-weight-bold">{{ deleteCollectionPayload.name }}</span> category permanently?
+          </span>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="primary" v-close-popup />
+          <q-btn flat label="Delete" color="negative"/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
     <!-- Floating button -->
     <q-page-sticky class="lt-sm" position="bottom-right" :offset="[30, 30]">
       <q-btn fab icon="add" color="primary" />
