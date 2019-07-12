@@ -26,11 +26,23 @@
         </q-card>
       </div>
       <div class="col-12 col-sm-6 col-md-3">
-        <q-card>
-          <div class="row justify-center items-center" style="min-height: 100px;">
-            <div class="text-h5">{{ categoryCount }} Categories</div>
-          </div>
-        </q-card>
+        <router-link
+          :to="{
+            name: 'collection-list',
+            params: {
+              catalogSlug: catalog.slug
+            }
+          }"
+        >
+          <q-card>
+            <div class="row justify-center items-center" style="min-height: 100px;">
+              <div class="text-center">
+                <div class="text-h5 text-black">Collections</div>
+                <div class="text-subtitle2 text-black">(Click to view)</div>
+              </div>
+            </div>
+          </q-card>
+        </router-link>
       </div>
       <div class="col-12 col-sm-6 col-md-3">
         <router-link
@@ -170,7 +182,6 @@ export default {
   data: function () {
     return {
       isError: true,
-      categoryCount: 0,
       productCount: 0,
       activeProducts: 0,
       newCat: false,
@@ -217,7 +228,6 @@ export default {
         .then(function (response) {
           if (response.status === 200) {
             self.catalog = response.data
-            self.categoryCount = response.data.categories.length
             self.productCount = self.getProductCount(response.data.categories)
           }
         })

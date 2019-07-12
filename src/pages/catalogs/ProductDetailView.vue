@@ -43,7 +43,7 @@
                 v-for="productPhoto in product.photos"
                 :key="productPhoto.id"
                 :name="productPhoto.id"
-                :img-src="productPhoto.photo"
+                :img-src="productPhoto.photo.small"
               />
             </q-carousel>
           </div>

@@ -205,8 +205,8 @@
                 }"
                 class="q-pa-none">
                 <q-item-section side>
-                  <q-avatar v-if="props.row.photos.length > 1" rounded size="56px">
-                    <img :src="props.row.photos[0].photo">
+                  <q-avatar v-if="props.row.photos.length > 0" rounded size="56px">
+                    <img :src="props.row.photos[0].photo.thumbnail">
                   </q-avatar>
                   <q-avatar v-else color="primary" text-color="white" size="56px">
                     {{ props.row.name.charAt(0).toUpperCase() }}
