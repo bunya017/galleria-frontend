@@ -31,7 +31,7 @@
                 <q-btn size="12px" flat dense round icon="more_vert">
                   <q-menu auto-close>
                     <q-list style="width: 200px;">
-                      <q-item clickable>
+                      <q-item clickable @click="makeDeleteCollectionPayload(collection)">
                         <q-item-section avatar>
                           <q-avatar rounded icon="delete" />
                         </q-item-section>
@@ -48,6 +48,8 @@
         </q-card>
       </div>
     </div>
+
+    <!-- Floating button -->
     <q-page-sticky class="lt-sm" position="bottom-right" :offset="[30, 30]">
       <q-btn fab icon="add" color="primary" />
     </q-page-sticky>
@@ -59,7 +61,12 @@ export default {
   name: 'CollectionList',
   data: function () {
     return {
-      collections: []
+      deleteColl: false,
+      collections: [],
+      deleteCollectionPayload: {
+        name: '',
+        slug: ''
+      }
     }
   },
   methods: {
@@ -79,6 +86,11 @@ export default {
             self.collections = response.data
           }
         })
+    },
+    makeDeleteCollectionPayload: function (payload) {
+      this.deleteColl = true
+      this.deleteCollectionPayload.name = payload.name
+      this.deleteCollectionPayload.slug = payload.slug
     }
   },
   created: function () {
