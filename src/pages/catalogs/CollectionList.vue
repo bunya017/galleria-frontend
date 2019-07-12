@@ -9,9 +9,11 @@
           color="white"
           icon="add"
           label="new collection"
+          @click="newColl = true"
         />
       </div>
     </div>
+
     <!-- Collections List -->
     <div class="row q-pt-sm q-col-gutter-md">
       <div class="col-12" v-for="collection in collections" :key="collection.name">
@@ -64,9 +66,19 @@
       </q-card>
     </q-dialog>
 
+    <!-- New collection dialog -->
+    <q-dialog v-model="newColl" position="top" no-backdrop-dismiss>
+      <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
+        <q-card-section class="text-center">
+          <div class="text-h5">New collection</div>
+          <div class="text-subtitle2">Add new product collection</div>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
     <!-- Floating button -->
     <q-page-sticky class="lt-sm" position="bottom-right" :offset="[30, 30]">
-      <q-btn fab icon="add" color="primary" />
+      <q-btn fab icon="add" color="primary" @click="newColl = true" />
     </q-page-sticky>
   </q-page>
 </template>
@@ -77,6 +89,7 @@ export default {
   data: function () {
     return {
       deleteColl: false,
+      newColl: true,
       collections: [],
       deleteCollectionPayload: {
         name: '',
