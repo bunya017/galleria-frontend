@@ -69,9 +69,29 @@
     <!-- New collection dialog -->
     <q-dialog v-model="newColl" position="top" no-backdrop-dismiss>
       <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
-        <q-card-section class="text-center">
+        <q-card-section>
           <div class="text-h5">New collection</div>
           <div class="text-subtitle2">Add new product collection</div>
+        </q-card-section>
+        <q-card-section class="q-pa-sm">
+          <div class="q-px-sm-md">
+            <form>
+              <q-input
+                ref="name"
+                dense
+                autofocus
+                type="text"
+                label="Name"
+                bottom-slots
+                v-model="newCollection.name"
+                :rules="[ val => !!val || 'This field is required.' ]"
+              >
+                <template v-slot:error>
+                  {{ nameError.message }}
+                </template>
+              </q-input>
+            </form>
+          </div>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -89,8 +109,14 @@ export default {
   data: function () {
     return {
       deleteColl: false,
-      newColl: true,
+      newColl: false,
       collections: [],
+      newCollection: {
+        name: '',
+        catalog: null,
+        description: '',
+        background_image: null
+      },
       deleteCollectionPayload: {
         name: '',
         slug: ''
