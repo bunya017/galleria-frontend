@@ -59,7 +59,7 @@
         </q-card-section>
         <q-card-actions align="right">
           <q-btn flat label="Cancel" color="primary" v-close-popup />
-          <q-btn flat label="Delete" color="negative"/>
+          <q-btn flat label="Delete" color="negative" @click="deleteCollection" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -106,6 +106,21 @@ export default {
       this.deleteColl = true
       this.deleteCollectionPayload.name = payload.name
       this.deleteCollectionPayload.slug = payload.slug
+    },
+    deleteCollection: function () {
+      let self = this
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.delete(
+        'catalogs/' + self.$route.params.catalogSlug + '/collections/' + this.deleteCollectionPayload.slug + '/'
+      )
+        .then(function (response) {
+          if (response.status === 204) {
+            self.getCollectionList()
+            self.deleteColl = false
+          }
+        })
     }
   },
   created: function () {
