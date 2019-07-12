@@ -75,21 +75,24 @@
         </q-card-section>
         <q-card-section class="q-pa-sm">
           <div class="q-px-sm-md">
-            <form>
+            <form class="q-gutter-sm">
               <q-input
                 ref="name"
                 dense
                 autofocus
                 type="text"
                 label="Name"
-                bottom-slots
                 v-model="newCollection.name"
                 :rules="[ val => !!val || 'This field is required.' ]"
-              >
-                <template v-slot:error>
-                  {{ nameError.message }}
-                </template>
-              </q-input>
+              />
+              <q-input
+                ref="description"
+                dense
+                type="textarea"
+                label="description"
+                v-model="newCollection.description"
+                :rules="[ val => !!val || 'This field is required.' ]"
+              />
             </form>
           </div>
         </q-card-section>
