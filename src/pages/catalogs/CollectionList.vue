@@ -81,6 +81,15 @@ export default {
       deleteCollectionPayload: {
         name: '',
         slug: ''
+      },
+      alertPayload: {
+        color: 'positive',
+        textColor: 'white',
+        icon: 'thumb_up',
+        position: 'top',
+        message: '',
+        closeBtn: 'Close',
+        classes: 'q-mt-xl'
       }
     }
   },
@@ -118,9 +127,27 @@ export default {
         .then(function (response) {
           if (response.status === 204) {
             self.getCollectionList()
+            self.alertPayload.message = 'Collection deleted successfully!'
+            self.showAlert(self.alertPayload)
             self.deleteColl = false
           }
         })
+    },
+    showAlert: function (payload) {
+      const {
+        color, textColor, message, icon,
+        position, closeBtn, classes
+      } = payload
+
+      this.$q.notify({
+        color,
+        textColor,
+        icon,
+        message,
+        position,
+        closeBtn,
+        classes
+      })
     }
   },
   created: function () {
