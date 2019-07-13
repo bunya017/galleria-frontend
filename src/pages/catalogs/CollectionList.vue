@@ -138,6 +138,7 @@
               </div>
               <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
                 <q-btn flat label="Cancel" color="negative" v-close-popup />
+                <q-btn flat type="submit" label="Add new" color="primary" />
               </q-card-actions>
             </form>
           </div>
