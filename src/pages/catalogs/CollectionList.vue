@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <div class="row items-center q-pt-sm q-pb-lg">
-      <div class="text-h4 col-12 col-sm-6">Products List</div>
+      <div class="text-h4 col-12 col-sm-6">Collection List</div>
       <div class="col-12 col-sm-6 gt-xs">
         <q-btn
           class="bg-primary float-right"
@@ -75,7 +75,7 @@
         </q-card-section>
         <q-card-section class="q-pa-sm">
           <div class="q-px-sm-md">
-            <form class="q-gutter-sm">
+            <form class="q-gutter-sm q-pb-md">
               <q-input
                 ref="name"
                 dense
@@ -93,6 +93,49 @@
                 v-model="newCollection.description"
                 :rules="[ val => !!val || 'This field is required.' ]"
               />
+              <!-- Background Image input -->
+              <div class="row">
+                <q-uploader
+                  class="col"
+                  ref="bgImageFile"
+                  label="Background Image(optional)"
+                  color="white"
+                  text-color="grey-8"
+                  accept=".png, .jpeg, .jpg, .gif"
+                  hide-upload-btn
+                >
+                  <template v-slot:list="scope">
+                    <q-list separator>
+                      <q-item v-for="file in scope.files" :key="file.name">
+                        <q-item-section>
+                          <q-item-label class="full-width ellipsis">
+                            {{ file.name }}
+                          </q-item-label>
+                          <q-item-label caption>
+                            {{ file.__sizeLabel }}
+                          </q-item-label>
+                        </q-item-section>
+                        <q-item-section
+                          v-if="file.__img"
+                          thumbnail
+                        >
+                          <img :src="file.__img.src" class="bg-image">
+                        </q-item-section>
+                        <q-item-section side>
+                          <q-btn
+                            size="12px"
+                            flat
+                            dense
+                            round
+                            icon="delete"
+                            @click="scope.removeFile(file)"
+                          />
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </template>
+                </q-uploader>
+              </div>
             </form>
           </div>
         </q-card-section>
@@ -198,5 +241,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.bg-image {
+  max-height: 56px;
+  width: auto;
+  border-radius: 5px;
+}
 </style>
