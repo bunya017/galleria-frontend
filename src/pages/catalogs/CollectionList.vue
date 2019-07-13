@@ -75,7 +75,7 @@
         </q-card-section>
         <q-card-section class="q-pa-sm">
           <div class="q-px-sm-md">
-            <form class="q-gutter-sm q-pb-md">
+            <form class="q-gutter-sm">
               <q-input
                 ref="name"
                 dense
@@ -136,6 +136,9 @@
                   </template>
                 </q-uploader>
               </div>
+              <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
+                <q-btn flat label="Cancel" color="negative" v-close-popup />
+              </q-card-actions>
             </form>
           </div>
         </q-card-section>
