@@ -89,7 +89,7 @@
                 ref="description"
                 dense
                 type="textarea"
-                label="description"
+                label="Description"
                 v-model="newCollection.description"
                 :rules="[ val => !!val || 'This field is required.' ]"
               />
@@ -160,6 +160,7 @@ export default {
     return {
       deleteColl: false,
       newColl: false,
+      catalog: null,
       collections: [],
       newCollection: {
         name: '',
@@ -237,10 +238,23 @@ export default {
         closeBtn,
         classes
       })
+    },
+    getCollectionsCatalog: function () {
+      let self = this
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.get(
+        'catalogs/' + self.$route.params.catalogSlug
+      )
+        .then(function (response) {
+          self.catalog = response.data
+        })
     }
   },
   created: function () {
     this.getCollectionList()
+    this.getCollectionsCatalog()
   }
 }
 </script>
