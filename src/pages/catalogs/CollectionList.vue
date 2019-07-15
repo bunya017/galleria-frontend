@@ -67,7 +67,12 @@
     </q-dialog>
 
     <!-- New collection dialog -->
-    <q-dialog v-model="newColl" position="top" no-backdrop-dismiss>
+    <q-dialog
+      v-model="newColl"
+      position="top"
+      no-backdrop-dismiss
+      @hide="clearNewCollectionModel"
+    >
       <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
         <q-card-section>
           <div class="text-h5">New collection</div>
@@ -278,6 +283,12 @@ export default {
             self.newColl = false
           }
         })
+    },
+    clearNewCollectionModel: function () {
+      this.newCollection.name = ''
+      this.newCollection.description = ''
+      this.newCollection.catalog = null
+      this.newCollection.background_image = null
     }
   },
   created: function () {
