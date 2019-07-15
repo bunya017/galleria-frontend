@@ -75,7 +75,7 @@
         </q-card-section>
         <q-card-section class="q-pa-sm">
           <div class="q-px-sm-md">
-            <form class="q-gutter-sm">
+            <form class="q-gutter-sm" v-on:submit.prevent.stop="addNewCollection">
               <q-input
                 ref="name"
                 dense
@@ -249,6 +249,31 @@ export default {
       )
         .then(function (response) {
           self.catalog = response.data
+        })
+    },
+    addNewCollection: function () {
+      let self = this
+      self.newCollection.catalog = self.catalog.id
+      let payload = new FormData()
+      payload.append('name', self.newCollection.name)
+      payload.append('catalog', self.newCollection.catalog)
+      payload.append('description', self.newCollection.description)
+      if (self.newCollection.background_image !== null) {
+        payload.append('background_image', self.newCollection.background_image)
+      }
+
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken(),
+        'Content-Type': 'multipart/form'
+      }
+      self.$axios.post(
+        'catalogs/' + self.$route.params.catalogSlug + '/collections/',
+        payload
+      )
+        .then(function (response) {
+          if (response.status === 201) {
+            console.log('yes')
+          }
         })
     }
   },
