@@ -272,7 +272,10 @@ export default {
       )
         .then(function (response) {
           if (response.status === 201) {
-            console.log('yes')
+            self.getCollectionList()
+            self.alertPayload.message = 'Collection added successfully!'
+            self.showAlert(self.alertPayload)
+            self.newColl = false
           }
         })
     }
