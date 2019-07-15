@@ -52,7 +52,7 @@
     </div>
 
     <!-- Delete collection dialog -->
-    <q-dialog v-model="deleteColl" persistent>
+    <q-dialog v-model="deleteColl" persistent @hide="clearDeleteCollectionModel">
       <q-card>
         <q-card-section class="row items-center">
           <span class="q-ml-md q-py-md text-center">
@@ -73,7 +73,7 @@
       no-backdrop-dismiss
       @hide="clearNewCollectionModel"
     >
-      <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
+      <q-card class="q-mt-lg" style="width: 600px; max-width: 85vw;">
         <q-card-section>
           <div class="text-h5">New collection</div>
           <div class="text-subtitle2">Add new product collection</div>
@@ -152,7 +152,7 @@
     </q-dialog>
 
     <!-- Floating button -->
-    <q-page-sticky class="lt-sm" position="bottom-right" :offset="[30, 30]">
+    <q-page-sticky class="lt-sm" position="bottom-right" :offset="[20, 20]">
       <q-btn fab icon="add" color="primary" @click="newColl = true" />
     </q-page-sticky>
   </q-page>
@@ -289,6 +289,10 @@ export default {
       this.newCollection.description = ''
       this.newCollection.catalog = null
       this.newCollection.background_image = null
+    },
+    clearDeleteCollectionModel: function () {
+      this.deleteCollectionPayload.name = ''
+      this.deleteCollectionPayload.slug = ''
     }
   },
   created: function () {
