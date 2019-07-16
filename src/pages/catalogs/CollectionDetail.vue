@@ -60,7 +60,10 @@
         </q-card-section>
         <q-card-section class="q-pa-sm">
           <div class="q-px-sm-md">
-            <form class="q-gutter-sm">
+            <form
+              class="q-gutter-sm"
+              v-on:submit.prevent.stop="addProductToCollection"
+            >
               <q-select
                 dense
                 lazy-rules
@@ -187,6 +190,24 @@ export default {
           v => v.label.toLowerCase().indexOf(needle) > -1
         )
       })
+    },
+    addProductToCollection: function () {
+      let self = this
+      let payload = {}
+      payload.collection = self.newCollectionProduct.collection
+      payload.product = self.newCollectionProduct.product.value
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.post(
+        'catalogs/' + self.$route.params.catalogSlug + '/collections/' + self.$route.params.collectionSlug + '/products/',
+        payload
+      )
+        .then(function (response) {
+          if (response.status === 201) {
+            console.log('yes')
+          }
+        })
     }
   },
   created: function () {
