@@ -94,6 +94,7 @@ export default {
     return {
       collection: {},
       catalog: {},
+      products: [],
       options: [
         'sdfsfd', 'sdfgsfg'
       ],
@@ -134,6 +135,20 @@ export default {
         .then(function (response) {
           if (response.status === 200) {
             self.catalog = response.data
+          }
+        })
+    },
+    getProducts: function () {
+      let self = this
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.get(
+        'catalogs/' + self.$route.params.catalogSlug + '/products/'
+      )
+        .then(function (response) {
+          if (response.status === 200) {
+            self.products = response.data
           }
         })
     }
