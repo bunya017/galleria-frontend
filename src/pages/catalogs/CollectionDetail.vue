@@ -50,6 +50,7 @@ export default {
     }
   },
   created: function () {
+    this.getCatalog()
     this.getCollectionDetail()
   }
 }
