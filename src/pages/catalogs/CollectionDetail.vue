@@ -6,7 +6,16 @@
 
 <script>
 export default {
-  name: 'CollectionDetail'
+  name: 'CollectionDetail',
+  data: function () {
+    return {
+    }
+  },
+  methods: {
+    getAuthToken: function () {
+      return sessionStorage.getItem('authToken')
+    }
+  }
 }
 </script>
 
