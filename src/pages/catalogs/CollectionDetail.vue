@@ -1,6 +1,9 @@
 <template>
   <q-page padding>
-    <div class="text-h4 col-12 col-sm-6">Collection Detail</div>
+
+    <div v-if="collection" class="text-h4 col-12 col-sm-6">
+      {{ collection.name }} Collection
+    </div>
   </q-page>
 </template>
 
@@ -9,7 +12,8 @@ export default {
   name: 'CollectionDetail',
   data: function () {
     return {
-      collection: {}
+      collection: {},
+      catalog: {}
     }
   },
   methods: {
@@ -27,6 +31,20 @@ export default {
         .then(function (response) {
           if (response.status === 200) {
             self.collection = response.data
+          }
+        })
+    },
+    getCatalog: function () {
+      let self = this
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.get(
+        'catalogs/' + self.$route.params.catalogSlug + '/'
+      )
+        .then(function (response) {
+          if (response.status === 200) {
+            self.catalog = response.data
           }
         })
     }
