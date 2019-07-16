@@ -30,6 +30,9 @@ export default {
           }
         })
     }
+  },
+  created: function () {
+    this.getCollectionDetail()
   }
 }
 </script>
