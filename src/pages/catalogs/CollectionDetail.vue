@@ -65,7 +65,6 @@
                 dense
                 lazy-rules
                 use-input
-                hide-selected
                 :options="options"
                 label="Product"
                 hint="Select product"
@@ -118,7 +117,7 @@ export default {
         .then(function (response) {
           if (response.status === 200) {
             self.collection = response.data
-            self.newProduct.collection = response.data.id
+            self.newCollectionProduct.collection = response.data.id
           }
         })
     },
@@ -146,7 +145,14 @@ export default {
       )
         .then(function (response) {
           if (response.status === 200) {
-            self.products = response.data
+            for (let i = 0; i < response.data.length; i++) {
+              self.products.push({
+                label: response.data[i].name,
+                value: response.data[i].id,
+                description: response.data[i].description,
+                thumbnail: response.data[i].photos[0].photo.thumbnail
+              })
+            }
           }
         })
     },
@@ -154,7 +160,7 @@ export default {
       update(() => {
         const needle = val.toLowerCase()
         this.options = this.products.filter(
-          v => v.name.toLowerCase().indexOf(needle) > -1
+          v => v.label.toLowerCase().indexOf(needle) > -1
         )
       })
     }
