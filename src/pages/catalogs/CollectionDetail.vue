@@ -70,7 +70,27 @@
                 hint="Select product"
                 v-model="newCollectionProduct.product"
                 @filter="filterFunction"
-              />
+              >
+                <template v-slot:option="scope">
+                  <q-item
+                    v-bind="scope.itemProps"
+                    v-on="scope.itemEvents"
+                  >
+                    <q-item-section avatar>
+                      <q-avatar
+                        rounded
+                        size="36px"
+                      >
+                        <img :src="scope.opt.thumbnail">
+                      </q-avatar>
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label v-html="scope.opt.label" />
+                      <q-item-label caption>{{ scope.opt.description }}</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
             </form>
           </div>
         </q-card-section>
