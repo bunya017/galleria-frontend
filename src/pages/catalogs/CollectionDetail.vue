@@ -42,13 +42,17 @@
           color="white"
           icon="add"
           label="add product"
-        />
+        >
+          <q-tooltip>Add new product to this collection</q-tooltip>
+        </q-btn>
       </div>
     </div>
 
     <!-- Floating button -->
     <q-page-sticky class="lt-sm" position="bottom-right" :offset="[20, 20]">
-      <q-btn fab icon="add" color="primary" />
+      <q-btn fab icon="add" color="primary">
+        <q-tooltip>Add new product to this collection</q-tooltip>
+      </q-btn>
     </q-page-sticky>
   </q-page>
 </template>
