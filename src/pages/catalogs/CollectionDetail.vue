@@ -70,7 +70,7 @@
                 label="Product"
                 hint="Select product"
                 v-model="newCollectionProduct.product"
-                style="width: auto;"
+                @filter="filterFunction"
               />
             </form>
           </div>
@@ -149,6 +149,14 @@ export default {
             self.products = response.data
           }
         })
+    },
+    filterFunction: function (val, update, abort) {
+      update(() => {
+        const needle = val.toLowerCase()
+        this.options = this.products.filter(
+          v => v.name.toLowerCase().indexOf(needle) > -1
+        )
+      })
     }
   },
   created: function () {
