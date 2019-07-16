@@ -208,7 +208,23 @@ export default {
             console.log('yes')
           }
         })
-    }
+    },
+    showAlert: function (payload) {
+      const {
+        color, textColor, message, icon,
+        position, closeBtn, classes
+      } = payload
+
+      this.$q.notify({
+        color,
+        textColor,
+        icon,
+        message,
+        position,
+        closeBtn,
+        classes
+      })
+    },
   },
   created: function () {
     this.getCatalog()
