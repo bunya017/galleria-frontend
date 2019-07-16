@@ -95,9 +95,7 @@ export default {
       collection: {},
       catalog: {},
       products: [],
-      options: [
-        'sdfsfd', 'sdfgsfg'
-      ],
+      options: [],
       addProd: false,
       newCollectionProduct: {
         collection: null,
