@@ -156,6 +156,7 @@ export default {
   created: function () {
     this.getCatalog()
     this.getCollectionDetail()
+    this.getProducts()
   }
 }
 </script>
