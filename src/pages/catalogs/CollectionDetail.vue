@@ -42,15 +42,34 @@
           color="white"
           icon="add"
           label="add product"
+          @click="addProd = true"
         >
           <q-tooltip>Add new product to this collection</q-tooltip>
         </q-btn>
       </div>
     </div>
 
+    <!-- Add new products to collection dialog -->
+    <q-dialog v-model="addProd" position="top" no-backdrop-dismiss>
+      <q-card class="q-mt-lg" style="width: 600px; max-width: 85vw;">
+        <q-card-section>
+          <div class="text-h5">Add product</div>
+          <div class="text-subtitle2 text-grey-7 q-py-xs">
+            Add product to {{ collection.name }} collection
+          </div>
+        </q-card-section>
+        <q-card-section class="q-pa-sm">
+          <div class="q-px-sm-md">
+            <form class="q-gutter-sm">
+            </form>
+          </div>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
     <!-- Floating button -->
     <q-page-sticky class="lt-sm" position="bottom-right" :offset="[20, 20]">
-      <q-btn fab icon="add" color="primary">
+      <q-btn fab icon="add" color="primary" @click="addProd = true">
         <q-tooltip>Add new product to this collection</q-tooltip>
       </q-btn>
     </q-page-sticky>
@@ -63,7 +82,12 @@ export default {
   data: function () {
     return {
       collection: {},
-      catalog: {}
+      catalog: {},
+      addProd: false,
+      newProduct: {
+        collection: null,
+        product: null
+      }
     }
   },
   methods: {
@@ -81,6 +105,7 @@ export default {
         .then(function (response) {
           if (response.status === 200) {
             self.collection = response.data
+            self.newProduct.collection = response.data.id
           }
         })
     },
