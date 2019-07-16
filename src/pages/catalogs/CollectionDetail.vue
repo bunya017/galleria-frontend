@@ -46,7 +46,10 @@
       </div>
     </div>
 
-    
+    <!-- Floating button -->
+    <q-page-sticky class="lt-sm" position="bottom-right" :offset="[20, 20]">
+      <q-btn fab icon="add" color="primary" />
+    </q-page-sticky>
   </q-page>
 </template>
 
