@@ -126,7 +126,7 @@
                   label="Background Image(optional)"
                   color="white"
                   text-color="grey-8"
-                  accept=".png, .jpeg, .jpg, .gif"
+                  accept=".jpg, image/*"
                   hide-upload-btn
                 >
                   <template v-slot:list="scope">
@@ -296,8 +296,8 @@ export default {
       payload.append('name', self.newCollection.name)
       payload.append('catalog', self.newCollection.catalog)
       payload.append('description', self.newCollection.description)
-      if (self.newCollection.background_image !== null) {
-        payload.append('background_image', self.newCollection.background_image)
+      if (this.$refs.bgImageFile.files.length > 0) {
+        payload.append('background_image', this.$refs.bgImageFile.files[0])
       }
 
       this.$axios.defaults.headers.common = {
