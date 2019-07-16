@@ -30,9 +30,23 @@
       </q-breadcrumbs>
     </div>
 
-    <div v-if="collection" class="text-h4 col-12 col-sm-6">
-      {{ collection.name }} Collection
+    <!-- Title -->
+    <div v-if="collection"  class="row items-center q-pt-sm q-pb-lg">
+      <div class="text-h4 col-12 col-sm-6">
+        {{ collection.name }} Collection
+      </div>
+      <div class="col-12 col-sm-6 gt-xs">
+        <q-btn
+          class="bg-primary float-right"
+          flat
+          color="white"
+          icon="add"
+          label="add product"
+        />
+      </div>
     </div>
+
+    
   </q-page>
 </template>
 
