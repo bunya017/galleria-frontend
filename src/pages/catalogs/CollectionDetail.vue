@@ -1,5 +1,34 @@
 <template>
   <q-page padding>
+    <!-- Breadcrumbs -->
+    <div class="q-pa-sm q-gutter-sm">
+      <q-breadcrumbs separator=">>">
+        <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
+        <q-breadcrumbs-el
+          v-if="catalog"
+          :label="catalog.name"
+          :to="{
+            name:'catalog-detail',
+            params: {
+              slug: catalog.slug
+            }
+          }"
+        />
+        <q-breadcrumbs-el
+          v-if="catalog"
+          label="Collection List"
+          :to="{
+            name:'collection-list',
+            params: {
+              slug: this.$route.params.catalogSlug
+            }
+          }"
+        />
+        <q-breadcrumbs-el>
+          {{ collection.name }}
+        </q-breadcrumbs-el>
+      </q-breadcrumbs>
+    </div>
 
     <div v-if="collection" class="text-h4 col-12 col-sm-6">
       {{ collection.name }} Collection
