@@ -1,5 +1,21 @@
 <template>
   <q-page padding>
+    <!-- Breadcrumbs -->
+    <div class="q-pa-sm q-gutter-sm">
+      <q-breadcrumbs separator=">>">
+        <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
+        <q-breadcrumbs-el
+          :label="catalog.name"
+          :to="{
+            name:'catalog-detail',
+            params: {
+              slug: this.$route.params.catalogSlug
+            }
+          }"
+        />
+        <q-breadcrumbs-el label="Collection List" />
+      </q-breadcrumbs>
+    </div>
     <div class="row items-center q-pt-sm q-pb-lg">
       <div class="text-h4 col-12 col-sm-6">Collection List</div>
       <div class="col-12 col-sm-6 gt-xs">
@@ -87,12 +103,16 @@
                 autofocus
                 type="text"
                 label="Name"
+                :error="nameError.status"
+                :error-message="nameError.message"
                 v-model="newCollection.name"
                 :rules="[ val => !!val || 'This field is required.' ]"
+                @input="nameError.status = false"
               />
               <q-input
                 ref="description"
                 dense
+                rows="2"
                 type="textarea"
                 label="Description"
                 v-model="newCollection.description"
@@ -106,7 +126,7 @@
                   label="Background Image(optional)"
                   color="white"
                   text-color="grey-8"
-                  accept=".png, .jpeg, .jpg, .gif"
+                  accept=".jpg, image/*"
                   hide-upload-btn
                 >
                   <template v-slot:list="scope">
@@ -185,6 +205,19 @@ export default {
         message: '',
         closeBtn: 'Close',
         classes: 'q-mt-xl'
+      },
+      errorAlertPayload: {
+        color: 'negative',
+        textColor: 'white',
+        icon: 'report_problem',
+        position: 'top',
+        message: '',
+        closeBtn: 'Close',
+        classes: 'q-mt-xl'
+      },
+      nameError: {
+        status: false,
+        message: ''
       }
     }
   },
@@ -263,8 +296,8 @@ export default {
       payload.append('name', self.newCollection.name)
       payload.append('catalog', self.newCollection.catalog)
       payload.append('description', self.newCollection.description)
-      if (self.newCollection.background_image !== null) {
-        payload.append('background_image', self.newCollection.background_image)
+      if (this.$refs.bgImageFile.files.length > 0) {
+        payload.append('background_image', this.$refs.bgImageFile.files[0])
       }
 
       this.$axios.defaults.headers.common = {
@@ -283,12 +316,24 @@ export default {
             self.newColl = false
           }
         })
+        .catch(function (error) {
+          if (error.response.data.name) {
+            if (error.response.data.name[0].indexOf('A collection named') >= 0) {
+              self.errorAlertPayload.message = error.response.data.name[0]
+              self.showAlert(self.errorAlertPayload)
+            }
+            self.nameError.message = error.response.data.name[0]
+            self.nameError.status = true
+          }
+        })
     },
     clearNewCollectionModel: function () {
       this.newCollection.name = ''
       this.newCollection.description = ''
       this.newCollection.catalog = null
       this.newCollection.background_image = null
+      this.nameError.status = false
+      this.nameError.message = ''
     },
     clearDeleteCollectionModel: function () {
       this.deleteCollectionPayload.name = ''
