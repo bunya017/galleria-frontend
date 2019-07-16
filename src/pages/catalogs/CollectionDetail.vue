@@ -61,6 +61,17 @@
         <q-card-section class="q-pa-sm">
           <div class="q-px-sm-md">
             <form class="q-gutter-sm">
+              <q-select
+                dense
+                lazy-rules
+                use-input
+                hide-selected
+                :options="options"
+                label="Product"
+                hint="Select product"
+                v-model="newCollectionProduct.product"
+                style="width: auto;"
+              />
             </form>
           </div>
         </q-card-section>
@@ -83,8 +94,11 @@ export default {
     return {
       collection: {},
       catalog: {},
+      options: [
+        'sdfsfd', 'sdfgsfg'
+      ],
       addProd: false,
-      newProduct: {
+      newCollectionProduct: {
         collection: null,
         product: null
       }
