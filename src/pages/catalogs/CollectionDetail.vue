@@ -135,6 +135,15 @@ export default {
         message: '',
         closeBtn: 'Close',
         classes: 'q-mt-xl'
+      },
+      errorAlertPayload: {
+        color: 'negative',
+        textColor: 'white',
+        icon: 'report_problem',
+        position: 'top',
+        message: '',
+        closeBtn: 'Close',
+        classes: 'q-mt-xl'
       }
     }
   },
