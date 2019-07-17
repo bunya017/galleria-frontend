@@ -5,6 +5,7 @@
       <q-breadcrumbs separator=">>">
         <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
         <q-breadcrumbs-el
+          v-if="catalog"
           :label="catalog.name"
           :to="{
             name:'catalog-detail',
@@ -35,7 +36,16 @@
       <div class="col-12" v-for="collection in collections" :key="collection.name">
         <q-card>
           <q-list>
-            <q-item>
+            <q-item
+              v-if="catalogSlug"
+              :to="{
+                name: 'collection-detail',
+                params: {
+                  catalogSlug: catalogSlug,
+                  collectionSlug: collection.slug
+                }
+              }"
+            >
               <q-item-section avatar>
                 <q-avatar color="primary" text-color="white">
                   {{ collection.name.charAt(0).toUpperCase() }}
@@ -186,6 +196,7 @@ export default {
       deleteColl: false,
       newColl: false,
       catalog: null,
+      catalogSlug: this.$route.params.catalogSlug,
       collections: [],
       newCollection: {
         name: '',
