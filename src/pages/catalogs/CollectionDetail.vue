@@ -50,7 +50,12 @@
     </div>
 
     <!-- Add new products to collection dialog -->
-    <q-dialog v-model="addProd" position="top" no-backdrop-dismiss>
+    <q-dialog
+      v-model="addProd"
+      position="top"
+      no-backdrop-dismiss
+      @hide="newCollectionProduct.product = null"
+    >
       <q-card class="q-mt-lg" style="width: 600px; max-width: 85vw;">
         <q-card-section>
           <div class="text-h5">Add product</div>
