@@ -126,6 +126,15 @@ export default {
       newCollectionProduct: {
         collection: null,
         product: null
+      },
+      alertPayload: {
+        color: 'positive',
+        textColor: 'white',
+        icon: 'thumb_up',
+        position: 'top',
+        message: '',
+        closeBtn: 'Close',
+        classes: 'q-mt-xl'
       }
     }
   },
@@ -205,7 +214,12 @@ export default {
       )
         .then(function (response) {
           if (response.status === 201) {
-            console.log('yes')
+            this.getCatalog()
+            this.getCollectionDetail()
+            this.getProducts()
+            self.alertPayload.message = 'Product added successfully!'
+            self.showAlert(self.alertPayload)
+            self.addProd = false
           }
         })
     },
@@ -224,7 +238,7 @@ export default {
         closeBtn,
         classes
       })
-    },
+    }
   },
   created: function () {
     this.getCatalog()
