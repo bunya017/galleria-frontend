@@ -214,9 +214,9 @@ export default {
       )
         .then(function (response) {
           if (response.status === 201) {
-            this.getCatalog()
-            this.getCollectionDetail()
-            this.getProducts()
+            self.getCatalog()
+            self.getCollectionDetail()
+            self.getProducts()
             self.alertPayload.message = 'Product added successfully!'
             self.showAlert(self.alertPayload)
             self.addProd = false
