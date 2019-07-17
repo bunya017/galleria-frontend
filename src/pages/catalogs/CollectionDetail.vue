@@ -71,8 +71,11 @@
                 :options="options"
                 label="Product"
                 hint="Select product"
+                :error="productError.status"
+                :error-message="productError.message"
                 v-model="newCollectionProduct.product"
                 @filter="filterFunction"
+                @input="productError.status = false"
               >
                 <template v-slot:option="scope">
                   <q-item
@@ -126,6 +129,10 @@ export default {
       newCollectionProduct: {
         collection: null,
         product: null
+      },
+      productError: {
+        status: false,
+        message: ''
       },
       alertPayload: {
         color: 'positive',
@@ -229,6 +236,14 @@ export default {
             self.alertPayload.message = 'Product added successfully!'
             self.showAlert(self.alertPayload)
             self.addProd = false
+          }
+        })
+        .catch(function (error) {
+          if (error.response.data.non_field_errors[0].indexOf('The fields product, collection') > -1) {
+            self.productError.message = 'You already have this product in this collection!'
+            self.productError.status = true
+            self.errorAlertPayload.message = 'You already have this product in this collection!'
+            self.showAlert(self.errorAlertPayload)
           }
         })
     },
