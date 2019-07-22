@@ -31,7 +31,7 @@
     </div>
 
     <!-- Title -->
-    <div v-if="collection"  class="row items-center q-pt-sm q-pb-lg">
+    <div v-if="collection" class="row items-center q-pt-sm q-pb-lg">
       <div class="text-h4 col-12 col-sm-6">
         {{ collection.name }} Collection
       </div>
@@ -46,6 +46,65 @@
         >
           <q-tooltip>Add new product to this collection</q-tooltip>
         </q-btn>
+      </div>
+    </div>
+
+    <!-- Colection products list-->
+    <div class="row q-pt-sm q-col-gutter-md">
+      <div class="col-12" v-for="product in collectionProducts" :key="product.id">
+        <q-card>
+          <q-list>
+            <q-item>
+              <q-item-section avatar>
+                <q-avatar v-if="product.product.photos.length > 0" rounded size="56px">
+                  <img :src="product.product.photos[0].photo.thumbnail">
+                </q-avatar>
+                <q-avatar v-else color="primary" text-color="white">
+                  {{ product.product.name.charAt(0).toUpperCase() }}
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <router-link
+                  :to="{
+                    name: 'product-detail',
+                    params: {
+                      catalogSlug: catalog.slug,
+                      referenceId: product.product.reference_id,
+                      productSlug: product.product.slug
+                    }
+                  }"
+                >
+                  <q-item-label class="text-black">{{ product.product.name }}</q-item-label>
+                  <q-item-label caption lines="1">
+                    {{ product.product.description }}
+                  </q-item-label>
+                  <q-item-label caption class="q-pt-sm text-weight-bold">
+                    ₦{{ product.product.price }}
+                  </q-item-label>
+                </router-link>
+              </q-item-section>
+              <q-item-section side>
+                <q-btn size="12px" flat dense round icon="more_vert">
+                  <q-menu auto-close>
+                    <q-list style="width: 200px;">
+                      <q-item
+                        clickable
+                        @click="makeRemoveProductPayload(product.product)"
+                      >
+                        <q-item-section avatar>
+                          <q-avatar rounded icon="delete" />
+                        </q-item-section>
+                        <q-item-section>
+                          Remove
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                </q-btn>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card>
       </div>
     </div>
 
@@ -103,12 +162,27 @@
                 </template>
               </q-select>
               <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
-                <q-btn flat label="Cancel" color="negative" v-close-popup />
+                <q-btn flat label="Cancel" color="grey-7" v-close-popup />
                 <q-btn flat type="submit" label="Add new" color="primary" />
               </q-card-actions>
             </form>
           </div>
         </q-card-section>
+      </q-card>
+    </q-dialog>
+
+    <!-- Remove product from collection dialog -->
+    <q-dialog v-model="removeProd" persistent>
+      <q-card>
+        <q-card-section class="row items-center">
+          <span class="q-ml-md q-py-md text-center">
+            Are you sure you want to remove <span class="text-weight-bold">{{ removeProductPayload.name }}</span> from this collection?
+          </span>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="grey-7" v-close-popup />
+          <q-btn flat label="Remove" color="primary" @click="removeCollectionProduct" />
+        </q-card-actions>
       </q-card>
     </q-dialog>
 
@@ -128,9 +202,11 @@ export default {
     return {
       collection: {},
       catalog: {},
+      collectionProducts: [],
       products: [],
       options: [],
       addProd: false,
+      removeProd: false,
       newCollectionProduct: {
         collection: null,
         product: null
@@ -156,6 +232,10 @@ export default {
         message: '',
         closeBtn: 'Close',
         classes: 'q-mt-xl'
+      },
+      removeProductPayload: {
+        name: '',
+        productSlug: null
       }
     }
   },
@@ -174,6 +254,7 @@ export default {
         .then(function (response) {
           if (response.status === 200) {
             self.collection = response.data
+            self.collectionProducts = response.data.collection_products
             self.newCollectionProduct.collection = response.data.id
           }
         })
@@ -192,7 +273,7 @@ export default {
           }
         })
     },
-    getProducts: function () {
+    getCatalogProducts: function () {
       let self = this
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
@@ -202,6 +283,8 @@ export default {
       )
         .then(function (response) {
           if (response.status === 200) {
+            self.products = [] // Clear products & options list before pushing
+            self.options = [] // new productList from server
             for (let i = 0; i < response.data.length; i++) {
               self.products.push({
                 label: response.data[i].name,
@@ -237,7 +320,7 @@ export default {
           if (response.status === 201) {
             self.getCatalog()
             self.getCollectionDetail()
-            self.getProducts()
+            self.getCatalogProducts()
             self.alertPayload.message = 'Product added successfully!'
             self.showAlert(self.alertPayload)
             self.addProd = false
@@ -267,15 +350,47 @@ export default {
         closeBtn,
         classes
       })
+    },
+    makeRemoveProductPayload: function (payload) {
+      this.removeProductPayload.name = payload.name
+      this.removeProductPayload.productSlug = payload.slug
+      this.removeProd = true
+    },
+    removeCollectionProduct: function () {
+      let self = this
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.delete(
+        'catalogs/' + self.$route.params.catalogSlug + '/collections/' + self.$route.params.collectionSlug + '/products/' + self.removeProductPayload.productSlug + '/'
+      )
+        .then(function (response) {
+          if (response.status === 204) {
+            self.products = []
+            self.options = []
+            self.getCatalog()
+            self.getCollectionDetail()
+            self.getCatalogProducts()
+            self.alertPayload.message = 'Product removed successfully!'
+            self.showAlert(self.alertPayload)
+            self.removeProd = false
+          }
+        })
+        .catch(function (error) {
+          console.log(error.response)
+        })
     }
   },
   created: function () {
     this.getCatalog()
     this.getCollectionDetail()
-    this.getProducts()
+    this.getCatalogProducts()
   }
 }
 </script>
 
-<style>
+<style scoped>
+a {
+  text-decoration: none;
+}
 </style>
