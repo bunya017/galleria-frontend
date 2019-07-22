@@ -283,6 +283,8 @@ export default {
       )
         .then(function (response) {
           if (response.status === 200) {
+            self.products = [] // Clear products & options list before pushing
+            self.options = [] // new productList from server
             for (let i = 0; i < response.data.length; i++) {
               self.products.push({
                 label: response.data[i].name,
