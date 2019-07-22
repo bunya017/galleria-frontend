@@ -56,11 +56,11 @@
           <q-list>
             <q-item>
               <q-item-section avatar>
-                <q-avatar v-if="product.photos.length > 0" rounded size="56px">
-                  <img :src="product.photos[0].photo.thumbnail">
+                <q-avatar v-if="product.product.photos.length > 0" rounded size="56px">
+                  <img :src="product.product.photos[0].photo.thumbnail">
                 </q-avatar>
                 <q-avatar v-else color="primary" text-color="white">
-                  {{ product.name.charAt(0).toUpperCase() }}
+                  {{ product.product.name.charAt(0).toUpperCase() }}
                 </q-avatar>
               </q-item-section>
               <q-item-section>
@@ -69,17 +69,17 @@
                     name: 'product-detail',
                     params: {
                       catalogSlug: catalog.slug,
-                      referenceId: product.reference_id,
-                      productSlug: product.slug
+                      referenceId: product.product.reference_id,
+                      productSlug: product.product.slug
                     }
                   }"
                 >
-                  <q-item-label class="text-black">{{ product.name }}</q-item-label>
+                  <q-item-label class="text-black">{{ product.product.name }}</q-item-label>
                   <q-item-label caption lines="1">
-                    {{ product.description }}
+                    {{ product.product.description }}
                   </q-item-label>
                   <q-item-label caption class="q-pt-sm text-weight-bold">
-                    ₦{{ product.price }}
+                    ₦{{ product.product.price }}
                   </q-item-label>
                 </router-link>
               </q-item-section>
@@ -87,7 +87,10 @@
                 <q-btn size="12px" flat dense round icon="more_vert">
                   <q-menu auto-close>
                     <q-list style="width: 200px;">
-                      <q-item clickable @click="makeRemoveProductPayload(product)">
+                      <q-item
+                        clickable
+                        @click="makeRemoveProductPayload(product.product)"
+                      >
                         <q-item-section avatar>
                           <q-avatar rounded icon="delete" />
                         </q-item-section>
@@ -251,6 +254,7 @@ export default {
         .then(function (response) {
           if (response.status === 200) {
             self.collection = response.data
+            self.collectionProducts = response.data.collection_products
             self.newCollectionProduct.collection = response.data.id
           }
         })
@@ -279,7 +283,6 @@ export default {
       )
         .then(function (response) {
           if (response.status === 200) {
-            self.collectionProducts = response.data
             for (let i = 0; i < response.data.length; i++) {
               self.products.push({
                 label: response.data[i].name,
@@ -350,6 +353,9 @@ export default {
       this.removeProductPayload.name = payload.name
       this.removeProductPayload.id = payload.id
       this.removeProd = true
+    },
+    removeCollectionProduct: function () {
+
     }
   },
   created: function () {
