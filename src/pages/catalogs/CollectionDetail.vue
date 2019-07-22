@@ -83,6 +83,22 @@
                   </q-item-label>
                 </router-link>
               </q-item-section>
+              <q-item-section side>
+                <q-btn size="12px" flat dense round icon="more_vert">
+                  <q-menu auto-close>
+                    <q-list style="width: 200px;">
+                      <q-item clickable>
+                        <q-item-section avatar>
+                          <q-avatar rounded icon="delete" />
+                        </q-item-section>
+                        <q-item-section>
+                          Remove
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                </q-btn>
+              </q-item-section>
             </q-item>
           </q-list>
         </q-card>
