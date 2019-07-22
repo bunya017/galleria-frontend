@@ -49,21 +49,12 @@
       </div>
     </div>
 
-    <!-- Colection products-->
+    <!-- Colection products list-->
     <div class="row q-pt-sm q-col-gutter-md">
       <div class="col-12" v-for="product in collectionProducts" :key="product.id">
         <q-card>
           <q-list>
-            <q-item
-              :to="{
-                name: 'product-detail',
-                params: {
-                  catalogSlug: catalog.slug,
-                  referenceId: product.reference_id,
-                  productSlug: product.slug
-                }
-              }"
-            >
+            <q-item>
               <q-item-section avatar>
                 <q-avatar v-if="product.photos.length > 0" rounded size="56px">
                   <img :src="product.photos[0].photo.thumbnail">
@@ -73,13 +64,24 @@
                 </q-avatar>
               </q-item-section>
               <q-item-section>
-                <q-item-label>{{ product.name }}</q-item-label>
-                <q-item-label caption  lines="1">
-                  {{ product.description }}
-                </q-item-label>
-                <q-item-label caption class="q-pt-sm text-weight-bold">
-                  ₦{{ product.price }}
-                </q-item-label>
+                <router-link
+                  :to="{
+                    name: 'product-detail',
+                    params: {
+                      catalogSlug: catalog.slug,
+                      referenceId: product.reference_id,
+                      productSlug: product.slug
+                    }
+                  }"
+                >
+                  <q-item-label class="text-black">{{ product.name }}</q-item-label>
+                  <q-item-label caption lines="1">
+                    {{ product.description }}
+                  </q-item-label>
+                  <q-item-label caption class="q-pt-sm text-weight-bold">
+                    ₦{{ product.price }}
+                  </q-item-label>
+                </router-link>
               </q-item-section>
             </q-item>
           </q-list>
@@ -317,5 +319,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+a {
+  text-decoration: none;
+}
 </style>
