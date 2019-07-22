@@ -87,7 +87,7 @@
                 <q-btn size="12px" flat dense round icon="more_vert">
                   <q-menu auto-close>
                     <q-list style="width: 200px;">
-                      <q-item clickable @click="removeProd = true">
+                      <q-item clickable @click="makeRemoveProductPayload(product)">
                         <q-item-section avatar>
                           <q-avatar rounded icon="delete" />
                         </q-item-section>
@@ -173,11 +173,11 @@
       <q-card>
         <q-card-section class="row items-center">
           <span class="q-ml-md q-py-md text-center">
-            Are you sure you want to remove this product?
+            Are you sure you want to remove <span class="text-weight-bold">{{ removeProductPayload.name }}</span> from this collection?
           </span>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn flat label="Cancel" v-close-popup />
+          <q-btn flat label="Cancel" color="grey-7" v-close-popup />
           <q-btn flat label="Delete" color="primary" />
         </q-card-actions>
       </q-card>
@@ -229,6 +229,10 @@ export default {
         message: '',
         closeBtn: 'Close',
         classes: 'q-mt-xl'
+      },
+      removeProductPayload: {
+        name: '',
+        id: null
       }
     }
   },
@@ -341,6 +345,11 @@ export default {
         closeBtn,
         classes
       })
+    },
+    makeRemoveProductPayload: function (payload) {
+      this.removeProductPayload.name = payload.name
+      this.removeProductPayload.id = payload.id
+      this.removeProd = true
     }
   },
   created: function () {
