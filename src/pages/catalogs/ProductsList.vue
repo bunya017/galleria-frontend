@@ -203,7 +203,8 @@
                     productSlug: props.row.slug
                   }
                 }"
-                class="q-pa-none">
+                class="q-pa-none"
+              >
                 <q-item-section side>
                   <q-avatar v-if="props.row.photos.length > 0" rounded size="56px">
                     <img :src="props.row.photos[0].photo.thumbnail">
