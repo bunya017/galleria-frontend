@@ -181,7 +181,7 @@
         </q-card-section>
         <q-card-actions align="right">
           <q-btn flat label="Cancel" color="grey-7" v-close-popup />
-          <q-btn flat label="Delete" color="primary" />
+          <q-btn flat label="Remove" color="primary" @click="removeCollectionProduct" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -235,7 +235,7 @@ export default {
       },
       removeProductPayload: {
         name: '',
-        id: null
+        productSlug: null
       }
     }
   },
@@ -351,8 +351,32 @@ export default {
     },
     makeRemoveProductPayload: function (payload) {
       this.removeProductPayload.name = payload.name
-      this.removeProductPayload.id = payload.id
+      this.removeProductPayload.productSlug = payload.slug
       this.removeProd = true
+    },
+    removeCollectionProduct: function () {
+      let self = this
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.delete(
+        'catalogs/' + self.$route.params.catalogSlug + '/collections/' + self.$route.params.collectionSlug + '/products/' + self.removeProductPayload.productSlug + '/'
+      )
+        .then(function (response) {
+          if (response.status === 204) {
+            self.products = []
+            self.options = []
+            self.getCatalog()
+            self.getCollectionDetail()
+            self.getCatalogProducts()
+            self.alertPayload.message = 'Product removed successfully!'
+            self.showAlert(self.alertPayload)
+            self.removeProd = false
+          }
+        })
+        .catch(function (error) {
+          console.log(error.response)
+        })
     }
   },
   created: function () {
