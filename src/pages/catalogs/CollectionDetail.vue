@@ -273,7 +273,7 @@ export default {
           }
         })
     },
-    getProducts: function () {
+    getCatalogProducts: function () {
       let self = this
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
@@ -318,7 +318,7 @@ export default {
           if (response.status === 201) {
             self.getCatalog()
             self.getCollectionDetail()
-            self.getProducts()
+            self.getCatalogProducts()
             self.alertPayload.message = 'Product added successfully!'
             self.showAlert(self.alertPayload)
             self.addProd = false
@@ -353,15 +353,12 @@ export default {
       this.removeProductPayload.name = payload.name
       this.removeProductPayload.id = payload.id
       this.removeProd = true
-    },
-    removeCollectionProduct: function () {
-
     }
   },
   created: function () {
     this.getCatalog()
     this.getCollectionDetail()
-    this.getProducts()
+    this.getCatalogProducts()
   }
 }
 </script>
