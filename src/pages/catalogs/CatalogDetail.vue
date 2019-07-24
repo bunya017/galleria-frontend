@@ -27,6 +27,7 @@
       </div>
       <div class="col-12 col-sm-6 col-md-3">
         <router-link
+          v-if="catalog.slug"
           :to="{
             name: 'collection-list',
             params: {
@@ -46,6 +47,7 @@
       </div>
       <div class="col-12 col-sm-6 col-md-3">
         <router-link
+          v-if="catalog.slug"
           :to="{
             name: 'products-list',
             params: {
