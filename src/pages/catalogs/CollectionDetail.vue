@@ -65,6 +65,7 @@
               </q-item-section>
               <q-item-section>
                 <router-link
+                  v-if="catalog"
                   :to="{
                     name: 'product-detail',
                     params: {
