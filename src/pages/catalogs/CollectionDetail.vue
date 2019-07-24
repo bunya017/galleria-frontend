@@ -5,7 +5,7 @@
       <q-breadcrumbs separator=">>">
         <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
         <q-breadcrumbs-el
-          v-if="catalog"
+          v-if="catalog.slug"
           :label="catalog.name"
           :to="{
             name:'catalog-detail',
@@ -65,7 +65,7 @@
               </q-item-section>
               <q-item-section>
                 <router-link
-                  v-if="catalog"
+                  v-if="catalog.slug"
                   :to="{
                     name: 'product-detail',
                     params: {
