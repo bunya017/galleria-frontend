@@ -33,6 +33,18 @@
       <q-scroll-area class="fit q-pa-sm">
         <!-- Content here -->
       </q-scroll-area>
+
+      <!-- Hide drawer button -->
+      <div v-if="leftDrawer" class="absolute" style="top: 15px; right: -17px">
+        <q-btn
+          dense
+          round
+          unelevated
+          color="primary"
+          icon="chevron_left"
+          @click="leftDrawer = false"
+        />
+      </div>
     </q-drawer>
 
     <q-page-container>
