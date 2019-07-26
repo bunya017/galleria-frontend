@@ -31,7 +31,17 @@
     >
       <!-- QScrollArea is optional -->
       <q-scroll-area class="fit q-pa-sm">
-        <!-- Content here -->
+        <!-- Navigation menu -->
+        <q-list padding>
+          <q-item clickable v-ripple :to="{name:'my-catalogs'}">
+            <q-item-section avatar>
+              <q-icon name="home" />
+            </q-item-section>
+            <q-item-section>
+              Dashboard
+            </q-item-section>
+          </q-item>
+        </q-list>
       </q-scroll-area>
 
       <!-- Hide drawer button -->
