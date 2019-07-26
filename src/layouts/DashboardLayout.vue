@@ -4,9 +4,6 @@
     <!-- (Optional) The Header -->
     <q-header elevated class="bg-white text-primary">
       <q-toolbar>
-        <q-toolbar-title>
-          Galleria <q-badge color="negative" label="v0.1.0-alpha.1" />
-        </q-toolbar-title>
         <q-btn
           flat
           round
@@ -15,6 +12,9 @@
           class="lt-md"
           @click="leftDrawer = !leftDrawer"
         />
+        <q-toolbar-title>
+          Galleria <q-badge color="negative" label="v0.1.0-alpha.1" />
+        </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
