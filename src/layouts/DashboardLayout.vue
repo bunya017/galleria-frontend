@@ -9,7 +9,6 @@
           round
           dense
           icon="menu"
-          class="lt-md"
           @click="leftDrawer = !leftDrawer"
         />
         <q-toolbar-title>
@@ -52,6 +51,7 @@
           unelevated
           color="primary"
           icon="chevron_left"
+          class="lt-md"
           @click="leftDrawer = false"
         />
       </div>
