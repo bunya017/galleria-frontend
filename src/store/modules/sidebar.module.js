@@ -1,6 +1,12 @@
 export const sidebarModule = {
-  state: {},
+  state: {
+    sidebarCatalogs: {}
+  },
+  mutations: {
+    addSidebarCatalogs (state, catalogList) {
+      state.sidebarCatalogs = catalogList
+    }
+  },
   getters: {},
-  setters: {},
   actions: {}
 }
