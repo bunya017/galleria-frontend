@@ -7,6 +7,10 @@ export const sidebarModule = {
       state.sidebarCatalogs = catalogList
     }
   },
-  getters: {},
+  getters: {
+    getSidebarCatalogs (state) {
+      return state.sidebarCatalogs
+    }
+  },
   actions: {}
 }
