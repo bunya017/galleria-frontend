@@ -1,6 +1,6 @@
 export const sidebarModule = {
-	state: {},
-	getters: {},
-	setters: {},
-	actions: {}
+  state: {},
+  getters: {},
+  setters: {},
+  actions: {}
 }
