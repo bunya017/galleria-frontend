@@ -3,10 +3,18 @@ export const sidebarModule = {
     sidebarCatalogs: []
   },
   mutations: {
-    addSidebarCatalogs (state, catalogList) {
-      state.sidebarCatalogs = catalogList
+    addSidebarCatalogs (state, catalogs) {
+      state.sidebarCatalogs = catalogs
     }
   },
-  getters: {},
-  actions: {}
+  getters: {
+    getSidebarCatalogs (state) {
+      return state.sidebarCatalogs
+    }
+  },
+  actions: {
+    addSidebarCatalogsAction ({ commit }, catalogs) {
+      commit('addSidebarCatalogs', catalogs)
+    }
+  }
 }
