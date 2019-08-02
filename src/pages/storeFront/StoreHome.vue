@@ -11,7 +11,9 @@
                 :ratio="3/2"
               >
                 <div class="absolute-full text-subtitle2 flex flex-center">
-                  Categories
+                  <div class="my-text-head text-uppercase text-weight-thin">
+                    Categories
+                  </div>
                 </div>
               </q-img>
             </q-card>
@@ -23,7 +25,9 @@
                 :ratio="3/2"
               >
                 <div class="absolute-full text-subtitle2 flex flex-center">
-                  Collections
+                  <div class="my-text-head text-uppercase text-weight-thin">
+                    Collections
+                  </div>
                 </div>
               </q-img>
             </q-card>
@@ -61,5 +65,15 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+@media (max-width: 599px) {
+  .my-text-head {
+    font-size: 6vw;
+  }
+}
+@media (min-width: 600px) {
+  .my-text-head {
+    font-size: 5vw;
+  }
+}
 </style>
