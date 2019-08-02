@@ -47,7 +47,7 @@ export default {
   name: 'StoreFrontLayout',
   data () {
     return {
-      leftDrawer: true
+      leftDrawer: false
     }
   }
 }

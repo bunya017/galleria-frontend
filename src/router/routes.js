@@ -69,7 +69,14 @@ const routes = [
   {
     path: '/stores',
     component: () => import('layouts/StoreFrontLayout.vue'),
-    children: []
+    children: [
+      {
+        path: ':catalogSlug/products',
+        name: 'store-product-list',
+        component: () => import('pages/storeFront/StoreProductList.vue'),
+        meta: { requiresAuth: false }
+      }
+    ]
   }
 ]
 
