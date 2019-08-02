@@ -25,6 +25,9 @@ export default {
           }
         })
     }
+  },
+  created: function () {
+    this.getCatalog()
   }
 }
 </script>
