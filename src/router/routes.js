@@ -65,6 +65,11 @@ const routes = [
         meta: { requiresAuth: true }
       }
     ]
+  },
+  {
+    path: '/stores',
+    component: () => import('layouts/StoreFrontLayout.vue'),
+    children: []
   }
 ]
 
