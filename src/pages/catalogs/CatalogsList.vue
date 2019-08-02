@@ -286,6 +286,16 @@ export default {
         .then(function (response) {
           self.catalogs = response.data
           self.catalogsCount = response.data.length
+          let payload = []
+          for (let i = 0; i < response.data.length; i++) {
+            payload.push({
+              name: response.data[i].name,
+              slug: response.data[i].slug
+            })
+          }
+          self.$store.dispatch(
+            'addSidebarCatalogsAction', payload
+          )
         })
     },
     addNewCatalog: function () {

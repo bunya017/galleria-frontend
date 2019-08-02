@@ -4,17 +4,16 @@
     <!-- (Optional) The Header -->
     <q-header elevated class="bg-white text-primary">
       <q-toolbar>
-        <q-toolbar-title>
-          Galleria <q-badge color="negative" label="v0.1.0-alpha.1" />
-        </q-toolbar-title>
         <q-btn
           flat
           round
           dense
           icon="menu"
-          class="lt-md"
           @click="leftDrawer = !leftDrawer"
         />
+        <q-toolbar-title>
+          Galleria <q-badge color="negative" label="v0.1.0-alpha.1" />
+        </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
@@ -31,8 +30,31 @@
     >
       <!-- QScrollArea is optional -->
       <q-scroll-area class="fit q-pa-sm">
-        <!-- Content here -->
+        <!-- Navigation menu -->
+        <q-list padding>
+          <q-item clickable v-ripple :to="{name:'my-catalogs'}">
+            <q-item-section avatar>
+              <q-icon color="grey" name="home" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-black">Dashboard</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
       </q-scroll-area>
+
+      <!-- Hide drawer button -->
+      <div v-if="leftDrawer" class="absolute" style="top: 15px; right: -17px">
+        <q-btn
+          dense
+          round
+          unelevated
+          color="primary"
+          icon="chevron_left"
+          class="lt-md"
+          @click="leftDrawer = false"
+        />
+      </div>
     </q-drawer>
 
     <q-page-container>
