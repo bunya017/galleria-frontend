@@ -1,7 +1,6 @@
 <template>
   <q-page padding>
     <!-- content -->
-    StoreProducts
   </q-page>
 </template>
 
