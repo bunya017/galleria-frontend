@@ -1,7 +1,19 @@
 <template>
   <q-page padding>
     <!-- content -->
-
+    <div class="row">
+      <div class="col-6">
+        <q-card style="width: 100%">
+          <q-img
+            :src="catalog.categories[0].background_image.small"
+          >
+            <div class="absolute-full text-subtitle2 flex flex-center">
+              View by categories
+            </div>
+          </q-img>
+        </q-card>
+      </div>
+    </div>
   </q-page>
 </template>
 
