@@ -34,10 +34,10 @@
         <q-list padding>
           <q-item clickable v-ripple :to="{name:'my-catalogs'}">
             <q-item-section avatar>
-              <q-icon name="home" />
+              <q-icon color="grey" name="home" />
             </q-item-section>
             <q-item-section>
-              Dashboard
+              <q-item-label class="text-black">Dashboard</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
