@@ -8,6 +8,7 @@
             <q-card style="width: 100%">
               <q-img
                 :src="catalog.categories[0].background_image.small"
+                :ratio="3/2"
               >
                 <div class="absolute-full text-subtitle2 flex flex-center">
                   Categories
@@ -19,6 +20,7 @@
             <q-card style="width: 100%">
               <q-img
                 :src="catalog.collections[0].background_image.small"
+                :ratio="3/2"
               >
                 <div class="absolute-full text-subtitle2 flex flex-center">
                   Collections
