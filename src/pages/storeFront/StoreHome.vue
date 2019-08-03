@@ -3,7 +3,7 @@
     <!-- content -->
     <div class="row justify-center">
       <div class="col-12 col-sm-10">
-        <div class="row q-col-gutter-sm">
+        <div class="row q-col-gutter-sm" v-if="catalog">
           <div class="col-6">
             <q-card style="width: 100%">
               <q-img
