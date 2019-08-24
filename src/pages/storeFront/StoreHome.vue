@@ -6,7 +6,13 @@
         <q-img
           :src="catalog.categories[0].background_image.full_size"
           class="my-header-image"
-        />
+        >
+          <div class="absolute-full text-subtitle2 flex flex-center">
+            <div class="my-text-head text-uppercase">
+              {{ catalog.name }}
+            </div>
+          </div>
+        </q-img>
       </div>
       <div class="col-12 col-sm-10 q-pa-sm q-pa-sm-md">
         <!-- Collections & Categories -->
@@ -15,7 +21,7 @@
             <q-card style="width: 100%">
               <q-img
                 :src="catalog.categories[0].background_image.small"
-                style="height: 20vw;"
+                class="my-card-image"
               >
                 <div class="absolute-full text-subtitle2 flex flex-center">
                   <div class="my-text-head text-uppercase text-weight-thin">
@@ -29,7 +35,7 @@
             <q-card style="width: 100%">
               <q-img
                 :src="catalog.collections[0].background_image.small"
-                :ratio="5/2"
+                class="my-card-image"
               >
                 <div class="absolute-full text-subtitle2 flex flex-center">
                   <div class="my-text-head text-uppercase text-weight-thin">
@@ -80,10 +86,16 @@ export default {
   .my-header-image {
     height: 60vw;
   }
+  .my-card-image {
+    height: 25vw;
+  }
 }
 @media (min-width: 600px) {
   .my-text-head {
     font-size: 4vw;
+  }
+  .my-card-image {
+    height: 20vw;
   }
 }
 @media (max-width: 860px) {
