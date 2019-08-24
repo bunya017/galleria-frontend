@@ -1,14 +1,21 @@
 <template>
-  <q-page padding>
+  <q-page>
     <!-- content -->
-    <div class="row justify-center">
-      <div class="col-12 col-sm-10">
+    <div class="row justify-center text-center">
+      <div class="col-12">
+        <q-img
+          :src="catalog.categories[0].background_image.full_size"
+          class="my-header-image"
+        />
+      </div>
+      <div class="col-12 col-sm-10 q-pa-sm q-pa-sm-md">
+        <!-- Collections & Categories -->
         <div class="row q-col-gutter-sm" v-if="catalog">
           <div class="col-6">
             <q-card style="width: 100%">
               <q-img
                 :src="catalog.categories[0].background_image.small"
-                :ratio="3/2"
+                style="height: 20vw;"
               >
                 <div class="absolute-full text-subtitle2 flex flex-center">
                   <div class="my-text-head text-uppercase text-weight-thin">
@@ -22,7 +29,7 @@
             <q-card style="width: 100%">
               <q-img
                 :src="catalog.collections[0].background_image.small"
-                :ratio="3/2"
+                :ratio="5/2"
               >
                 <div class="absolute-full text-subtitle2 flex flex-center">
                   <div class="my-text-head text-uppercase text-weight-thin">
@@ -68,12 +75,30 @@ export default {
 <style scoped>
 @media (max-width: 599px) {
   .my-text-head {
-    font-size: 6vw;
+    font-size: 5vw;
+  }
+  .my-header-image {
+    height: 60vw;
   }
 }
 @media (min-width: 600px) {
   .my-text-head {
-    font-size: 5vw;
+    font-size: 4vw;
+  }
+}
+@media (max-width: 860px) {
+  .my-header-image {
+    height: 50vw;
+  }
+}
+@media (max-width: 999px) {
+  .my-header-image {
+    height: 45vw;
+  }
+}
+@media (min-width: 1000px) {
+  .my-header-image {
+    height: 35vw;
   }
 }
 </style>
