@@ -2,6 +2,7 @@
   <q-page>
     <!-- content -->
     <div class="row justify-center text-center">
+      <!-- Catalog header -->
       <div class="col-12">
         <q-img
           :src="catalog.categories[0].background_image.full_size"
@@ -56,7 +57,8 @@ export default {
   name: 'StoreHome',
   data () {
     return {
-      catalog: {}
+      catalog: {},
+      products: []
     }
   },
   methods: {
@@ -70,47 +72,67 @@ export default {
             self.catalog = response.data
           }
         })
+    },
+    getCatalogProducts: function () {
+      let self = this
+      self.$axios.get(
+        'catalogs/' + self.$route.params.catalogSlug + '/products/'
+      )
+        .then(function (response) {
+          if (response.status === 200) {
+            self.products = response.data
+          }
+        })
     }
   },
   created: function () {
     this.getCatalog()
+    this.getCatalogProducts()
   }
 }
 </script>
 
 <style scoped>
-@media (max-width: 599px) {
-  .my-text-head {
-    font-size: 5vw;
+  @media (max-width: 400px) {
+    .product-slide-vert {
+      height: 60vw;
+    }
   }
-  .my-header-image {
-    height: 60vw;
+  @media (max-width: 599px) {
+    .my-text-head {
+      font-size: 5vw;
+    }
+    .my-header-image {
+      height: 60vw;
+    }
+    .my-card-image {
+      height: 25vw;
+    }
+    .product-slide {
+      width: 30vw;
+    }
   }
-  .my-card-image {
-    height: 25vw;
+  @media (min-width: 600px) {
+    .my-text-head {
+      font-size: 4vw;
+    }
+    .my-card-image {
+      height: 20vw;
+    }
   }
-}
-@media (min-width: 600px) {
-  .my-text-head {
-    font-size: 4vw;
+  @media (max-width: 860px) {
+    .my-header-image {
+      height: 50vw;
+    }
   }
-  .my-card-image {
-    height: 20vw;
+  @media (max-width: 999px) {
+    .my-header-image {
+      height: 45vw;
+    }
   }
-}
-@media (max-width: 860px) {
-  .my-header-image {
-    height: 50vw;
+  @media (min-width: 1000px) {
+    .my-header-image {
+      height: 35vw;
+    }
   }
-}
-@media (max-width: 999px) {
-  .my-header-image {
-    height: 45vw;
-  }
-}
-@media (min-width: 1000px) {
-  .my-header-image {
-    height: 35vw;
-  }
-}
 </style>
