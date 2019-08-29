@@ -1,7 +1,35 @@
 <template>
   <q-page padding>
+    <!-- Breadcrumbs -->
+    <div class="q-pa-sm q-gutter-sm">
+      <q-breadcrumbs
+        separator="/"
+        class="text-uppercase"
+      >
+        <q-breadcrumbs-el
+          label="Store"
+          :to="{
+            name: 'store-home',
+            params: {
+              slug: this.$route.params.catalogSlug
+            }
+          }"
+        />
+        <q-breadcrumbs-el
+          label="Collections"
+          :to="{
+            name: 'store-collection-list',
+            params: {
+              catalogSlug: this.$route.params.catalogSlug
+            }
+          }"
+        />
+        <q-breadcrumbs-el :label="collection.name" />
+      </q-breadcrumbs>
+    </div>
+
     <div class="row justify-center">
-      <!-- Product List -->
+      <!-- Collection products -->
       <div class="col-12 col-sm-10">
         <div class="row q-pt-lg q-pb-xl q-col-gutter-md" v-if="collectionProducts">
           <div
