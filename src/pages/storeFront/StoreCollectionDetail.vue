@@ -1,6 +1,30 @@
 <template>
   <q-page padding>
-    <!-- content -->
+    <div class="row justify-center">
+      <!-- Product List -->
+      <div class="col-12 col-sm-10">
+        <div class="row q-pt-lg q-pb-xl q-col-gutter-md" v-if="collectionProducts">
+          <div
+            class="col-6 col-sm-4 col-md-3"
+            v-for="collectionProduct in collectionProducts"
+            :key="collectionProduct.id"
+          >
+            <q-card>
+              <q-img
+                :src="collectionProduct.product.photos[0].photo.small"
+                :ratio="1"
+              />
+              <q-card-section class="q-pa-xs q-pa-sm-sm text-center">
+                <div class="text-subtitle1 text-capitalize">
+                  {{ collectionProduct.product.name }}
+                </div>
+                <div class="text-subtitle1 q-pt-sm-xs text-grey-8">₦{{ collectionProduct.product.price }}</div>
+              </q-card-section>
+            </q-card>
+          </div>
+        </div>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -10,7 +34,7 @@ export default {
   data () {
     return {
       collection: {},
-      products: []
+      collectionProducts: []
     }
   },
   methods: {
@@ -22,7 +46,7 @@ export default {
         .then(function (response) {
           if (response.status === 200) {
             self.collection = response.data
-            self.products = response.data.collection_products
+            self.collectionProducts = response.data.collection_products
           }
         })
     }
@@ -33,5 +57,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+  a {
+    text-decoration: none;
+  }
 </style>
