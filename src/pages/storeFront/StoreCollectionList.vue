@@ -1,6 +1,25 @@
 <template>
-  <q-page>
-    <!-- content -->
+  <q-page padding>
+    <div class="row q-col-gutter-md" v-if="collections">
+      <div
+        class="col-6 col-sm-4"
+        v-for="collection in collections"
+        :key="collection.id"
+      >
+        <q-card style="width: 100%">
+          <q-img
+            :src="collection.background_image.small"
+            class="my-card-image"
+          >
+            <div class="absolute-full flex flex-center">
+              <div class="my-text-head text-subtitle2 text-capitalize text-weight-thin text-center">
+                {{ collection.name }}
+              </div>
+            </div>
+          </q-img>
+        </q-card>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -32,4 +51,22 @@ export default {
 </script>
 
 <style>
+  @media (max-width: 599px) {
+    .my-text-head {
+      font-size: 5vw;
+      line-height: 4.5vw;
+    }
+    .my-card-image {
+      height: 25vw;
+    }
+  }
+  @media (min-width: 600px) {
+    .my-text-head {
+      font-size: 4vw;
+      line-height: 3.5vw;
+    }
+    .my-card-image {
+      height: 20vw;
+    }
+  }
 </style>
