@@ -33,18 +33,28 @@
             </q-card>
           </div>
           <div class="col-6">
-            <q-card style="width: 100%">
-              <q-img
-                :src="catalog.collections[0].background_image.small"
-                class="my-card-image"
-              >
-                <div class="absolute-full text-subtitle2 flex flex-center">
-                  <div class="my-text-head text-uppercase text-weight-thin">
-                    Collections
+            <router-link
+              v-if="catalog.slug"
+              :to="{
+                name: 'store-collection-list',
+                params: {
+                  catalogSlug: catalog.slug
+                }
+              }"
+            >
+              <q-card style="width: 100%">
+                <q-img
+                  :src="catalog.collections[0].background_image.small"
+                  class="my-card-image"
+                >
+                  <div class="absolute-full text-subtitle2 flex flex-center">
+                    <div class="my-text-head text-uppercase text-weight-thin">
+                      Collections
+                    </div>
                   </div>
-                </div>
-              </q-img>
-            </q-card>
+                </q-img>
+              </q-card>
+            </router-link>
           </div>
         </div>
 
@@ -119,6 +129,9 @@ export default {
 </script>
 
 <style scoped>
+  a {
+    text-decoration: none;
+  }
   @media (max-width: 400px) {
     .product-slide-vert {
       height: 60vw;
