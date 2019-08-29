@@ -18,7 +18,14 @@
         <q-breadcrumbs-el label="Collections" />
       </q-breadcrumbs>
     </div>
-    <div class="row q-col-gutter-md" v-if="collections">
+
+    <!-- Header -->
+    <div class="text-h4 xs q-py-md">Collections</div>
+    <div class="text-h3 sm q-py-md">Collections</div>
+    <div class="text-h2 md q-py-md">Collections</div>
+
+    <!-- Collection List -->
+    <div class="row q-col-gutter-md q-pb-lg" v-if="collections">
       <div
         class="col-6 col-sm-4"
         v-for="collection in collections"
