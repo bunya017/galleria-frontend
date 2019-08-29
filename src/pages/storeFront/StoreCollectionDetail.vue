@@ -26,6 +26,9 @@ export default {
           }
         })
     }
+  },
+  created () {
+    this.getCollectionDetail()
   }
 }
 </script>
