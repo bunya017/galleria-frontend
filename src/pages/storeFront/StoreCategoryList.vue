@@ -31,18 +31,28 @@
         v-for="category in categories"
         :key="category.id"
       >
-        <q-card style="width: 100%">
-          <q-img
-            :src="category.background_image.small"
-            class="my-card-image"
-          >
-            <div class="absolute-full flex flex-center">
-              <div class="my-text-head text-subtitle2 text-capitalize text-weight-thin text-center">
-                {{ category.name }}
+        <router-link
+          :to="{
+            name: 'store-category-detail',
+            params: {
+              catalogSlug: catalogSlug,
+              categorySlug: category.slug
+            }
+          }"
+        >
+          <q-card style="width: 100%">
+            <q-img
+              :src="category.background_image.small"
+              class="my-card-image"
+            >
+              <div class="absolute-full flex flex-center">
+                <div class="my-text-head text-subtitle2 text-capitalize text-weight-thin text-center">
+                  {{ category.name }}
+                </div>
               </div>
-            </div>
-          </q-img>
-        </q-card>
+            </q-img>
+          </q-card>
+        </router-link>
       </div>
     </div>
   </q-page>
@@ -53,6 +63,7 @@ export default {
   name: 'StoreCategoryList',
   data () {
     return {
+      catalogSlug: this.$route.params.catalogSlug,
       categories: []
     }
   },
