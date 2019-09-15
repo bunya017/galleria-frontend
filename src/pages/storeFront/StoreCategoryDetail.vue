@@ -14,6 +14,34 @@
         </div>
       </q-img>
     </div>
+
+    <!-- Breadcrumbs -->
+    <div class="q-pa-md q-gutter-sm">
+      <q-breadcrumbs
+        separator="/"
+        class="text-uppercase"
+      >
+        <q-breadcrumbs-el
+          label="Store"
+          :to="{
+            name: 'store-home',
+            params: {
+              slug: this.$route.params.catalogSlug
+            }
+          }"
+        />
+        <q-breadcrumbs-el
+          label="Categories"
+          :to="{
+            name: 'store-category-list',
+            params: {
+              catalogSlug: this.$route.params.catalogSlug
+            }
+          }"
+        />
+        <q-breadcrumbs-el :label="category.name" />
+      </q-breadcrumbs>
+    </div>
   </q-page>
 </template>
 
