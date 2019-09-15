@@ -31,18 +31,28 @@
         v-for="collection in collections"
         :key="collection.id"
       >
-        <q-card style="width: 100%">
-          <q-img
-            :src="collection.background_image.small"
-            class="my-card-image"
-          >
-            <div class="absolute-full flex flex-center">
-              <div class="my-text-head text-subtitle2 text-capitalize text-weight-thin text-center">
-                {{ collection.name }}
+        <router-link
+          :to="{
+            name: 'store-collection-detail',
+            params: {
+              catalogSlug: catalogSlug,
+              collectionSlug: collection.slug
+            }
+          }"
+        >
+          <q-card style="width: 100%">
+            <q-img
+              :src="collection.background_image.small"
+              class="my-card-image"
+            >
+              <div class="absolute-full flex flex-center">
+                <div class="my-text-head text-subtitle2 text-capitalize text-weight-thin text-center">
+                  {{ collection.name }}
+                </div>
               </div>
-            </div>
-          </q-img>
-        </q-card>
+            </q-img>
+          </q-card>
+        </router-link>
       </div>
     </div>
   </q-page>
@@ -53,6 +63,7 @@ export default {
   name: 'StoreCollectionList',
   data () {
     return {
+      catalogSlug: this.$route.params.catalogSlug,
       collections: []
     }
   },
@@ -75,7 +86,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   @media (max-width: 599px) {
     .my-text-head {
       font-size: 5vw;
