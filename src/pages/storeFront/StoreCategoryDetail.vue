@@ -9,7 +9,7 @@ export default {
   data () {
     return {
       category: {},
-      categoryProducts: []
+      products: []
     }
   },
   methods: {
@@ -21,10 +21,13 @@ export default {
         .then(function (response) {
           if (response.status === 200) {
             self.category = response.data
-            self.categoryProducts = response.data.category_products
+            self.products = response.data.product_entries
           }
         })
     }
+  },
+  created () {
+    this.getCategoryDetail()
   }
 }
 </script>
