@@ -5,7 +5,7 @@
 
 <script>
 export default {
-  name: 'StorecategoryList',
+  name: 'StoreCategoryList',
   data () {
     return {
       categories: []
@@ -23,6 +23,9 @@ export default {
           }
         })
     }
+  },
+  created () {
+    this.getCategoryList()
   }
 }
 </script>
