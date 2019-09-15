@@ -1,7 +1,22 @@
 <template>
-  <q-page padding>
+  <q-page>
+    <!-- Collection header -->
+    <div class="col-12">
+      <q-img
+        :src="collection.background_image.full_size"
+        class="my-header-image"
+      >
+        <div class="absolute-full text-subtitle2 flex flex-center">
+          <!-- Header -->
+          <div class="text-h4 text-uppercase xs q-py-md">{{ collection.name }}</div>
+          <div class="text-h3 text-uppercase sm q-py-md">{{ collection.name }}</div>
+          <div class="text-h2 text-uppercase md q-py-md">{{ collection.name }}</div>
+        </div>
+      </q-img>
+    </div>
+
     <!-- Breadcrumbs -->
-    <div class="q-pa-sm q-gutter-sm">
+    <div class="q-pa-md q-gutter-sm">
       <q-breadcrumbs
         separator="/"
         class="text-uppercase"
@@ -28,8 +43,8 @@
       </q-breadcrumbs>
     </div>
 
+    <!-- Collection products -->
     <div class="row justify-center">
-      <!-- Collection products -->
       <div class="col-12 col-sm-10">
         <div class="row q-pt-lg q-pb-xl q-col-gutter-md" v-if="collectionProducts">
           <div
@@ -88,5 +103,25 @@ export default {
 <style scoped>
   a {
     text-decoration: none;
+  }
+  @media (max-width: 599px) {
+    .my-header-image {
+      height: 45vw;
+    }
+  }
+  @media (max-width: 860px) {
+    .my-header-image {
+      height: 35vw;
+    }
+  }
+  @media (max-width: 999px) {
+    .my-header-image {
+      height: 25vw;
+    }
+  }
+  @media (min-width: 1000px) {
+    .my-header-image {
+      height: 20vw;
+    }
   }
 </style>
