@@ -42,6 +42,32 @@
         <q-breadcrumbs-el :label="category.name" />
       </q-breadcrumbs>
     </div>
+
+    <!-- Category products -->
+    <div class="row justify-center">
+      <div class="col-12 col-sm-10">
+        <div class="row q-pt-lg q-pb-xl q-col-gutter-md" v-if="products">
+          <div
+            class="col-6 col-sm-4 col-md-3"
+            v-for="product in products"
+            :key="product.id"
+          >
+            <q-card>
+              <q-img
+                :src="product.photos[0].photo.small"
+                :ratio="1"
+              />
+              <q-card-section class="q-pa-xs q-pa-sm-sm text-center">
+                <div class="text-subtitle1 text-capitalize">
+                  {{ product.name }}
+                </div>
+                <div class="text-subtitle1 q-pt-sm-xs text-grey-8">₦{{ product.price }}</div>
+              </q-card-section>
+            </q-card>
+          </div>
+        </div>
+      </div>
+    </div>
   </q-page>
 </template>
 
