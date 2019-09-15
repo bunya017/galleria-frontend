@@ -23,6 +23,28 @@
     <div class="text-h4 xs q-py-md">Categories</div>
     <div class="text-h3 sm q-py-md">Categories</div>
     <div class="text-h2 md q-py-md">Categories</div>
+
+    <!-- Category List -->
+    <div class="row q-col-gutter-md q-pb-lg" v-if="categories">
+      <div
+        class="col-6 col-sm-4"
+        v-for="category in categories"
+        :key="category.id"
+      >
+        <q-card style="width: 100%">
+          <q-img
+            :src="category.background_image.small"
+            class="my-card-image"
+          >
+            <div class="absolute-full flex flex-center">
+              <div class="my-text-head text-subtitle2 text-capitalize text-weight-thin text-center">
+                {{ category.name }}
+              </div>
+            </div>
+          </q-img>
+        </q-card>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -52,3 +74,24 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  @media (max-width: 599px) {
+    .my-text-head {
+      font-size: 5vw;
+      line-height: 4.5vw;
+    }
+    .my-card-image {
+      height: 25vw;
+    }
+  }
+  @media (min-width: 600px) {
+    .my-text-head {
+      font-size: 4vw;
+      line-height: 3.5vw;
+    }
+    .my-card-image {
+      height: 20vw;
+    }
+  }
+</style>
