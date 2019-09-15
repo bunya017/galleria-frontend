@@ -19,6 +19,10 @@
       </q-breadcrumbs>
     </div>
 
+    <!-- Header -->
+    <div class="text-h4 xs q-py-md">Categories</div>
+    <div class="text-h3 sm q-py-md">Categories</div>
+    <div class="text-h2 md q-py-md">Categories</div>
   </q-page>
 </template>
 
