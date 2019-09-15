@@ -93,6 +93,12 @@ const routes = [
         name: 'store-collection-detail',
         component: () => import('pages/storeFront/StoreCollectionDetail.vue'),
         meta: { requiresAuth: false }
+      },
+      {
+        path: ':catalogSlug/categories',
+        name: 'store-category-list',
+        component: () => import('pages/storeFront/StoreCategoryList.vue'),
+        meta: { requiresAuth: false }
       }
     ]
   }
