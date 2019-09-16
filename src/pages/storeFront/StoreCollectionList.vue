@@ -1,7 +1,12 @@
 <template>
   <q-page padding>
+    <!-- Header -->
+    <div class="text-h4 xs">Collections</div>
+    <div class="text-h3 sm">Collections</div>
+    <div class="text-h2 md">Collections</div>
+
     <!-- Breadcrumbs -->
-    <div class="q-pa-sm q-gutter-sm">
+    <div class="q-pa-sm q-pa-sm-md q-gutter-sm">
       <q-breadcrumbs
         separator="/"
         class="text-uppercase"
@@ -18,11 +23,6 @@
         <q-breadcrumbs-el label="Collections" />
       </q-breadcrumbs>
     </div>
-
-    <!-- Header -->
-    <div class="text-h4 xs q-py-md">Collections</div>
-    <div class="text-h3 sm q-py-md">Collections</div>
-    <div class="text-h2 md q-py-md">Collections</div>
 
     <!-- Collection List -->
     <div class="row q-col-gutter-md q-pb-lg" v-if="collections">
