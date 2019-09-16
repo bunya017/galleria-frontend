@@ -1,7 +1,12 @@
 <template>
   <q-page padding>
+    <!-- Header -->
+    <div class="text-h4 xs">Categories</div>
+    <div class="text-h3 sm">Categories</div>
+    <div class="text-h2 md">Categories</div>
+
     <!-- Breadcrumbs -->
-    <div class="q-pa-sm q-gutter-sm">
+    <div class="q-pa-sm q-pa-sm-md q-gutter-sm">
       <q-breadcrumbs
         separator="/"
         class="text-uppercase"
@@ -18,11 +23,6 @@
         <q-breadcrumbs-el label="Categories" />
       </q-breadcrumbs>
     </div>
-
-    <!-- Header -->
-    <div class="text-h4 xs q-py-md">Categories</div>
-    <div class="text-h3 sm q-py-md">Categories</div>
-    <div class="text-h2 md q-py-md">Categories</div>
 
     <!-- Category List -->
     <div class="row q-col-gutter-md q-pb-lg" v-if="categories">
