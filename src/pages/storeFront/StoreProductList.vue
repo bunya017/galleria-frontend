@@ -5,6 +5,25 @@
     <div class="text-h3 sm">All Products</div>
     <div class="text-h2 md">All Products</div>
 
+    <!-- Breadcrumbs -->
+    <div class="q-pa-sm q-pa-sm-md q-gutter-sm">
+      <q-breadcrumbs
+        separator="/"
+        class="text-uppercase"
+      >
+        <q-breadcrumbs-el
+          label="Store"
+          :to="{
+            name: 'store-home',
+            params: {
+              slug: this.$route.params.catalogSlug
+            }
+          }"
+        />
+        <q-breadcrumbs-el label="Products" />
+      </q-breadcrumbs>
+    </div>
+
     <!-- Product List -->
     <div class="row justify-center">
       <div class="col-12 col-sm-10">
