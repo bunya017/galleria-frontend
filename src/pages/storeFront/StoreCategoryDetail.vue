@@ -16,7 +16,7 @@
     </div>
 
     <!-- Breadcrumbs -->
-    <div class="q-pa-md q-gutter-sm">
+    <div class="q-pa-sm q-pa-sm-md q-gutter-sm">
       <q-breadcrumbs
         separator="/"
         class="text-uppercase"
@@ -44,26 +44,28 @@
     </div>
 
     <!-- Category products -->
-    <div class="row justify-center">
-      <div class="col-12 col-sm-10">
-        <div class="row q-pt-lg q-pb-xl q-col-gutter-md" v-if="products">
-          <div
-            class="col-6 col-sm-4 col-md-3"
-            v-for="product in products"
-            :key="product.id"
-          >
-            <q-card>
-              <q-img
-                :src="product.photos[0].photo.small"
-                :ratio="1"
-              />
-              <q-card-section class="q-pa-xs q-pa-sm-sm text-center">
-                <div class="text-subtitle1 text-capitalize">
-                  {{ product.name }}
-                </div>
-                <div class="text-subtitle1 q-pt-sm-xs text-grey-8">₦{{ product.price }}</div>
-              </q-card-section>
-            </q-card>
+    <div class="q-px-sm q-px-sm-md">
+      <div class="row justify-center">
+        <div class="col-12 col-sm-10">
+          <div class="row q-pt-sm q-pt-md-md q-pb-xl q-col-gutter-md" v-if="products">
+            <div
+              class="col-6 col-sm-4 col-md-3"
+              v-for="product in products"
+              :key="product.id"
+            >
+              <q-card>
+                <q-img
+                  :src="product.photos[0].photo.small"
+                  :ratio="1"
+                />
+                <q-card-section class="q-pa-xs q-pa-sm-sm text-center">
+                  <div class="text-subtitle1 text-capitalize">
+                    {{ product.name }}
+                  </div>
+                  <div class="text-subtitle1 q-pt-sm-xs text-grey-8">₦{{ product.price }}</div>
+                </q-card-section>
+              </q-card>
+            </div>
           </div>
         </div>
       </div>
@@ -109,17 +111,12 @@ export default {
       height: 45vw;
     }
   }
-  @media (max-width: 860px) {
+  @media (min-width: 860px) {
     .my-header-image {
       height: 35vw;
     }
   }
-  @media (max-width: 999px) {
-    .my-header-image {
-      height: 25vw;
-    }
-  }
-  @media (min-width: 1000px) {
+  @media (min-width: 999px) {
     .my-header-image {
       height: 20vw;
     }
