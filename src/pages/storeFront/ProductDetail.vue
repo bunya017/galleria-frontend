@@ -1,6 +1,33 @@
 <template>
   <q-page padding>
-    <!-- content -->
+    <!-- Breadcrumbs -->
+    <div class="q-pa-sm q-gutter-sm">
+      <q-breadcrumbs
+        separator="/"
+        class="text-uppercase"
+      >
+        <q-breadcrumbs-el
+          label="Store"
+          :to="{
+            name: 'store-home',
+            params: {
+              slug: catalogSlug
+            }
+          }"
+        />
+        <q-breadcrumbs-el
+          :label="product.category.name"
+          :to="{
+            name: 'store-category-detail',
+            params: {
+              catalogSlug: catalogSlug,
+              categorySlug: product.category.slug
+            }
+          }"
+        />
+        <q-breadcrumbs-el :label="product.name" />
+      </q-breadcrumbs>
+    </div>
   </q-page>
 </template>
 
@@ -9,7 +36,8 @@ export default {
   name: 'ProductDetail',
   data () {
     return {
-      product: {}
+      product: {},
+      catalogSlug: this.$route.params.catalogSlug
     }
   },
   methods: {
