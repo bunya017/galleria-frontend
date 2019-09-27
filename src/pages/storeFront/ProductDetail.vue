@@ -28,6 +28,42 @@
         <q-breadcrumbs-el :label="product.name" />
       </q-breadcrumbs>
     </div>
+    <div class="row justify-center">
+
+      <!-- Product Detail -->
+      <div class="col-12 col-md-9 q-pa-sm q-pa-sm-md">
+        <div class="row q-col-gutter-md-md">
+          <!-- Product Images -->
+          <div class="col-12 col-md-6">
+            <q-carousel
+              swipeable
+              arrows
+              animated
+              v-model="imageSlide"
+              thumbnails
+              infinite
+            >
+              <q-carousel-slide
+                contain
+                v-for="productPhoto in product.photos"
+                :key="productPhoto.id"
+                :name="productPhoto.id"
+                :img-src="productPhoto.photo.small"
+              />
+            </q-carousel>
+          </div>
+          <!-- Product Info -->
+          <div class="col-12 col-md-6">
+            <div class="text-uppercase text-h5">{{ product.name }}</div>
+            <div class="q-pt-none text-caption text-italic text-grey-6">
+              in {{ product.category.name }} category.
+            </div>
+            <div class="text-subtitle1 text-grey-9">{{ product.description }}</div>
+            <div class="text-h5">₦ {{ product.price }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -37,6 +73,7 @@ export default {
   data () {
     return {
       product: {},
+      imageSlide: null,
       catalogSlug: this.$route.params.catalogSlug
     }
   },
@@ -49,6 +86,7 @@ export default {
         .then(function (response) {
           if (response.status === 200) {
             self.product = response.data
+            self.imageSlide = response.data.photos[0].id
           }
         })
     }
