@@ -105,6 +105,12 @@ const routes = [
         name: 'store-category-detail',
         component: () => import('pages/storeFront/StoreCategoryDetail.vue'),
         meta: { requiresAuth: false }
+      },
+      {
+        path: ':catalogSlug/products/:referenceId/:productSlug',
+        name: 'store-product-detail',
+        component: () => import('pages/storeFront/StoreProductDetail.vue'),
+        meta: { requiresAuth: false }
       }
     ]
   }
