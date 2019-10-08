@@ -68,7 +68,7 @@
 
 <script>
 export default {
-  name: 'ProductDetail',
+  name: 'StoreProductDetail',
   data () {
     return {
       product: {},

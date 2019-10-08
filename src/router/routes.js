@@ -109,7 +109,7 @@ const routes = [
       {
         path: ':catalogSlug/products/:referenceId/:productSlug',
         name: 'store-product-detail',
-        component: () => import('pages/storeFront/ProductDetail.vue'),
+        component: () => import('pages/storeFront/StoreProductDetail.vue'),
         meta: { requiresAuth: false }
       }
     ]
