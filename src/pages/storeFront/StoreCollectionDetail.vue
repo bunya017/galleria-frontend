@@ -53,18 +53,30 @@
               v-for="collectionProduct in collectionProducts"
               :key="collectionProduct.id"
             >
-              <q-card>
-                <q-img
-                  :src="collectionProduct.product.photos[0].photo.small"
-                  :ratio="1"
-                />
-                <q-card-section class="q-pa-xs q-pa-sm-sm text-center">
-                  <div class="text-subtitle1 text-capitalize">
-                    {{ collectionProduct.product.name }}
-                  </div>
-                  <div class="text-subtitle1 q-pt-sm-xs text-grey-8">₦{{ collectionProduct.product.price }}</div>
-                </q-card-section>
-              </q-card>
+              <router-link
+                v-if="collection.slug"
+                :to="{
+                  name: 'store-product-detail',
+                  params: {
+                    catalogSlug: catalogSlug,
+                    referenceId: collectionProduct.product.reference_id,
+                    productSlug: collectionProduct.product.slug
+                  }
+                }"
+              >
+                <q-card>
+                  <q-img
+                    :src="collectionProduct.product.photos[0].photo.small"
+                    :ratio="1"
+                  />
+                  <q-card-section class="q-pa-xs q-pa-sm-sm text-center">
+                    <div class="text-subtitle1 text-capitalize text-black">
+                      {{ collectionProduct.product.name }}
+                    </div>
+                    <div class="text-subtitle1 q-pt-sm-xs text-grey-8">₦{{ collectionProduct.product.price }}</div>
+                  </q-card-section>
+                </q-card>
+              </router-link>
             </div>
           </div>
         </div>
@@ -78,6 +90,7 @@ export default {
   name: 'StoreCollectionDetail',
   data () {
     return {
+      catalogSlug: this.$route.params.catalogSlug,
       collection: {},
       collectionProducts: []
     }
