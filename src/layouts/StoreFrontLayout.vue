@@ -22,6 +22,11 @@ export default {
   preFetch ({ store, currentRoute }) {
     return store.dispatch('navbar/updateCatalogAction', currentRoute.params.catalogSlug)
   },
-  name: 'StoreFrontLayout'
+  name: 'StoreFrontLayout',
+  computed: {
+    storeCatalog () {
+      return this.$store.state.navbar.catalog
+    }
+  }
 }
 </script>
