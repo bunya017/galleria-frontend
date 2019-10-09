@@ -5,7 +5,7 @@
     <q-header elevated class="bg-white text-primary">
       <q-toolbar>
         <q-toolbar-title>
-          Galleria
+          {{ storeCatalog.name }}
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -19,10 +19,9 @@
 
 <script>
 export default {
-  name: 'StoreFrontLayout',
-  data () {
-    return {
-    }
-  }
+  preFetch ({ store, currentRoute }) {
+    return store.dispatch('navbar/updateCatalogAction', currentRoute.params.catalogSlug)
+  },
+  name: 'StoreFrontLayout'
 }
 </script>
