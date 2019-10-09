@@ -2,7 +2,7 @@
   <q-page padding>
     <div class="row justify-center">
       <!-- Product Detail -->
-      <div class="col-12 col-md-9 q-pa-sm q-pa-sm-md">
+      <div class="col-12 col-md-9 q-pa-sm q-pa-sm-md" v-if="product.category">
         <div class="row q-col-gutter-md-md">
           <!-- Product Images -->
           <div class="col-12 col-md-6">
