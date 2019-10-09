@@ -12,7 +12,7 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-      storeNavbar
+      navbar: storeNavbar
     },
 
     // enable strict mode (adds overhead!)
