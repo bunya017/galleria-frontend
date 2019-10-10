@@ -1,9 +1,9 @@
 <template>
   <q-page>
     <!-- content -->
-    <div class="row justify-center text-center">
+    <div class="row justify-center text-center" v-if="catalog.background_image">
       <!-- Catalog header -->
-      <div class="col-12" v-if="catalog.background_image">
+      <div class="col-12">
         <q-img
           :src="catalog.background_image.full_size"
           class="my-header-image"
@@ -186,7 +186,7 @@ export default {
       height: 50vw;
     }
   }
-  @media (max-width: 999px) {
+  @media (max-width: 999px) and (min-width: 861px) {
     .my-header-image {
       height: 45vw;
     }
