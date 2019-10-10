@@ -2,13 +2,154 @@
   <q-layout view="hHh Lpr fFf"> <!-- Be sure to play with the Layout demo on docs -->
 
     <!-- (Optional) The Header -->
-    <q-header elevated class="bg-white text-primary">
+    <q-header elevated class="bg-white text-primary q-px-md-lg">
       <q-toolbar>
-        <q-toolbar-title>
-          Galleria
-        </q-toolbar-title>
+        <q-btn
+          stretch
+          flat
+          :label="storeCatalog.name"
+          :to="{
+            name: 'store-home',
+            params: {
+              catalogSlug: storeCatalog.slug
+            }
+          }"
+        />
+
+        <q-space />
+
+        <q-btn
+          flat
+          round
+          dense
+          icon="menu"
+          class="lt-md"
+          @click="leftDrawer = !leftDrawer"
+        />
+
+        <q-tabs v-model="tab" shrink class="gt-sm">
+          <q-route-tab
+            exact
+            name="products"
+            label="Products"
+            :to="{
+              name: 'store-product-list',
+              params: {
+                catalogSlug: storeCatalog.slug
+              }
+            }"
+          />
+          <q-route-tab
+            exact
+            name="categories"
+            label="Categories"
+            :to="{
+              name: 'store-category-list',
+              params: {
+                catalogSlug: storeCatalog.slug
+              }
+            }"
+          />
+          <q-route-tab
+            exact
+            name="collections"
+            label="Collections"
+            :to="{
+              name: 'store-collection-list',
+              params: {
+                catalogSlug: storeCatalog.slug
+              }
+            }"
+          />
+        </q-tabs>
       </q-toolbar>
     </q-header>
+
+    <!-- (Optional) A Drawer; you can add one more with side="right" or change this one's side -->
+    <q-drawer
+      v-model="leftDrawer"
+      side="left"
+      bordered
+      no-swipe-open
+      no-swipe-close
+      :width="275"
+      content-class="bg-grey-2"
+    >
+      <!-- QScrollArea is optional -->
+      <q-scroll-area
+        style="max-height: calc(100vh - 200px); margin-top: 200px; border-right: 1px solid #ddd"
+        class="fit q-pa-sm"
+      >
+        <!-- Navigation menu -->
+        <q-list padding>
+          <!--
+          <q-item class="q-py-md">
+            <q-avatar size="200px">
+              <img :src="storeCatalog.logo.small" />
+            </q-avatar>
+          </q-item>
+        -->
+          <q-item
+            clickable
+            v-ripple
+            :to="{
+              name: 'store-product-list',
+              params: {
+                catalogSlug: storeCatalog.slug
+              }
+            }"
+          >
+            <q-item-label class="text-black">Products</q-item-label>
+          </q-item>
+          <q-item
+            clickable
+            v-ripple
+            :to="{
+              name: 'store-category-list',
+              params: {
+                catalogSlug: storeCatalog.slug
+              }
+            }"
+          >
+            <q-item-label class="text-black">Categories</q-item-label>
+          </q-item>
+          <q-item
+            clickable
+            v-ripple
+            :to="{
+              name: 'store-collection-list',
+              params: {
+                catalogSlug: storeCatalog.slug
+              }
+            }"
+          >
+            <q-item-label class="text-black">Collections</q-item-label>
+          </q-item>
+        </q-list>
+      </q-scroll-area>
+
+      <!-- Hide drawer button -->
+      <div v-if="leftDrawer" class="absolute" style="top: 15px; right: -40px">
+        <q-btn
+          dense
+          round
+          unelevated
+          color="primary"
+          icon="chevron_left"
+          class="lt-md"
+          @click="leftDrawer = false"
+        />
+      </div>
+
+      <q-img class="absolute-top" :src="storeCatalog.logo.small" style="height: 200px">
+        <div class="absolute-bottom bg-transparent">
+          <q-avatar size="72px" class="q-mb-sm">
+            <img :src="storeCatalog.logo.small">
+          </q-avatar>
+          <div class="text-weight-bold text-h6">{{ storeCatalog.name }}</div>
+        </div>
+      </q-img>
+    </q-drawer>
     <q-page-container>
       <!-- This is where pages get injected -->
       <router-view />
@@ -19,9 +160,19 @@
 
 <script>
 export default {
+  preFetch ({ store, currentRoute }) {
+    return store.dispatch('navbar/updateCatalogAction', currentRoute.params.catalogSlug)
+  },
   name: 'StoreFrontLayout',
   data () {
     return {
+      tab: '',
+      leftDrawer: false
+    }
+  },
+  computed: {
+    storeCatalog () {
+      return this.$store.state.navbar.catalog
     }
   }
 }

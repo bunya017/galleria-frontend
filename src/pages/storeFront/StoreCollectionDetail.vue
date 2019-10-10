@@ -15,68 +15,71 @@
       </q-img>
     </div>
 
-    <!-- Breadcrumbs -->
-    <div class="q-pa-sm q-pa-sm-md q-gutter-sm">
-      <q-breadcrumbs
-        separator="/"
-        class="text-uppercase"
-      >
-        <q-breadcrumbs-el
-          label="Store"
-          :to="{
-            name: 'store-home',
-            params: {
-              slug: this.$route.params.catalogSlug
-            }
-          }"
-        />
-        <q-breadcrumbs-el
-          label="Collections"
-          :to="{
-            name: 'store-collection-list',
-            params: {
-              catalogSlug: this.$route.params.catalogSlug
-            }
-          }"
-        />
-        <q-breadcrumbs-el :label="collection.name" />
-      </q-breadcrumbs>
-    </div>
+    <div class="q-px-sm-lg q-px-md-xl">
+      <!-- Breadcrumbs -->
+      <div class="q-pa-sm q-pa-sm-md q-gutter-sm">
+        <q-breadcrumbs
+          separator="/"
+          class="text-uppercase"
+        >
+          <q-breadcrumbs-el
+            label="Store"
+            :to="{
+              name: 'store-home',
+              params: {
+                slug: this.$route.params.catalogSlug
+              }
+            }"
+          />
+          <q-breadcrumbs-el
+            label="Collections"
+            :to="{
+              name: 'store-collection-list',
+              params: {
+                catalogSlug: this.$route.params.catalogSlug
+              }
+            }"
+          />
+          <q-breadcrumbs-el :label="collection.name" />
+        </q-breadcrumbs>
+      </div>
 
-    <div class="q-px-sm q-px-sm-md">
-      <!-- Collection products -->
-      <div class="row justify-center">
-        <div class="col-12 col-sm-10">
-          <div class="row q-pt-sm q-pt-md-md q-pb-xl q-col-gutter-md" v-if="collectionProducts">
-            <div
-              class="col-6 col-sm-4 col-md-3"
-              v-for="collectionProduct in collectionProducts"
-              :key="collectionProduct.id"
-            >
-              <router-link
-                v-if="collection.slug"
-                :to="{
-                  name: 'store-product-detail',
-                  params: {
-                    catalogSlug: catalogSlug,
-                    referenceId: collectionProduct.product.reference_id,
-                    productSlug: collectionProduct.product.slug
-                  }
-                }"
+      <!-- Product List -->
+      <div class="q-px-sm q-px-sm-md">
+        <!-- Collection products -->
+        <div class="row justify-center">
+          <div class="col-12">
+            <div class="row q-pt-sm q-pt-md-md q-pb-xl q-col-gutter-md" v-if="collectionProducts">
+              <div
+                class="col-6 col-sm-4 col-md-3"
+                v-for="collectionProduct in collectionProducts"
+                :key="collectionProduct.id"
               >
-                <q-card>
-                  <q-img
-                    :src="collectionProduct.product.photos[0].photo.small"
-                    :ratio="1"
-                  />
-                  <q-card-section class="q-pa-xs q-pa-sm-sm text-center">
-                    <div class="text-subtitle1 text-capitalize text-black">
-                      {{ collectionProduct.product.name }}
-                    </div>
-                    <div class="text-subtitle1 q-pt-sm-xs text-grey-8">₦{{ collectionProduct.product.price }}</div>
-                  </q-card-section>
-                </q-card>
-              </router-link>
+                <router-link
+                  v-if="collection.slug"
+                  :to="{
+                    name: 'store-product-detail',
+                    params: {
+                      catalogSlug: catalogSlug,
+                      referenceId: collectionProduct.product.reference_id,
+                      productSlug: collectionProduct.product.slug
+                    }
+                  }"
+                >
+                  <q-card>
+                    <q-img
+                      :src="collectionProduct.product.photos[0].photo.small"
+                      :ratio="1"
+                    />
+                    <q-card-section class="q-pa-xs q-pa-sm-sm text-center">
+                      <div class="text-subtitle1 text-capitalize text-black">
+                        {{ collectionProduct.product.name }}
+                      </div>
+                      <div class="text-subtitle1 q-pt-sm-xs text-grey-8">₦{{ collectionProduct.product.price }}</div>
+                    </q-card-section>
+                  </q-card>
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
@@ -124,7 +127,7 @@ export default {
       height: 45vw;
     }
   }
-  @media (min-width: 860px) {
+  @media (min-width: 600px) and (max-width: 998px) {
     .my-header-image {
       height: 35vw;
     }
