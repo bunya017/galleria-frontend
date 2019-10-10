@@ -1,6 +1,7 @@
 export default {
   catalog: {
     name: '',
-    slug: ''
+    slug: '',
+    logo: ''
   }
 }
