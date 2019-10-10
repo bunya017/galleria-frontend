@@ -1,58 +1,60 @@
 <template>
-  <q-page padding>
-    <!-- Header -->
-    <div class="text-h4 xs">Categories</div>
-    <div class="text-h3 sm">Categories</div>
-    <div class="text-h2 md">Categories</div>
+  <q-page>
+    <div class="q-px-md-xl q-py-md-sm q-pa-sm">
+      <!-- Header -->
+      <div class="text-h4 xs">Categories</div>
+      <div class="text-h3 sm">Categories</div>
+      <div class="text-h2 md">Categories</div>
 
-    <!-- Breadcrumbs -->
-    <div class="q-pa-sm q-pa-sm-md q-gutter-sm">
-      <q-breadcrumbs
-        separator="/"
-        class="text-uppercase"
-      >
-        <q-breadcrumbs-el
-          label="Store"
-          :to="{
-            name: 'store-home',
-            params: {
-              slug: this.$route.params.catalogSlug
-            }
-          }"
-        />
-        <q-breadcrumbs-el label="Categories" />
-      </q-breadcrumbs>
-    </div>
-
-    <!-- Category List -->
-    <div class="row q-col-gutter-md q-pb-lg" v-if="categories">
-      <div
-        class="col-6 col-sm-4"
-        v-for="category in categories"
-        :key="category.id"
-      >
-        <router-link
-          :to="{
-            name: 'store-category-detail',
-            params: {
-              catalogSlug: catalogSlug,
-              categorySlug: category.slug
-            }
-          }"
+      <!-- Breadcrumbs -->
+      <div class="q-pa-sm q-pa-sm-md q-gutter-sm">
+        <q-breadcrumbs
+          separator="/"
+          class="text-uppercase"
         >
-          <q-card style="width: 100%">
-            <q-img
-              :src="category.background_image.small"
-              class="my-card-image"
-            >
-              <div class="absolute-full flex flex-center">
-                <div class="my-text-head text-subtitle2 text-capitalize text-weight-thin text-center">
-                  {{ category.name }}
+          <q-breadcrumbs-el
+            label="Store"
+            :to="{
+              name: 'store-home',
+              params: {
+                slug: this.$route.params.catalogSlug
+              }
+            }"
+          />
+          <q-breadcrumbs-el label="Categories" />
+        </q-breadcrumbs>
+      </div>
+
+      <!-- Category List -->
+      <div class="row q-col-gutter-md q-pb-lg" v-if="categories">
+        <div
+          class="col-6 col-sm-4"
+          v-for="category in categories"
+          :key="category.id"
+        >
+          <router-link
+            :to="{
+              name: 'store-category-detail',
+              params: {
+                catalogSlug: catalogSlug,
+                categorySlug: category.slug
+              }
+            }"
+          >
+            <q-card style="width: 100%">
+              <q-img
+                :src="category.background_image.small"
+                class="my-card-image"
+              >
+                <div class="absolute-full flex flex-center">
+                  <div class="my-text-head text-subtitle2 text-capitalize text-weight-thin text-center">
+                    {{ category.name }}
+                  </div>
                 </div>
-              </div>
-            </q-img>
-          </q-card>
-        </router-link>
+              </q-img>
+            </q-card>
+          </router-link>
+        </div>
       </div>
     </div>
   </q-page>
