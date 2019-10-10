@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div class="q-px-md-xl q-py-md-sm q-pa-sm">
+    <div class="q-px-md-xl q-py-md-sm q-pa-sm" v-if="categories[0].name">
       <!-- Header -->
       <div class="text-h4 xs">Categories</div>
       <div class="text-h3 sm">Categories</div>
