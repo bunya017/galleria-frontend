@@ -1,53 +1,55 @@
 <template>
-  <q-page padding>
-    <!-- Header -->
-    <div class="text-h4 xs">All Products</div>
-    <div class="text-h3 sm">All Products</div>
-    <div class="text-h2 md">All Products</div>
+  <q-page>
+    <div class="q-px-md-xl q-py-md-sm q-pa-sm">
+      <!-- Header -->
+      <div class="text-h4 xs">All Products</div>
+      <div class="text-h3 sm">All Products</div>
+      <div class="text-h2 md">All Products</div>
 
-    <!-- Breadcrumbs -->
-    <div class="q-pa-sm q-pa-sm-md q-gutter-sm">
-      <q-breadcrumbs
-        separator="/"
-        class="text-uppercase"
-      >
-        <q-breadcrumbs-el
-          label="Store"
-          :to="{
-            name: 'store-home',
-            params: {
-              slug: this.$route.params.catalogSlug
-            }
-          }"
-        />
-        <q-breadcrumbs-el label="Products" />
-      </q-breadcrumbs>
-    </div>
+      <!-- Breadcrumbs -->
+      <div class="q-py-sm q-gutter-sm">
+        <q-breadcrumbs
+          separator="/"
+          class="text-uppercase"
+        >
+          <q-breadcrumbs-el
+            label="Store"
+            :to="{
+              name: 'store-home',
+              params: {
+                slug: this.$route.params.catalogSlug
+              }
+            }"
+          />
+          <q-breadcrumbs-el label="Products" />
+        </q-breadcrumbs>
+      </div>
 
-    <!-- Product List -->
-    <div class="row justify-center">
-      <div class="col-12 col-sm-10">
-        <div class="row q-pt-sm q-pt-md-md q-pb-xl q-col-gutter-md">
-          <div
-            class="col-6 col-sm-4 col-md-3"
-            v-for="product in products"
-            :key="product.id"
-          >
-            <q-card>
-              <q-img
-                :src="product.photos[0].photo.small"
-                :ratio="1"
-              />
-              <q-card-section class="q-pa-xs text-center">
-                <div class="text-subtitle2 text-uppercase">
-                  {{ product.name }}
-                </div>
-                <div class="text-grey-6 q-pa-none text-caption">
-                  {{ product.category.name }}
-                </div>
-                <div class="text-grey-8">₦{{ product.price }}</div>
-              </q-card-section>
-            </q-card>
+      <!-- Product List -->
+      <div class="row justify-center">
+        <div class="col-12 col-sm-10">
+          <div class="row q-pt-sm q-pt-md-md q-pb-xl q-col-gutter-md">
+            <div
+              class="col-6 col-sm-4 col-md-3"
+              v-for="product in products"
+              :key="product.id"
+            >
+              <q-card>
+                <q-img
+                  :src="product.photos[0].photo.small"
+                  :ratio="1"
+                />
+                <q-card-section class="q-pa-xs text-center">
+                  <div class="text-subtitle2 text-uppercase">
+                    {{ product.name }}
+                  </div>
+                  <div class="text-grey-6 q-pa-none text-caption">
+                    {{ product.category.name }}
+                  </div>
+                  <div class="text-grey-8">₦{{ product.price }}</div>
+                </q-card-section>
+              </q-card>
+            </div>
           </div>
         </div>
       </div>
