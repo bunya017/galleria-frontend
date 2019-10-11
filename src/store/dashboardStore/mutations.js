@@ -1,4 +1,4 @@
-/*
-export function someMutation (state) {
+export function setLoggedInStatus (state, payload) {
+  state.isLoggedIn = payload.isLoggedIn
+  state.authToken = payload.authToken
 }
-*/
