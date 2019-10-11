@@ -144,6 +144,13 @@ export default {
         )
           .then(function (response) {
             sessionStorage.setItem('authToken', response.data.token)
+            self.$store.dispatch(
+              'dashStore/setLoggedInStatusAction',
+              {
+                isLoggedIn: true,
+                authToken: response.data.token
+              }
+            )
             self.$router.push({ name: 'my-catalogs' })
           })
           .catch(function (error) {
