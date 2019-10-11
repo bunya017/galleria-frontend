@@ -277,8 +277,9 @@ export default {
     },
     getCatalogs: function () {
       let self = this
+      let authToken = this.$store.dashStore.authToken
       this.$axios.defaults.headers.common = {
-        'Authorization': 'Token ' + self.getAuthToken()
+        'Authorization': 'Token ' + authToken()
       }
       self.$axios.get(
         'catalogs/'
@@ -407,7 +408,7 @@ export default {
         })
     }
   },
-  created: function () {
+  created () {
     this.getCatalogs()
   }
 }
