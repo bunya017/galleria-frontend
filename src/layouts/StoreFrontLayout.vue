@@ -4,17 +4,16 @@
     <!-- (Optional) The Header -->
     <q-header elevated class="bg-white text-primary q-px-md-lg">
       <q-toolbar>
-        <q-btn
-          stretch
-          flat
-          :label="storeCatalog.name"
+        <router-link
           :to="{
             name: 'store-home',
             params: {
               catalogSlug: storeCatalog.slug
             }
           }"
-        />
+        >
+          <q-toolbar-title class="text-primary">{{ storeCatalog.name }}</q-toolbar-title>
+        </router-link>
 
         <q-space />
 
@@ -177,3 +176,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+a {
+  text-decoration: none;
+}
+</style>
