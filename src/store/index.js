@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import storeNavbar from './storeNavbar'
-
+import dashboardStore from './dashboardStore'
 Vue.use(Vuex)
 
 /*
@@ -12,7 +12,8 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-      navbar: storeNavbar
+      navbar: storeNavbar,
+      dashStore: dashboardStore
     },
 
     // enable strict mode (adds overhead!)

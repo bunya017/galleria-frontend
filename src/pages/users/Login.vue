@@ -4,7 +4,7 @@
       <div class="col-12 col-sm-6 col-md-4">
         <q-card class="q-mt-lg" >
           <q-card-section>
-            <div class="text-h4 text-center">Welcome back!</div>
+            <div class="text-h4 text-center">Welcome!</div>
             <div class="tesx-subtitle-2 text-center">
               Log into your galleria acconut.
             </div>
@@ -105,6 +105,13 @@ export default {
       )
         .then(function (response) {
           sessionStorage.setItem('authToken', response.data.token)
+          self.$store.dispatch(
+            'dashStore/setLoggedInStatusAction',
+            {
+              isLoggedIn: true,
+              authToken: response.data.token
+            }
+          )
           self.$router.push({ name: 'my-catalogs' })
         })
         .catch(function (error) {

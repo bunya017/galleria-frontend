@@ -31,13 +31,21 @@
       <!-- QScrollArea is optional -->
       <q-scroll-area class="fit q-pa-sm">
         <!-- Navigation menu -->
-        <q-list padding>
+        <q-list padding seperator>
           <q-item clickable v-ripple :to="{name:'my-catalogs'}">
             <q-item-section avatar>
               <q-icon color="grey" name="home" />
             </q-item-section>
             <q-item-section>
               <q-item-label class="text-black">Dashboard</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item clickable v-ripple @click="logout">
+            <q-item-section avatar>
+              <q-icon color="grey" name="home" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-black">Logout</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -72,6 +80,20 @@ export default {
   data () {
     return {
       leftDrawer: true
+    }
+  },
+  methods: {
+    logout () {
+      let self = this
+      sessionStorage.removeItem('authToken')
+      self.$store.dispatch(
+        'dashStore/setLoggedInStatusAction',
+        {
+          isLoggedIn: false,
+          authToken: ''
+        }
+      )
+      self.$router.push({ name: 'login' })
     }
   }
 }

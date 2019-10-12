@@ -11,7 +11,7 @@
 
         <q-space />
 
-        <q-btn-group flat class="gt-xs">
+        <q-btn-group flat stretch class="gt-xs">
           <q-btn
             flat
             label="Login"
@@ -56,7 +56,7 @@
 
 <script>
 export default {
-  // name: 'LayoutName',
+  name: 'DefaultLayout',
 
   data () {
     return {
