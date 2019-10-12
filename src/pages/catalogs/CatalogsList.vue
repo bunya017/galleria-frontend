@@ -9,7 +9,7 @@
     </div>
 
     <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
-      <div class="col-12 col-sm-6 col-md-3">
+      <div class="col-6 col-md-3">
         <q-card class="cursor-pointer" @click="newCat = true">
           <div class="row justify-center items-center" style="min-height: 100px;">
             <div class="text-center">
@@ -18,7 +18,7 @@
           </div>
         </q-card>
       </div>
-      <div class="col-12 col-sm-6 col-md-3">
+      <div class="col-6 col-md-3">
         <q-card>
           <div class="row justify-center items-center" style="min-height: 100px;">
             <div class="text-center">
@@ -27,7 +27,7 @@
           </div>
         </q-card>
       </div>
-      <div class="col-12 col-sm-6 col-md-3">
+      <div class="col-6 col-md-3">
         <q-card>
           <div class="row justify-center items-center" style="min-height: 100px;">
             <div class="text-center">
@@ -37,7 +37,7 @@
           </div>
         </q-card>
       </div>
-      <div class="col-12 col-sm-6 col-md-3">
+      <div class="col-6 col-md-3">
         <q-card>
           <div class="row justify-center items-center" style="min-height: 100px;">
             <div class="text-center">
@@ -148,7 +148,7 @@
       </q-card>
     </q-dialog>
 
-    <!-- New catalog dialog/modal -->
+    <!-- Catalog List -->
     <div class="text-h5">My Catalogs</div>
     <div class="row q-pt-sm q-pb-xl q-col-gutter-md">
       <div class="col-12">
@@ -277,9 +277,8 @@ export default {
     },
     getCatalogs: function () {
       let self = this
-      let authToken = this.$store.dashStore.authToken
       this.$axios.defaults.headers.common = {
-        'Authorization': 'Token ' + authToken()
+        'Authorization': 'Token ' + self.getAuthToken()
       }
       self.$axios.get(
         'catalogs/'
@@ -294,9 +293,6 @@ export default {
               slug: response.data[i].slug
             })
           }
-          self.$store.dispatch(
-            'addSidebarCatalogsAction', payload
-          )
         })
     },
     addNewCatalog: function () {
