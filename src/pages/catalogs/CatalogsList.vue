@@ -137,6 +137,58 @@
                     {{ contactPhoneError.message }}
                   </template>
                 </q-input>
+                <!-- Background Image uploader -->
+                <div class="row">
+                  <q-uploader
+                    class="col"
+                    label="Background Image"
+                    color="white"
+                    text-color="grey-8"
+                    accept=".png, .jpeg, .jpg, .gif"
+                    hide-upload-btn
+                  >
+                    <template v-slot:list="scope">
+                      <q-list>
+                        <q-item v-for="file in scope.files" :key="file.name">
+                          <q-item-section>
+                            <q-item-label class="full-width ellipsis">
+                              {{ file.name }}
+                            </q-item-label>
+
+                            <q-item-label caption>
+                              Status: {{ file.__status }}
+                            </q-item-label>
+
+                            <q-item-label caption>
+                              {{ file.__sizeLabel }} / {{ file.__progressLabel }}
+                            </q-item-label>
+                          </q-item-section>
+
+                          <q-item-section
+                            v-if="file.__img"
+                            thumbnail
+                            class="gt-xs"
+                          >
+                            <img :src="file.__img.src" class="product-photo">
+                          </q-item-section>
+
+                          <q-item-section top side>
+                            <q-btn
+                              class="gt-xs"
+                              size="12px"
+                              flat
+                              dense
+                              round
+                              icon="delete"
+                              @click="scope.removeFile(file)"
+                            />
+                          </q-item-section>
+                        </q-item>
+
+                      </q-list>
+                    </template>
+                  </q-uploader>
+                </div>
               </div>
               <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
                 <q-btn flat label="Cancel" color="negative" v-close-popup />
@@ -413,5 +465,10 @@ export default {
 <style scoped>
 a {
   text-decoration: none;
+}
+.product-photo {
+  width: 56px;
+  height: 56px;
+  border-radius: 5px;
 }
 </style>
