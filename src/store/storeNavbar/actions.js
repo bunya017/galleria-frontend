@@ -1,8 +1,8 @@
-import axios from 'axios'
+import { axiosInstance } from 'boot/axios'
 
 export function updateCatalogAction ({ commit }, catalogSlug) {
-  return axios.get(
-    'http://localhost:8000/api/catalogs/' + catalogSlug + '/'
+  return axiosInstance.get(
+    'catalogs/' + catalogSlug + '/'
   )
     .then(function (response) {
       if (response.status === 200) {
