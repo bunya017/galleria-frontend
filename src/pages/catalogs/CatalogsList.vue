@@ -137,6 +137,59 @@
                     {{ contactPhoneError.message }}
                   </template>
                 </q-input>
+                <!-- Logo Image uploader -->
+                <div class="row q-pb-md">
+                  <q-uploader
+                    class="col"
+                    ref="logoImage"
+                    label="Logo Image"
+                    color="white"
+                    text-color="grey-8"
+                    accept=".png, .jpeg, .jpg, .gif"
+                    hide-upload-btn
+                  >
+                    <template v-slot:list="scope">
+                      <q-list>
+                        <q-item v-for="file in scope.files" :key="file.name">
+                          <q-item-section>
+                            <q-item-label class="full-width ellipsis">
+                              {{ file.name }}
+                            </q-item-label>
+
+                            <q-item-label caption>
+                              Status: {{ file.__status }}
+                            </q-item-label>
+
+                            <q-item-label caption>
+                              {{ file.__sizeLabel }} / {{ file.__progressLabel }}
+                            </q-item-label>
+                          </q-item-section>
+
+                          <q-item-section
+                            v-if="file.__img"
+                            thumbnail
+                            class="gt-xs"
+                          >
+                            <img :src="file.__img.src" class="product-photo">
+                          </q-item-section>
+
+                          <q-item-section top side>
+                            <q-btn
+                              class="gt-xs"
+                              size="12px"
+                              flat
+                              dense
+                              round
+                              icon="delete"
+                              @click="scope.removeFile(file)"
+                            />
+                          </q-item-section>
+                        </q-item>
+
+                      </q-list>
+                    </template>
+                  </q-uploader>
+                </div>
                 <!-- Background Image uploader -->
                 <div class="row">
                   <q-uploader
@@ -367,6 +420,7 @@ export default {
       }
       let catalogPayload = new FormData()
       let bgImage = self.$refs.bgImage.files
+      let logoImage = self.$refs.logoImage.files
       catalogPayload.append('name', self.newCatalog.name)
       catalogPayload.append('description', self.newCatalog.description)
       catalogPayload.append('contact_address', self.newCatalog.contact_address)
@@ -374,6 +428,9 @@ export default {
       catalogPayload.append('contact_phone', self.newCatalog.contact_phone)
       if (bgImage.length === 1) {
         catalogPayload.append('background_image', bgImage[0])
+      }
+      if (logoImage.length === 1) {
+        catalogPayload.append('logo_image', logoImage[0])
       }
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken(),
