@@ -420,6 +420,7 @@ export default {
       }
       let catalogPayload = new FormData()
       let bgImage = self.$refs.bgImage.files
+      let logoImage = self.$refs.logoImage.files
       catalogPayload.append('name', self.newCatalog.name)
       catalogPayload.append('description', self.newCatalog.description)
       catalogPayload.append('contact_address', self.newCatalog.contact_address)
@@ -427,6 +428,9 @@ export default {
       catalogPayload.append('contact_phone', self.newCatalog.contact_phone)
       if (bgImage.length === 1) {
         catalogPayload.append('background_image', bgImage[0])
+      }
+      if (logoImage.length === 1) {
+        catalogPayload.append('logo_image', logoImage[0])
       }
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken(),
