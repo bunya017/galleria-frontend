@@ -141,6 +141,7 @@
                 <div class="row">
                   <q-uploader
                     class="col"
+                    ref="bgImage"
                     label="Background Image"
                     color="white"
                     text-color="grey-8"
@@ -364,12 +365,23 @@ export default {
       ) {
         self.formHasError = true
       }
+      let catalogPayload = new FormData()
+      let bgImage = self.$refs.bgImage.files
+      catalogPayload.append('name', self.newCatalog.name)
+      catalogPayload.append('description', self.newCatalog.description)
+      catalogPayload.append('contact_address', self.newCatalog.contact_address)
+      catalogPayload.append('contact_email', self.newCatalog.contact_email)
+      catalogPayload.append('contact_phone', self.newCatalog.contact_phone)
+      if (bgImage.length === 1) {
+        catalogPayload.append('background_image', bgImage[0])
+      }
       this.$axios.defaults.headers.common = {
-        'Authorization': 'Token ' + self.getAuthToken()
+        'Authorization': 'Token ' + self.getAuthToken(),
+        'Content-Type': 'multipart/form'
       }
       self.$axios.post(
         'catalogs/',
-        self.newCatalog
+        catalogPayload
       )
         .then(function (response) {
           if (response.status === 201) {
