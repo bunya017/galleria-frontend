@@ -11,20 +11,20 @@
 
         <q-space />
 
-        <q-btn-group flat stretch class="gt-xs">
-          <q-btn
-            flat
+        <q-tabs v-model="tab" shrink class="gt-sm">
+          <q-route-tab
+            exact
+            name="login"
             label="Login"
-            type="a"
             to="/login"
           />
-          <q-btn
-            flat
+          <q-route-tab
+            exact
+            name="signup"
             label="Signup"
-            type="a"
             to="/signup"
           />
-        </q-btn-group>
+        </q-tabs>
 
         <q-btn flat icon="menu" class="xs">
           <q-menu auto-close>
@@ -57,10 +57,10 @@
 <script>
 export default {
   name: 'DefaultLayout',
-
   data () {
     return {
-      leftDrawer: true
+      leftDrawer: true,
+      tab: ''
     }
   }
 }
