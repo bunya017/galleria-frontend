@@ -33,10 +33,10 @@
         <!-- Navigation menu -->
         <q-list padding seperator>
           <q-item clickable v-ripple :to="{name:'my-catalogs'}">
-            <q-item-label class="text-black">Dashboard</q-item-label>
+            <q-item-label header class="text-black">Dashboard</q-item-label>
           </q-item>
           <q-item clickable v-ripple @click="logout">
-            <q-item-label class="text-black">Logout</q-item-label>
+            <q-item-label header class="text-black">Logout</q-item-label>
           </q-item>
         </q-list>
       </q-scroll-area>
