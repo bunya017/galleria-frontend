@@ -132,7 +132,10 @@
           <q-list>
             <q-item>
               <q-item-section avatar>
-                <q-avatar color="primary" text-color="white">
+                <q-avatar v-if="category.background_image.thumbnail" size="56px">
+                  <img :src="category.background_image.thumbnail">
+                </q-avatar>
+                <q-avatar v-else color="primary" size="56px" text-color="white">
                   {{ getFirstLetters(category.name) }}
                 </q-avatar>
               </q-item-section>
