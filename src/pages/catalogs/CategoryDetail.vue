@@ -8,7 +8,7 @@
 export default {
   name: 'CategoryDetail',
   data () {
-  	return {}
+    return {}
   }
 }
 </script>
