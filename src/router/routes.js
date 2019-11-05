@@ -35,37 +35,37 @@ const routes = [
         meta: { requiresAuth: true }
       },
       {
-        path: 'c/:slug',
+        path: ':slug',
         name: 'catalog-detail',
         component: () => import('pages/catalogs/CatalogDetail.vue'),
         meta: { requiresAuth: true }
       },
       {
-        path: 'c/:catalogSlug/products',
+        path: ':catalogSlug/products',
         name: 'products-list',
         component: () => import('pages/catalogs/ProductsList.vue'),
         meta: { requiresAuth: true }
       },
       {
-        path: 'c/:catalogSlug/product/:referenceId/:productSlug',
+        path: ':catalogSlug/product/:referenceId/:productSlug',
         name: 'product-detail',
         component: () => import('pages/catalogs/ProductDetailView.vue'),
         meta: { requiresAuth: true }
       },
       {
-        path: 'c/:catalogSlug/collections',
+        path: ':catalogSlug/collections',
         name: 'collection-list',
         component: () => import('pages/catalogs/CollectionList.vue'),
         meta: { requiresAuth: true }
       },
       {
-        path: 'c/:catalogSlug/collections/:collectionSlug',
+        path: ':catalogSlug/collections/:collectionSlug',
         name: 'collection-detail',
         component: () => import('pages/catalogs/CollectionDetail.vue'),
         meta: { requiresAuth: true }
       },
       {
-        path: 'c/:catalogSlug/categories/:categorySlug',
+        path: ':catalogSlug/categories/:categorySlug',
         name: 'category-detail',
         component: () => import('pages/catalogs/CategoryDetail.vue'),
         meta: { requiresAuth: true }
