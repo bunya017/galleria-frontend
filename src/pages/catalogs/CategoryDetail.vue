@@ -1,6 +1,32 @@
 <template>
   <q-page padding>
-    <!-- content -->
+    <!-- Breadcrumbs -->
+    <div class="q-pa-sm q-gutter-sm">
+      <q-breadcrumbs separator="/">
+        <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
+        <q-breadcrumbs-el
+          v-if="catalog"
+          :label="catalog.name"
+          :to="{
+            name:'catalog-detail',
+            params: {
+              slug: this.$route.params.catalogSlug
+            }
+          }"
+        />
+        <q-breadcrumbs-el
+          v-if="catalog"
+          label="Categories"
+          :to="{
+            name:'catalog-detail',
+            params: {
+              slug: this.$route.params.catalogSlug
+            }
+          }"
+        />
+        <q-breadcrumbs-el :label="category.name" />
+      </q-breadcrumbs>
+    </div>
   </q-page>
 </template>
 
