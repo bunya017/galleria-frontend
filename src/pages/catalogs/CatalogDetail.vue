@@ -137,8 +137,18 @@
                 </q-avatar>
               </q-item-section>
               <q-item-section>
-                <q-item-label>{{ category.name }}</q-item-label>
-                <q-item-label caption>{{ category.description }}</q-item-label>
+                <router-link
+                  :to="{
+                    name: 'category-detail',
+                    params: {
+                      catalogSlug: catalog.slug,
+                      categorySlug: category.slug
+                    }
+                  }"
+                >
+                  <q-item-label class="text-black">{{ category.name }}</q-item-label>
+                  <q-item-label caption>{{ category.description }}</q-item-label>
+                </router-link>
               </q-item-section>
               <q-item-section side>
                 <q-btn size="12px" flat dense round icon="more_vert">
