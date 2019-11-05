@@ -27,6 +27,13 @@
         <q-breadcrumbs-el :label="category.name" />
       </q-breadcrumbs>
     </div>
+
+    <!-- Title -->
+    <div v-if="category" class="row items-center q-pt-sm q-pb-lg">
+      <div class="text-h4 col-12 col-sm-6">
+        {{ category.name }} Category
+      </div>
+    </div>
   </q-page>
 </template>
 
