@@ -38,22 +38,28 @@
           <q-list>
             <q-item
               v-if="catalogSlug"
-              :to="{
-                name: 'collection-detail',
-                params: {
-                  catalogSlug: catalogSlug,
-                  collectionSlug: collection.slug
-                }
-              }"
             >
               <q-item-section avatar>
-                <q-avatar color="primary" text-color="white">
+                <q-avatar v-if="collection.background_image.thumbnail" size="56px">
+                  <img :src="collection.background_image.thumbnail">
+                </q-avatar>
+                <q-avatar v-else color="primary" size="56px" text-color="white">
                   {{ collection.name.charAt(0).toUpperCase() }}
                 </q-avatar>
               </q-item-section>
               <q-item-section>
-                <q-item-label>{{ collection.name }}</q-item-label>
-                <q-item-label caption>{{ collection.description }}</q-item-label>
+                <router-link
+                  :to="{
+                    name: 'collection-detail',
+                    params: {
+                      catalogSlug: catalogSlug,
+                      collectionSlug: collection.slug
+                    }
+                  }"
+                >
+                  <q-item-label class="text-black">{{ collection.name }}</q-item-label>
+                  <q-item-label caption>{{ collection.description }}</q-item-label>
+                </router-link>
               </q-item-section>
               <q-item-section side>
                 <q-btn size="12px" flat dense round icon="more_vert">
@@ -359,6 +365,9 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+}
 .bg-image {
   max-height: 56px;
   width: auto;

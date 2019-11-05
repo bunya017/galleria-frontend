@@ -63,6 +63,12 @@ const routes = [
         name: 'collection-detail',
         component: () => import('pages/catalogs/CollectionDetail.vue'),
         meta: { requiresAuth: true }
+      },
+      {
+        path: 'c/:catalogSlug/categories/:categorySlug',
+        name: 'category-detail',
+        component: () => import('pages/catalogs/CategoryDetail.vue'),
+        meta: { requiresAuth: true }
       }
     ]
   },

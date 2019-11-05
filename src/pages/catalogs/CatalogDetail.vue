@@ -132,13 +132,26 @@
           <q-list>
             <q-item>
               <q-item-section avatar>
-                <q-avatar color="primary" text-color="white">
+                <q-avatar v-if="category.background_image.thumbnail" size="56px">
+                  <img :src="category.background_image.thumbnail">
+                </q-avatar>
+                <q-avatar v-else color="primary" size="56px" text-color="white">
                   {{ getFirstLetters(category.name) }}
                 </q-avatar>
               </q-item-section>
               <q-item-section>
-                <q-item-label>{{ category.name }}</q-item-label>
-                <q-item-label caption>{{ category.description }}</q-item-label>
+                <router-link
+                  :to="{
+                    name: 'category-detail',
+                    params: {
+                      catalogSlug: catalog.slug,
+                      categorySlug: category.slug
+                    }
+                  }"
+                >
+                  <q-item-label class="text-black">{{ category.name }}</q-item-label>
+                  <q-item-label caption>{{ category.description }}</q-item-label>
+                </router-link>
               </q-item-section>
               <q-item-section side>
                 <q-btn size="12px" flat dense round icon="more_vert">
