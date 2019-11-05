@@ -33,10 +33,20 @@
         <!-- Navigation menu -->
         <q-list padding seperator>
           <q-item clickable v-ripple :to="{name:'my-catalogs'}">
-            <q-item-label header class="text-black">Dashboard</q-item-label>
+            <q-item-section avatar>
+              <q-icon name="home" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label header class="text-black">Dashboard</q-item-label>
+            </q-item-section>
           </q-item>
           <q-item clickable v-ripple @click="logout">
-            <q-item-label header class="text-black">Logout</q-item-label>
+            <q-item-section avatar>
+              <q-icon name="reply" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label header class="text-black">Logout</q-item-label>
+            </q-item-section>
           </q-item>
         </q-list>
       </q-scroll-area>
