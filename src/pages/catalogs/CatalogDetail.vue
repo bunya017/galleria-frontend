@@ -314,12 +314,20 @@ export default {
         self.formHasError = true
       } else {
         self.newCategory.catalog = self.catalog.id
+        let payload = new FormData()
+        payload.append('name', self.newCategory.name)
+        payload.append('catalog', self.newCategory.catalog)
+        payload.append('description', self.newCategory.description)
+        if (this.$refs.bgImageFile.files.length > 0) {
+          payload.append('background_image', this.$refs.bgImageFile.files[0])
+        }
         this.$axios.defaults.headers.common = {
-          'Authorization': 'Token ' + self.getAuthToken()
+          'Authorization': 'Token ' + self.getAuthToken(),
+          'Content-Type': 'multipart/form'
         }
         self.$axios.post(
           'catalogs/' + self.catalog.slug + '/categories/',
-          self.newCategory
+          payload
         )
           .then(function (response) {
             if (response.status === 201) {
