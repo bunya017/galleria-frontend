@@ -40,7 +40,10 @@
               v-if="catalogSlug"
             >
               <q-item-section avatar>
-                <q-avatar color="primary" text-color="white">
+                <q-avatar v-if="collection.background_image.thumbnail" size="56px">
+                  <img :src="collection.background_image.thumbnail">
+                </q-avatar>
+                <q-avatar v-else color="primary" size="56px" text-color="white">
                   {{ collection.name.charAt(0).toUpperCase() }}
                 </q-avatar>
               </q-item-section>
