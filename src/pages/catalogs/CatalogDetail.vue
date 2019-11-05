@@ -386,7 +386,7 @@ export default {
         'Authorization': 'Token ' + self.getAuthToken()
       }
       self.$axios.delete(
-        'catalogs/' + self.catalog.slug + '/' + self.deleteCategorySlug + '/',
+        'catalogs/' + self.catalog.slug + '/categories/' + self.deleteCategorySlug + '/',
         self.deleteCategoryPayload
       )
         .then(function (response) {
