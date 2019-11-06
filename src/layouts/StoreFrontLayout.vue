@@ -140,10 +140,11 @@
         />
       </div>
 
-      <q-img class="absolute-top" :src="storeCatalog.logo.small" style="height: 200px">
+      <q-img class="absolute-top" :src="storeCatalog.backgroundImage.small" style="height: 200px">
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="72px" class="q-mb-sm">
-            <img :src="storeCatalog.logo.small">
+            <img v-if="storeCatalog.logo.thumbnail" :src="storeCatalog.logo.thumbnail">
+            <img v-else :src="storeCatalog.backgroundImage.small">
           </q-avatar>
           <div class="text-weight-bold text-h6">{{ storeCatalog.name }}</div>
         </div>
