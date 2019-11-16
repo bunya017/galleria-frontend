@@ -21,6 +21,15 @@
           flat
           round
           dense
+          icon="search"
+          class="lt-md"
+          v-if="!toggleSearch"
+          @click="toggleSearch = true"
+        />
+        <q-btn
+          flat
+          round
+          dense
           icon="menu"
           class="lt-md"
           @click="leftDrawer = !leftDrawer"
@@ -167,7 +176,8 @@ export default {
   data () {
     return {
       tab: '',
-      leftDrawer: false
+      leftDrawer: false,
+      toggleSearch: false
     }
   },
   computed: {
