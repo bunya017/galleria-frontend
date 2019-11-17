@@ -5,6 +5,7 @@
     <q-header elevated class="bg-white text-primary q-px-md-lg">
       <q-toolbar>
         <router-link
+          v-if="!toggleSearch"
           :to="{
             name: 'store-home',
             params: {
@@ -16,6 +17,21 @@
         </router-link>
 
         <q-space />
+
+        <q-select
+          hide-dropdown-icon
+          v-model="searchPayload"
+          :options="options"
+          label="Search products"
+          style="width: 99vw;"
+          dense
+          behavior="menu"
+          v-if="toggleSearch"
+        >
+          <template v-slot:prepend>
+            <q-icon name="keyboard_backspace" color="primary" @click.stop="toggleSearch = false" />
+          </template>
+        </q-select>
 
         <q-btn
           flat
@@ -32,6 +48,7 @@
           dense
           icon="menu"
           class="lt-md"
+          v-if="!toggleSearch"
           @click="leftDrawer = !leftDrawer"
         />
 
@@ -177,7 +194,11 @@ export default {
     return {
       tab: '',
       leftDrawer: false,
-      toggleSearch: false
+      toggleSearch: false,
+      searchPayload: '',
+      options: [
+        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
+      ]
     }
   },
   computed: {
