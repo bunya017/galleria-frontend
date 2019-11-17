@@ -4,6 +4,16 @@
     <!-- (Optional) The Header -->
     <q-header elevated class="bg-white text-primary q-px-md-lg">
       <q-toolbar>
+        <q-btn
+          flat
+          round
+          dense
+          icon="menu"
+          class="lt-mdd"
+          v-if="!toggleSearch"
+          @click="leftDrawer = !leftDrawer"
+        />
+
         <router-link
           v-if="!toggleSearch"
           :to="{
@@ -22,14 +32,19 @@
           hide-dropdown-icon
           v-model="searchPayload"
           :options="options"
-          label="Search products"
+          label="Search Products"
           style="width: 99vw;"
           dense
           behavior="menu"
           v-if="toggleSearch"
         >
-          <template v-slot:prepend>
-            <q-icon name="keyboard_backspace" color="primary" @click.stop="toggleSearch = false" />
+          <template v-slot:before>
+            <q-icon
+              name="keyboard_backspace"
+              color="primary"
+              class="q-mr-md cursor-pointer"
+              @click.stop="toggleSearch = false"
+            />
           </template>
         </q-select>
 
@@ -41,15 +56,6 @@
           class="lt-md"
           v-if="!toggleSearch"
           @click="toggleSearch = true"
-        />
-        <q-btn
-          flat
-          round
-          dense
-          icon="menu"
-          class="lt-md"
-          v-if="!toggleSearch"
-          @click="leftDrawer = !leftDrawer"
         />
 
         <q-tabs v-model="tab" shrink class="gt-sm">
