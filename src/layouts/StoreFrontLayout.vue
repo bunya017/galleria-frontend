@@ -6,16 +6,16 @@
       <q-toolbar>
         <q-btn
           flat
-          round
           dense
           icon="menu"
-          class="lt-mdd"
+          class="lt-md"
           v-if="!toggleSearch"
           @click="leftDrawer = !leftDrawer"
         />
 
         <router-link
           v-if="!toggleSearch"
+          :class="{'q-pl-sm': $q.screen.lt.md}"
           :to="{
             name: 'store-home',
             params: {
@@ -50,7 +50,6 @@
 
         <q-btn
           flat
-          round
           dense
           icon="search"
           class="lt-md"
