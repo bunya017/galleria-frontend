@@ -28,3 +28,14 @@ export function updateCatalogAction ({ commit }, catalogSlug) {
       }
     })
 }
+
+export function updateCatalogProductsAction ({ commit }, payload) {
+  let products = []
+  for (var i = 0; i < payload.length; i++) {
+    products[i] = {
+      name: payload[i].name,
+      slug: payload[i].slug
+    }
+  }
+  return commit('updateCatalogProducts', products)
+}
