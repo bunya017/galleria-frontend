@@ -31,6 +31,9 @@
         <q-select
           hide-dropdown-icon
           v-model="searchPayload"
+          autofocus
+          use-input
+          input-debounce="0"
           :options="options"
           label="Search Products"
           style="width: 99vw;"
