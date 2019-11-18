@@ -136,6 +136,10 @@ export default {
         .then(function (response) {
           if (response.status === 200) {
             self.products = response.data
+            self.$store.dispatch(
+              'navbar/updateCatalogProductsAction',
+              response.data
+            )
           }
         })
     },
