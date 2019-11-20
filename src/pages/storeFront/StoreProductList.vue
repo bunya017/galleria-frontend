@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div class="q-px-md-xl q-py-md-sm q-pa-sm" v-if="products[0].name">
+    <div class="q-px-md-xl q-py-md-sm q-pa-sm" v-if="catalogSlug">
       <!-- Header -->
       <div class="text-h4 xs">All Products</div>
       <div class="text-h3 sm">All Products</div>
