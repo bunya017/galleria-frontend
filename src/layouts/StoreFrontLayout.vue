@@ -214,6 +214,23 @@ export default {
       options: []
     }
   },
+  methods: {
+    filterFunction (val, update, abort) {
+      if (val.length < 2) {
+        abort()
+        return
+      }
+      update(() => {
+        const needle = val.toLowerCase()
+        this.options = this.products.filter(
+          v => v.label.toLowerCase().indexOf(needle) > -1
+        )
+      })
+    },
+    setProducts () {
+      this.products = this.storeCatalog.products
+    }
+  },
   computed: {
     storeCatalog () {
       return this.$store.state.navbar.catalog
