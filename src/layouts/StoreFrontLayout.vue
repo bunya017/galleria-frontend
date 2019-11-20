@@ -35,10 +35,11 @@
           use-input
           input-debounce="0"
           :options="options"
-          label="Search Products"
+          :placeholder="['Search Products' ? '': !searchPayload]"
           style="width: 99vw;"
           dense
           behavior="menu"
+          @filter="filterFunction"
           v-if="toggleSearch"
         >
           <template v-slot:before>
@@ -195,7 +196,12 @@
 <script>
 export default {
   preFetch ({ store, currentRoute }) {
-    return store.dispatch('navbar/updateCatalogAction', currentRoute.params.catalogSlug)
+    return store.dispatch(
+      'navbar/updateCatalogAction', currentRoute.params.catalogSlug
+    )
+      .then(() => {
+        store.dispatch('navbar/updateCatalogProductsAction', currentRoute.params.catalogSlug)
+      })
   },
   name: 'StoreFrontLayout',
   data () {
@@ -204,15 +210,17 @@ export default {
       leftDrawer: false,
       toggleSearch: false,
       searchPayload: '',
-      options: [
-        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-      ]
+      products: null,
+      options: []
     }
   },
   computed: {
     storeCatalog () {
       return this.$store.state.navbar.catalog
     }
+  },
+  created () {
+    this.setProducts()
   }
 }
 </script>
