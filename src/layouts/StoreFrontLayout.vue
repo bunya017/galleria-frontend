@@ -26,42 +26,7 @@
           <q-toolbar-title class="text-primary">{{ storeCatalog.name }}</q-toolbar-title>
         </router-link>
 
-        <q-space />
-
-        <q-select
-          hide-dropdown-icon
-          v-model="searchPayload"
-          autofocus
-          use-input
-          input-debounce="0"
-          :options="options"
-          :placeholder="['Search Products' ? '': !searchPayload]"
-          style="width: 99vw;"
-          dense
-          behavior="menu"
-          @filter="filterFunction"
-          v-if="toggleSearch"
-        >
-          <template v-slot:before>
-            <q-icon
-              name="keyboard_backspace"
-              color="primary"
-              class="q-mr-md cursor-pointer"
-              @click.stop="toggleSearch = false"
-            />
-          </template>
-        </q-select>
-
-        <q-btn
-          flat
-          dense
-          icon="search"
-          class="lt-md"
-          v-if="!toggleSearch"
-          @click="toggleSearch = true"
-        />
-
-        <q-tabs v-model="tab" shrink class="gt-sm">
+        <q-tabs v-model="tab" shrink class="gt-sm q-ml-md">
           <q-route-tab
             exact
             name="products"
@@ -96,6 +61,41 @@
             }"
           />
         </q-tabs>
+
+        <q-space />
+
+        <q-select
+          hide-dropdown-icon
+          v-model="searchPayload"
+          autofocus
+          use-input
+          input-debounce="0"
+          :options="options"
+          :placeholder="['Search Products' ? '': !searchPayload]"
+          style="width: 99vw;"
+          dense
+          behavior="menu"
+          @filter="filterFunction"
+          v-if="toggleSearch"
+        >
+          <template v-slot:before>
+            <q-icon
+              name="keyboard_backspace"
+              color="primary"
+              class="q-mr-md cursor-pointer"
+              @click.stop="toggleSearch = false"
+            />
+          </template>
+        </q-select>
+
+        <q-btn
+          flat
+          dense
+          icon="search"
+          class="lt-md"
+          v-if="!toggleSearch"
+          @click="toggleSearch = true"
+        />
       </q-toolbar>
     </q-header>
 
