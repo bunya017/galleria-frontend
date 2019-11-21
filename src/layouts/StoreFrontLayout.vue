@@ -64,18 +64,13 @@
 
         <q-space />
 
-        <q-select
-          hide-dropdown-icon
+        <!-- Search input for sm screen & below -->
+        <q-input
           v-model="searchPayload"
           autofocus
-          use-input
-          input-debounce="0"
-          :options="options"
-          :placeholder="['Search Products' ? '': !searchPayload]"
+          placeholder="Search Store..."
           style="width: 99vw;"
           dense
-          behavior="menu"
-          @filter="filterFunction"
           v-if="toggleSearch"
         >
           <template v-slot:before>
@@ -86,7 +81,14 @@
               @click.stop="toggleSearch = false"
             />
           </template>
-        </q-select>
+          <template v-slot:append>
+            <q-icon
+              name="search"
+              class="cursor-pointer"
+              @click.stop
+            />
+          </template>
+        </q-input>
 
         <q-btn
           flat
@@ -96,19 +98,18 @@
           v-if="!toggleSearch"
           @click="toggleSearch = true"
         />
-        <!-- Search input for desktop -->
+        <!-- Search input for md screen & above -->
         <q-input
           v-model="searchPayload"
           outlined
+          placeholder="Search Store..."
           style="width: 250px;"
           dense
-          placeholder="Search Store..."
           v-if="$q.screen.gt.sm"
         >
           <template v-slot:append>
             <q-icon
               name="search"
-              @click.stop
             />
           </template>
         </q-input>
