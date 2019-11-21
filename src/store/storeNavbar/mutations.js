@@ -4,7 +4,3 @@ export function updateCatalog (state, payload) {
   state.catalog.logo = payload.logo
   state.catalog.backgroundImage = payload.backgroundImage
 }
-
-export function updateCatalogProducts (state, payload) {
-  state.catalog.products = payload
-}
