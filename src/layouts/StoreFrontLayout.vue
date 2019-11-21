@@ -223,31 +223,13 @@ export default {
       tab: '',
       leftDrawer: false,
       toggleSearch: false,
-      searchPayload: '',
-      products: null,
-      options: []
-    }
-  },
-  methods: {
-    getCatalogProducts: function () {
-      let self = this
-      self.$axios.get(
-        'catalogs/' + self.$route.params.catalogSlug + '/products/'
-      )
-        .then(function (response) {
-          if (response.status === 200) {
-            self.products = response.data
-          }
-        })
+      searchPayload: ''
     }
   },
   computed: {
     storeCatalog () {
       return this.$store.state.navbar.catalog
     }
-  },
-  created () {
-    this.getCatalogProducts()
   }
 }
 </script>
