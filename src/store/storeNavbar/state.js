@@ -3,7 +3,6 @@ export default {
     name: '',
     slug: '',
     logo: '',
-    backgroundImage: '',
-    products: null
+    backgroundImage: ''
   }
 }
