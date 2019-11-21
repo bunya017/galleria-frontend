@@ -28,21 +28,3 @@ export function updateCatalogAction ({ commit }, catalogSlug) {
       }
     })
 }
-
-export function updateCatalogProductsAction ({ commit }, catalogSlug) {
-  let products = []
-  return axiosInstance.get(
-    'catalogs/' + catalogSlug + '/products/'
-  )
-    .then(function (response) {
-      if (response.status === 200) {
-        for (var i = 0; i < response.data.length; i++) {
-          products[i] = {
-            label: response.data[i].name,
-            slug: response.data[i].slug
-          }
-        }
-        return commit('updateCatalogProducts', products)
-      }
-    })
-}
