@@ -240,6 +240,9 @@ export default {
     storeCatalog () {
       return this.$store.state.navbar.catalog
     }
+  },
+  created () {
+    this.getCatalogProducts()
   }
 }
 </script>
