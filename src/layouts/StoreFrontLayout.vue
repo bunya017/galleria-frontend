@@ -121,6 +121,7 @@
       v-model="leftDrawer"
       side="left"
       bordered
+      :show-if-above="false"
       no-swipe-open
       no-swipe-close
       :width="275"
