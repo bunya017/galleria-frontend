@@ -96,6 +96,22 @@
           v-if="!toggleSearch"
           @click="toggleSearch = true"
         />
+        <!-- Search input for desktop -->
+        <q-input
+          v-model="searchPayload"
+          outlined
+          style="width: 250px;"
+          dense
+          placeholder="Search Store..."
+          v-if="$q.screen.gt.sm"
+        >
+          <template v-slot:append>
+            <q-icon
+              name="search"
+              @click.stop
+            />
+          </template>
+        </q-input>
       </q-toolbar>
     </q-header>
 
