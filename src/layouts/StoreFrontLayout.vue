@@ -199,9 +199,6 @@ export default {
     return store.dispatch(
       'navbar/updateCatalogAction', currentRoute.params.catalogSlug
     )
-      .then(() => {
-        store.dispatch('navbar/updateCatalogProductsAction', currentRoute.params.catalogSlug)
-      })
   },
   name: 'StoreFrontLayout',
   data () {
@@ -226,18 +223,12 @@ export default {
           v => v.label.toLowerCase().indexOf(needle) > -1
         )
       })
-    },
-    setProducts () {
-      this.products = this.storeCatalog.products
     }
   },
   computed: {
     storeCatalog () {
       return this.$store.state.navbar.catalog
     }
-  },
-  created () {
-    this.setProducts()
   }
 }
 </script>
