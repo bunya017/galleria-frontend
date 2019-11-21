@@ -223,6 +223,17 @@ export default {
           v => v.label.toLowerCase().indexOf(needle) > -1
         )
       })
+    },
+    getCatalogProducts: function () {
+      let self = this
+      self.$axios.get(
+        'catalogs/' + self.$route.params.catalogSlug + '/products/'
+      )
+        .then(function (response) {
+          if (response.status === 200) {
+            self.products = response.data
+          }
+        })
     }
   },
   computed: {
