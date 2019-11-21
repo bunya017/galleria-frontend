@@ -229,18 +229,6 @@ export default {
     }
   },
   methods: {
-    filterFunction (val, update, abort) {
-      if (val.length < 2) {
-        abort()
-        return
-      }
-      update(() => {
-        const needle = val.toLowerCase()
-        this.options = this.products.filter(
-          v => v.label.toLowerCase().indexOf(needle) > -1
-        )
-      })
-    },
     getCatalogProducts: function () {
       let self = this
       self.$axios.get(
