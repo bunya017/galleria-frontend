@@ -9,12 +9,12 @@
           dense
           icon="menu"
           class="lt-md"
-          v-if="!toggleSearch"
+          v-if="!toggleSearch || this.$route.name == 'store-search'"
           @click="leftDrawer = !leftDrawer"
         />
 
         <router-link
-          v-if="!toggleSearch"
+          v-if="!toggleSearch || this.$route.name == 'store-search'"
           :class="{'q-pl-sm': $q.screen.lt.md}"
           :to="{
             name: 'store-home',
@@ -71,7 +71,7 @@
           placeholder="Search Store..."
           style="width: 99vw;"
           dense
-          v-if="toggleSearch"
+          v-if="toggleSearch && this.$route.name != 'store-search'"
         >
           <template v-slot:before>
             <q-icon
@@ -95,7 +95,7 @@
           dense
           icon="search"
           class="lt-md"
-          v-if="!toggleSearch"
+          v-if="!toggleSearch && this.$route.name != 'store-search'"
           @click="toggleSearch = true"
         />
         <!-- Search input for md screen & above -->
@@ -105,7 +105,7 @@
           placeholder="Search Store..."
           style="width: 250px;"
           dense
-          v-if="$q.screen.gt.sm"
+          v-if="$q.screen.gt.sm && this.$route.name != 'store-search'"
         >
           <template v-slot:append>
             <q-icon
