@@ -62,7 +62,7 @@
           />
         </q-tabs>
 
-        <q-space />
+        <q-space v-if="this.$route.name != 'store-search'" />
 
         <!-- Search input for sm screen & below -->
         <q-input
@@ -113,6 +113,43 @@
             />
           </template>
         </q-input>
+      </q-toolbar>
+      <q-toolbar inset>
+        <q-tabs v-model="tab" shrink class="gt-sm q-ml-md">
+          <q-route-tab
+            exact
+            name="products"
+            label="Products"
+            :to="{
+              name: 'store-product-list',
+              params: {
+                catalogSlug: storeCatalog.slug
+              }
+            }"
+          />
+          <q-route-tab
+            exact
+            name="categories"
+            label="Categories"
+            :to="{
+              name: 'store-category-list',
+              params: {
+                catalogSlug: storeCatalog.slug
+              }
+            }"
+          />
+          <q-route-tab
+            exact
+            name="collections"
+            label="Collections"
+            :to="{
+              name: 'store-collection-list',
+              params: {
+                catalogSlug: storeCatalog.slug
+              }
+            }"
+          />
+        </q-tabs>
       </q-toolbar>
     </q-header>
 
