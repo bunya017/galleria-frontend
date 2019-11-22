@@ -26,7 +26,7 @@
           <q-toolbar-title class="text-primary">{{ storeCatalog.name }}</q-toolbar-title>
         </router-link>
 
-        <q-tabs v-model="tab" shrink class="gt-sm q-ml-md">
+        <q-tabs v-model="tab" v-if="this.$route.name != 'store-search'" shrink class="gt-sm q-ml-md">
           <q-route-tab
             exact
             name="products"
