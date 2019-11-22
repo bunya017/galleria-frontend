@@ -64,6 +64,22 @@
 
         <q-space v-if="this.$route.name != 'store-search'" />
 
+        <!-- Search input for md screen & above on search route -->
+        <q-input
+          v-model="searchPayload"
+          outlined
+          placeholder="Search Store..."
+          v-if="$q.screen.gt.sm && this.$route.name == 'store-search'"
+          style="width: 60vw;"
+          class="q-mx-auto"
+          type="search"
+          dense
+        >
+          <template v-slot:after>
+            <q-btn color="primary" icon="search" />
+          </template>
+        </q-input>
+
         <!-- Search input for sm screen & below -->
         <q-input
           v-model="searchPayload"
