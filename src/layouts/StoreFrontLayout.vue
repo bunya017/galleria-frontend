@@ -130,7 +130,11 @@
           </template>
         </q-input>
       </q-toolbar>
-      <q-toolbar inset>
+      <q-toolbar
+        inset
+        v-if="$q.screen.gt.md || this.$route.name == 'store-search'"
+        class="q-px-sm"
+      >
         <q-tabs v-model="tab" shrink class="gt-sm q-ml-md">
           <q-route-tab
             exact
@@ -166,6 +170,20 @@
             }"
           />
         </q-tabs>
+        <!-- Search input for md screen & above on search route -->
+        <q-input
+          v-model="searchPayload"
+          outlined
+          placeholder="Search Store..."
+          v-if="$q.screen.lt.sm && this.$route.name == 'store-search'"
+          style="width: 99vw;"
+          type="search"
+          dense
+        >
+          <template v-slot:after>
+            <q-btn color="primary" icon="search" />
+          </template>
+        </q-input>
       </q-toolbar>
     </q-header>
 
