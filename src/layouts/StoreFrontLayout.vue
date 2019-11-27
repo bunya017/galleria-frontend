@@ -305,7 +305,8 @@ export default {
   methods: {
     setQueryParam () {
       if (this.searchPayload !== '') {
-        this.$router.replace({
+        this.toggleSearch = false
+        this.$router.push({
           name: 'store-search',
           query: {
             name: this.searchPayload
