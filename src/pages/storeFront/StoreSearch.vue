@@ -26,6 +26,11 @@ export default {
           })
       }
     }
+  },
+  computed: {
+    queryName () {
+      return this.$route.query.name || 1
+    }
   }
 }
 </script>
