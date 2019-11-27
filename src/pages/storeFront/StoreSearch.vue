@@ -31,6 +31,14 @@ export default {
     queryName () {
       return this.$route.query.name || 1
     }
+  },
+  watch: {
+    queryName: {
+      handler (newName, oldName) {
+        this.getProductsList()
+      },
+      immediate: true
+    }
   }
 }
 </script>
