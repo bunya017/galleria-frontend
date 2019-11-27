@@ -97,12 +97,13 @@
               @click.stop="toggleSearch = false"
             />
           </template>
-          <template v-slot:append>
+          <template v-slot:append v-if="!searchPayload">
             <q-icon
               name="search"
-              class="cursor-pointer"
-              @click.stop
             />
+          </template>
+          <template v-slot:after v-if="searchPayload">
+            <q-btn dense color="primary" icon="search" @click.stop="setQueryParam" />
           </template>
         </q-input>
 
