@@ -76,7 +76,7 @@
           dense
         >
           <template v-slot:after>
-            <q-btn color="primary" icon="search" />
+            <q-btn color="primary" icon="search" @click.stop="setQueryParam" />
           </template>
         </q-input>
 
@@ -181,7 +181,7 @@
           dense
         >
           <template v-slot:after>
-            <q-btn color="primary" icon="search" />
+            <q-btn color="primary" icon="search" @click.stop="setQueryParam" />
           </template>
         </q-input>
       </q-toolbar>
@@ -296,6 +296,16 @@ export default {
       leftDrawer: false,
       toggleSearch: false,
       searchPayload: ''
+    }
+  },
+  methods: {
+    setQueryParam () {
+      this.$router.replace({
+        name: 'store-search',
+        query: {
+          name: this.searchPayload
+        }
+      })
     }
   },
   computed: {
