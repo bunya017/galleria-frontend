@@ -26,9 +26,6 @@ export default {
           })
       }
     }
-  },
-  created: function () {
-    this.getProductsList()
   }
 }
 </script>
