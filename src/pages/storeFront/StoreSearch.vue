@@ -4,16 +4,53 @@
       <div class="col-12 col-md-10">
         <q-list separator>
           <q-item v-for="product in products" :key="product.id">
-            <q-item-section side>
-              <q-avatar square size="96px">
-                <img contain :src="product.photos[0].photo.small">
-              </q-avatar>
+            <q-item-section thumbnail>
+              <router-link
+                :to="{
+                  name: 'store-product-detail',
+                  params: {
+                    catalogSlug: catalogSlug,
+                    referenceId: product.reference_id,
+                    productSlug: product.slug
+                  }
+                }"
+              >
+                <q-avatar square size="96px">
+                  <img contain :src="product.photos[0].photo.small">
+                </q-avatar>
+              </router-link>
             </q-item-section>
             <q-item-section>
-              <q-item-label lines="2" class="text-body1">{{ product.name }}</q-item-label>
+              <q-item-label lines="2" class="text-body1">
+                <router-link
+                  class="text-black"
+                  :to="{
+                    name: 'store-product-detail',
+                    params: {
+                      catalogSlug: catalogSlug,
+                      referenceId: product.reference_id,
+                      productSlug: product.slug
+                    }
+                  }"
+                >
+                  {{ product.name }}
+                </router-link>
+              </q-item-label>
               <q-item-label caption lines="2">{{ product.description }}</q-item-label>
               <q-item-label class="q-pt-md text-body1 text-weight-medium">
-                ₦{{ product.price }}
+                <router-link
+                  class="text-black"
+                  :to="{
+                    name: 'store-product-detail',
+                    params: {
+                      catalogSlug: catalogSlug,
+                      referenceId: product.reference_id,
+                      productSlug: product.slug
+                    }
+                  }"
+                >
+                  ₦{{ product.price }}
+                </router-link>
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -28,7 +65,8 @@ export default {
   name: 'StoreSearch',
   data () {
     return {
-      products: []
+      products: [],
+      catalogSlug: this.$route.params.catalogSlug
     }
   },
   methods: {
@@ -62,3 +100,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  a {
+    text-decoration: none;
+  }
+</style>
