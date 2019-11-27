@@ -300,12 +300,14 @@ export default {
   },
   methods: {
     setQueryParam () {
-      this.$router.replace({
-        name: 'store-search',
-        query: {
-          name: this.searchPayload
-        }
-      })
+      if (this.searchPayload !== '') {
+        this.$router.replace({
+          name: 'store-search',
+          query: {
+            name: this.searchPayload
+          }
+        })
+      }
     }
   },
   computed: {
