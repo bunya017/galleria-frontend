@@ -1,11 +1,34 @@
 <template>
   <q-page padding>
-    <!-- content -->
   </q-page>
 </template>
 
 <script>
 export default {
-  name: 'StoreSearch'
+  name: 'StoreSearch',
+  data () {
+    return {
+      products: []
+    }
+  },
+  methods: {
+    getProductsList: function () {
+      let self = this
+      if (self.$route.query.name !== '') {
+        self.$axios.get(
+          'catalogs/' + self.$route.params.catalogSlug + '/products/?name__icontains=' +
+          self.$route.query.name
+        )
+          .then(function (response) {
+            if (response.status === 200) {
+              self.products = response.data
+            }
+          })
+      }
+    }
+  },
+  created: function () {
+    this.getProductsList()
+  }
 }
 </script>
