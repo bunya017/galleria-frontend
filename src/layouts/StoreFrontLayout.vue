@@ -123,7 +123,10 @@
           dense
           v-if="$q.screen.gt.sm && this.$route.name != 'store-search'"
         >
-          <template v-slot:append>
+          <template v-slot:before v-if="searchPayload">
+            <q-btn dense flat color="primary" icon="search" @click.stop="setQueryParam" />
+          </template>
+          <template v-slot:append v-if="!searchPayload">
             <q-icon
               name="search"
             />
@@ -170,7 +173,7 @@
             }"
           />
         </q-tabs>
-        <!-- Search input for md screen & above on search route -->
+        <!-- Search input for sm screen & below on search route -->
         <q-input
           v-model="searchPayload"
           outlined
