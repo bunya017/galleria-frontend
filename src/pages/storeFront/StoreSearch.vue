@@ -1,5 +1,22 @@
 <template>
   <q-page padding>
+    <div class="row justify-center">
+      <div class="col-12 col-md-10">
+        <q-list separator>
+          <q-item v-for="product in products" :key="product.id">
+            <q-item-section side>
+              <q-avatar square size="128px">
+                <img contain :src="product.photos[0].photo.small">
+              </q-avatar>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ product.name }}</q-item-label>
+              <q-item-label caption lines="2">{{ product.description }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </div>
+    </div>
   </q-page>
 </template>
 
