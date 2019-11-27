@@ -5,13 +5,16 @@
         <q-list separator>
           <q-item v-for="product in products" :key="product.id">
             <q-item-section side>
-              <q-avatar square size="128px">
+              <q-avatar square size="96px">
                 <img contain :src="product.photos[0].photo.small">
               </q-avatar>
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ product.name }}</q-item-label>
+              <q-item-label lines="2" class="text-body1">{{ product.name }}</q-item-label>
               <q-item-label caption lines="2">{{ product.description }}</q-item-label>
+              <q-item-label class="q-pt-md text-body1 text-weight-medium">
+                ₦{{ product.price }}
+              </q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
