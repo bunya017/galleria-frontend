@@ -4,7 +4,18 @@
     <!-- (Optional) The Header -->
     <q-header elevated class="bg-white text-primary q-px-md-lg">
       <q-toolbar>
+        <q-btn
+          flat
+          dense
+          icon="menu"
+          class="lt-md"
+          v-if="!toggleSearch || this.$route.name == 'store-search'"
+          @click="leftDrawer = !leftDrawer"
+        />
+
         <router-link
+          v-if="!toggleSearch || this.$route.name == 'store-search'"
+          :class="{'q-pl-sm': $q.screen.lt.md}"
           :to="{
             name: 'store-home',
             params: {
@@ -15,18 +26,7 @@
           <q-toolbar-title class="text-primary">{{ storeCatalog.name }}</q-toolbar-title>
         </router-link>
 
-        <q-space />
-
-        <q-btn
-          flat
-          round
-          dense
-          icon="menu"
-          class="lt-md"
-          @click="leftDrawer = !leftDrawer"
-        />
-
-        <q-tabs v-model="tab" shrink class="gt-sm">
+        <q-tabs v-model="tab" v-if="this.$route.name != 'store-search'" shrink class="gt-sm q-ml-md">
           <q-route-tab
             exact
             name="products"
@@ -61,6 +61,133 @@
             }"
           />
         </q-tabs>
+
+        <q-space v-if="this.$route.name != 'store-search'" />
+
+        <!-- Search input for md screen & above on search route -->
+        <q-input
+          v-model="searchPayload"
+          outlined
+          placeholder="Search Store..."
+          v-if="$q.screen.gt.sm && this.$route.name == 'store-search'"
+          style="width: 60vw;"
+          class="q-mx-auto"
+          type="search"
+          dense
+        >
+          <template v-slot:after>
+            <q-btn color="primary" icon="search" @click.stop="setQueryParam" />
+          </template>
+        </q-input>
+
+        <!-- Search input for sm screen & below -->
+        <q-input
+          v-model="searchPayload"
+          autofocus
+          placeholder="Search Store..."
+          style="width: 99vw;"
+          dense
+          v-if="toggleSearch && this.$route.name != 'store-search'"
+        >
+          <template v-slot:before>
+            <q-icon
+              name="keyboard_backspace"
+              color="primary"
+              class="q-mr-md cursor-pointer"
+              @click.stop="toggleSearch = false"
+            />
+          </template>
+          <template v-slot:append v-if="!searchPayload">
+            <q-icon
+              name="search"
+            />
+          </template>
+          <template v-slot:after v-if="searchPayload">
+            <q-btn dense color="primary" icon="search" @click.stop="setQueryParam" />
+          </template>
+        </q-input>
+
+        <q-btn
+          flat
+          dense
+          icon="search"
+          class="lt-md"
+          v-if="!toggleSearch && this.$route.name != 'store-search'"
+          @click="toggleSearch = true"
+        />
+        <!-- Search input for md screen & above -->
+        <q-input
+          v-model="searchPayload"
+          outlined
+          placeholder="Search Store..."
+          style="width: 250px;"
+          dense
+          v-if="$q.screen.gt.sm && this.$route.name != 'store-search'"
+        >
+          <template v-slot:before v-if="searchPayload">
+            <q-btn dense flat color="primary" icon="search" @click.stop="setQueryParam" />
+          </template>
+          <template v-slot:append v-if="!searchPayload">
+            <q-icon
+              name="search"
+            />
+          </template>
+        </q-input>
+      </q-toolbar>
+      <q-toolbar
+        inset
+        v-if="$q.screen.gt.md || this.$route.name == 'store-search'"
+        class="q-px-sm"
+      >
+        <q-tabs v-model="tab" shrink class="gt-sm q-ml-md">
+          <q-route-tab
+            exact
+            name="products"
+            label="Products"
+            :to="{
+              name: 'store-product-list',
+              params: {
+                catalogSlug: storeCatalog.slug
+              }
+            }"
+          />
+          <q-route-tab
+            exact
+            name="categories"
+            label="Categories"
+            :to="{
+              name: 'store-category-list',
+              params: {
+                catalogSlug: storeCatalog.slug
+              }
+            }"
+          />
+          <q-route-tab
+            exact
+            name="collections"
+            label="Collections"
+            :to="{
+              name: 'store-collection-list',
+              params: {
+                catalogSlug: storeCatalog.slug
+              }
+            }"
+          />
+        </q-tabs>
+        <!-- Search input for sm screen & below on search route -->
+        <q-input
+          v-model="searchPayload"
+          outlined
+          placeholder="Search Store..."
+          v-if="$q.screen.lt.sm && this.$route.name == 'store-search'"
+          style="width: 99vw;"
+          type="search"
+          dense
+        >
+          <template v-slot:after>
+            <q-btn color="primary" icon="search" @click.stop="setQueryParam" />
+          </template>
+        </q-input>
       </q-toolbar>
     </q-header>
 
@@ -69,6 +196,7 @@
       v-model="leftDrawer"
       side="left"
       bordered
+      :show-if-above="false"
       no-swipe-open
       no-swipe-close
       :width="275"
@@ -161,13 +289,30 @@
 <script>
 export default {
   preFetch ({ store, currentRoute }) {
-    return store.dispatch('navbar/updateCatalogAction', currentRoute.params.catalogSlug)
+    return store.dispatch(
+      'navbar/updateCatalogAction', currentRoute.params.catalogSlug
+    )
   },
   name: 'StoreFrontLayout',
   data () {
     return {
       tab: '',
-      leftDrawer: false
+      leftDrawer: false,
+      toggleSearch: false,
+      searchPayload: ''
+    }
+  },
+  methods: {
+    setQueryParam () {
+      if (this.searchPayload !== '') {
+        this.toggleSearch = false
+        this.$router.push({
+          name: 'store-search',
+          query: {
+            name: this.searchPayload
+          }
+        })
+      }
     }
   },
   computed: {

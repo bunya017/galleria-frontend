@@ -117,6 +117,12 @@ const routes = [
         name: 'store-product-detail',
         component: () => import('pages/storeFront/StoreProductDetail.vue'),
         meta: { requiresAuth: false }
+      },
+      {
+        path: ':catalogSlug/search',
+        name: 'store-search',
+        component: () => import('pages/storeFront/StoreSearch.vue'),
+        meta: { requiresAuth: false }
       }
     ]
   }
