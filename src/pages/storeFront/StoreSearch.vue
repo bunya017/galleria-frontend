@@ -2,7 +2,7 @@
   <q-page padding>
     <div class="row justify-center">
       <div class="col-12 col-md-10">
-        <q-list separator>
+        <q-list separator v-if="products.length > 0">
           <q-item v-for="product in products" :key="product.id">
             <q-item-section thumbnail>
               <router-link
@@ -55,6 +55,9 @@
             </q-item-section>
           </q-item>
         </q-list>
+        <div v-else class="text-italic q-pt-md text-subtitle1">
+          No search results found for "{{ queryName }}".
+        </div>
       </div>
     </div>
   </q-page>
