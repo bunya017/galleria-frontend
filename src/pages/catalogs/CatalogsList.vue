@@ -1,6 +1,19 @@
 <template>
   <q-page class="q-pa-lg">
-    <div class="text-h4">Dashboard</div>
+    <!-- Title -->
+    <div class="row items-center q-pt-sm">
+      <div class="text-h4 col-12 col-sm-6">Dashboard</div>
+      <div class="col-12 col-sm-6 gt-xs">
+        <q-btn
+          class="bg-primary float-right"
+          flat
+          color="white"
+          icon="add"
+          label="new catalog"
+          @click="newCat = true"
+        />
+      </div>
+    </div>
 
     <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
       <div class="col-6 col-md-3">
