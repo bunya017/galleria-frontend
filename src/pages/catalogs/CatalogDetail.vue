@@ -14,6 +14,7 @@
         />
       </div>
     </div>
+
     <!-- Breadcrumbs -->
     <div class="q-px-sm q-gutter-sm">
       <q-breadcrumbs separator=">">
@@ -31,13 +32,6 @@
     </div>
 
     <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
-      <div class="col-6 col-md-3">
-        <q-card class="cursor-pointer" @click="newCat = true">
-          <div class="row justify-center items-center" style="min-height: 100px;">
-            <div class="text-h5">Add new category</div>
-          </div>
-        </q-card>
-      </div>
       <div class="col-6 col-md-3">
         <router-link
           v-if="catalog.slug"
@@ -77,16 +71,6 @@
             </div>
           </q-card>
         </router-link>
-      </div>
-      <div class="col-6 col-md-3">
-        <q-card>
-          <div class="row justify-center items-center" style="min-height: 100px;">
-            <div class="text-center">
-              <div class="text-h5">{{ activeProducts }} Active</div>
-              <div class="text-subtitle2">Products</div>
-            </div>
-          </div>
-        </q-card>
       </div>
     </div>
 
