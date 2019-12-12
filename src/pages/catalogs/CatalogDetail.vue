@@ -1,7 +1,19 @@
 <template>
   <q-page padding>
     <!-- Title -->
-    <div class="text-h4">{{ catalog.name }}</div>
+    <div class="row items-center q-pt-sm q-pb-none">
+      <div class="text-h4 col-12 col-sm-6">{{ catalog.name }}</div>
+      <div class="col-12 col-sm-6 gt-xs">
+        <q-btn
+          class="bg-primary float-right"
+          flat
+          color="white"
+          icon="add"
+          label="New Category"
+          @click="newCat = true"
+        />
+      </div>
+    </div>
     <!-- Breadcrumbs -->
     <div class="q-px-sm q-gutter-sm">
       <q-breadcrumbs separator=">">
@@ -82,7 +94,7 @@
     <q-dialog v-model="newCat" position="top" no-backdrop-dismiss>
       <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
         <q-card-section class="text-center">
-          <div class="text-h5">New category</div>
+          <div class="text-h5">New Category</div>
           <div class="text-subtitle2">Add new product category</div>
         </q-card-section>
 
