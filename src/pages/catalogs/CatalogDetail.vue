@@ -18,14 +18,14 @@
     </div>
 
     <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
-      <div class="col-12 col-sm-6 col-md-3">
+      <div class="col-6 col-md-3">
         <q-card class="cursor-pointer" @click="newCat = true">
           <div class="row justify-center items-center" style="min-height: 100px;">
             <div class="text-h5">Add new category</div>
           </div>
         </q-card>
       </div>
-      <div class="col-12 col-sm-6 col-md-3">
+      <div class="col-6 col-md-3">
         <router-link
           v-if="catalog.slug"
           :to="{
@@ -45,7 +45,7 @@
           </q-card>
         </router-link>
       </div>
-      <div class="col-12 col-sm-6 col-md-3">
+      <div class="col-6 col-md-3">
         <router-link
           v-if="catalog.slug"
           :to="{
@@ -65,7 +65,7 @@
           </q-card>
         </router-link>
       </div>
-      <div class="col-12 col-sm-6 col-md-3">
+      <div class="col-6 col-md-3">
         <q-card>
           <div class="row justify-center items-center" style="min-height: 100px;">
             <div class="text-center">
@@ -167,8 +167,8 @@
       </q-card>
     </q-dialog>
 
-    <div class="text-h5">Categories</div>
     <!-- Categories List -->
+    <div class="text-h5">Categories</div>
     <div class="row q-pt-sm q-pb-xl q-col-gutter-md">
       <div class="col-12" v-for="category in catalog.categories" :key="category.name">
         <q-card>
@@ -217,6 +217,7 @@
         </q-card>
       </div>
     </div>
+
     <!-- Delete category dialog -->
     <q-dialog v-model="deleteCaty" @hide="clearDeleteCategoryPayload" persistent>
       <q-card>
@@ -231,6 +232,11 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+
+    <!-- Floating Button -->
+    <q-page-sticky class="lt-sm" position="bottom-right" :offset="[20, 20]">
+      <q-btn fab icon="add" color="primary" @click="newCat = true" />
+    </q-page-sticky>
   </q-page>
 </template>
 
