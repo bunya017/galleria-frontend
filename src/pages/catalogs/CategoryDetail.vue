@@ -7,7 +7,7 @@
 
     <!-- Breadcrumbs -->
     <div class="q-pa-sm q-gutter-sm">
-      <q-breadcrumbs separator="/">
+      <q-breadcrumbs separator="/" class="text-uppercase">
         <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
         <q-breadcrumbs-el
           v-if="catalog"
