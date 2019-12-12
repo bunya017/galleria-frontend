@@ -1,8 +1,25 @@
 <template>
   <q-page padding>
+    <!-- Title -->
+    <div v-if="collection" class="row items-center q-pt-sm q-pb-none">
+      <div class="text-h4 col-12 col-sm-6">
+        {{ collection.name }} Collection
+      </div>
+      <div class="col-12 col-sm-6 gt-xs">
+        <q-btn
+          class="bg-primary float-right"
+          flat
+          color="white"
+          icon="add"
+          label="add product"
+          @click="addProd = true"
+        />
+      </div>
+    </div>
+
     <!-- Breadcrumbs -->
     <div class="q-pa-sm q-gutter-sm">
-      <q-breadcrumbs separator=">>">
+      <q-breadcrumbs separator="/" class="text-uppercase">
         <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
         <q-breadcrumbs-el
           v-if="catalog.slug"
@@ -30,27 +47,8 @@
       </q-breadcrumbs>
     </div>
 
-    <!-- Title -->
-    <div v-if="collection" class="row items-center q-pt-sm q-pb-lg">
-      <div class="text-h4 col-12 col-sm-6">
-        {{ collection.name }} Collection
-      </div>
-      <div class="col-12 col-sm-6 gt-xs">
-        <q-btn
-          class="bg-primary float-right"
-          flat
-          color="white"
-          icon="add"
-          label="add product"
-          @click="addProd = true"
-        >
-          <q-tooltip>Add new product to this collection</q-tooltip>
-        </q-btn>
-      </div>
-    </div>
-
     <!-- Colection products list-->
-    <div class="row q-pt-sm q-col-gutter-md">
+    <div class="row q-pt-lg q-col-gutter-md">
       <div class="col-12" v-for="product in collectionProducts" :key="product.id">
         <q-card>
           <q-list>
