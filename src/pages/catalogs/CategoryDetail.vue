@@ -1,5 +1,10 @@
 <template>
   <q-page padding>
+    <!-- Title -->
+    <div class="text-h4 col-12 col-sm-6">
+      {{ category.name }} Category
+    </div>
+
     <!-- Breadcrumbs -->
     <div class="q-pa-sm q-gutter-sm">
       <q-breadcrumbs separator="/">
@@ -28,15 +33,8 @@
       </q-breadcrumbs>
     </div>
 
-    <!-- Title -->
-    <div v-if="category" class="row items-center q-pt-sm q-pb-lg">
-      <div class="text-h4 col-12 col-sm-6">
-        {{ category.name }} Category
-      </div>
-    </div>
-
     <!-- Category products list-->
-    <div class="row q-pt-sm q-col-gutter-md">
+    <div class="row q-pt-lg q-col-gutter-md">
       <div class="col-12" v-for="product in products" :key="product.id">
         <q-card>
           <q-list>
