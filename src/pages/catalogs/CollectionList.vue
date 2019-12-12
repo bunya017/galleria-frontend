@@ -1,5 +1,20 @@
 <template>
   <q-page padding>
+    <!-- Title -->
+    <div class="row items-center q-pt-sm q-pb-none">
+      <div class="text-h4 col-12 col-sm-6">Collection List</div>
+      <div class="col-12 col-sm-6 gt-xs">
+        <q-btn
+          class="bg-primary float-right"
+          flat
+          color="white"
+          icon="add"
+          label="new collection"
+          @click="newColl = true"
+        />
+      </div>
+    </div>
+
     <!-- Breadcrumbs -->
     <div class="q-pa-sm q-gutter-sm">
       <q-breadcrumbs separator=">>">
@@ -16,19 +31,6 @@
         />
         <q-breadcrumbs-el label="Collection List" />
       </q-breadcrumbs>
-    </div>
-    <div class="row items-center q-pt-sm q-pb-lg">
-      <div class="text-h4 col-12 col-sm-6">Collection List</div>
-      <div class="col-12 col-sm-6 gt-xs">
-        <q-btn
-          class="bg-primary float-right"
-          flat
-          color="white"
-          icon="add"
-          label="new collection"
-          @click="newColl = true"
-        />
-      </div>
     </div>
 
     <!-- Collections List -->

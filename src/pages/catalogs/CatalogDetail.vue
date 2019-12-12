@@ -1,5 +1,6 @@
 <template>
   <q-page padding>
+    <!-- Title -->
     <div class="text-h4">{{ catalog.name }}</div>
     <!-- Breadcrumbs -->
     <div class="q-px-sm q-gutter-sm">
