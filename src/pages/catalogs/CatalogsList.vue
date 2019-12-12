@@ -293,6 +293,10 @@
       </q-card>
     </q-dialog>
 
+    <!-- Floating button -->
+    <q-page-sticky class="lt-sm" position="bottom-right" :offset="[20, 20]">
+      <q-btn fab icon="add" color="primary" @click="newCat = true" />
+    </q-page-sticky>
   </q-page>
 </template>
 
