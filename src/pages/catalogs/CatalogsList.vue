@@ -1,8 +1,8 @@
 <template>
-  <q-page class="q-pa-lg">
+  <q-page padding>
     <!-- Title -->
     <div class="row items-center q-pt-sm">
-      <div class="text-h4 col-12 col-sm-6">Dashboard</div>
+      <div class="text-h4 col-12 col-sm-6">My Catalogs</div>
       <div class="col-12 col-sm-6 gt-xs">
         <q-btn
           class="bg-primary float-right"
@@ -12,47 +12,6 @@
           label="new catalog"
           @click="newCat = true"
         />
-      </div>
-    </div>
-
-    <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
-      <div class="col-6 col-md-3">
-        <q-card class="cursor-pointer" @click="newCat = true">
-          <div class="row justify-center items-center" style="min-height: 100px;">
-            <div class="text-center">
-              <div class="text-h5">Add new catalog</div>
-            </div>
-          </div>
-        </q-card>
-      </div>
-      <div class="col-6 col-md-3">
-        <q-card>
-          <div class="row justify-center items-center" style="min-height: 100px;">
-            <div class="text-center">
-              <div class="text-h5">{{ catalogsCount }} Catalogs</div>
-            </div>
-          </div>
-        </q-card>
-      </div>
-      <div class="col-6 col-md-3">
-        <q-card>
-          <div class="row justify-center items-center" style="min-height: 100px;">
-            <div class="text-center">
-              <div class="text-h5">0 Inactive</div>
-              <div class="text-subtitle2">Catalogs</div>
-            </div>
-          </div>
-        </q-card>
-      </div>
-      <div class="col-6 col-md-3">
-        <q-card>
-          <div class="row justify-center items-center" style="min-height: 100px;">
-            <div class="text-center">
-              <div class="text-h5">{{ activeCatalogs }} Active</div>
-              <div class="text-subtitle2">Catalogs</div>
-            </div>
-          </div>
-        </q-card>
       </div>
     </div>
 
@@ -262,8 +221,7 @@
     </q-dialog>
 
     <!-- Catalog List -->
-    <div class="text-h5">My Catalogs</div>
-    <div class="row q-pt-sm q-pb-xl q-col-gutter-md">
+    <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
       <div class="col-12">
         <q-card>
           <q-list separator>
