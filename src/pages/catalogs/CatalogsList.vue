@@ -1,12 +1,6 @@
 <template>
   <q-page class="q-pa-lg">
     <div class="text-h4">Dashboard</div>
-    <!-- Breadcrumbs -->
-    <div class="q-px-sm q-gutter-sm">
-      <q-breadcrumbs>
-        <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
-      </q-breadcrumbs>
-    </div>
 
     <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
       <div class="col-6 col-md-3">
