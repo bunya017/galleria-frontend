@@ -17,7 +17,7 @@
 
     <!-- Breadcrumbs -->
     <div class="q-px-sm q-gutter-sm">
-      <q-breadcrumbs separator="/" class="text-uppercase">
+      <q-breadcrumbs separator="/" class="text-uppercase" gutter="xs">
         <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
         <q-breadcrumbs-el
           :label="catalog.name"

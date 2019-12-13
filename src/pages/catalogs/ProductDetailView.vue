@@ -4,7 +4,7 @@
       <div class="col-12 col-sm-10" v-if="product.category">
         <!-- Breadcrumbs -->
         <div class="q-pa-sm q-gutter-sm">
-          <q-breadcrumbs separator="/" class="text-uppercase">
+          <q-breadcrumbs separator="/" class="text-uppercase" gutter="xs">
             <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
             <q-breadcrumbs-el
               :label="product.category.catalog.name"
