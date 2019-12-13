@@ -30,6 +30,7 @@
               <q-breadcrumbs
                 separator="/"
                 class="text-uppercase"
+                gutter="xs"
               >
                 <q-breadcrumbs-el
                   label="Store"
