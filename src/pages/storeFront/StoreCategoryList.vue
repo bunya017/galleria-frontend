@@ -10,7 +10,7 @@
       <div class="q-pa-sm q-pa-sm-md q-gutter-sm">
         <q-breadcrumbs
           separator="/"
-          class="text-uppercase"
+          class="text-uppercase breadcrumbs-text"
           gutter="xs"
         >
           <q-breadcrumbs-el
