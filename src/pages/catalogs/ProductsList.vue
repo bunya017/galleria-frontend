@@ -3,7 +3,7 @@
     <div class="text-h4">Products List</div>
     <!-- Breadcrumbs -->
     <div class="q-pa-sm q-gutter-sm">
-      <q-breadcrumbs separator="/" class="text-uppercase">
+      <q-breadcrumbs separator="/" class="text-uppercase breadcrumbs-text" gutter="xs">
         <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
         <q-breadcrumbs-el
           :label="catalog.name"

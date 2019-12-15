@@ -69,7 +69,7 @@
         </div>
 
         <!-- Featured products -->
-        <div class="my-text-head text-weight-thin text-left q-pt-lg">FEATURED</div>
+        <div class="text-h4 text-left q-pt-lg">FEATURED</div>
           <div class="row q-py-sm q-px-sm-md q-col-gutter-md no-wrap" style="overflow-x: auto;" v-if="catalog">
             <div
               v-for="product in products"

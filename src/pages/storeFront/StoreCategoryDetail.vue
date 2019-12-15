@@ -18,10 +18,11 @@
 
       <div class="q-px-sm-xl">
         <!-- Breadcrumbs -->
-        <div class="q-pa-sm q-pa-sm-md q-gutter-sm">
+        <div class="q-pa-sm q-pa-sm-md q-gutter-sm breadcrumbs-text">
           <q-breadcrumbs
             separator="/"
             class="text-uppercase"
+            gutter="xs"
           >
             <q-breadcrumbs-el
               label="Store"
