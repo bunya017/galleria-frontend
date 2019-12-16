@@ -82,22 +82,26 @@
         <!-- Search input for md screen & above -->
         <q-input
           v-model="searchPayload"
-          outlined
           placeholder="Search Store..."
-          style="width: 250px;"
+          :style="{ width: searchInputSize + 'px' }"
           dense
+          standout="bg-primary"
+          @focus="searchInputSize = 400"
+          @blur="searchInputSize = 200"
+          type="search"
           v-if="$q.screen.gt.sm && this.$route.name != 'store-search'"
         >
-          <template v-slot:before v-if="searchPayload">
-            <q-btn dense flat color="primary" icon="search" @click.stop="setQueryParam" />
-          </template>
           <template v-slot:append v-if="!searchPayload">
             <q-icon
               name="search"
             />
           </template>
+          <template v-slot:after v-if="searchPayload">
+            <q-btn dense flat color="primary" icon="search" @click.stop="setQueryParam" />
+          </template>
         </q-input>
 
+        <!-- route tabs -->
         <q-tabs v-model="tab" v-if="this.$route.name != 'store-search'" shrink class="gt-sm q-ml-md">
           <q-route-tab
             exact
@@ -299,7 +303,8 @@ export default {
       tab: '',
       leftDrawer: false,
       toggleSearch: false,
-      searchPayload: ''
+      searchPayload: '',
+      searchInputSize: 200
     }
   },
   methods: {
