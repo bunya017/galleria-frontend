@@ -394,12 +394,11 @@ export default {
         status: false
       },
       alertPayload: {
-        color: 'positive',
-        textColor: 'white',
-        icon: 'thumb_up',
+        color: 'green-1',
+        textColor: 'positive',
+        icon: 'check_circle',
         position: 'top',
         message: '',
-        actions: [{ label: 'Dismiss', color: 'negative' }],
         classes: 'q-mt-xl'
       }
     }
@@ -494,7 +493,7 @@ export default {
     showAlert: function (payload) {
       const {
         color, textColor, message, icon,
-        position, actions, classes
+        position, classes
       } = payload
 
       this.$q.notify({
@@ -503,7 +502,6 @@ export default {
         icon,
         message,
         position,
-        actions,
         classes
       })
     },
