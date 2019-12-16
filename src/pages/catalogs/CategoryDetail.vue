@@ -60,7 +60,7 @@
                   }"
                 >
                   <q-item-label class="text-black">{{ product.name }}</q-item-label>
-                  <q-item-label caption lines="2">
+                  <q-item-label caption>
                     {{ product.description }}
                   </q-item-label>
                   <q-item-label caption class="q-pt-sm text-weight-bold">
