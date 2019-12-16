@@ -173,7 +173,7 @@
     </q-dialog>
 
     <!-- Products List -->
-    <div class="row q-at-sm q-pb-xl">
+    <div class="row q-py-md-md q-py-sm-sm q-px-sm">
       <div class="col-12">
         <q-table
           :data="products"
