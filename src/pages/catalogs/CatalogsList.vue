@@ -281,14 +281,27 @@
     <!-- Delete category dialog -->
     <q-dialog v-model="deleteCat" @hide="clearDeleteCatalogPayload" persistent>
       <q-card>
+        <q-card-section>
+          <div class="text-h6 text-center">Confirm Permanent Delete?</div>
+        </q-card-section>
         <q-card-section class="row items-center">
-          <span class="q-ml-md q-py-md text-center">
-            Are you sure you want to delete <span class="text-weight-bold">{{ deleteCatalogPayload.name }}</span> permanently?
+          <span class="q-py-xs text-center">
+            You are about to delete <strong class="text-negative">{{ deleteCatalogPayload.name }}</strong> including all its categories, collections & product data and photos (if any). Enter the name of this catalog in the box below to confirm deletion of this catalog. Please note that this is not <strong>not reversible.</strong>
           </span>
+          <div class="fit q-pt-lg">
+            Confirm Catalog Name:
+            <q-input
+              dense
+              outlined
+              type="text"
+              v-model="confirmDeletePayload"
+              :placeholder="deleteCatalogPayload.name"
+            />
+          </div>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="primary" v-close-popup />
-          <q-btn flat label="Delete" color="negative" @click="deleteCatalog" />
+          <q-btn outline label="Cancel" color="grey-7" v-close-popup />
+          <q-btn label="Delete" :disabled="confirmDeletePayload !== deleteCatalogPayload.name" color="negative" @click="deleteCatalog" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -310,6 +323,7 @@ export default {
       newCat: false,
       catalogs: {},
       deleteCat: false,
+      confirmDeletePayload: '',
       deleteCatalogPayload: {
         name: '',
         url: ''
@@ -481,6 +495,7 @@ export default {
     clearDeleteCatalogPayload: function () {
       this.deleteCatalogPayload.name = ''
       this.deleteCatalogPayload.url = ''
+      this.confirmDeletePayload = ''
     },
     deleteCatalog: function () {
       let self = this
