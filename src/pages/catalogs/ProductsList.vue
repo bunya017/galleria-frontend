@@ -182,6 +182,7 @@
           :pagination.sync="pagination"
           :filter="filter"
           binary-state-sort
+          :grid="$q.screen.lt.sm"
         >
           <template v-slot:top>
             <q-input dense label='Search' class="col-sm-6 col-xs-12" v-model="filter" debounce="300" color="primary">
@@ -217,7 +218,7 @@
                 </q-item-section>
                 <q-item-section>
                   <q-item-label>{{ props.row.name }}</q-item-label>
-                  <q-item-label caption lines="1">{{ props.row.description }}</q-item-label>
+                  <q-item-label caption lines="2">{{ props.row.description }}</q-item-label>
                   <q-item-label class="q-pt-sm xs text-weight-bold">{{ props.row.price }}</q-item-label>
                 </q-item-section>
               </q-item>
@@ -248,6 +249,56 @@
                 </q-menu>
               </q-btn>
             </q-td>
+          </template>
+          <template v-slot:item="props">
+            <div
+              class="q-py-xs col-12 grid-style-transition"
+              :style="props.selected ? 'transform: scale(0.95);' : ''"
+            >
+              <q-card :class="props.selected ? 'bg-grey-2' : ''">
+                <q-item class="q-pa-sm">
+                  <q-item-section side>
+                    <q-avatar v-if="props.row.photos.length > 0" rounded size="56px">
+                      <img :src="props.row.photos[0].photo.thumbnail">
+                    </q-avatar>
+                    <q-avatar v-else color="primary" text-color="white" size="56px">
+                      {{ props.row.name.charAt(0).toUpperCase() }}
+                    </q-avatar>
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label>{{ props.row.name }}</q-item-label>
+                    <q-item-label caption>{{ props.row.description }}</q-item-label>
+                    <q-item-label class="q-pt-xs xs text-weight-bold">
+                      {{ props.row.price }}
+                    </q-item-label>
+                  </q-item-section>
+                  <q-item-section side>
+                    <q-btn size="12px" flat dense round icon="more_vert">
+                      <q-menu auto-close>
+                        <q-list style="width: 200px;">
+                          <q-item clickable @click="makeEditProductPayload(props.row)">
+                            <q-item-section avatar>
+                              <q-avatar rounded icon="edit" />
+                            </q-item-section>
+                            <q-item-section>
+                              Edit
+                            </q-item-section>
+                          </q-item>
+                          <q-item clickable @click="makeDeleteProductPayload(props.row)">
+                            <q-item-section avatar>
+                              <q-avatar rounded icon="delete" />
+                            </q-item-section>
+                            <q-item-section>
+                              Delete
+                            </q-item-section>
+                          </q-item>
+                        </q-list>
+                      </q-menu>
+                    </q-btn>
+                  </q-item-section>
+                </q-item>
+              </q-card>
+            </div>
           </template>
         </q-table>
       </div>
@@ -375,8 +426,8 @@ export default {
       catalog: {},
       columns: [
         { name: 'name', label: 'PRODUCTS', field: 'name', align: 'left', sortable: true },
-        { name: 'price', label: 'PRICE', field: 'price', align: 'left', classes: 'gt-xs', sortable: true },
-        { name: 'actions', label: 'ACTIONS', align: 'left' }
+        { name: 'price', label: 'PRICE', field: 'price', align: 'left', sortable: true },
+        { name: 'actions', label: '', align: 'left' }
       ],
       nameError: {
         message: '',
