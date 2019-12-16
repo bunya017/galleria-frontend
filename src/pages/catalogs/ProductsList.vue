@@ -219,7 +219,7 @@
                 <q-item-section>
                   <q-item-label>{{ props.row.name }}</q-item-label>
                   <q-item-label caption lines="2">{{ props.row.description }}</q-item-label>
-                  <q-item-label class="q-pt-sm xs text-weight-bold">{{ props.row.price }}</q-item-label>
+                  <q-item-label class="q-pt-sm xs text-weight-bold">₦{{ props.row.price }}</q-item-label>
                 </q-item-section>
               </q-item>
             </q-td>
@@ -266,11 +266,22 @@
                     </q-avatar>
                   </q-item-section>
                   <q-item-section>
-                    <q-item-label>{{ props.row.name }}</q-item-label>
-                    <q-item-label caption>{{ props.row.description }}</q-item-label>
-                    <q-item-label class="q-pt-xs xs text-weight-bold">
-                      {{ props.row.price }}
-                    </q-item-label>
+                    <router-link
+                      :to="{
+                        name: 'product-detail',
+                        params: {
+                          catalogSlug: slugCatalog,
+                          referenceId: props.row.reference_id,
+                          productSlug: props.row.slug
+                        }
+                      }"
+                    >
+                      <q-item-label>{{ props.row.name }}</q-item-label>
+                      <q-item-label caption>{{ props.row.description }}</q-item-label>
+                      <q-item-label class="q-pt-xs xs text-weight-bold">
+                        ₦{{ props.row.price }}
+                      </q-item-label>
+                    </router-link>
                   </q-item-section>
                   <q-item-section side>
                     <q-btn size="12px" flat dense round icon="more_vert">
@@ -658,8 +669,14 @@ export default {
   height: 56px;
   border-radius: 5px;
 }
+
 .negative-border {
   border-bottom: 2px solid #c10015;
   margin: auto;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }
 </style>
