@@ -190,7 +190,7 @@
               </template>
             </q-input>
             <q-space />
-            <q-btn flat color="white" class="bg-primary q-mt-xs-md" label="add new product" @click="newProd = true" />
+            <q-btn flat color="white" class="bg-primary q-mt-xs-md gt-xs" label="add new product" @click="newProd = true" />
           </template>
           <template v-slot:body-cell-name="props">
             <q-td :props="props">
@@ -327,6 +327,11 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+
+    <!-- Floating button -->
+    <q-page-sticky class="lt-sm" position="bottom-right" :offset="[20, 20]">
+      <q-btn fab icon="add" color="primary" @click="newProd = true" />
+    </q-page-sticky>
   </q-page>
 </template>
 
