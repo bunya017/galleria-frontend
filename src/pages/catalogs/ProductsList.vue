@@ -183,6 +183,7 @@
           :filter="filter"
           binary-state-sort
           :grid="$q.screen.lt.sm"
+          :hide-bottom="$q.screen.lt.sm"
         >
           <template v-slot:top>
             <q-input dense label='Search' class="col-sm-6 col-xs-12" v-model="filter" debounce="300" color="primary">
