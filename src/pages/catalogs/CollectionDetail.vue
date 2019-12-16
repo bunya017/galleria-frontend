@@ -215,21 +215,19 @@ export default {
         message: ''
       },
       alertPayload: {
-        color: 'positive',
-        textColor: 'white',
-        icon: 'thumb_up',
+        color: 'green-1',
+        textColor: 'positive',
+        icon: 'check_circle',
         position: 'top',
         message: '',
-        closeBtn: 'Close',
         classes: 'q-mt-xl'
       },
       errorAlertPayload: {
-        color: 'negative',
-        textColor: 'white',
-        icon: 'report_problem',
+        color: 'red-1',
+        textColor: 'negative',
+        icon: 'error',
         position: 'top',
         message: '',
-        closeBtn: 'Close',
         classes: 'q-mt-xl'
       },
       removeProductPayload: {
@@ -337,7 +335,7 @@ export default {
     showAlert: function (payload) {
       const {
         color, textColor, message, icon,
-        position, closeBtn, classes
+        position, classes
       } = payload
 
       this.$q.notify({
@@ -346,7 +344,6 @@ export default {
         icon,
         message,
         position,
-        closeBtn,
         classes
       })
     },
