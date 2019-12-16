@@ -88,14 +88,27 @@
     <!-- Delete collection dialog -->
     <q-dialog v-model="deleteColl" persistent @hide="clearDeleteCollectionModel">
       <q-card>
+        <q-card-section>
+          <div class="text-h6 text-center">Confirm Permanent Delete?</div>
+        </q-card-section>
         <q-card-section class="row items-center">
-          <span class="q-ml-md q-py-md text-center">
-            Are you sure you want to delete <span class="text-weight-bold">{{ deleteCollectionPayload.name }}</span> category permanently?
+          <span class="q-py-xs text-center">
+            You are about to delete <strong class="text-negative">{{ deleteCollectionPayload.name }}</strong> including all its data and photos (if any). Enter the name of this collection in the box below to confirm deletion of this collection. Please note that this is not <strong>not reversible.</strong>
           </span>
+          <div class="fit q-pt-lg">
+            Confirm Collection Name:
+            <q-input
+              dense
+              outlined
+              type="text"
+              v-model="confirmDeletePayload"
+              :placeholder="deleteCollectionPayload.name"
+            />
+          </div>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="primary" v-close-popup />
-          <q-btn flat label="Delete" color="negative" @click="deleteCollection" />
+          <q-btn outline label="Cancel" color="grey-7" v-close-popup />
+          <q-btn label="Delete" :disabled="confirmDeletePayload !== deleteCollectionPayload.name" color="negative" @click="deleteCollection" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -202,6 +215,7 @@ export default {
   data: function () {
     return {
       deleteColl: false,
+      confirmDeletePayload: '',
       newColl: false,
       catalog: null,
       catalogSlug: this.$route.params.catalogSlug,
@@ -357,6 +371,7 @@ export default {
     clearDeleteCollectionModel: function () {
       this.deleteCollectionPayload.name = ''
       this.deleteCollectionPayload.slug = ''
+      this.confirmDeletePayload = ''
     }
   },
   created: function () {
