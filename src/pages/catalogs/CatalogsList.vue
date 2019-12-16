@@ -336,12 +336,11 @@ export default {
         contact_phone: ''
       },
       alertPayload: {
-        color: 'positive',
-        textColor: 'white',
-        icon: 'report_problem',
+        color: 'green-1',
+        textColor: 'positive',
+        icon: 'check_circle',
         position: 'top',
         message: '',
-        closeBtn: 'Close',
         classes: 'q-mt-xl'
       },
       nameError: {
@@ -459,7 +458,7 @@ export default {
     showAlert: function (payload) {
       const {
         color, textColor, message, icon,
-        position, closeBtn, classes
+        position, classes
       } = payload
 
       this.$q.notify({
@@ -468,7 +467,6 @@ export default {
         icon,
         message,
         position,
-        closeBtn,
         classes
       })
     },
