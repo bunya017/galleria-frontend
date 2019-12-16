@@ -256,14 +256,27 @@
     <!-- Delete product dialog -->
     <q-dialog v-model="deleteProd" @hide="clearDeleteProductPayload" persistent>
       <q-card>
+        <q-card-section>
+          <div class="text-h6 text-center">Confirm Permanent Delete?</div>
+        </q-card-section>
         <q-card-section class="row items-center">
-          <span class="q-ml-md q-py-md text-center">
-            Are you sure you want to delete <span class="text-weight-bold">{{ deleteProductPayload.name }}</span> permanently?
+          <span class="q-py-xs text-center">
+            You are about to delete <strong class="text-negative">{{ deleteProductPayload.name }}</strong> including all its data and photos (if any). Enter the name of this product in the box below to confirm deletion of this product. Please note that this is not <strong>not reversible.</strong>
           </span>
+          <div class="fit q-pt-lg">
+            Confirm Product Name:
+            <q-input
+              dense
+              outlined
+              type="text"
+              v-model="confirmDeletePayload"
+              :placeholder="deleteProductPayload.name"
+            />
+          </div>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="primary" v-close-popup />
-          <q-btn flat label="Delete" color="negative" @click="deleteProduct" />
+          <q-btn outline label="Cancel" color="grey-7" v-close-popup />
+          <q-btn label="Delete" :disabled="confirmDeletePayload !== deleteProductPayload.name" color="negative" @click="deleteProduct" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -331,6 +344,7 @@ export default {
       filter: '',
       newProd: false,
       deleteProd: false,
+      confirmDeletePayload: '',
       editProd: false,
       deleteProductPayload: {
         name: '',
@@ -521,6 +535,7 @@ export default {
       this.deleteProductPayload.price = null
       this.deleteProductPayload.description = ''
       this.deleteProductPayload.url = ''
+      this.confirmDeletePayload = ''
     },
     clearEditProductPayload: function () {
       this.editProductPayload.name = ''
