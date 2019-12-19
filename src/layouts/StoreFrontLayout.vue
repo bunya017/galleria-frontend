@@ -292,7 +292,7 @@
               <img v-if="storeCatalog.logo.thumbnail" :src="storeCatalog.logo.thumbnail">
             </q-avatar>
             <div class="text-h6">{{ storeCatalog.name }}</div>
-            <div class="q-py-md q-gutter-sm tex-grey-9">
+            <div class="q-py-md q-gutter-sm text-grey-9">
               <q-icon size="sm" name="ion-logo-facebook" />
               <q-icon size="sm" name="ion-logo-instagram" />
               <q-icon size="sm" name="ion-logo-twitter" />
