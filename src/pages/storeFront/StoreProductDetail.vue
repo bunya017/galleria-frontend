@@ -2,17 +2,46 @@
   <q-page padding>
     <div class="row justify-center">
       <!-- Product Detail -->
-      <div class="col-12 col-md-9 q-pa-sm q-pa-sm-md" v-if="product.category">
+      <div class="col-12 col-md-9 q-px-md q-px-sm-none q-col-gutter-md-md" v-if="product.category">
+        <!-- Breadcrumbs -->
+        <div class="q-pt-md ">
+          <q-breadcrumbs
+            separator="/"
+            class="text-uppercase breadcrumbs-text"
+            gutter="xs"
+          >
+            <q-breadcrumbs-el
+              label="Store"
+              :to="{
+                name: 'store-home',
+                params: {
+                  slug: catalogSlug
+                }
+              }"
+            />
+            <q-breadcrumbs-el
+              :label="product.category.name"
+              :to="{
+                name: 'store-category-detail',
+                params: {
+                  catalogSlug: catalogSlug,
+                  categorySlug: product.category.slug
+                }
+              }"
+            />
+            <q-breadcrumbs-el :label="product.name" />
+          </q-breadcrumbs>
+        </div>
         <div class="row q-col-gutter-md-md">
           <!-- Product Images -->
-          <div class="col-12 col-md-6">
+          <div class="col-12 col-sm-7 col-md-6 q-px-md-sm">
             <q-carousel
               swipeable
               arrows
               animated
               v-model="imageSlide"
-              thumbnails
-              infinite
+              :thumbnails="$q.screen.gt.sm"
+              :navigation="$q.screen.lt.md"
             >
               <q-carousel-slide
                 contain
@@ -24,42 +53,41 @@
             </q-carousel>
           </div>
           <!-- Product Info -->
-          <div class="col-12 col-md-6">
-            <!-- Breadcrumbs -->
-            <div class="q-pa-sm q-gutter-sm">
-              <q-breadcrumbs
-                separator="/"
-                class="text-uppercase breadcrumbs-text"
-                gutter="xs"
-              >
-                <q-breadcrumbs-el
-                  label="Store"
-                  :to="{
-                    name: 'store-home',
-                    params: {
-                      slug: catalogSlug
-                    }
-                  }"
-                />
-                <q-breadcrumbs-el
-                  :label="product.category.name"
-                  :to="{
-                    name: 'store-category-detail',
-                    params: {
-                      catalogSlug: catalogSlug,
-                      categorySlug: product.category.slug
-                    }
-                  }"
-                />
-                <q-breadcrumbs-el :label="product.name" />
-              </q-breadcrumbs>
+          <div class="col-12 col-sm-5 col-md-6 q-pl-sm-md q-pl-md-none q-px-md-sm">
+            <div
+              :class="[
+                $q.screen.lt.md ? 'text-h5':'text-h4',
+                'text-capitalize', 'text-weight-medium',
+                'q-py-sm'
+              ]"
+            >
+              {{ product.name }}
             </div>
-            <div class="text-uppercase text-h4 text-weight-medium q-pt-sm q-pb-sm q-pb-sm-xl">{{ product.name }}</div>
             <div class="q-py-sm text-caption text-italic text-grey-6">
               in {{ product.category.name }} category.
             </div>
-            <div class="text-h6 q-py-sm">₦ {{ product.price }}</div>
-            <div class="text-body2 text-grey-9">{{ product.description }}</div>
+            <div class="text-h6">₦ {{ product.price }}</div>
+            <div class="q-gutter-sm q-py-sm">
+              <q-btn
+                color="primary"
+                icon="ion-logo-whatsapp"
+                label="Text us"
+              />
+              <q-btn
+                text-color="primary"
+                icon="phone"
+                label="Call us"
+              />
+            </div>
+            <p class="text-grey-9 q-pt-sm">{{ product.description }}</p>
+            <div class="q-py-md text-grey-9">
+              Share:
+              <div class="q-gutter-sm">
+                <q-icon size="sm" name="ion-logo-whatsapp" />
+                <q-icon size="sm" name="ion-logo-facebook" />
+                <q-icon size="sm" name="ion-logo-twitter" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
