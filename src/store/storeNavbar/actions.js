@@ -13,6 +13,9 @@ export function updateCatalogAction ({ commit }, catalogSlug) {
               name: response.data.name,
               slug: response.data.slug,
               logo: response.data.logo_image,
+              contact_phone: response.data.contact_phone,
+              contact_email: response.data.contact_email,
+              contact_address: response.data.contact_address,
               backgroundImage: response.data.background_image
             })
         } else {
