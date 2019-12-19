@@ -286,7 +286,7 @@
       <!-- This is where pages get injected -->
       <router-view />
       <div id="footer" class="q-pt-xl">
-        <div class="bg-grey-3 row q-py-xl q-px-md q-pa-sm-xl">
+        <div id="brand-section" class="bg-grey-3 row q-py-xl q-px-md q-pa-sm-xl">
           <div class="col-12 col-sm-6">
             <q-avatar size="36px" class="q-mb-sm">
               <img v-if="storeCatalog.logo.thumbnail" :src="storeCatalog.logo.thumbnail">
@@ -298,6 +298,20 @@
               <q-icon size="sm" name="ion-logo-twitter" />
               <q-icon size="sm" name="ion-logo-whatsapp" />
             </div>
+          </div>
+          <div id="contact-us-section" class="col-12 col-sm-6 q-pt-lg q-pt-sm-none">
+            <p><strong>Contact Us</strong></p>
+            <p>{{ storeCatalog.contactAddress }}</p>
+            <p>
+              <a :href="'tel:' + storeCatalog.contactPhone">
+                {{ storeCatalog.contactPhone }}
+              </a>
+            </p>
+            <p>
+              <a :href="'mailto:' + storeCatalog.contactEmail">
+                {{ storeCatalog.contactEmail }}
+              </a>
+            </p>
           </div>
         </div>
       </div>
