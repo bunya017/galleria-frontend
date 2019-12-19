@@ -285,8 +285,23 @@
     <q-page-container>
       <!-- This is where pages get injected -->
       <router-view />
+      <div id="footer" class="q-pt-xl">
+        <div class="bg-grey-3 row q-py-xl q-px-md q-pa-sm-xl">
+          <div class="col-12 col-sm-6">
+            <q-avatar size="36px" class="q-mb-sm">
+              <img v-if="storeCatalog.logo.thumbnail" :src="storeCatalog.logo.thumbnail">
+            </q-avatar>
+            <div class="text-h6">{{ storeCatalog.name }}</div>
+            <div class="q-py-md q-gutter-sm tex-grey-9">
+              <q-icon size="sm" name="ion-logo-facebook" />
+              <q-icon size="sm" name="ion-logo-instagram" />
+              <q-icon size="sm" name="ion-logo-twitter" />
+              <q-icon size="sm" name="ion-logo-whatsapp" />
+            </div>
+          </div>
+        </div>
+      </div>
     </q-page-container>
-
   </q-layout>
 </template>
 
@@ -331,5 +346,6 @@ export default {
 <style scoped>
 a {
   text-decoration: none;
+  color: inherit;
 }
 </style>
