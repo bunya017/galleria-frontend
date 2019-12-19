@@ -54,7 +54,7 @@
                 <q-breadcrumbs-el :label="product.name" />
               </q-breadcrumbs>
             </div>
-            <div class="text-uppercase text-h4 text-weight-medium q-pt-sm q-pb-sm q-pb-sm-xl">{{ product.name }}</div>
+            <div class="text-capitalize text-h4 text-weight-medium q-py-sm">{{ product.name }}</div>
             <div class="q-py-sm text-caption text-italic text-grey-6">
               in {{ product.category.name }} category.
             </div>
