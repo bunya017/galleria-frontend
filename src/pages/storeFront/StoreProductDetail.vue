@@ -67,7 +67,13 @@
               in {{ product.category.name }} category.
             </div>
             <div class="text-h6 q-py-sm">₦ {{ product.price }}</div>
-            <div class="text-body2 text-grey-9">{{ product.description }}</div>
+            <p class="text-grey-9">{{ product.description }}</p>
+            <div class="q-py-md q-gutter-sm text-grey-9 vertical-middle">
+              Share:
+              <q-icon size="sm" name="ion-logo-whatsapp" />
+              <q-icon size="sm" name="ion-logo-facebook" />
+              <q-icon size="sm" name="ion-logo-twitter" />
+            </div>
           </div>
         </div>
       </div>
