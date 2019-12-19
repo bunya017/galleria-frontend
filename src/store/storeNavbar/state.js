@@ -3,6 +3,9 @@ export default {
     name: '',
     slug: '',
     logo: '',
+    contactEmail: '',
+    contactPhone: '',
+    contactAddress: '',
     backgroundImage: ''
   }
 }
