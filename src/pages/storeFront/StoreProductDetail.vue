@@ -4,7 +4,7 @@
       <!-- Product Detail -->
       <div class="col-12 col-md-9 q-px-md q-px-sm-none q-col-gutter-md-md" v-if="product.category">
         <!-- Breadcrumbs -->
-        <div class="q-py-md ">
+        <div class="q-pt-md ">
           <q-breadcrumbs
             separator="/"
             class="text-uppercase breadcrumbs-text"
@@ -66,13 +66,27 @@
             <div class="q-py-sm text-caption text-italic text-grey-6">
               in {{ product.category.name }} category.
             </div>
-            <div class="text-h6 q-py-sm">₦ {{ product.price }}</div>
-            <p class="text-grey-9">{{ product.description }}</p>
-            <div class="q-py-md q-gutter-sm text-grey-9 vertical-middle">
+            <div class="text-h6">₦ {{ product.price }}</div>
+            <div class="q-gutter-sm q-py-sm">
+              <q-btn
+                color="primary"
+                icon="ion-logo-whatsapp"
+                label="Text us"
+              />
+              <q-btn
+                text-color="primary"
+                icon="phone"
+                label="Call us"
+              />
+            </div>
+            <p class="text-grey-9 q-pt-sm">{{ product.description }}</p>
+            <div class="q-py-md text-grey-9">
               Share:
-              <q-icon size="sm" name="ion-logo-whatsapp" />
-              <q-icon size="sm" name="ion-logo-facebook" />
-              <q-icon size="sm" name="ion-logo-twitter" />
+              <div class="q-gutter-sm">
+                <q-icon size="sm" name="ion-logo-whatsapp" />
+                <q-icon size="sm" name="ion-logo-facebook" />
+                <q-icon size="sm" name="ion-logo-twitter" />
+              </div>
             </div>
           </div>
         </div>
