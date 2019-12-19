@@ -85,7 +85,7 @@
           placeholder="Search Store..."
           :style="{ width: searchInputSize + 'px' }"
           dense
-          standout="bg-primary"
+          outlined
           @focus="searchInputSize = 400"
           @blur="searchInputSize = 200"
           type="search"
