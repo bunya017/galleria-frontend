@@ -3,6 +3,35 @@
     <div class="row justify-center">
       <!-- Product Detail -->
       <div class="col-12 col-md-9 q-pa-sm q-pa-sm-md" v-if="product.category">
+        <!-- Breadcrumbs -->
+        <div class="q-pb-md ">
+          <q-breadcrumbs
+            separator="/"
+            class="text-uppercase breadcrumbs-text"
+            gutter="xs"
+          >
+            <q-breadcrumbs-el
+              label="Store"
+              :to="{
+                name: 'store-home',
+                params: {
+                  slug: catalogSlug
+                }
+              }"
+            />
+            <q-breadcrumbs-el
+              :label="product.category.name"
+              :to="{
+                name: 'store-category-detail',
+                params: {
+                  catalogSlug: catalogSlug,
+                  categorySlug: product.category.slug
+                }
+              }"
+            />
+            <q-breadcrumbs-el :label="product.name" />
+          </q-breadcrumbs>
+        </div>
         <div class="row q-col-gutter-md-md">
           <!-- Product Images -->
           <div class="col-12 col-md-6">
@@ -25,35 +54,6 @@
           </div>
           <!-- Product Info -->
           <div class="col-12 col-md-6">
-            <!-- Breadcrumbs -->
-            <div class="q-pa-sm q-gutter-sm">
-              <q-breadcrumbs
-                separator="/"
-                class="text-uppercase breadcrumbs-text"
-                gutter="xs"
-              >
-                <q-breadcrumbs-el
-                  label="Store"
-                  :to="{
-                    name: 'store-home',
-                    params: {
-                      slug: catalogSlug
-                    }
-                  }"
-                />
-                <q-breadcrumbs-el
-                  :label="product.category.name"
-                  :to="{
-                    name: 'store-category-detail',
-                    params: {
-                      catalogSlug: catalogSlug,
-                      categorySlug: product.category.slug
-                    }
-                  }"
-                />
-                <q-breadcrumbs-el :label="product.name" />
-              </q-breadcrumbs>
-            </div>
             <div class="text-capitalize text-h4 text-weight-medium q-py-sm">{{ product.name }}</div>
             <div class="q-py-sm text-caption text-italic text-grey-6">
               in {{ product.category.name }} category.
