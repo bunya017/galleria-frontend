@@ -73,7 +73,7 @@
                     }
                   }"
                 >
-                  <q-item-label class="text-black">{{ product.product.name }}</q-item-label>
+                  <q-item-label>{{ product.product.name }}</q-item-label>
                   <q-item-label caption>
                     {{ product.product.description }}
                   </q-item-label>
@@ -388,5 +388,6 @@ export default {
 <style scoped>
 a {
   text-decoration: none;
+  color: inherit;
 }
 </style>

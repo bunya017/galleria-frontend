@@ -93,7 +93,7 @@
                     :ratio="9/10"
                   />
                   <q-card-section class="q-pa-xs q-pa-sm-sm">
-                    <div class="text-capitalize text-sm-subtitle1 ellipsis text-black">
+                    <div class="text-capitalize text-sm-subtitle1 ellipsis">
                       {{ product.name }}
                     </div>
                     <div class="text-grey-8 q-px-xs text-subtitle2 text-caption">₦{{ noDecimal(product.price) }}</div>
@@ -153,6 +153,7 @@ export default {
 <style scoped>
   a {
     text-decoration: none;
+    color: inherit;
   }
   @media (max-width: 400px) {
     .product-slide-vert {

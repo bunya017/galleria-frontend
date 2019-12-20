@@ -45,8 +45,8 @@
           <q-card>
             <div class="row justify-center items-center" style="min-height: 100px;">
               <div class="text-center">
-                <div class="text-h5 text-black">Collections</div>
-                <div class="text-subtitle2 text-black">(Click to view)</div>
+                <div class="text-h5">Collections</div>
+                <div class="text-subtitle2">(Click to view)</div>
               </div>
             </div>
           </q-card>
@@ -65,8 +65,8 @@
           <q-card>
             <div class="row justify-center items-center" style="min-height: 100px;">
               <div class="text-center">
-                <div class="text-h5 text-black">{{ productCount }} Products</div>
-                <div class="text-subtitle2 text-black">(Click to view)</div>
+                <div class="text-h5">{{ productCount }} Products</div>
+                <div class="text-subtitle2">(Click to view)</div>
               </div>
             </div>
           </q-card>
@@ -189,7 +189,7 @@
                     }
                   }"
                 >
-                  <q-item-label class="text-black">{{ category.name }}</q-item-label>
+                  <q-item-label>{{ category.name }}</q-item-label>
                   <q-item-label caption>{{ category.description }}</q-item-label>
                 </router-link>
               </q-item-section>
@@ -424,6 +424,7 @@ export default {
 <style scoped>
 a {
   text-decoration: none;
+  color: inherit;
 }
 .bg-image {
   max-height: 56px;

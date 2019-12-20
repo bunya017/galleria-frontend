@@ -59,7 +59,7 @@
                     }
                   }"
                 >
-                  <q-item-label class="text-black">{{ collection.name }}</q-item-label>
+                  <q-item-label>{{ collection.name }}</q-item-label>
                   <q-item-label caption>{{ collection.description }}</q-item-label>
                 </router-link>
               </q-item-section>
@@ -381,6 +381,7 @@ export default {
 <style scoped>
 a {
   text-decoration: none;
+  color: inherit;
 }
 .bg-image {
   max-height: 56px;

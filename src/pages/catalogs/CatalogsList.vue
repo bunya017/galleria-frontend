@@ -249,7 +249,7 @@
                     }
                   }"
                 >
-                  <q-item-label class="text-black">{{ catalog.name }}</q-item-label>
+                  <q-item-label>{{ catalog.name }}</q-item-label>
                   <q-item-label caption>{{ catalog.description }}</q-item-label>
                 </router-link>
               </q-item-section>
@@ -522,6 +522,7 @@ export default {
 <style scoped>
 a {
   text-decoration: none;
+  color: inherit;
 }
 .product-photo {
   width: 56px;

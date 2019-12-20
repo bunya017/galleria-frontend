@@ -72,7 +72,7 @@
                         :src="product.photos[0].photo.small"
                         :ratio="1"
                       />
-                      <q-card-section class="q-pa-xs q-pa-sm-sm text-center text-black">
+                      <q-card-section class="q-pa-xs q-pa-sm-sm text-center">
                         <div class="text-subtitle1 text-capitalize">
                           {{ product.name }}
                         </div>
@@ -123,6 +123,7 @@ export default {
 <style scoped>
   a {
     text-decoration: none;
+    color: inherit;
   }
   @media (max-width: 599px) {
     .my-header-image {

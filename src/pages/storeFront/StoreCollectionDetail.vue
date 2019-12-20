@@ -73,7 +73,7 @@
                       :ratio="1"
                     />
                     <q-card-section class="q-pa-xs q-pa-sm-sm text-center">
-                      <div class="text-subtitle1 text-capitalize text-black">
+                      <div class="text-subtitle1 text-capitalize">
                         {{ collectionProduct.product.name }}
                       </div>
                       <div class="text-subtitle1 q-pt-sm-xs text-grey-8">₦{{ collectionProduct.product.price }}</div>
@@ -122,6 +122,7 @@ export default {
 <style scoped>
   a {
     text-decoration: none;
+    color: inherit;
   }
   @media (max-width: 599px) {
     .my-header-image {
