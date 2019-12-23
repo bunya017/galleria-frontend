@@ -194,10 +194,10 @@ export default {
       font-size: 5vw;
     }
     .my-header-image {
-      height: 60vw;
+      height: 40vh;
     }
     .my-card-image {
-      height: 25vw;
+      height: 30vh;
     }
     .product-slide {
       width: 30vw;
@@ -207,13 +207,13 @@ export default {
     .my-text-head {
       font-size: 4vw;
     }
-    .my-card-image {
-      height: 20vw;
-    }
   }
-  @media (max-width: 860px) {
+  @media (min-width: 600px) and (max-width: 999px) {
     .my-header-image {
       height: 50vw;
+    }
+    .my-card-image {
+      height: 30vw;
     }
   }
   @media (max-width: 999px) and (min-width: 861px) {
@@ -224,6 +224,9 @@ export default {
   @media (min-width: 1000px) {
     .my-header-image {
       height: 35vw;
+    }
+    .my-card-image {
+      height: 25vw;
     }
   }
 </style>
