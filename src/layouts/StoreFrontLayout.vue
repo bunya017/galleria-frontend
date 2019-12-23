@@ -285,7 +285,7 @@
     <q-page-container>
       <!-- This is where pages get injected -->
       <router-view />
-      <div id="footer">
+      <div id="footer" class="q-pt-lg">
         <div id="brand-section" class="bg-grey-3 row q-py-xl q-px-md q-pa-sm-xl">
           <div class="col-12 col-sm-6">
             <q-avatar size="36px" class="q-mb-sm">
