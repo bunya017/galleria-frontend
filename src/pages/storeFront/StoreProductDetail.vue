@@ -1,10 +1,10 @@
 <template>
-  <q-page padding>
+  <q-page :padding="$q.screen.gt.sm">
     <div class="row justify-center">
       <!-- Product Detail -->
       <div class="col-12 col-md-9 q-px-md q-px-sm-none q-col-gutter-md-md" v-if="product.category">
         <!-- Breadcrumbs -->
-        <div class="q-pt-md ">
+        <div class="q-py-md q-pt-sm-none q-pb-sm-none">
           <q-breadcrumbs
             separator="/"
             class="text-uppercase breadcrumbs-text"
