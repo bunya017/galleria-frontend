@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div class="q-px-md-xl q-py-md-sm q-pa-sm" v-if="collections[0].name">
+    <div class="q-px-md-xl q-py-md-sm q-pa-sm" v-if="collections">
       <!-- Header -->
       <div class="text-h4 xs">Collections</div>
       <div class="text-h3 sm">Collections</div>
