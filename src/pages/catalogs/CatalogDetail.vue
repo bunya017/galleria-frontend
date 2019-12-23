@@ -72,6 +72,28 @@
           </q-card>
         </router-link>
       </div>
+      <div class="col-12 col-md-3">
+        <router-link
+          v-if="catalog.slug"
+          :to="{
+            name: 'store-home',
+            params: {
+              catalogSlug: catalog.slug
+            }
+          }"
+          target="_blank"
+        >
+          <q-card>
+            <div class="row justify-center items-center" style="min-height: 100px;">
+              <div class="text-center">
+                <div class="text-h5">
+                  Visit Site <q-icon name="launch" color="primary" />
+                </div>
+              </div>
+            </div>
+          </q-card>
+        </router-link>
+      </div>
     </div>
 
     <!-- New category modal/dialog -->
