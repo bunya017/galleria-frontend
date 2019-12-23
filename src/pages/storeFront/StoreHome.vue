@@ -69,8 +69,37 @@
         </div>
 
         <!-- Featured products -->
-        <div class="text-h4 text-left q-pt-lg">FEATURED</div>
-          <div class="row q-py-sm q-px-sm-md q-col-gutter-md no-wrap" style="overflow-x: auto;" v-if="catalog">
+        <div class="row q-py-sm">
+          <div
+            :class="[
+              $q.screen.lt.sm ? 'text-h6':'text-h5',
+              'text-left', 'q-pt-lg', 'col-6'
+            ]"
+          >
+            FEATURED
+          </div>
+          <div class="col-6 q-pt-lg">
+            <q-btn
+              dense
+              flat
+              class="float-right"
+              color="primary"
+              icon-right="arrow_forward"
+              label="view all"
+              :to="{
+                name: 'store-product-list',
+                params: {
+                  catalogSlug: catalog.slug
+                }
+              }"
+            />
+          </div>
+        </div>
+        <div
+          class="row q-py-sm q-px-sm-md q-col-gutter-md no-wrap"
+          style="overflow-x: auto;"
+          v-if="catalog"
+        >
             <div
               v-for="product in products"
               :key="product.id"
