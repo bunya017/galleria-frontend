@@ -100,36 +100,36 @@
           style="overflow-x: auto;"
           v-if="catalog"
         >
-            <div
-              v-for="product in products"
-              :key="product.id"
-              class="col-4 col-sm-3"
+          <div
+            v-for="product in products"
+            :key="product.id"
+            class="col-4 col-sm-3"
+          >
+            <router-link
+              v-if="catalog.slug"
+              :to="{
+                name: 'store-product-detail',
+                params: {
+                  catalogSlug: catalog.slug,
+                  referenceId: product.reference_id,
+                  productSlug: product.slug
+                }
+              }"
             >
-              <router-link
-                v-if="catalog.slug"
-                :to="{
-                  name: 'store-product-detail',
-                  params: {
-                    catalogSlug: catalog.slug,
-                    referenceId: product.reference_id,
-                    productSlug: product.slug
-                  }
-                }"
-              >
-                <q-card>
-                  <q-img
-                    :src="product.photos[0].photo.small"
-                    :ratio="9/10"
-                  />
-                  <q-card-section class="q-pa-xs q-pa-sm-sm">
-                    <div class="text-capitalize text-sm-subtitle1 ellipsis">
-                      {{ product.name }}
-                    </div>
-                    <div class="text-grey-8 q-px-xs text-subtitle2 text-caption">₦{{ noDecimal(product.price) }}</div>
-                  </q-card-section>
-                </q-card>
-              </router-link>
-            </div>
+              <q-card>
+                <q-img
+                  :src="product.photos[0].photo.small"
+                  :ratio="9/10"
+                />
+                <q-card-section class="q-pa-xs q-pa-sm-sm">
+                  <div class="text-capitalize text-sm-subtitle1 ellipsis">
+                    {{ product.name }}
+                  </div>
+                  <div class="text-grey-8 q-px-xs text-subtitle2 text-caption">₦{{ noDecimal(product.price) }}</div>
+                </q-card-section>
+              </q-card>
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
