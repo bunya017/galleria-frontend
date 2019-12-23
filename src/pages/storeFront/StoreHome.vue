@@ -101,7 +101,7 @@
           v-if="catalog"
         >
           <div
-            v-for="product in products"
+            v-for="product in products.slice(0,4)"
             :key="product.id"
             class="col-4 col-sm-3"
           >
