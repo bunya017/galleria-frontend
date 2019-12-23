@@ -204,7 +204,7 @@
       no-swipe-open
       no-swipe-close
       :width="275"
-      content-class="bg-grey-2"
+      content-class="bg-white"
     >
       <!-- QScrollArea is optional -->
       <q-scroll-area
@@ -212,7 +212,7 @@
         class="fit q-pa-sm"
       >
         <!-- Navigation menu -->
-        <q-list padding>
+        <q-list>
           <!--
           <q-item class="q-py-md">
             <q-avatar size="200px">
