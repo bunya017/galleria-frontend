@@ -22,4 +22,5 @@ yarn-error.log*
 # User ignored directories and files
 crap
 
-.env
+.env*
+*.tar
