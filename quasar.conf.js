@@ -2,6 +2,7 @@
 
 module.exports = function (ctx) {
   return {
+    preFetch: true,
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     boot: [
@@ -14,8 +15,8 @@ module.exports = function (ctx) {
 
     extras: [
       'roboto-font',
-      'material-icons' // optional, you are not bound to it
-      // 'ionicons-v4',
+      'material-icons', // optional, you are not bound to it
+      'ionicons-v4'
       // 'mdi-v3',
       // 'fontawesome-v5',
       // 'eva-icons'
@@ -37,17 +38,52 @@ module.exports = function (ctx) {
         'QList',
         'QItem',
         'QItemSection',
-        'QItemLabel'
+        'QItemLabel',
+        'QBtnGroup',
+        'QSeparator',
+        'QAvatar',
+        'QMenu',
+        'QSpace',
+        'QCard',
+        'QCardSection',
+        'QCardActions',
+        'QInput',
+        'QTabs',
+        'QTab',
+        'QRouteTab',
+        'QScrollArea',
+        'QBreadcrumbs',
+        'QBreadcrumbsEl',
+        'QBadge',
+        'QDialog',
+        'QTooltip',
+        'QImg',
+        'QTable',
+        'QTh',
+        'QTr',
+        'QTd',
+        'QSelect',
+        'QUploader',
+        'QUploaderAddTrigger',
+        'QPopupEdit',
+        'QCarousel',
+        'QCarouselControl',
+        'QCarouselSlide',
+        'QFab',
+        'QPageSticky'
       ],
 
       directives: [
-        'Ripple'
+        'Ripple',
+        'ClosePopup'
       ],
 
       // Quasar plugins
       plugins: [
         'Notify'
-      ]
+      ],
+
+      cssAddon: true
 
       // iconSet: 'ionicons-v4'
       // lang: 'de' // Quasar language
@@ -75,7 +111,7 @@ module.exports = function (ctx) {
     devServer: {
       // https: true,
       // port: 8080,
-      open: true // opens browser window automatically
+      open: false // opens browser window automatically
     },
 
     // animations: 'all' --- includes all animations

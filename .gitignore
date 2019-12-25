@@ -18,3 +18,8 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+
+# User ignored directories and files
+crap
+
+.env
