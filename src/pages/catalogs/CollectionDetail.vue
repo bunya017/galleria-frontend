@@ -372,9 +372,6 @@ export default {
             self.removeProd = false
           }
         })
-        .catch(function (error) {
-          console.log(error.response)
-        })
     }
   },
   created: function () {
