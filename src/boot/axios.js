@@ -2,7 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8000/api'
+  baseURL: process.env.GALLERIA_API
 })
 
 Vue.prototype.$axios = axiosInstance

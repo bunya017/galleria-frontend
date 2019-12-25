@@ -12,7 +12,7 @@
           @click="leftDrawer = !leftDrawer"
         />
         <q-toolbar-title>
-          Galleria <q-badge color="negative" label="v0.1.0-alpha.1" />
+          Galleria <q-badge color="grey-7" label="beta" />
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
