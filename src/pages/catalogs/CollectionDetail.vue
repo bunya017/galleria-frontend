@@ -269,6 +269,7 @@ export default {
             self.collection = response.data
             self.collectionProducts = response.data.collection_products
             self.newCollectionProduct.collection = response.data.id
+            self.collectionNotFound = false
           }
         })
         .catch(function (error) {
