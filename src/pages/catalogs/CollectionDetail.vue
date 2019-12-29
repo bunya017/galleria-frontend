@@ -258,6 +258,10 @@ export default {
     },
     getCollectionDetail: function () {
       let self = this
+      this.$q.loading.show({
+        spinnerColor: 'primary',
+        backgroundColor: 'white'
+      })
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
       }
@@ -270,11 +274,13 @@ export default {
             self.collectionProducts = response.data.collection_products
             self.newCollectionProduct.collection = response.data.id
             self.collectionNotFound = false
+            self.$q.loading.hide()
           }
         })
         .catch(function (error) {
           if (error.response.status === 404) {
             self.collectionNotFound = true
+            self.$q.loading.hide()
           }
         })
     },
