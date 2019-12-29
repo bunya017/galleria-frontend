@@ -330,6 +330,10 @@ export default {
     },
     getCatalogDetail: function () {
       let self = this
+      this.$q.loading.show({
+        spinnerColor: 'primary',
+        backgroundColor: 'white'
+      })
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
       }
@@ -341,11 +345,13 @@ export default {
             self.catalog = response.data
             self.productCount = self.getProductCount(response.data.categories)
             self.catalogNotFound = false
+            self.$q.loading.hide()
           }
         })
         .catch(function (error) {
           if (error.response.status === 404) {
             self.catalogNotFound = true
+            self.$q.loading.hide()
           }
         })
     },
