@@ -221,7 +221,7 @@
     </q-dialog>
 
     <!-- Catalog List -->
-    <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
+    <div class="row q-pt-lg q-pb-xl q-col-gutter-md" v-if="catalogs[0]">
       <div class="col-12">
         <q-card>
           <q-list separator>
@@ -488,7 +488,8 @@ export default {
     makeDeleteCatalogPayload: function (payload) {
       this.deleteCat = true
       this.deleteCatalogPayload.name = payload.name
-      this.deleteCatalogPayload.url = payload.url
+      this.deleteCatalogPayload.url = process.env.PROD
+        ? payload.url.replace('http://', 'https://') : payload.url
     },
     clearDeleteCatalogPayload: function () {
       this.deleteCatalogPayload.name = ''
