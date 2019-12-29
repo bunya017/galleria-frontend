@@ -585,7 +585,8 @@ export default {
       this.deleteProductPayload.description = payload.description
       this.deleteProductPayload.category = payload.category
       this.deleteProductPayload.price = payload.price
-      this.deleteProductPayload.url = payload.url
+      this.deleteProductPayload.url = process.env.PROD
+        ? payload.url.replace('http://', 'https://') : payload.url
     },
     makeEditProductPayload: function (payload) {
       this.editProd = true
@@ -593,7 +594,8 @@ export default {
       this.editProductPayload.description = payload.description
       this.editProductPayload.category = payload.category
       this.editProductPayload.price = payload.price
-      this.editProductPayload.url = payload.url
+      this.editProductPayload.url = process.env.PROD
+        ? payload.url.replace('http://', 'https://') : payload.url
     },
     clearDeleteProductPayload: function () {
       this.deleteProductPayload.name = ''
