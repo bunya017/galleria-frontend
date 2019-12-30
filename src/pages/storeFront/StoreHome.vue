@@ -162,6 +162,10 @@ export default {
   methods: {
     getCatalog: function () {
       let self = this
+      this.$q.loading.show({
+        spinnerColor: 'primary',
+        backgroundColor: 'white'
+      })
       self.$axios.get(
         'catalogs/' + self.$route.params.catalogSlug + '/'
       )
@@ -169,11 +173,13 @@ export default {
           if (response.status === 200) {
             self.catalog = response.data
             self.catalogNotFound = false
+            self.$q.loading.hide()
           }
         })
         .catch(function (error) {
           if (error.response.status === 404) {
             self.catalogNotFound = true
+            self.$q.loading.hide()
           }
         })
     },
