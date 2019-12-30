@@ -66,21 +66,8 @@
               <div class="q-pt-none text-caption text-italic text-grey-6">
                 in {{ product.category.name }} category.
               </div>
-              <!-- Product Description -->
-              <div class="q-pt-md">
-                <span class="text-subtitle1 text-grey-9">{{ product.description }}</span>
-                <span class="text-caption text-grey-7 q-pl-xs"><q-icon name="edit" />Click to edit</span>
-                <q-popup-edit
-                  buttons
-                  @save="editProductDescription"
-                  v-model="editProduct.description"
-                  title="Edit product description"
-                >
-                  <q-input v-model="editProduct.description" type="text" dense autofocus counter />
-                </q-popup-edit>
-              </div>
               <!-- Product Price -->
-              <div class="q-pt-md q-pt-sm-xl">
+              <div class="q-pt-md">
                 <span class="text-h5">₦ {{ product.price }}</span>
                 <span class="text-caption text-grey-7 q-pl-xs"><q-icon name="edit" />Click to edit</span>
                 <q-popup-edit
@@ -90,6 +77,19 @@
                   title="Edit product price (₦)"
                 >
                   <q-input v-model="editProduct.price" type="number" dense autofocus counter />
+                </q-popup-edit>
+              </div>
+              <!-- Product Description -->
+              <div class="q-pt-md q-pt-sm-xl">
+                <span class="text-subtitle1 text-grey-9">{{ product.description }}</span>
+                <span class="text-caption text-grey-7 q-pl-xs"><q-icon name="edit" />Click to edit</span>
+                <q-popup-edit
+                  buttons
+                  @save="editProductDescription"
+                  v-model="editProduct.description"
+                  title="Edit product description"
+                >
+                  <q-input v-model="editProduct.description" type="text" dense autofocus counter />
                 </q-popup-edit>
               </div>
             </div>
@@ -143,6 +143,10 @@ export default {
     },
     getProductDetail: function () {
       let self = this
+      this.$q.loading.show({
+        spinnerColor: 'primary',
+        backgroundColor: 'white'
+      })
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
       }
@@ -157,11 +161,13 @@ export default {
             self.editProduct.price = self.product.price
             self.editProduct.description = self.product.description
             self.productNotFound = false
+            self.$q.loading.hide()
           }
         })
         .catch(function (error) {
           if (error.response.status === 404) {
             self.productNotFound = true
+            self.$q.loading.hide()
           }
         })
     },
