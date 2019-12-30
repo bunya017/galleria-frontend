@@ -69,11 +69,15 @@
             <div class="text-h6">₦ {{ product.price }}</div>
             <div class="q-gutter-sm q-py-sm">
               <q-btn
+                type="a"
+                :href="'https://wa.me/234' + storeCatalog.contactPhone"
                 color="primary"
                 icon="ion-logo-whatsapp"
                 label="Text us"
               />
               <q-btn
+                type="a"
+                :href="'tel:' + storeCatalog.contactPhone"
                 text-color="primary"
                 icon="phone"
                 label="Call us"
@@ -150,6 +154,11 @@ export default {
   },
   created () {
     this.getProductDetail()
+  },
+  computed: {
+    storeCatalog () {
+      return this.$store.state.navbar.catalog
+    }
   }
 }
 </script>
