@@ -560,6 +560,8 @@ export default {
         .then(function (response) {
           if (response.status === 201) {
             self.alertPayload.message = 'New product added successfully!'
+            self.getProductsList()
+            self.getProductsCatalog()
             self.showAlert(self.alertPayload)
             self.newProd = false
           }
