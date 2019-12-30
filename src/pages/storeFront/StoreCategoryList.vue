@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div class="q-px-md-xl q-py-md-sm q-pa-sm" v-if="categories">
+    <div class="q-px-md-xl q-py-md-sm q-pa-sm" v-if="catListNotFound === false">
       <!-- Header -->
       <div class="text-h4 xs">Categories</div>
       <div class="text-h3 sm">Categories</div>
@@ -58,6 +58,19 @@
         </div>
       </div>
     </div>
+    <div class="row jutify-center text-center" style="padding-top: 25vh;" v-if="catListNotFound === true">
+      <div class="col-12 q-px-md">
+        <div class="text-h2 q-pb-lg">404</div>
+        <p class="text-body1">We can't seem to find the page you're looking for.</p>
+        <div class="q-gutter-sm q-py-sm">
+          <q-btn
+            color="primary"
+            label="Go back"
+            @click="$router.back()"
+          />
+        </div>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -67,18 +80,34 @@ export default {
   data () {
     return {
       catalogSlug: this.$route.params.catalogSlug,
-      categories: []
+      categories: [],
+      catListNotFound: null
     }
   },
   methods: {
     getCategoryList: function () {
       let self = this
+      self.$store.dispatch('navbar/updateIs404Action', false)
+      self.$q.loading.show({
+        spinnerColor: 'primary',
+        backgroundColor: 'white'
+      })
       self.$axios.get(
         'catalogs/' + self.$route.params.catalogSlug + '/categories/'
       )
         .then(function (response) {
           if (response.status === 200) {
             self.categories = response.data
+            self.catListNotFound = false
+            self.$store.dispatch('navbar/updateIs404Action', false)
+            self.$q.loading.hide()
+          }
+        })
+        .catch(function (error) {
+          if (error.response.status === 404) {
+            self.catListNotFound = true
+            self.$store.dispatch('navbar/updateIs404Action', true)
+            self.$q.loading.hide()
           }
         })
     }

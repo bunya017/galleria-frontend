@@ -31,3 +31,7 @@ export function updateCatalogAction ({ commit }, catalogSlug) {
       }
     })
 }
+
+export function updateIs404Action ({ commit }, errorState) {
+  return commit('updateIs404', errorState)
+}

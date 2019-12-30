@@ -1,274 +1,289 @@
 <template>
   <q-page padding>
-    <!-- Title -->
-    <div class="row items-center q-pt-sm q-pb-none">
-      <div class="text-h4 col-12 col-sm-6">{{ catalog.name }}</div>
-      <div class="col-12 col-sm-6 gt-xs">
-        <q-btn
-          class="bg-primary float-right"
-          flat
-          color="white"
-          icon="add"
-          label="New Category"
-          @click="newCat = true"
-        />
+    <div v-if="catalogNotFound === false">
+      <!-- Title -->
+      <div class="row items-center q-pt-sm q-pb-none">
+        <div class="text-h4 col-12 col-sm-6">{{ catalog.name }}</div>
+        <div class="col-12 col-sm-6 gt-xs">
+          <q-btn
+            class="bg-primary float-right"
+            flat
+            color="white"
+            icon="add"
+            label="New Category"
+            @click="newCat = true"
+          />
+        </div>
       </div>
-    </div>
 
-    <!-- Breadcrumbs -->
-    <div class="q-px-sm q-gutter-sm">
-      <q-breadcrumbs separator="/" class="text-uppercase breadcrumbs-text" gutter="xs">
-        <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
-        <q-breadcrumbs-el
-          :label="catalog.name"
-          :to="{
-            name:'my-catalogs',
-            params: {
-              slug: this.$route.params.slug
-            }
-          }"
-        />
-      </q-breadcrumbs>
-    </div>
+      <!-- Breadcrumbs -->
+      <div class="q-px-sm q-gutter-sm">
+        <q-breadcrumbs separator="/" class="text-uppercase breadcrumbs-text" gutter="xs">
+          <q-breadcrumbs-el label="Dashboard" :to="{name:'my-catalogs'}" />
+          <q-breadcrumbs-el
+            :label="catalog.name"
+            :to="{
+              name:'my-catalogs',
+              params: {
+                slug: this.$route.params.slug
+              }
+            }"
+          />
+        </q-breadcrumbs>
+      </div>
 
-    <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
-      <div class="col-6 col-md-3">
-        <router-link
-          v-if="catalog.slug"
-          :to="{
-            name: 'collection-list',
-            params: {
-              catalogSlug: catalog.slug
-            }
-          }"
-        >
-          <q-card>
-            <div class="row justify-center items-center" style="min-height: 100px;">
-              <div class="text-center">
-                <div class="text-h5">Collections</div>
-                <div class="text-subtitle2">(Click to view)</div>
-              </div>
-            </div>
-          </q-card>
-        </router-link>
-      </div>
-      <div class="col-6 col-md-3">
-        <router-link
-          v-if="catalog.slug"
-          :to="{
-            name: 'products-list',
-            params: {
-              catalogSlug: catalog.slug
-            }
-          }"
-        >
-          <q-card>
-            <div class="row justify-center items-center" style="min-height: 100px;">
-              <div class="text-center">
-                <div class="text-h5">{{ productCount }} Products</div>
-                <div class="text-subtitle2">(Click to view)</div>
-              </div>
-            </div>
-          </q-card>
-        </router-link>
-      </div>
-      <div class="col-12 col-md-3">
-        <router-link
-          v-if="catalog.slug"
-          :to="{
-            name: 'store-home',
-            params: {
-              catalogSlug: catalog.slug
-            }
-          }"
-          target="_blank"
-        >
-          <q-card>
-            <div class="row justify-center items-center" style="min-height: 100px;">
-              <div class="text-center">
-                <div class="text-h5">
-                  Visit Site <q-icon name="launch" color="primary" />
+      <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
+        <div class="col-6 col-md-3">
+          <router-link
+            v-if="catalog.slug"
+            :to="{
+              name: 'collection-list',
+              params: {
+                catalogSlug: catalog.slug
+              }
+            }"
+          >
+            <q-card>
+              <div class="row justify-center items-center" style="min-height: 100px;">
+                <div class="text-center">
+                  <div class="text-h5">Collections</div>
+                  <div class="text-subtitle2">(Click to view)</div>
                 </div>
               </div>
-            </div>
-          </q-card>
-        </router-link>
+            </q-card>
+          </router-link>
+        </div>
+        <div class="col-6 col-md-3">
+          <router-link
+            v-if="catalog.slug"
+            :to="{
+              name: 'products-list',
+              params: {
+                catalogSlug: catalog.slug
+              }
+            }"
+          >
+            <q-card>
+              <div class="row justify-center items-center" style="min-height: 100px;">
+                <div class="text-center">
+                  <div class="text-h5">{{ productCount }} Products</div>
+                  <div class="text-subtitle2">(Click to view)</div>
+                </div>
+              </div>
+            </q-card>
+          </router-link>
+        </div>
+        <div class="col-12 col-md-3">
+          <router-link
+            v-if="catalog.slug"
+            :to="{
+              name: 'store-home',
+              params: {
+                catalogSlug: catalog.slug
+              }
+            }"
+            target="_blank"
+          >
+            <q-card>
+              <div class="row justify-center items-center" style="min-height: 100px;">
+                <div class="text-center">
+                  <div class="text-h5">
+                    Visit Site <q-icon name="launch" color="primary" />
+                  </div>
+                </div>
+              </div>
+            </q-card>
+          </router-link>
+        </div>
       </div>
-    </div>
 
-    <!-- New category modal/dialog -->
-    <q-dialog v-model="newCat" position="top" no-backdrop-dismiss>
-      <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
-        <q-card-section class="text-center">
-          <div class="text-h5">New Category</div>
-          <div class="text-subtitle2">Add new product category</div>
-        </q-card-section>
+      <!-- New category modal/dialog -->
+      <q-dialog v-model="newCat" position="top" no-backdrop-dismiss>
+        <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
+          <q-card-section class="text-center">
+            <div class="text-h5">New Category</div>
+            <div class="text-subtitle2">Add new product category</div>
+          </q-card-section>
 
-        <q-card-section class="q-pt-xl">
-          <div class="q-pa-md">
-            <form v-on:submit.prevent.stop="addNewCategory">
-              <div class="q-gutter-y-sm">
-                <q-input
-                  ref="name"
-                  dense
-                  autofocus
-                  type="text"
-                  label="Name"
-                  bottom-slots
-                  :error="nameError.status"
-                  v-model="newCategory.name"
-                  :rules="[ val => !!val || 'This field is required.' ]"
-                  @input="nameError.status = false"
-                >
-                  <template v-slot:error>
-                    {{ nameError.message }}
-                  </template>
-                </q-input>
-                <q-input
-                  ref="description"
-                  dense
-                  type="text"
-                  label="Description"
-                  v-model="newCategory.description"
-                  :rules="[ val => !!val || 'This field is required.' ]"
-                />
-                <!-- Background Image input -->
-                <div class="row">
-                  <q-uploader
-                    class="col"
-                    ref="bgImageFile"
-                    label="Background Image(optional)"
-                    color="white"
-                    text-color="grey-8"
-                    accept=".jpg, image/*"
-                    hide-upload-btn
+          <q-card-section class="q-pt-xl">
+            <div class="q-pa-md">
+              <form v-on:submit.prevent.stop="addNewCategory">
+                <div class="q-gutter-y-sm">
+                  <q-input
+                    ref="name"
+                    dense
+                    autofocus
+                    type="text"
+                    label="Name"
+                    bottom-slots
+                    :error="nameError.status"
+                    v-model="newCategory.name"
+                    :rules="[ val => !!val || 'This field is required.' ]"
+                    @input="nameError.status = false"
                   >
-                    <template v-slot:list="scope">
-                      <q-list separator>
-                        <q-item v-for="file in scope.files" :key="file.name">
+                    <template v-slot:error>
+                      {{ nameError.message }}
+                    </template>
+                  </q-input>
+                  <q-input
+                    ref="description"
+                    dense
+                    type="text"
+                    label="Description"
+                    v-model="newCategory.description"
+                    :rules="[ val => !!val || 'This field is required.' ]"
+                  />
+                  <!-- Background Image input -->
+                  <div class="row">
+                    <q-uploader
+                      class="col"
+                      ref="bgImageFile"
+                      label="Background Image(optional)"
+                      color="white"
+                      text-color="grey-8"
+                      accept=".jpg, image/*"
+                      hide-upload-btn
+                    >
+                      <template v-slot:list="scope">
+                        <q-list separator>
+                          <q-item v-for="file in scope.files" :key="file.name">
+                            <q-item-section>
+                              <q-item-label class="full-width ellipsis">
+                                {{ file.name }}
+                              </q-item-label>
+                              <q-item-label caption>
+                                {{ file.__sizeLabel }}
+                              </q-item-label>
+                            </q-item-section>
+                            <q-item-section
+                              v-if="file.__img"
+                              thumbnail
+                            >
+                              <img :src="file.__img.src" class="bg-image">
+                            </q-item-section>
+                            <q-item-section side>
+                              <q-btn
+                                size="12px"
+                                flat
+                                dense
+                                round
+                                icon="delete"
+                                @click="scope.removeFile(file)"
+                              />
+                            </q-item-section>
+                          </q-item>
+                        </q-list>
+                      </template>
+                    </q-uploader>
+                  </div>
+                </div>
+                <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
+                  <q-btn flat label="Cancel" color="grey-8" v-close-popup />
+                  <q-btn flat type="submit" label="Add new" color="primary"  />
+                </q-card-actions>
+              </form>
+            </div>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
+
+      <!-- Categories List -->
+      <div class="text-h5">Categories</div>
+      <div class="row q-pt-sm q-pb-xl q-col-gutter-md">
+        <div class="col-12" v-for="category in catalog.categories" :key="category.name">
+          <q-card>
+            <q-list>
+              <q-item>
+                <q-item-section avatar>
+                  <q-avatar v-if="category.background_image.thumbnail" size="56px">
+                    <img :src="category.background_image.thumbnail">
+                  </q-avatar>
+                  <q-avatar v-else color="primary" size="56px" text-color="white">
+                    {{ getFirstLetters(category.name) }}
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section>
+                  <router-link
+                    :to="{
+                      name: 'category-detail',
+                      params: {
+                        catalogSlug: catalog.slug,
+                        categorySlug: category.slug
+                      }
+                    }"
+                  >
+                    <q-item-label>{{ category.name }}</q-item-label>
+                    <q-item-label caption>{{ category.description }}</q-item-label>
+                  </router-link>
+                </q-item-section>
+                <q-item-section side>
+                  <q-btn size="12px" flat dense round icon="more_vert">
+                    <q-menu auto-close>
+                      <q-list style="width: 200px;">
+                        <q-item clickable @click="makeDeleteCategoryPayload(category)">
+                          <q-item-section avatar>
+                            <q-avatar rounded icon="delete" />
+                          </q-item-section>
                           <q-item-section>
-                            <q-item-label class="full-width ellipsis">
-                              {{ file.name }}
-                            </q-item-label>
-                            <q-item-label caption>
-                              {{ file.__sizeLabel }}
-                            </q-item-label>
-                          </q-item-section>
-                          <q-item-section
-                            v-if="file.__img"
-                            thumbnail
-                          >
-                            <img :src="file.__img.src" class="bg-image">
-                          </q-item-section>
-                          <q-item-section side>
-                            <q-btn
-                              size="12px"
-                              flat
-                              dense
-                              round
-                              icon="delete"
-                              @click="scope.removeFile(file)"
-                            />
+                            Delete
                           </q-item-section>
                         </q-item>
                       </q-list>
-                    </template>
-                  </q-uploader>
-                </div>
-              </div>
-              <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
-                <q-btn flat label="Cancel" color="grey-8" v-close-popup />
-                <q-btn flat type="submit" label="Add new" color="primary"  />
-              </q-card-actions>
-            </form>
-          </div>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
+                    </q-menu>
+                  </q-btn>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-card>
+        </div>
+      </div>
 
-    <!-- Categories List -->
-    <div class="text-h5">Categories</div>
-    <div class="row q-pt-sm q-pb-xl q-col-gutter-md">
-      <div class="col-12" v-for="category in catalog.categories" :key="category.name">
+      <!-- Delete category dialog -->
+      <q-dialog v-model="deleteCaty" @hide="clearDeleteCategoryPayload" persistent>
         <q-card>
-          <q-list>
-            <q-item>
-              <q-item-section avatar>
-                <q-avatar v-if="category.background_image.thumbnail" size="56px">
-                  <img :src="category.background_image.thumbnail">
-                </q-avatar>
-                <q-avatar v-else color="primary" size="56px" text-color="white">
-                  {{ getFirstLetters(category.name) }}
-                </q-avatar>
-              </q-item-section>
-              <q-item-section>
-                <router-link
-                  :to="{
-                    name: 'category-detail',
-                    params: {
-                      catalogSlug: catalog.slug,
-                      categorySlug: category.slug
-                    }
-                  }"
-                >
-                  <q-item-label>{{ category.name }}</q-item-label>
-                  <q-item-label caption>{{ category.description }}</q-item-label>
-                </router-link>
-              </q-item-section>
-              <q-item-section side>
-                <q-btn size="12px" flat dense round icon="more_vert">
-                  <q-menu auto-close>
-                    <q-list style="width: 200px;">
-                      <q-item clickable @click="makeDeleteCategoryPayload(category)">
-                        <q-item-section avatar>
-                          <q-avatar rounded icon="delete" />
-                        </q-item-section>
-                        <q-item-section>
-                          Delete
-                        </q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-menu>
-                </q-btn>
-              </q-item-section>
-            </q-item>
-          </q-list>
+          <q-card-section>
+            <div class="text-h6 text-center">Confirm Permanent Delete?</div>
+          </q-card-section>
+          <q-card-section class="row items-center">
+            <span class="q-py-xs text-center">
+              You are about to delete <strong class="text-negative">{{ deleteCategoryPayload.name }}</strong> including all its product data and photos (if any). Enter the name of this category in the box below to confirm deletion of this category. Please note that this is not <strong>not reversible.</strong>
+            </span>
+            <div class="fit q-pt-lg">
+              Confirm Category Name:
+              <q-input
+                dense
+                outlined
+                type="text"
+                v-model="confirmDeletePayload"
+                :placeholder="deleteCategoryPayload.name"
+              />
+            </div>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn outline label="Cancel" color="grey-7" v-close-popup />
+            <q-btn label="Delete" :disabled="confirmDeletePayload !== deleteCategoryPayload.name" color="negative" @click="deleteCategory" />
+          </q-card-actions>
         </q-card>
+      </q-dialog>
+
+      <!-- Floating Button -->
+      <q-page-sticky class="lt-sm" position="bottom-right" :offset="[20, 20]">
+        <q-btn fab icon="add" color="primary" @click="newCat = true" />
+      </q-page-sticky>
+    </div>
+    <div class="row jutify-center text-center" style="padding-top: 25vh;" v-if="catalogNotFound === true">
+      <div class="col-12 q-px-md">
+        <div class="text-h2 q-pb-lg">404</div>
+        <p class="text-body1">We can't seem to find the page you're looking for.</p>
+        <div class="q-gutter-sm q-py-sm">
+          <q-btn
+            color="primary"
+            label="Go back"
+            @click="$router.back()"
+          />
+        </div>
       </div>
     </div>
-
-    <!-- Delete category dialog -->
-    <q-dialog v-model="deleteCaty" @hide="clearDeleteCategoryPayload" persistent>
-      <q-card>
-        <q-card-section>
-          <div class="text-h6 text-center">Confirm Permanent Delete?</div>
-        </q-card-section>
-        <q-card-section class="row items-center">
-          <span class="q-py-xs text-center">
-            You are about to delete <strong class="text-negative">{{ deleteCategoryPayload.name }}</strong> including all its product data and photos (if any). Enter the name of this category in the box below to confirm deletion of this category. Please note that this is not <strong>not reversible.</strong>
-          </span>
-          <div class="fit q-pt-lg">
-            Confirm Category Name:
-            <q-input
-              dense
-              outlined
-              type="text"
-              v-model="confirmDeletePayload"
-              :placeholder="deleteCategoryPayload.name"
-            />
-          </div>
-        </q-card-section>
-        <q-card-actions align="right">
-          <q-btn outline label="Cancel" color="grey-7" v-close-popup />
-          <q-btn label="Delete" :disabled="confirmDeletePayload !== deleteCategoryPayload.name" color="negative" @click="deleteCategory" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-
-    <!-- Floating Button -->
-    <q-page-sticky class="lt-sm" position="bottom-right" :offset="[20, 20]">
-      <q-btn fab icon="add" color="primary" @click="newCat = true" />
-    </q-page-sticky>
   </q-page>
 </template>
 
@@ -277,7 +292,7 @@ export default {
   name: 'CatalogDetail',
   data: function () {
     return {
-      isError: true,
+      catalogNotFound: null,
       productCount: 0,
       activeProducts: 0,
       newCat: false,
@@ -315,6 +330,10 @@ export default {
     },
     getCatalogDetail: function () {
       let self = this
+      this.$q.loading.show({
+        spinnerColor: 'primary',
+        backgroundColor: 'white'
+      })
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
       }
@@ -325,6 +344,14 @@ export default {
           if (response.status === 200) {
             self.catalog = response.data
             self.productCount = self.getProductCount(response.data.categories)
+            self.catalogNotFound = false
+            self.$q.loading.hide()
+          }
+        })
+        .catch(function (error) {
+          if (error.response.status === 404) {
+            self.catalogNotFound = true
+            self.$q.loading.hide()
           }
         })
     },

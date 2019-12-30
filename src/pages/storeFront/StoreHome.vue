@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <!-- content -->
-    <div class="row justify-center text-center" v-if="catalog.background_image">
+    <div class="row justify-center text-center" v-if="catalogNotFound === false">
       <!-- Catalog header -->
       <div class="col-12">
         <q-img
@@ -133,6 +133,19 @@
         </div>
       </div>
     </div>
+    <div class="row jutify-center text-center" style="padding-top: 25vh;" v-if="catalogNotFound === true">
+      <div class="col-12 q-px-md">
+        <div class="text-h2 q-pb-lg">404</div>
+        <p class="text-body1">We can't seem to find the page you're looking for.</p>
+        <div class="q-gutter-sm q-py-sm">
+          <q-btn
+            color="primary"
+            label="Go back"
+            @click="$router.back()"
+          />
+        </div>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -141,6 +154,7 @@ export default {
   name: 'StoreHome',
   data () {
     return {
+      catalogNotFound: null,
       catalog: {},
       products: []
     }
@@ -148,12 +162,24 @@ export default {
   methods: {
     getCatalog: function () {
       let self = this
+      this.$q.loading.show({
+        spinnerColor: 'primary',
+        backgroundColor: 'white'
+      })
       self.$axios.get(
         'catalogs/' + self.$route.params.catalogSlug + '/'
       )
         .then(function (response) {
           if (response.status === 200) {
             self.catalog = response.data
+            self.catalogNotFound = false
+            self.$q.loading.hide()
+          }
+        })
+        .catch(function (error) {
+          if (error.response.status === 404) {
+            self.catalogNotFound = true
+            self.$q.loading.hide()
           }
         })
     },

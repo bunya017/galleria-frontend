@@ -2,7 +2,7 @@
   <q-layout view="hHh Lpr fFf"> <!-- Be sure to play with the Layout demo on docs -->
 
     <!-- (Optional) The Header -->
-    <q-header elevated class="bg-white text-primary q-px-md-lg">
+    <q-header elevated class="bg-white text-primary q-px-md-lg" v-if="error404State === false">
       <q-toolbar>
         <q-btn
           flat
@@ -285,7 +285,7 @@
     <q-page-container>
       <!-- This is where pages get injected -->
       <router-view />
-      <div id="footer" class="q-pt-lg">
+      <div id="footer" class="q-pt-lg"  v-if="error404State === false">
         <div id="brand-section" class="bg-grey-3 row q-py-xl q-px-md q-pa-sm-xl">
           <div class="col-12 col-sm-6">
             <q-avatar size="36px" class="q-mb-sm">
@@ -352,6 +352,9 @@ export default {
   computed: {
     storeCatalog () {
       return this.$store.state.navbar.catalog
+    },
+    error404State () {
+      return this.$store.state.navbar.is404
     }
   }
 }

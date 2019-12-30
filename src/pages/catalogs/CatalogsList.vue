@@ -1,315 +1,317 @@
 <template>
   <q-page padding>
-    <!-- Title -->
-    <div class="row items-center q-pt-sm">
-      <div class="text-h4 col-12 col-sm-6">My Catalogs</div>
-      <div class="col-12 col-sm-6 gt-xs">
-        <q-btn
-          class="bg-primary float-right"
-          flat
-          color="white"
-          icon="add"
-          label="new catalog"
-          @click="newCat = true"
-        />
+    <div v-if="isLoading === false">
+      <!-- Title -->
+      <div class="row items-center q-pt-sm">
+        <div class="text-h4 col-12 col-sm-6">My Catalogs</div>
+        <div class="col-12 col-sm-6 gt-xs">
+          <q-btn
+            class="bg-primary float-right"
+            flat
+            color="white"
+            icon="add"
+            label="new catalog"
+            @click="newCat = true"
+          />
+        </div>
       </div>
-    </div>
 
-    <!-- New catalog dialog/modal -->
-    <q-dialog v-model="newCat" position="top" @hide="clearNewCatalogModel" no-backdrop-dismiss>
-      <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
-        <q-card-section class="text-center">
-          <div class="text-h5">New catalog</div>
-          <div class="text-subtitle2">Create new product catalog</div>
-        </q-card-section>
+      <!-- New catalog dialog/modal -->
+      <q-dialog v-model="newCat" position="top" @hide="clearNewCatalogModel" no-backdrop-dismiss>
+        <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
+          <q-card-section class="text-center">
+            <div class="text-h5">New catalog</div>
+            <div class="text-subtitle2">Create new product catalog</div>
+          </q-card-section>
 
-        <q-card-section class="q-pt-xl">
-          <div class="q-pa-md">
-            <form v-on:submit.prevent.stop="addNewCatalog">
-              <div class="q-gutter-y-sm">
-                <q-input
-                  ref="name"
-                  dense
-                  autofocus
-                  type="text"
-                  label="Name"
-                  bottom-slots
-                  :error="nameError.status"
-                  v-model="newCatalog.name"
-                  :rules="[ val => !!val || 'This field is required.' ]"
-                  @input="nameError.status = false"
-                >
-                  <template v-slot:error>
-                    {{ nameError.message }}
-                  </template>
-                </q-input>
-                <q-input
-                  ref="description"
-                  dense
-                  type="text"
-                  label="Description"
-                  bottom-slots
-                  :error="descriptionError.status"
-                  v-model="newCatalog.description"
-                  :rules="[ val => !!val || 'This field is required.' ]"
-                  @input="descriptionError.status = false"
-                >
-                  <template v-slot:error>
-                    {{ descriptionError.message }}
-                  </template>
-                </q-input>
-                <q-input
-                  ref="contactAddress"
-                  dense
-                  type="text"
-                  label="Shop address"
-                  bottom-slots
-                  :error="contactAddressError.status"
-                  v-model="newCatalog.contact_address"
-                  :rules="[ val => !!val || 'This field is required.' ]"
-                  @input="contactAddressError.status = false"
-                >
-                  <template v-slot:error>
-                    {{ contactAddressError.message }}
-                  </template>
-                </q-input>
-                <q-input
-                  ref="contactEmail"
-                  dense
-                  type="text"
-                  label="Contact email"
-                  bottom-slots
-                  :error="contactEmailError.status"
-                  v-model="newCatalog.contact_email"
-                  :rules="[ val => !!val || 'This field is required.' ]"
-                  @input="contactEmailError.status = false"
-                >
-                  <template v-slot:error>
-                    {{ contactEmailError.message }}
-                  </template>
-                </q-input>
-                <q-input
-                  ref="contactPhone"
-                  dense
-                  type="text"
-                  label="Contact phone"
-                  bottom-slots
-                  :error="contactPhoneError.status"
-                  v-model="newCatalog.contact_phone"
-                  :rules="[ val => !!val || 'This field is required.' ]"
-                  @input="contactPhoneError.status = false"
-                >
-                  <template v-slot:error>
-                    {{ contactPhoneError.message }}
-                  </template>
-                </q-input>
-                <!-- Logo Image uploader -->
-                <div class="row q-pb-md">
-                  <q-uploader
-                    class="col"
-                    ref="logoImage"
-                    label="Logo Image"
-                    color="white"
-                    text-color="grey-8"
-                    accept=".png, .jpeg, .jpg, .gif"
-                    hide-upload-btn
+          <q-card-section class="q-pt-xl">
+            <div class="q-pa-md">
+              <form v-on:submit.prevent.stop="addNewCatalog">
+                <div class="q-gutter-y-sm">
+                  <q-input
+                    ref="name"
+                    dense
+                    autofocus
+                    type="text"
+                    label="Name"
+                    bottom-slots
+                    :error="nameError.status"
+                    v-model="newCatalog.name"
+                    :rules="[ val => !!val || 'This field is required.' ]"
+                    @input="nameError.status = false"
                   >
-                    <template v-slot:list="scope">
-                      <q-list>
-                        <q-item v-for="file in scope.files" :key="file.name">
-                          <q-item-section>
-                            <q-item-label class="full-width ellipsis">
-                              {{ file.name }}
-                            </q-item-label>
-
-                            <q-item-label caption>
-                              Status: {{ file.__status }}
-                            </q-item-label>
-
-                            <q-item-label caption>
-                              {{ file.__sizeLabel }} / {{ file.__progressLabel }}
-                            </q-item-label>
-                          </q-item-section>
-
-                          <q-item-section
-                            v-if="file.__img"
-                            thumbnail
-                            class="gt-xs"
-                          >
-                            <img :src="file.__img.src" class="product-photo">
-                          </q-item-section>
-
-                          <q-item-section top side>
-                            <q-btn
-                              class="gt-xs"
-                              size="12px"
-                              flat
-                              dense
-                              round
-                              icon="delete"
-                              @click="scope.removeFile(file)"
-                            />
-                          </q-item-section>
-                        </q-item>
-
-                      </q-list>
+                    <template v-slot:error>
+                      {{ nameError.message }}
                     </template>
-                  </q-uploader>
-                </div>
-                <!-- Background Image uploader -->
-                <div class="row">
-                  <q-uploader
-                    class="col"
-                    ref="bgImage"
-                    label="Background Image"
-                    color="white"
-                    text-color="grey-8"
-                    accept=".png, .jpeg, .jpg, .gif"
-                    hide-upload-btn
+                  </q-input>
+                  <q-input
+                    ref="description"
+                    dense
+                    type="text"
+                    label="Description"
+                    bottom-slots
+                    :error="descriptionError.status"
+                    v-model="newCatalog.description"
+                    :rules="[ val => !!val || 'This field is required.' ]"
+                    @input="descriptionError.status = false"
                   >
-                    <template v-slot:list="scope">
-                      <q-list>
-                        <q-item v-for="file in scope.files" :key="file.name">
-                          <q-item-section>
-                            <q-item-label class="full-width ellipsis">
-                              {{ file.name }}
-                            </q-item-label>
-
-                            <q-item-label caption>
-                              Status: {{ file.__status }}
-                            </q-item-label>
-
-                            <q-item-label caption>
-                              {{ file.__sizeLabel }} / {{ file.__progressLabel }}
-                            </q-item-label>
-                          </q-item-section>
-
-                          <q-item-section
-                            v-if="file.__img"
-                            thumbnail
-                            class="gt-xs"
-                          >
-                            <img :src="file.__img.src" class="product-photo">
-                          </q-item-section>
-
-                          <q-item-section top side>
-                            <q-btn
-                              class="gt-xs"
-                              size="12px"
-                              flat
-                              dense
-                              round
-                              icon="delete"
-                              @click="scope.removeFile(file)"
-                            />
-                          </q-item-section>
-                        </q-item>
-
-                      </q-list>
+                    <template v-slot:error>
+                      {{ descriptionError.message }}
                     </template>
-                  </q-uploader>
-                </div>
-              </div>
-              <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
-                <q-btn flat label="Cancel" color="negative" v-close-popup />
-                <q-btn flat class="bg-primary" type="submit" label="Add new" color="white" />
-              </q-card-actions>
-            </form>
-          </div>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
+                  </q-input>
+                  <q-input
+                    ref="contactAddress"
+                    dense
+                    type="text"
+                    label="Shop address"
+                    bottom-slots
+                    :error="contactAddressError.status"
+                    v-model="newCatalog.contact_address"
+                    :rules="[ val => !!val || 'This field is required.' ]"
+                    @input="contactAddressError.status = false"
+                  >
+                    <template v-slot:error>
+                      {{ contactAddressError.message }}
+                    </template>
+                  </q-input>
+                  <q-input
+                    ref="contactEmail"
+                    dense
+                    type="text"
+                    label="Contact email"
+                    bottom-slots
+                    :error="contactEmailError.status"
+                    v-model="newCatalog.contact_email"
+                    :rules="[ val => !!val || 'This field is required.' ]"
+                    @input="contactEmailError.status = false"
+                  >
+                    <template v-slot:error>
+                      {{ contactEmailError.message }}
+                    </template>
+                  </q-input>
+                  <q-input
+                    ref="contactPhone"
+                    dense
+                    type="text"
+                    label="Contact phone"
+                    bottom-slots
+                    :error="contactPhoneError.status"
+                    v-model="newCatalog.contact_phone"
+                    :rules="[ val => !!val || 'This field is required.' ]"
+                    @input="contactPhoneError.status = false"
+                  >
+                    <template v-slot:error>
+                      {{ contactPhoneError.message }}
+                    </template>
+                  </q-input>
+                  <!-- Logo Image uploader -->
+                  <div class="row q-pb-md">
+                    <q-uploader
+                      class="col"
+                      ref="logoImage"
+                      label="Logo Image"
+                      color="white"
+                      text-color="grey-8"
+                      accept=".png, .jpeg, .jpg, .gif"
+                      hide-upload-btn
+                    >
+                      <template v-slot:list="scope">
+                        <q-list>
+                          <q-item v-for="file in scope.files" :key="file.name">
+                            <q-item-section>
+                              <q-item-label class="full-width ellipsis">
+                                {{ file.name }}
+                              </q-item-label>
 
-    <!-- Catalog List -->
-    <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
-      <div class="col-12">
-        <q-card>
-          <q-list separator>
-            <q-item
-              v-for="catalog in catalogs"
-              :key="catalog.id"
-            >
-              <q-item-section avatar>
-                <q-avatar v-if="catalog.logo_image.thumbnail" size="56px">
-                  <img :src="catalog.logo_image.thumbnail">
-                </q-avatar>
-                <q-avatar v-else-if="catalog.background_image.thumbnail" size="56px">
-                  <img :src="catalog.background_image.thumbnail">
-                </q-avatar>
-                <q-avatar v-else color="primary" size="56px" text-color="white">
-                  {{ getFirstLetters(catalog.name) }}
-                </q-avatar>
-              </q-item-section>
-              <q-item-section>
-                <router-link
-                  :to="{
-                    name: 'catalog-detail',
-                    params: {
-                      slug: catalog.slug
-                    }
-                  }"
-                >
-                  <q-item-label>{{ catalog.name }}</q-item-label>
-                  <q-item-label caption>{{ catalog.description }}</q-item-label>
-                </router-link>
-              </q-item-section>
-              <q-item-section class="gt-xs">
-                <q-item-label>{{ catalog.categories.length }} Categories</q-item-label>
-              </q-item-section>
-              <q-item-section side>
-                <q-btn size="12px" flat dense round icon="more_vert">
-                  <q-menu auto-close>
-                    <q-list style="width: 200px;">
-                      <q-item clickable @click="makeDeleteCatalogPayload(catalog)">
-                        <q-item-section avatar>
-                          <q-avatar rounded icon="delete" />
-                        </q-item-section>
-                        <q-item-section>
-                          Delete
-                        </q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-menu>
-                </q-btn>
-              </q-item-section>
-            </q-item>
-          </q-list>
+                              <q-item-label caption>
+                                Status: {{ file.__status }}
+                              </q-item-label>
+
+                              <q-item-label caption>
+                                {{ file.__sizeLabel }} / {{ file.__progressLabel }}
+                              </q-item-label>
+                            </q-item-section>
+
+                            <q-item-section
+                              v-if="file.__img"
+                              thumbnail
+                              class="gt-xs"
+                            >
+                              <img :src="file.__img.src" class="product-photo">
+                            </q-item-section>
+
+                            <q-item-section top side>
+                              <q-btn
+                                class="gt-xs"
+                                size="12px"
+                                flat
+                                dense
+                                round
+                                icon="delete"
+                                @click="scope.removeFile(file)"
+                              />
+                            </q-item-section>
+                          </q-item>
+
+                        </q-list>
+                      </template>
+                    </q-uploader>
+                  </div>
+                  <!-- Background Image uploader -->
+                  <div class="row">
+                    <q-uploader
+                      class="col"
+                      ref="bgImage"
+                      label="Background Image"
+                      color="white"
+                      text-color="grey-8"
+                      accept=".png, .jpeg, .jpg, .gif"
+                      hide-upload-btn
+                    >
+                      <template v-slot:list="scope">
+                        <q-list>
+                          <q-item v-for="file in scope.files" :key="file.name">
+                            <q-item-section>
+                              <q-item-label class="full-width ellipsis">
+                                {{ file.name }}
+                              </q-item-label>
+
+                              <q-item-label caption>
+                                Status: {{ file.__status }}
+                              </q-item-label>
+
+                              <q-item-label caption>
+                                {{ file.__sizeLabel }} / {{ file.__progressLabel }}
+                              </q-item-label>
+                            </q-item-section>
+
+                            <q-item-section
+                              v-if="file.__img"
+                              thumbnail
+                              class="gt-xs"
+                            >
+                              <img :src="file.__img.src" class="product-photo">
+                            </q-item-section>
+
+                            <q-item-section top side>
+                              <q-btn
+                                class="gt-xs"
+                                size="12px"
+                                flat
+                                dense
+                                round
+                                icon="delete"
+                                @click="scope.removeFile(file)"
+                              />
+                            </q-item-section>
+                          </q-item>
+
+                        </q-list>
+                      </template>
+                    </q-uploader>
+                  </div>
+                </div>
+                <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
+                  <q-btn flat label="Cancel" color="negative" v-close-popup />
+                  <q-btn flat class="bg-primary" type="submit" label="Add new" color="white" />
+                </q-card-actions>
+              </form>
+            </div>
+          </q-card-section>
         </q-card>
+      </q-dialog>
+
+      <!-- Catalog List -->
+      <div class="row q-pt-lg q-pb-xl q-col-gutter-md" v-if="catalogs[0]">
+        <div class="col-12">
+          <q-card>
+            <q-list separator>
+              <q-item
+                v-for="catalog in catalogs"
+                :key="catalog.id"
+              >
+                <q-item-section avatar>
+                  <q-avatar v-if="catalog.logo_image.thumbnail" size="56px">
+                    <img :src="catalog.logo_image.thumbnail">
+                  </q-avatar>
+                  <q-avatar v-else-if="catalog.background_image.thumbnail" size="56px">
+                    <img :src="catalog.background_image.thumbnail">
+                  </q-avatar>
+                  <q-avatar v-else color="primary" size="56px" text-color="white">
+                    {{ getFirstLetters(catalog.name) }}
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section>
+                  <router-link
+                    :to="{
+                      name: 'catalog-detail',
+                      params: {
+                        slug: catalog.slug
+                      }
+                    }"
+                  >
+                    <q-item-label>{{ catalog.name }}</q-item-label>
+                    <q-item-label caption>{{ catalog.description }}</q-item-label>
+                  </router-link>
+                </q-item-section>
+                <q-item-section class="gt-xs">
+                  <q-item-label>{{ catalog.categories.length }} Categories</q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  <q-btn size="12px" flat dense round icon="more_vert">
+                    <q-menu auto-close>
+                      <q-list style="width: 200px;">
+                        <q-item clickable @click="makeDeleteCatalogPayload(catalog)">
+                          <q-item-section avatar>
+                            <q-avatar rounded icon="delete" />
+                          </q-item-section>
+                          <q-item-section>
+                            Delete
+                          </q-item-section>
+                        </q-item>
+                      </q-list>
+                    </q-menu>
+                  </q-btn>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-card>
+        </div>
       </div>
+
+      <!-- Delete category dialog -->
+      <q-dialog v-model="deleteCat" @hide="clearDeleteCatalogPayload" persistent>
+        <q-card>
+          <q-card-section>
+            <div class="text-h6 text-center">Confirm Permanent Delete?</div>
+          </q-card-section>
+          <q-card-section class="row items-center">
+            <span class="q-py-xs text-center">
+              You are about to delete <strong class="text-negative">{{ deleteCatalogPayload.name }}</strong> including all its categories, collections & product data and photos (if any). Enter the name of this catalog in the box below to confirm deletion of this catalog. Please note that this is not <strong>not reversible.</strong>
+            </span>
+            <div class="fit q-pt-lg">
+              Confirm Catalog Name:
+              <q-input
+                dense
+                outlined
+                type="text"
+                v-model="confirmDeletePayload"
+                :placeholder="deleteCatalogPayload.name"
+              />
+            </div>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn outline label="Cancel" color="grey-7" v-close-popup />
+            <q-btn label="Delete" :disabled="confirmDeletePayload !== deleteCatalogPayload.name" color="negative" @click="deleteCatalog" />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
+      <!-- Floating button -->
+      <q-page-sticky class="lt-sm" position="bottom-right" :offset="[20, 20]">
+        <q-btn fab icon="add" color="primary" @click="newCat = true" />
+      </q-page-sticky>
     </div>
-
-    <!-- Delete category dialog -->
-    <q-dialog v-model="deleteCat" @hide="clearDeleteCatalogPayload" persistent>
-      <q-card>
-        <q-card-section>
-          <div class="text-h6 text-center">Confirm Permanent Delete?</div>
-        </q-card-section>
-        <q-card-section class="row items-center">
-          <span class="q-py-xs text-center">
-            You are about to delete <strong class="text-negative">{{ deleteCatalogPayload.name }}</strong> including all its categories, collections & product data and photos (if any). Enter the name of this catalog in the box below to confirm deletion of this catalog. Please note that this is not <strong>not reversible.</strong>
-          </span>
-          <div class="fit q-pt-lg">
-            Confirm Catalog Name:
-            <q-input
-              dense
-              outlined
-              type="text"
-              v-model="confirmDeletePayload"
-              :placeholder="deleteCatalogPayload.name"
-            />
-          </div>
-        </q-card-section>
-        <q-card-actions align="right">
-          <q-btn outline label="Cancel" color="grey-7" v-close-popup />
-          <q-btn label="Delete" :disabled="confirmDeletePayload !== deleteCatalogPayload.name" color="negative" @click="deleteCatalog" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-
-    <!-- Floating button -->
-    <q-page-sticky class="lt-sm" position="bottom-right" :offset="[20, 20]">
-      <q-btn fab icon="add" color="primary" @click="newCat = true" />
-    </q-page-sticky>
   </q-page>
 </template>
 
@@ -318,6 +320,7 @@ export default {
   name: 'CatalogsList',
   data: function () {
     return {
+      isLoading: true,
       catalogsCount: 0,
       activeCatalogs: 0,
       newCat: false,
@@ -371,6 +374,10 @@ export default {
     },
     getCatalogs: function () {
       let self = this
+      this.$q.loading.show({
+        spinnerColor: 'primary',
+        backgroundColor: 'white'
+      })
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
       }
@@ -387,6 +394,8 @@ export default {
               slug: response.data[i].slug
             })
           }
+          self.isLoading = false
+          self.$q.loading.hide()
         })
     },
     addNewCatalog: function () {
@@ -488,7 +497,8 @@ export default {
     makeDeleteCatalogPayload: function (payload) {
       this.deleteCat = true
       this.deleteCatalogPayload.name = payload.name
-      this.deleteCatalogPayload.url = payload.url
+      this.deleteCatalogPayload.url = process.env.PROD
+        ? payload.url.replace('http://', 'https://') : payload.url
     },
     clearDeleteCatalogPayload: function () {
       this.deleteCatalogPayload.name = ''

@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <div class="row justify-center">
+    <div class="row justify-center" v-if="searchNotFound === false">
       <div class="col-12 col-md-10">
         <q-list separator v-if="products.length > 0">
           <q-item v-for="product in products" :key="product.id">
@@ -60,6 +60,19 @@
         </div>
       </div>
     </div>
+    <div class="row jutify-center text-center" style="padding-top: 25vh;" v-if="searchNotFound === true">
+      <div class="col-12 q-px-md">
+        <div class="text-h2 q-pb-lg">404</div>
+        <p class="text-body1">We can't seem to find the page you're looking for.</p>
+        <div class="q-gutter-sm q-py-sm">
+          <q-btn
+            color="primary"
+            label="Go back"
+            @click="$router.back()"
+          />
+        </div>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -69,12 +82,17 @@ export default {
   data () {
     return {
       products: [],
-      catalogSlug: this.$route.params.catalogSlug
+      catalogSlug: this.$route.params.catalogSlug,
+      searchNotFound: null
     }
   },
   methods: {
     getProductsList: function () {
       let self = this
+      this.$q.loading.show({
+        spinnerColor: 'primary',
+        backgroundColor: 'white'
+      })
       if (self.$route.query.name !== '') {
         self.$axios.get(
           'catalogs/' + self.$route.params.catalogSlug + '/products/?name__icontains=' +
@@ -83,6 +101,16 @@ export default {
           .then(function (response) {
             if (response.status === 200) {
               self.products = response.data
+              self.$store.dispatch('navbar/updateIs404Action', false)
+              self.searchNotFound = false
+              self.$q.loading.hide()
+            }
+          })
+          .catch(function (error) {
+            if (error.response.status === 404) {
+              self.$store.dispatch('navbar/updateIs404Action', true)
+              self.searchNotFound = true
+              self.$q.loading.hide()
             }
           })
       }
