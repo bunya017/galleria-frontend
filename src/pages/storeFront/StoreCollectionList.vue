@@ -88,6 +88,10 @@ export default {
     getCollectionList: function () {
       let self = this
       self.$store.dispatch('navbar/updateIs404Action', false)
+      this.$q.loading.show({
+        spinnerColor: 'primary',
+        backgroundColor: 'white'
+      })
       self.$axios.get(
         'catalogs/' + self.$route.params.catalogSlug + '/collections/'
       )
@@ -96,12 +100,14 @@ export default {
             self.collections = response.data
             self.$store.dispatch('navbar/updateIs404Action', false)
             self.collListNotFound = false
+            self.$q.loading.hide()
           }
         })
         .catch(function (error) {
           if (error.response.status === 404) {
             self.$store.dispatch('navbar/updateIs404Action', true)
             self.collListNotFound = true
+            self.$q.loading.hide()
           }
         })
     }
