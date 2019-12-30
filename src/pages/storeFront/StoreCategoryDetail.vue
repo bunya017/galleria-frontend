@@ -118,6 +118,10 @@ export default {
     getCategoryDetail: function () {
       let self = this
       self.$store.dispatch('navbar/updateIs404Action', false)
+      this.$q.loading.show({
+        spinnerColor: 'primary',
+        backgroundColor: 'white'
+      })
       self.$axios.get(
         'catalogs/' + self.$route.params.catalogSlug + '/categories/' + self.$route.params.categorySlug + '/'
       )
@@ -127,12 +131,14 @@ export default {
             self.products = response.data.product_entries
             self.$store.dispatch('navbar/updateIs404Action', false)
             self.categoryNotFound = false
+            self.$q.loading.hide()
           }
         })
         .catch(function (error) {
           if (error.response.status === 404) {
             self.$store.dispatch('navbar/updateIs404Action', true)
             self.categoryNotFound = true
+            self.$q.loading.hide()
           }
         })
     }
