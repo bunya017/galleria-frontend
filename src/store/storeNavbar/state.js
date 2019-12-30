@@ -7,5 +7,6 @@ export default {
     contactPhone: '',
     contactAddress: '',
     backgroundImage: ''
-  }
+  },
+  is404: null
 }
