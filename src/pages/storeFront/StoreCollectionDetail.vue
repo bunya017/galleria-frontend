@@ -119,6 +119,10 @@ export default {
     getCollectionDetail: function () {
       let self = this
       self.$store.dispatch('navbar/updateIs404Action', false)
+      this.$q.loading.show({
+        spinnerColor: 'primary',
+        backgroundColor: 'white'
+      })
       self.$axios.get(
         'catalogs/' + self.$route.params.catalogSlug + '/collections/' + self.$route.params.collectionSlug + '/'
       )
@@ -128,6 +132,7 @@ export default {
             self.collectionProducts = response.data.collection_products
             self.$store.dispatch('navbar/updateIs404Action', false)
             self.collDetailNotFound = false
+            self.$q.loading.hide()
           }
         })
         .catch(function (error) {
