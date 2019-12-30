@@ -7,3 +7,7 @@ export function updateCatalog (state, payload) {
   state.catalog.contactAddress = payload.contact_address
   state.catalog.backgroundImage = payload.backgroundImage
 }
+
+export function updateIs404 (state, payload) {
+  state.is404 = payload
+}
