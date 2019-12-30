@@ -123,6 +123,10 @@ export default {
     getProductDetail: function () {
       let self = this
       self.$store.dispatch('navbar/updateIs404Action', false)
+      this.$q.loading.show({
+        spinnerColor: 'primary',
+        backgroundColor: 'white'
+      })
       self.$axios.get(
         'catalogs/' + self.$route.params.catalogSlug + '/products/' + self.$route.params.productSlug + '/' + self.$route.params.referenceId
       )
@@ -132,12 +136,14 @@ export default {
             self.imageSlide = response.data.photos[0].id
             self.$store.dispatch('navbar/updateIs404Action', false)
             self.prodDetailNotFound = false
+            self.$q.loading.hide()
           }
         })
         .catch(function (error) {
           if (error.response.status === 404) {
             self.$store.dispatch('navbar/updateIs404Action', true)
             self.prodDetailNotFound = true
+            self.$q.loading.hide()
           }
         })
     }
