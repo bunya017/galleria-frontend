@@ -1,6 +1,6 @@
 <template>
   <q-page :padding="$q.screen.gt.sm">
-    <div class="row justify-center">
+    <div class="row justify-center" v-if="prodDetailNotFound === false">
       <!-- Product Detail -->
       <div class="col-12 col-md-9 q-px-md q-px-sm-none q-col-gutter-md-md" v-if="product.category">
         <!-- Breadcrumbs -->
@@ -92,6 +92,19 @@
         </div>
       </div>
     </div>
+    <div class="row jutify-center text-center" style="padding-top: 25vh;" v-if="prodDetailNotFound === true">
+      <div class="col-12 q-px-md">
+        <div class="text-h2 q-pb-lg">404</div>
+        <p class="text-body1">We can't seem to find the page you're looking for.</p>
+        <div class="q-gutter-sm q-py-sm">
+          <q-btn
+            color="primary"
+            label="Go back"
+            @click="$router.back()"
+          />
+        </div>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -101,6 +114,7 @@ export default {
   data () {
     return {
       product: {},
+      prodDetailNotFound: null,
       imageSlide: null,
       catalogSlug: this.$route.params.catalogSlug
     }
@@ -108,6 +122,7 @@ export default {
   methods: {
     getProductDetail: function () {
       let self = this
+      self.$store.dispatch('navbar/updateIs404Action', false)
       self.$axios.get(
         'catalogs/' + self.$route.params.catalogSlug + '/products/' + self.$route.params.productSlug + '/' + self.$route.params.referenceId
       )
@@ -115,6 +130,14 @@ export default {
           if (response.status === 200) {
             self.product = response.data
             self.imageSlide = response.data.photos[0].id
+            self.$store.dispatch('navbar/updateIs404Action', false)
+            self.prodDetailNotFound = false
+          }
+        })
+        .catch(function (error) {
+          if (error.response.status === 404) {
+            self.$store.dispatch('navbar/updateIs404Action', true)
+            self.prodDetailNotFound = true
           }
         })
     }
