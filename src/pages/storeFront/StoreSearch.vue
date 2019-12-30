@@ -89,6 +89,10 @@ export default {
   methods: {
     getProductsList: function () {
       let self = this
+      this.$q.loading.show({
+        spinnerColor: 'primary',
+        backgroundColor: 'white'
+      })
       if (self.$route.query.name !== '') {
         self.$axios.get(
           'catalogs/' + self.$route.params.catalogSlug + '/products/?name__icontains=' +
@@ -99,12 +103,14 @@ export default {
               self.products = response.data
               self.$store.dispatch('navbar/updateIs404Action', false)
               self.searchNotFound = false
+              self.$q.loading.hide()
             }
           })
           .catch(function (error) {
             if (error.response.status === 404) {
               self.$store.dispatch('navbar/updateIs404Action', true)
               self.searchNotFound = true
+              self.$q.loading.hide()
             }
           })
       }
