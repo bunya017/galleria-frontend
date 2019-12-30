@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div v-if="collection.background_image">
+    <div v-if="collDetailNotFound === false">
       <!-- Collection header -->
       <div class="col-12">
         <q-img
@@ -88,6 +88,19 @@
         </div>
       </div>
     </div>
+    <div class="row jutify-center text-center" style="padding-top: 25vh;" v-if="collDetailNotFound === true">
+      <div class="col-12 q-px-md">
+        <div class="text-h2 q-pb-lg">404</div>
+        <p class="text-body1">We can't seem to find the page you're looking for.</p>
+        <div class="q-gutter-sm q-py-sm">
+          <q-btn
+            color="primary"
+            label="Go back"
+            @click="$router.back()"
+          />
+        </div>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -98,12 +111,14 @@ export default {
     return {
       catalogSlug: this.$route.params.catalogSlug,
       collection: {},
-      collectionProducts: []
+      collectionProducts: [],
+      collDetailNotFound: null
     }
   },
   methods: {
     getCollectionDetail: function () {
       let self = this
+      self.$store.dispatch('navbar/updateIs404Action', false)
       self.$axios.get(
         'catalogs/' + self.$route.params.catalogSlug + '/collections/' + self.$route.params.collectionSlug + '/'
       )
@@ -111,6 +126,15 @@ export default {
           if (response.status === 200) {
             self.collection = response.data
             self.collectionProducts = response.data.collection_products
+            self.$store.dispatch('navbar/updateIs404Action', false)
+            self.collDetailNotFound = false
+          }
+        })
+        .catch(function (error) {
+          if (error.response.status === 404) {
+            self.$store.dispatch('navbar/updateIs404Action', true)
+            self.collDetailNotFound = true
+            self.$q.loading.hide()
           }
         })
     }
