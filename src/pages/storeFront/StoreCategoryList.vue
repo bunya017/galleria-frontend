@@ -87,6 +87,7 @@ export default {
   methods: {
     getCategoryList: function () {
       let self = this
+      self.$store.dispatch('navbar/updateIs404Action', false)
       self.$q.loading.show({
         spinnerColor: 'primary',
         backgroundColor: 'white'
@@ -98,12 +99,14 @@ export default {
           if (response.status === 200) {
             self.categories = response.data
             self.catListNotFound = false
+            self.$store.dispatch('navbar/updateIs404Action', false)
             self.$q.loading.hide()
           }
         })
         .catch(function (error) {
           if (error.response.status === 404) {
             self.catListNotFound = true
+            self.$store.dispatch('navbar/updateIs404Action', true)
             self.$q.loading.hide()
           }
         })
