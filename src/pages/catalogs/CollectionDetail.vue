@@ -162,8 +162,18 @@
                   </template>
                 </q-select>
                 <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
-                  <q-btn flat label="Cancel" color="grey-7" v-close-popup />
-                  <q-btn flat type="submit" label="Add new" color="primary" />
+                  <q-btn
+                    flat
+                    label="Cancel"
+                    color="grey-7"
+                    v-close-popup
+                  />
+                  <q-btn
+                    type="submit"
+                    label="Add new"
+                    color="primary"
+                    :loading="addProductButtonLoading"
+                  />
                 </q-card-actions>
               </form>
             </div>
@@ -214,6 +224,7 @@ export default {
   name: 'CollectionDetail',
   data: function () {
     return {
+      addProductButtonLoading: false,
       collectionNotFound: null,
       collection: {},
       catalog: {},
@@ -274,12 +285,12 @@ export default {
             self.collectionProducts = response.data.collection_products
             self.newCollectionProduct.collection = response.data.id
             self.collectionNotFound = false
+            self.addProductButtonLoading = false
             self.$q.loading.hide()
           }
         })
         .catch(function (error) {
           if (error.response.status === 404) {
-            self.collectionNotFound = true
             self.$q.loading.hide()
           }
         })
@@ -331,6 +342,7 @@ export default {
     },
     addProductToCollection: function () {
       let self = this
+      self.addProductButtonLoading = true
       let payload = {}
       payload.collection = self.newCollectionProduct.collection
       payload.product = self.newCollectionProduct.product.value
@@ -348,6 +360,7 @@ export default {
             self.getCatalogProducts()
             self.alertPayload.message = 'Product added successfully!'
             self.showAlert(self.alertPayload)
+            self.addProductButtonLoading = false
             self.addProd = false
           }
         })
@@ -356,7 +369,11 @@ export default {
             self.productError.message = 'You already have this product in this collection!'
             self.productError.status = true
             self.errorAlertPayload.message = 'You already have this product in this collection!'
+            self.addProductButtonLoading = false
             self.showAlert(self.errorAlertPayload)
+          }
+          if (error.response.status === 404) {
+            self.collectionNotFound = true
           }
         })
     },
