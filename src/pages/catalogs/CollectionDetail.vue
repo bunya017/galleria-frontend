@@ -190,8 +190,18 @@
             </span>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn flat label="Cancel" color="grey-7" v-close-popup />
-            <q-btn flat label="Remove" color="primary" @click="removeCollectionProduct" />
+            <q-btn
+              flat
+              label="Cancel"
+              color="grey-7"
+              v-close-popup
+            />
+            <q-btn
+              label="Remove"
+              color="primary"
+              @click="removeCollectionProduct"
+              :loading="removeProductButtonLoading"
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -225,6 +235,7 @@ export default {
   data: function () {
     return {
       addProductButtonLoading: false,
+      removeProductButtonLoading: false,
       collectionNotFound: null,
       collection: {},
       catalog: {},
@@ -285,7 +296,6 @@ export default {
             self.collectionProducts = response.data.collection_products
             self.newCollectionProduct.collection = response.data.id
             self.collectionNotFound = false
-            self.addProductButtonLoading = false
             self.$q.loading.hide()
           }
         })
@@ -399,6 +409,7 @@ export default {
     },
     removeCollectionProduct: function () {
       let self = this
+      self.removeProductButtonLoading = true
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
       }
@@ -412,6 +423,7 @@ export default {
             self.getCatalog()
             self.getCollectionDetail()
             self.getCatalogProducts()
+            self.removeProductButtonLoading = false
             self.alertPayload.message = 'Product removed successfully!'
             self.showAlert(self.alertPayload)
             self.removeProd = false
