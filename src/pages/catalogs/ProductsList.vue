@@ -350,8 +350,19 @@
             </div>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn outline label="Cancel" color="grey-7" v-close-popup />
-            <q-btn label="Delete" :disabled="confirmDeletePayload !== deleteProductPayload.name" color="negative" @click="deleteProduct" />
+            <q-btn
+              outline
+              label="Cancel"
+              color="grey-7"
+              v-close-popup
+            />
+            <q-btn
+              label="Delete"
+              color="negative"
+              @click="deleteProduct"
+              :loading="deleteButtonLoading"
+              :disabled="confirmDeletePayload !== deleteProductPayload.name"
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -441,6 +452,7 @@ export default {
     return {
       addButtonLoading: false,
       editButtonLoading: false,
+      deleteButtonLoading: false,
       prodListNotFound: null,
       slugCatalog: this.$route.params.catalogSlug,
       options: [], // Category drop-down options
@@ -670,7 +682,7 @@ export default {
     },
     deleteProduct: function () {
       let self = this
-
+      self.deleteButtonLoading = true
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken(),
         'Content-Type': 'multipart/form'
@@ -684,6 +696,7 @@ export default {
             self.getProductsCatalog()
             self.alertPayload.message = 'Edited successfully!'
             self.showAlert(self.alertPayload)
+            self.deleteButtonLoading = false
             self.deleteProd = false
           }
         })
