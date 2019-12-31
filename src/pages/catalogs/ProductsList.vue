@@ -550,6 +550,7 @@ export default {
       )
         .then(function (response) {
           self.catalog = response.data
+          self.options = []
           for (let i = 0; i < response.data.categories.length; i++) {
             self.options.push({
               label: response.data.categories[i].name,
