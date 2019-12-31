@@ -88,12 +88,11 @@ export default {
         password: ''
       },
       alertPayload: {
-        color: 'negative',
-        textColor: 'white',
-        icon: 'report_problem',
+        color: 'red-1',
+        textColor: 'negative',
+        icon: 'error',
         position: 'top',
         message: '',
-        closeBtn: 'Close',
         classes: 'q-mt-xl'
       },
       usernameError: {
@@ -145,7 +144,7 @@ export default {
         })
     },
     showAlert: function (payload) {
-      const { color, textColor, message, icon, position, closeBtn, classes } = payload
+      const { color, textColor, message, icon, position, classes } = payload
 
       this.$q.notify({
         color,
@@ -153,7 +152,6 @@ export default {
         icon,
         message,
         position,
-        closeBtn,
         classes
       })
     }
