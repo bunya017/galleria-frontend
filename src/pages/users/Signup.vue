@@ -15,15 +15,14 @@
               <form v-on:submit.prevent.stop="registerUser">
                 <div class="q-gutter-y-lg">
                   <q-input
-                    ref="username"
-                    dense
-                    autofocus
-                    type="text"
-                    label="Username"
-                    bottom-slots
+                    :dense="$q.screen.gt.sm"
                     lazy-rules
-                    :error="usernameError.status"
+                    type="text"
+                    bottom-slots
+                    ref="username"
+                    label="Username"
                     v-model="user.username"
+                    :error="usernameError.status"
                     :rules="[ val => !!val || 'This field is required.' ]"
                   >
                     <template v-slot:prepend>
@@ -35,13 +34,13 @@
                   </q-input>
 
                   <q-input
+                    :dense="$q.screen.gt.sm"
+                    lazy-rules
                     ref="email"
-                    dense
                     type="text"
                     label="Email"
-                    v-model="user.email"
                     bottom-slots
-                    lazy-rules
+                    v-model="user.email"
                     :error="emailError.status"
                     :rules="[
                       val => !!val || 'This field is required.',
@@ -57,15 +56,15 @@
                   </q-input>
 
                   <q-input
-                    ref="password"
-                    dense
-                    label="Password"
-                    hint="Minimum of 8 characters"
+                    :dense="$q.screen.gt.sm"
                     counter
-                    bottom-slots
                     lazy-rules
-                    :error="passwordError.status"
+                    bottom-slots
+                    ref="password"
+                    label="Password"
                     v-model="user.password"
+                    :error="passwordError.status"
+                    hint="Minimum of 8 characters"
                     :type="isPwd ? 'password' : 'text'"
                     :rules="[
                       val => val.length >= 8 || 'Password must be atleast of 8 characters',

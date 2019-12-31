@@ -15,7 +15,7 @@
               <form v-on:submit.prevent="login">
                 <div class="q-gutter-y-lg">
                   <q-input
-                    dense
+                    :dense="$q.screen.gt.sm"
                     autofocus
                     type="text"
                     label="Username"
@@ -32,7 +32,7 @@
                   </q-input>
 
                   <q-input
-                    dense
+                    :dense="$q.screen.gt.sm"
                     :type="isPwd ? 'password' : 'text'"
                     label="Password"
                     bottom-slots
