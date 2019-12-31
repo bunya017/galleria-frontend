@@ -108,8 +108,19 @@
             </div>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn outline label="Cancel" color="grey-7" v-close-popup />
-            <q-btn label="Delete" :disabled="confirmDeletePayload !== deleteCollectionPayload.name" color="negative" @click="deleteCollection" />
+            <q-btn
+              outline
+              label="Cancel"
+              color="grey-7"
+              v-close-popup
+            />
+            <q-btn
+              label="Delete"
+              color="negative"
+              @click="deleteCollection"
+              :loading="deleteCollectionButtonLoading"
+              :disabled="confirmDeletePayload !== deleteCollectionPayload.name"
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -241,6 +252,7 @@ export default {
   data: function () {
     return {
       newCollectionButtonLoading: false,
+      deleteCollectionButtonLoading: false,
       collListNotFound: null,
       deleteColl: false,
       confirmDeletePayload: '',
@@ -317,6 +329,7 @@ export default {
     },
     deleteCollection: function () {
       let self = this
+      self.deleteCollectionButtonLoading = true
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
       }
@@ -328,6 +341,7 @@ export default {
             self.getCollectionList()
             self.alertPayload.message = 'Collection deleted successfully!'
             self.showAlert(self.alertPayload)
+            self.deleteCollectionButtonLoading = false
             self.deleteColl = false
           }
         })
