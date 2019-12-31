@@ -88,7 +88,16 @@
                     </q-input>
 
                   <div class="col-6">
-                    <q-btn no-caps flat class="full-width bg-primary" type="submit" text-color="white" color="primary" label="Sign up" />
+                    <q-btn
+                      flat
+                      no-caps
+                      type="submit"
+                      label="Sign up"
+                      color="primary"
+                      text-color="white"
+                      class="full-width bg-primary"
+                      :loading="signupButtonLoading"
+                    />
                   </div>
                 </div>
               </form>
@@ -105,6 +114,7 @@ export default {
   // name: 'PageName',
   data: function () {
     return {
+      signupButtonLoading: false,
       isPwd: true,
       user: {
         username: '',
@@ -128,6 +138,7 @@ export default {
   methods: {
     registerUser: function () {
       let self = this
+      self.signupButtonLoading = true
       self.$refs.username.validate()
       self.$refs.email.validate()
       self.$refs.password.validate()
@@ -137,21 +148,25 @@ export default {
         self.$refs.password.hasError
       ) {
         self.formHasError = true
+        self.signupButtonLoading = false
       } else {
         self.$axios.post(
           '/users/signup/',
           self.user
         )
           .then(function (response) {
-            sessionStorage.setItem('authToken', response.data.token)
-            self.$store.dispatch(
-              'dashStore/setLoggedInStatusAction',
-              {
-                isLoggedIn: true,
-                authToken: response.data.token
-              }
-            )
-            self.$router.push({ name: 'my-catalogs' })
+            if (response.status === 201) {
+              sessionStorage.setItem('authToken', response.data.token)
+              self.$store.dispatch(
+                'dashStore/setLoggedInStatusAction',
+                {
+                  isLoggedIn: true,
+                  authToken: response.data.token
+                }
+              )
+              self.signupButtonLoading = false
+              self.$router.push({ name: 'my-catalogs' })
+            }
           })
           .catch(function (error) {
             if (error.response.data.username) {
@@ -166,6 +181,7 @@ export default {
               self.passwordError.message = error.response.data.password[0]
               self.passwordError.status = true
             }
+            self.signupButtonLoading = false
           })
       }
     },

@@ -61,8 +61,8 @@
                       type="submit"
                       label="Login"
                       color="primary"
-                      :loading="loginButtonLoading"
                       text-color="white"
+                      :loading="loginButtonLoading"
                       class="full-width bg-primary"
                     />
                   </div>
