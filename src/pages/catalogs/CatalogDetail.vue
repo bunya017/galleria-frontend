@@ -270,8 +270,19 @@
             </div>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn outline label="Cancel" color="grey-7" v-close-popup />
-            <q-btn label="Delete" :disabled="confirmDeletePayload !== deleteCategoryPayload.name" color="negative" @click="deleteCategory" />
+            <q-btn
+              outline
+              label="Cancel"
+              color="grey-7"
+              v-close-popup
+            />
+            <q-btn
+              label="Delete"
+              color="negative"
+              @click="deleteCategory"
+              :loading='deleteCategoryButtonLoading'
+              :disabled="confirmDeletePayload !== deleteCategoryPayload.name"
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -303,6 +314,7 @@ export default {
   data: function () {
     return {
       newCategoryButtonLoading: false,
+      deleteCategoryButtonLoading: false,
       catalogNotFound: null,
       productCount: 0,
       activeProducts: 0,
@@ -461,6 +473,7 @@ export default {
     },
     deleteCategory: function () {
       let self = this
+      self.deleteCategoryButtonLoading = true
       self.newCategory.catalog = self.catalog.id
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
@@ -474,6 +487,7 @@ export default {
             self.getCatalogDetail()
             self.alertPayload.message = 'Category deleted successfully!'
             self.showAlert(self.alertPayload)
+            self.deleteCategoryButtonLoading = false
             self.deleteCaty = false
           }
         })
