@@ -79,7 +79,7 @@ export default {
 
   data () {
     return {
-      leftDrawer: true
+      leftDrawer: false
     }
   },
   methods: {
