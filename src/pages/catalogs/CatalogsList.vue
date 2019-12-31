@@ -212,8 +212,20 @@
                   </div>
                 </div>
                 <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
-                  <q-btn flat label="Cancel" color="negative" v-close-popup />
-                  <q-btn flat class="bg-primary" type="submit" label="Add new" color="white" />
+                  <q-btn
+                    flat
+                    label="Cancel"
+                    color="negative"
+                    v-close-popup
+                  />
+                  <q-btn
+                    flat
+                    color="white"
+                    type="submit"
+                    label="Add new"
+                    class="bg-primary"
+                    :loading="newCatalogButtonLoading"
+                  />
                 </q-card-actions>
               </form>
             </div>
@@ -321,6 +333,7 @@ export default {
   data: function () {
     return {
       isLoading: true,
+      newCatalogButtonLoading: false,
       catalogsCount: 0,
       activeCatalogs: 0,
       newCat: false,
@@ -400,6 +413,7 @@ export default {
     },
     addNewCatalog: function () {
       let self = this
+      self.newCatalogButtonLoading = true
       self.$refs.name.validate()
       self.$refs.description.validate()
       self.$refs.contactAddress.validate()
@@ -414,6 +428,7 @@ export default {
         self.$refs.contactEmail.hasError
       ) {
         self.formHasError = true
+        self.newCatalogButtonLoading = false
       }
       let catalogPayload = new FormData()
       let bgImage = self.$refs.bgImage.files
@@ -442,6 +457,7 @@ export default {
             self.getCatalogs()
             self.alertPayload.message = 'Catalog created successfully!'
             self.showAlert(self.alertPayload)
+            self.newCatalogButtonLoading = false
             self.newCat = false
           }
         })
@@ -462,6 +478,7 @@ export default {
           if (error.response.data.contact_email) {
             self.contactEmailError.status = true
           }
+          self.newCatalogButtonLoading = false
         })
     },
     showAlert: function (payload) {
