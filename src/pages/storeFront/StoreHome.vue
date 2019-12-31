@@ -162,6 +162,7 @@ export default {
   methods: {
     getCatalog: function () {
       let self = this
+      self.$store.dispatch('navbar/updateIs404Action', false)
       this.$q.loading.show({
         spinnerColor: 'primary',
         backgroundColor: 'white'
@@ -172,12 +173,14 @@ export default {
         .then(function (response) {
           if (response.status === 200) {
             self.catalog = response.data
+            self.$store.dispatch('navbar/updateIs404Action', false)
             self.catalogNotFound = false
             self.$q.loading.hide()
           }
         })
         .catch(function (error) {
           if (error.response.status === 404) {
+            self.$store.dispatch('navbar/updateIs404Action', true)
             self.catalogNotFound = true
             self.$q.loading.hide()
           }
