@@ -55,7 +55,16 @@
                   </q-input>
 
                   <div class="col-6">
-                    <q-btn no-caps flat class="full-width bg-primary" type="submit" text-color="white" color="primary" label="Login" />
+                    <q-btn
+                      flat
+                      no-caps
+                      type="submit"
+                      label="Login"
+                      color="primary"
+                      :loading="loginButtonLoading"
+                      text-color="white"
+                      class="full-width bg-primary"
+                    />
                   </div>
                 </div>
               </form>
@@ -72,6 +81,7 @@ export default {
   // name: 'PageName',
   data: function () {
     return {
+      loginButtonLoading: false,
       isPwd: true,
       user: {
         username: '',
@@ -99,20 +109,24 @@ export default {
   methods: {
     login: function () {
       let self = this
+      self.loginButtonLoading = true
       self.$axios.post(
         '/users/token-auth/',
         self.user
       )
         .then(function (response) {
-          sessionStorage.setItem('authToken', response.data.token)
-          self.$store.dispatch(
-            'dashStore/setLoggedInStatusAction',
-            {
-              isLoggedIn: true,
-              authToken: response.data.token
-            }
-          )
-          self.$router.push({ name: 'my-catalogs' })
+          if (response.status === 200) {
+            sessionStorage.setItem('authToken', response.data.token)
+            self.$store.dispatch(
+              'dashStore/setLoggedInStatusAction',
+              {
+                isLoggedIn: true,
+                authToken: response.data.token
+              }
+            )
+            self.loginButtonLoading = false
+            self.$router.push({ name: 'my-catalogs' })
+          }
         })
         .catch(function (error) {
           if (error.response.data.username) {
@@ -127,6 +141,7 @@ export default {
             self.alertPayload.message = error.response.data.non_field_errors[0]
             self.showAlert(self.alertPayload)
           }
+          self.loginButtonLoading = false
         })
     },
     showAlert: function (payload) {
