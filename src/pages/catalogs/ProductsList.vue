@@ -164,8 +164,18 @@
                   </q-uploader>
                 </div>
                 <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
-                  <q-btn flat label="Cancel" color="negative" v-close-popup />
-                  <q-btn flat type="submit" label="Add new" color="primary" />
+                  <q-btn
+                    flat
+                    label="Cancel"
+                    color="grey-7"
+                    v-close-popup
+                  />
+                  <q-btn
+                    type="submit"
+                    label="Add new"
+                    color="primary"
+                    :loading="addButtonLoading"
+                  />
                 </q-card-actions>
               </form>
             </div>
@@ -419,6 +429,7 @@ export default {
   name: 'ProductsList',
   data: function () {
     return {
+      addButtonLoading: false,
       prodListNotFound: null,
       slugCatalog: this.$route.params.catalogSlug,
       options: [], // Category drop-down options
@@ -538,7 +549,6 @@ export default {
     },
     addNewProduct: function () {
       let self = this
-
       let uploads = this.$refs.photoFiles.files
       let payload = new FormData()
       payload.append('name', self.newProduct.name)
@@ -548,6 +558,7 @@ export default {
       for (let i = 0; i < uploads.length; i++) {
         payload.append('photos', uploads[i])
       }
+      self.addButtonLoading = true
 
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken(),
@@ -563,6 +574,7 @@ export default {
             self.getProductsList()
             self.getProductsCatalog()
             self.showAlert(self.alertPayload)
+            self.addButtonLoading = false
             self.newProd = false
           }
         })
@@ -587,6 +599,7 @@ export default {
             self.photosError.message = error.response.data.photos[0]
             self.photosError.status = true
           }
+          self.addButtonLoading = false
         })
     },
     showAlert: function (payload) {
