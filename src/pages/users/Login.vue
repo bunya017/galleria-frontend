@@ -15,7 +15,7 @@
               <form v-on:submit.prevent="login">
                 <div class="q-gutter-y-lg">
                   <q-input
-                    dense
+                    :dense="$q.screen.gt.sm"
                     autofocus
                     type="text"
                     label="Username"
@@ -32,7 +32,7 @@
                   </q-input>
 
                   <q-input
-                    dense
+                    :dense="$q.screen.gt.sm"
                     :type="isPwd ? 'password' : 'text'"
                     label="Password"
                     bottom-slots
@@ -55,7 +55,16 @@
                   </q-input>
 
                   <div class="col-6">
-                    <q-btn no-caps flat class="full-width bg-primary" type="submit" text-color="white" color="primary" label="Login" />
+                    <q-btn
+                      flat
+                      no-caps
+                      type="submit"
+                      label="Login"
+                      color="primary"
+                      text-color="white"
+                      :loading="loginButtonLoading"
+                      class="full-width bg-primary"
+                    />
                   </div>
                 </div>
               </form>
@@ -72,18 +81,18 @@ export default {
   // name: 'PageName',
   data: function () {
     return {
+      loginButtonLoading: false,
       isPwd: true,
       user: {
         username: '',
         password: ''
       },
       alertPayload: {
-        color: 'negative',
-        textColor: 'white',
-        icon: 'report_problem',
+        color: 'red-1',
+        textColor: 'negative',
+        icon: 'error',
         position: 'top',
         message: '',
-        closeBtn: 'Close',
         classes: 'q-mt-xl'
       },
       usernameError: {
@@ -99,20 +108,24 @@ export default {
   methods: {
     login: function () {
       let self = this
+      self.loginButtonLoading = true
       self.$axios.post(
         '/users/token-auth/',
         self.user
       )
         .then(function (response) {
-          sessionStorage.setItem('authToken', response.data.token)
-          self.$store.dispatch(
-            'dashStore/setLoggedInStatusAction',
-            {
-              isLoggedIn: true,
-              authToken: response.data.token
-            }
-          )
-          self.$router.push({ name: 'my-catalogs' })
+          if (response.status === 200) {
+            sessionStorage.setItem('authToken', response.data.token)
+            self.$store.dispatch(
+              'dashStore/setLoggedInStatusAction',
+              {
+                isLoggedIn: true,
+                authToken: response.data.token
+              }
+            )
+            self.loginButtonLoading = false
+            self.$router.push({ name: 'my-catalogs' })
+          }
         })
         .catch(function (error) {
           if (error.response.data.username) {
@@ -127,10 +140,11 @@ export default {
             self.alertPayload.message = error.response.data.non_field_errors[0]
             self.showAlert(self.alertPayload)
           }
+          self.loginButtonLoading = false
         })
     },
     showAlert: function (payload) {
-      const { color, textColor, message, icon, position, closeBtn, classes } = payload
+      const { color, textColor, message, icon, position, classes } = payload
 
       this.$q.notify({
         color,
@@ -138,7 +152,6 @@ export default {
         icon,
         message,
         position,
-        closeBtn,
         classes
       })
     }

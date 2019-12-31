@@ -212,8 +212,20 @@
                   </div>
                 </div>
                 <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
-                  <q-btn flat label="Cancel" color="negative" v-close-popup />
-                  <q-btn flat class="bg-primary" type="submit" label="Add new" color="white" />
+                  <q-btn
+                    flat
+                    label="Cancel"
+                    color="negative"
+                    v-close-popup
+                  />
+                  <q-btn
+                    flat
+                    color="white"
+                    type="submit"
+                    label="Add new"
+                    class="bg-primary"
+                    :loading="newCatalogButtonLoading"
+                  />
                 </q-card-actions>
               </form>
             </div>
@@ -301,8 +313,19 @@
             </div>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn outline label="Cancel" color="grey-7" v-close-popup />
-            <q-btn label="Delete" :disabled="confirmDeletePayload !== deleteCatalogPayload.name" color="negative" @click="deleteCatalog" />
+            <q-btn
+              outline
+              label="Cancel"
+              color="grey-7"
+              v-close-popup
+            />
+            <q-btn
+              label="Delete"
+              color="negative"
+              @click="deleteCatalog"
+              :loading="deleteCatalogButtonLoading"
+              :disabled="confirmDeletePayload !== deleteCatalogPayload.name"
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -321,6 +344,8 @@ export default {
   data: function () {
     return {
       isLoading: true,
+      newCatalogButtonLoading: false,
+      deleteCatalogButtonLoading: false,
       catalogsCount: 0,
       activeCatalogs: 0,
       newCat: false,
@@ -400,6 +425,7 @@ export default {
     },
     addNewCatalog: function () {
       let self = this
+      self.newCatalogButtonLoading = true
       self.$refs.name.validate()
       self.$refs.description.validate()
       self.$refs.contactAddress.validate()
@@ -414,6 +440,7 @@ export default {
         self.$refs.contactEmail.hasError
       ) {
         self.formHasError = true
+        self.newCatalogButtonLoading = false
       }
       let catalogPayload = new FormData()
       let bgImage = self.$refs.bgImage.files
@@ -442,6 +469,7 @@ export default {
             self.getCatalogs()
             self.alertPayload.message = 'Catalog created successfully!'
             self.showAlert(self.alertPayload)
+            self.newCatalogButtonLoading = false
             self.newCat = false
           }
         })
@@ -462,6 +490,7 @@ export default {
           if (error.response.data.contact_email) {
             self.contactEmailError.status = true
           }
+          self.newCatalogButtonLoading = false
         })
     },
     showAlert: function (payload) {
@@ -507,6 +536,7 @@ export default {
     },
     deleteCatalog: function () {
       let self = this
+      self.deleteCatalogButtonLoading = true
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
       }
@@ -518,6 +548,7 @@ export default {
             self.getCatalogs()
             self.alertPayload.message = 'Catalog deleted successfully!'
             self.showAlert(self.alertPayload)
+            self.deleteCatalogButtonLoading = false
             self.deleteCat = false
           }
         })

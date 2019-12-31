@@ -108,8 +108,19 @@
             </div>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn outline label="Cancel" color="grey-7" v-close-popup />
-            <q-btn label="Delete" :disabled="confirmDeletePayload !== deleteCollectionPayload.name" color="negative" @click="deleteCollection" />
+            <q-btn
+              outline
+              label="Cancel"
+              color="grey-7"
+              v-close-popup
+            />
+            <q-btn
+              label="Delete"
+              color="negative"
+              @click="deleteCollection"
+              :loading="deleteCollectionButtonLoading"
+              :disabled="confirmDeletePayload !== deleteCollectionPayload.name"
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -194,8 +205,19 @@
                   </q-uploader>
                 </div>
                 <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
-                  <q-btn flat label="Cancel" color="negative" v-close-popup />
-                  <q-btn flat type="submit" label="Add new" color="primary" />
+                  <q-btn
+                    flat
+                    label="Cancel"
+                    color="negative"
+                    v-close-popup
+                  />
+                  <q-btn
+                    flat
+                    type="submit"
+                    label="Add new"
+                    color="primary"
+                    :loading="newCollectionButtonLoading"
+                  />
                 </q-card-actions>
               </form>
             </div>
@@ -229,6 +251,8 @@ export default {
   name: 'CollectionList',
   data: function () {
     return {
+      newCollectionButtonLoading: false,
+      deleteCollectionButtonLoading: false,
       collListNotFound: null,
       deleteColl: false,
       confirmDeletePayload: '',
@@ -305,6 +329,7 @@ export default {
     },
     deleteCollection: function () {
       let self = this
+      self.deleteCollectionButtonLoading = true
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
       }
@@ -316,6 +341,7 @@ export default {
             self.getCollectionList()
             self.alertPayload.message = 'Collection deleted successfully!'
             self.showAlert(self.alertPayload)
+            self.deleteCollectionButtonLoading = false
             self.deleteColl = false
           }
         })
@@ -349,6 +375,7 @@ export default {
     },
     addNewCollection: function () {
       let self = this
+      self.newCollectionButtonLoading = true
       self.newCollection.catalog = self.catalog.id
       let payload = new FormData()
       payload.append('name', self.newCollection.name)
@@ -371,6 +398,7 @@ export default {
             self.getCollectionList()
             self.alertPayload.message = 'Collection added successfully!'
             self.showAlert(self.alertPayload)
+            self.newCollectionButtonLoading = false
             self.newColl = false
           }
         })
@@ -380,6 +408,7 @@ export default {
               self.errorAlertPayload.message = error.response.data.name[0]
               self.showAlert(self.errorAlertPayload)
             }
+            self.newCollectionButtonLoading = false
             self.nameError.message = error.response.data.name[0]
             self.nameError.status = true
           }

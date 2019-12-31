@@ -162,8 +162,18 @@
                   </template>
                 </q-select>
                 <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
-                  <q-btn flat label="Cancel" color="grey-7" v-close-popup />
-                  <q-btn flat type="submit" label="Add new" color="primary" />
+                  <q-btn
+                    flat
+                    label="Cancel"
+                    color="grey-7"
+                    v-close-popup
+                  />
+                  <q-btn
+                    type="submit"
+                    label="Add new"
+                    color="primary"
+                    :loading="addProductButtonLoading"
+                  />
                 </q-card-actions>
               </form>
             </div>
@@ -180,8 +190,18 @@
             </span>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn flat label="Cancel" color="grey-7" v-close-popup />
-            <q-btn flat label="Remove" color="primary" @click="removeCollectionProduct" />
+            <q-btn
+              flat
+              label="Cancel"
+              color="grey-7"
+              v-close-popup
+            />
+            <q-btn
+              label="Remove"
+              color="primary"
+              @click="removeCollectionProduct"
+              :loading="removeProductButtonLoading"
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -214,6 +234,8 @@ export default {
   name: 'CollectionDetail',
   data: function () {
     return {
+      addProductButtonLoading: false,
+      removeProductButtonLoading: false,
       collectionNotFound: null,
       collection: {},
       catalog: {},
@@ -279,7 +301,6 @@ export default {
         })
         .catch(function (error) {
           if (error.response.status === 404) {
-            self.collectionNotFound = true
             self.$q.loading.hide()
           }
         })
@@ -331,6 +352,7 @@ export default {
     },
     addProductToCollection: function () {
       let self = this
+      self.addProductButtonLoading = true
       let payload = {}
       payload.collection = self.newCollectionProduct.collection
       payload.product = self.newCollectionProduct.product.value
@@ -348,6 +370,7 @@ export default {
             self.getCatalogProducts()
             self.alertPayload.message = 'Product added successfully!'
             self.showAlert(self.alertPayload)
+            self.addProductButtonLoading = false
             self.addProd = false
           }
         })
@@ -356,7 +379,11 @@ export default {
             self.productError.message = 'You already have this product in this collection!'
             self.productError.status = true
             self.errorAlertPayload.message = 'You already have this product in this collection!'
+            self.addProductButtonLoading = false
             self.showAlert(self.errorAlertPayload)
+          }
+          if (error.response.status === 404) {
+            self.collectionNotFound = true
           }
         })
     },
@@ -382,6 +409,7 @@ export default {
     },
     removeCollectionProduct: function () {
       let self = this
+      self.removeProductButtonLoading = true
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
       }
@@ -395,6 +423,7 @@ export default {
             self.getCatalog()
             self.getCollectionDetail()
             self.getCatalogProducts()
+            self.removeProductButtonLoading = false
             self.alertPayload.message = 'Product removed successfully!'
             self.showAlert(self.alertPayload)
             self.removeProd = false

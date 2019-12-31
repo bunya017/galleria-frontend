@@ -164,8 +164,18 @@
                   </q-uploader>
                 </div>
                 <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
-                  <q-btn flat label="Cancel" color="negative" v-close-popup />
-                  <q-btn flat type="submit" label="Add new" color="primary" />
+                  <q-btn
+                    flat
+                    label="Cancel"
+                    color="grey-7"
+                    v-close-popup
+                  />
+                  <q-btn
+                    type="submit"
+                    label="Add new"
+                    color="primary"
+                    :loading="addButtonLoading"
+                  />
                 </q-card-actions>
               </form>
             </div>
@@ -340,8 +350,19 @@
             </div>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn outline label="Cancel" color="grey-7" v-close-popup />
-            <q-btn label="Delete" :disabled="confirmDeletePayload !== deleteProductPayload.name" color="negative" @click="deleteProduct" />
+            <q-btn
+              outline
+              label="Cancel"
+              color="grey-7"
+              v-close-popup
+            />
+            <q-btn
+              label="Delete"
+              color="negative"
+              @click="deleteProduct"
+              :loading="deleteButtonLoading"
+              :disabled="confirmDeletePayload !== deleteProductPayload.name"
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -384,8 +405,18 @@
                   v-model="editProductPayload.description"
                 />
                 <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
-                  <q-btn flat label="Cancel" color="primary" v-close-popup />
-                  <q-btn flat label="Edit" color="primary" type="submit" />
+                  <q-btn
+                    flat
+                    label="Cancel"
+                    color="grey-7"
+                    v-close-popup
+                  />
+                  <q-btn
+                    label="Edit"
+                    type="submit"
+                    color="primary"
+                    :loading="editButtonLoading"
+                  />
                 </q-card-actions>
               </form>
             </div>
@@ -419,6 +450,9 @@ export default {
   name: 'ProductsList',
   data: function () {
     return {
+      addButtonLoading: false,
+      editButtonLoading: false,
+      deleteButtonLoading: false,
       prodListNotFound: null,
       slugCatalog: this.$route.params.catalogSlug,
       options: [], // Category drop-down options
@@ -528,6 +562,7 @@ export default {
       )
         .then(function (response) {
           self.catalog = response.data
+          self.options = []
           for (let i = 0; i < response.data.categories.length; i++) {
             self.options.push({
               label: response.data.categories[i].name,
@@ -538,7 +573,6 @@ export default {
     },
     addNewProduct: function () {
       let self = this
-
       let uploads = this.$refs.photoFiles.files
       let payload = new FormData()
       payload.append('name', self.newProduct.name)
@@ -548,6 +582,7 @@ export default {
       for (let i = 0; i < uploads.length; i++) {
         payload.append('photos', uploads[i])
       }
+      self.addButtonLoading = true
 
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken(),
@@ -563,6 +598,7 @@ export default {
             self.getProductsList()
             self.getProductsCatalog()
             self.showAlert(self.alertPayload)
+            self.addButtonLoading = false
             self.newProd = false
           }
         })
@@ -587,6 +623,7 @@ export default {
             self.photosError.message = error.response.data.photos[0]
             self.photosError.status = true
           }
+          self.addButtonLoading = false
         })
     },
     showAlert: function (payload) {
@@ -645,7 +682,7 @@ export default {
     },
     deleteProduct: function () {
       let self = this
-
+      self.deleteButtonLoading = true
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken(),
         'Content-Type': 'multipart/form'
@@ -659,6 +696,7 @@ export default {
             self.getProductsCatalog()
             self.alertPayload.message = 'Edited successfully!'
             self.showAlert(self.alertPayload)
+            self.deleteButtonLoading = false
             self.deleteProd = false
           }
         })
@@ -670,6 +708,7 @@ export default {
       payload.category = self.editProductPayload.category.id
       payload.price = self.editProductPayload.price
       payload.description = self.editProductPayload.description
+      self.editButtonLoading = true
 
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken(),
@@ -685,6 +724,7 @@ export default {
             self.getProductsCatalog()
             self.alertPayload.message = 'Edited successfully!'
             self.showAlert(self.alertPayload)
+            self.editButtonLoading = false
             self.editProd = false
           }
         })

@@ -178,8 +178,18 @@
                   </div>
                 </div>
                 <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
-                  <q-btn flat label="Cancel" color="grey-8" v-close-popup />
-                  <q-btn flat type="submit" label="Add new" color="primary"  />
+                  <q-btn
+                    flat
+                    label="Cancel"
+                    color="grey-8"
+                    v-close-popup
+                  />
+                  <q-btn
+                    type="submit"
+                    label="Add new"
+                    color="primary"
+                    :loading="newCategoryButtonLoading"
+                  />
                 </q-card-actions>
               </form>
             </div>
@@ -260,8 +270,19 @@
             </div>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn outline label="Cancel" color="grey-7" v-close-popup />
-            <q-btn label="Delete" :disabled="confirmDeletePayload !== deleteCategoryPayload.name" color="negative" @click="deleteCategory" />
+            <q-btn
+              outline
+              label="Cancel"
+              color="grey-7"
+              v-close-popup
+            />
+            <q-btn
+              label="Delete"
+              color="negative"
+              @click="deleteCategory"
+              :loading='deleteCategoryButtonLoading'
+              :disabled="confirmDeletePayload !== deleteCategoryPayload.name"
+            />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -292,6 +313,8 @@ export default {
   name: 'CatalogDetail',
   data: function () {
     return {
+      newCategoryButtonLoading: false,
+      deleteCategoryButtonLoading: false,
       catalogNotFound: null,
       productCount: 0,
       activeProducts: 0,
@@ -372,11 +395,13 @@ export default {
     },
     addNewCategory: function () {
       let self = this
+      self.newCategoryButtonLoading = true
       self.$refs.name.validate()
       self.$refs.description.validate()
 
       if (self.$refs.name.hasError || self.$refs.description.hasError) {
         self.formHasError = true
+        self.newCategoryButtonLoading = false
       } else {
         self.newCategory.catalog = self.catalog.id
         let payload = new FormData()
@@ -400,6 +425,7 @@ export default {
               self.getCatalogDetail()
               self.showAlert(self.alertPayload)
               self.newCat = false
+              self.newCategoryButtonLoading = false
               self.clearNewCategoryModel()
             }
           })
@@ -407,6 +433,7 @@ export default {
             if (error.response.data.non_field_errors) {
               self.nameError.message = 'Oops! This category already exists in this catalog.'
               self.nameError.status = true
+              self.newCategoryButtonLoading = false
             }
           })
       }
@@ -446,6 +473,7 @@ export default {
     },
     deleteCategory: function () {
       let self = this
+      self.deleteCategoryButtonLoading = true
       self.newCategory.catalog = self.catalog.id
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
@@ -459,6 +487,7 @@ export default {
             self.getCatalogDetail()
             self.alertPayload.message = 'Category deleted successfully!'
             self.showAlert(self.alertPayload)
+            self.deleteCategoryButtonLoading = false
             self.deleteCaty = false
           }
         })

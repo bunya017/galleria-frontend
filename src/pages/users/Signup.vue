@@ -15,15 +15,14 @@
               <form v-on:submit.prevent.stop="registerUser">
                 <div class="q-gutter-y-lg">
                   <q-input
-                    ref="username"
-                    dense
-                    autofocus
-                    type="text"
-                    label="Username"
-                    bottom-slots
+                    :dense="$q.screen.gt.sm"
                     lazy-rules
-                    :error="usernameError.status"
+                    type="text"
+                    bottom-slots
+                    ref="username"
+                    label="Username"
                     v-model="user.username"
+                    :error="usernameError.status"
                     :rules="[ val => !!val || 'This field is required.' ]"
                   >
                     <template v-slot:prepend>
@@ -35,13 +34,13 @@
                   </q-input>
 
                   <q-input
+                    :dense="$q.screen.gt.sm"
+                    lazy-rules
                     ref="email"
-                    dense
                     type="text"
                     label="Email"
-                    v-model="user.email"
                     bottom-slots
-                    lazy-rules
+                    v-model="user.email"
                     :error="emailError.status"
                     :rules="[
                       val => !!val || 'This field is required.',
@@ -57,15 +56,15 @@
                   </q-input>
 
                   <q-input
-                    ref="password"
-                    dense
-                    label="Password"
-                    hint="Minimum of 8 characters"
+                    :dense="$q.screen.gt.sm"
                     counter
-                    bottom-slots
                     lazy-rules
-                    :error="passwordError.status"
+                    bottom-slots
+                    ref="password"
+                    label="Password"
                     v-model="user.password"
+                    :error="passwordError.status"
+                    hint="Minimum of 8 characters"
                     :type="isPwd ? 'password' : 'text'"
                     :rules="[
                       val => val.length >= 8 || 'Password must be atleast of 8 characters',
@@ -88,7 +87,16 @@
                     </q-input>
 
                   <div class="col-6">
-                    <q-btn no-caps flat class="full-width bg-primary" type="submit" text-color="white" color="primary" label="Sign up" />
+                    <q-btn
+                      flat
+                      no-caps
+                      type="submit"
+                      label="Sign up"
+                      color="primary"
+                      text-color="white"
+                      class="full-width bg-primary"
+                      :loading="signupButtonLoading"
+                    />
                   </div>
                 </div>
               </form>
@@ -105,6 +113,7 @@ export default {
   // name: 'PageName',
   data: function () {
     return {
+      signupButtonLoading: false,
       isPwd: true,
       user: {
         username: '',
@@ -128,6 +137,7 @@ export default {
   methods: {
     registerUser: function () {
       let self = this
+      self.signupButtonLoading = true
       self.$refs.username.validate()
       self.$refs.email.validate()
       self.$refs.password.validate()
@@ -137,21 +147,25 @@ export default {
         self.$refs.password.hasError
       ) {
         self.formHasError = true
+        self.signupButtonLoading = false
       } else {
         self.$axios.post(
           '/users/signup/',
           self.user
         )
           .then(function (response) {
-            sessionStorage.setItem('authToken', response.data.token)
-            self.$store.dispatch(
-              'dashStore/setLoggedInStatusAction',
-              {
-                isLoggedIn: true,
-                authToken: response.data.token
-              }
-            )
-            self.$router.push({ name: 'my-catalogs' })
+            if (response.status === 201) {
+              sessionStorage.setItem('authToken', response.data.token)
+              self.$store.dispatch(
+                'dashStore/setLoggedInStatusAction',
+                {
+                  isLoggedIn: true,
+                  authToken: response.data.token
+                }
+              )
+              self.signupButtonLoading = false
+              self.$router.push({ name: 'my-catalogs' })
+            }
           })
           .catch(function (error) {
             if (error.response.data.username) {
@@ -166,6 +180,7 @@ export default {
               self.passwordError.message = error.response.data.password[0]
               self.passwordError.status = true
             }
+            self.signupButtonLoading = false
           })
       }
     },
