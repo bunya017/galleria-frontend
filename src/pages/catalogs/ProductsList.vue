@@ -394,8 +394,18 @@
                   v-model="editProductPayload.description"
                 />
                 <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
-                  <q-btn flat label="Cancel" color="primary" v-close-popup />
-                  <q-btn flat label="Edit" color="primary" type="submit" />
+                  <q-btn
+                    flat
+                    label="Cancel"
+                    color="grey-7"
+                    v-close-popup
+                  />
+                  <q-btn
+                    label="Edit"
+                    type="submit"
+                    color="primary"
+                    :loading="editButtonLoading"
+                  />
                 </q-card-actions>
               </form>
             </div>
@@ -430,6 +440,7 @@ export default {
   data: function () {
     return {
       addButtonLoading: false,
+      editButtonLoading: false,
       prodListNotFound: null,
       slugCatalog: this.$route.params.catalogSlug,
       options: [], // Category drop-down options
@@ -683,6 +694,7 @@ export default {
       payload.category = self.editProductPayload.category.id
       payload.price = self.editProductPayload.price
       payload.description = self.editProductPayload.description
+      self.editButtonLoading = true
 
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken(),
@@ -698,6 +710,7 @@ export default {
             self.getProductsCatalog()
             self.alertPayload.message = 'Edited successfully!'
             self.showAlert(self.alertPayload)
+            self.editButtonLoading = false
             self.editProd = false
           }
         })
