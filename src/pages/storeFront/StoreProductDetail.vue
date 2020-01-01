@@ -39,9 +39,8 @@
               swipeable
               arrows
               animated
+              thumbnails
               v-model="imageSlide"
-              :thumbnails="$q.screen.gt.sm"
-              :navigation="$q.screen.lt.md"
             >
               <q-carousel-slide
                 contain
