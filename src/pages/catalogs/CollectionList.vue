@@ -119,7 +119,8 @@
               color="negative"
               @click="deleteCollection"
               :loading="deleteCollectionButtonLoading"
-              :disabled="confirmDeletePayload !== deleteCollectionPayload.name"
+              :disabled="(confirmDeletePayload !== deleteCollectionPayload.name)
+                || deleteCollectionButtonLoading"
             />
           </q-card-actions>
         </q-card>
@@ -208,15 +209,15 @@
                   <q-btn
                     flat
                     label="Cancel"
-                    color="negative"
+                    color="grey-7"
                     v-close-popup
                   />
                   <q-btn
-                    flat
                     type="submit"
                     label="Add new"
                     color="primary"
                     :loading="newCollectionButtonLoading"
+                    :disabled="newCollectionButtonLoading"
                   />
                 </q-card-actions>
               </form>
