@@ -696,7 +696,7 @@ export default {
           if (response.status === 204) {
             self.getProductsList()
             self.getProductsCatalog()
-            self.alertPayload.message = 'Edited successfully!'
+            self.alertPayload.message = 'Deleted successfully!'
             self.showAlert(self.alertPayload)
             self.deleteButtonLoading = false
             self.deleteProd = false
