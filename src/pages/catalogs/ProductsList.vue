@@ -195,7 +195,6 @@
             :filter="filter"
             binary-state-sort
             :grid="$q.screen.lt.sm"
-            :hide-bottom="$q.screen.lt.sm"
             no-data-label="You do not have product entries on this catalog"
           >
             <template v-slot:top>
