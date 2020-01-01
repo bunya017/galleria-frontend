@@ -175,6 +175,7 @@
                     label="Add new"
                     color="primary"
                     :loading="addButtonLoading"
+                    :disabled="addButtonLoading"
                   />
                 </q-card-actions>
               </form>
@@ -361,7 +362,7 @@
               color="negative"
               @click="deleteProduct"
               :loading="deleteButtonLoading"
-              :disabled="confirmDeletePayload !== deleteProductPayload.name"
+              :disabled="(confirmDeletePayload !== deleteProductPayload.name) || deleteButtonLoading"
             />
           </q-card-actions>
         </q-card>
@@ -416,6 +417,7 @@
                     type="submit"
                     color="primary"
                     :loading="editButtonLoading"
+                    :disabled="editButtonLoading"
                   />
                 </q-card-actions>
               </form>
