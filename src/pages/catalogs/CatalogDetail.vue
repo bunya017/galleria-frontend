@@ -188,6 +188,7 @@
                     type="submit"
                     label="Add new"
                     color="primary"
+                    :disabled="newCategoryButtonLoading"
                     :loading="newCategoryButtonLoading"
                   />
                 </q-card-actions>
@@ -281,7 +282,7 @@
               color="negative"
               @click="deleteCategory"
               :loading='deleteCategoryButtonLoading'
-              :disabled="confirmDeletePayload !== deleteCategoryPayload.name"
+              :disabled="(confirmDeletePayload !== deleteCategoryPayload.name) || deleteCategoryButtonLoading"
             />
           </q-card-actions>
         </q-card>
