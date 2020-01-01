@@ -175,6 +175,7 @@
                     label="Add new"
                     color="primary"
                     :loading="addButtonLoading"
+                    :disabled="addButtonLoading"
                   />
                 </q-card-actions>
               </form>
@@ -361,7 +362,7 @@
               color="negative"
               @click="deleteProduct"
               :loading="deleteButtonLoading"
-              :disabled="confirmDeletePayload !== deleteProductPayload.name"
+              :disabled="(confirmDeletePayload !== deleteProductPayload.name) || deleteButtonLoading"
             />
           </q-card-actions>
         </q-card>
@@ -416,6 +417,7 @@
                     type="submit"
                     color="primary"
                     :loading="editButtonLoading"
+                    :disabled="editButtonLoading"
                   />
                 </q-card-actions>
               </form>
@@ -694,7 +696,7 @@ export default {
           if (response.status === 204) {
             self.getProductsList()
             self.getProductsCatalog()
-            self.alertPayload.message = 'Edited successfully!'
+            self.alertPayload.message = 'Deleted successfully!'
             self.showAlert(self.alertPayload)
             self.deleteButtonLoading = false
             self.deleteProd = false
