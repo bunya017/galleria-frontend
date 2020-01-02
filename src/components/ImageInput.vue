@@ -24,7 +24,7 @@
           />
           <div class="col">
             <div class="q-uploader__title" :class="{ 'text-negative': error }">
-              Photos
+              {{ label }}
             </div>
             <div class="q-uploader__subtitle" v-if="scope.queuedFiles.length > 0">
               {{ scope.uploadSizeLabel }}
