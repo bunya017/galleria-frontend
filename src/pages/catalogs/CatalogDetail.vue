@@ -330,20 +330,20 @@
                   <q-btn size="12px" flat dense round icon="more_vert">
                     <q-menu auto-close>
                       <q-list style="width: 200px;">
-                        <q-item clickable @click="makeDeleteCategoryPayload(category)">
-                          <q-item-section avatar>
-                            <q-avatar rounded icon="delete" />
-                          </q-item-section>
-                          <q-item-section>
-                            Delete
-                          </q-item-section>
-                        </q-item>
                         <q-item clickable @click="makeEditCategoryPayload(category)">
                           <q-item-section avatar>
                             <q-avatar rounded icon="edit" />
                           </q-item-section>
                           <q-item-section>
                             Edit
+                          </q-item-section>
+                        </q-item>
+                        <q-item clickable @click="makeDeleteCategoryPayload(category)">
+                          <q-item-section avatar>
+                            <q-avatar rounded icon="delete" />
+                          </q-item-section>
+                          <q-item-section>
+                            Delete
                           </q-item-section>
                         </q-item>
                       </q-list>
@@ -365,7 +365,7 @@
           </q-card-section>
           <q-card-section class="q-px-sm q-py-lg">
             <div class="q-px-md">
-              <form>
+              <form @submit.prevent.stop="editCategory">
                 <q-input
                   dense
                   auto-focus
@@ -737,6 +737,35 @@ export default {
       this.editCategoryPayload.description = ''
       this.editCategoryPayload.catalog = null
       this.editCategoryPayload.slug = ''
+    },
+    editCategory () {
+      let self = this
+      self.editCategoryButtonLoading = true
+      let payload = new FormData()
+      payload.append('name', self.editCategoryPayload.name)
+      payload.append('description', self.editCategoryPayload.description)
+      payload.append('catalog', self.editCategoryPayload.catalog)
+      if (self.$refs.editCategoryBgImage.files.length > 0) {
+        payload.append('background_image', self.$refs.editCategoryBgImage.files[0])
+      }
+
+      self.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken(),
+        'Content-Type': 'multipart/form'
+      }
+      self.$axios.patch(
+        'catalogs/' + self.catalog.slug + '/categories/' + self.editCategoryPayload.slug + '/',
+        payload
+      )
+        .then(function (response) {
+          if (response.status === 200) {
+            self.getCatalogDetail()
+            self.alertPayload.message = 'Category edited successfully!'
+            self.editCategoryButtonLoading = false
+            self.categoryEdit = false
+            self.showAlert(self.alertPayload)
+          }
+        })
     }
   },
   created: function () {
