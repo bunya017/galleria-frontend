@@ -161,8 +161,16 @@
                   :rules="[val => !!val || 'Field is required']"
                 />
                 <image-input
+                  class="q-pb-md"
+                  ref="editCatalogLogoImage"
+                  label="Logo image (Change the current logo image)"
+                  color="white"
+                  textColor="grey-8"
+                  accept=".jpg, image/*"
+                />
+                <image-input
                   ref="editCatalogBgImage"
-                  label="Background Image (optional)"
+                  label="Background image (Change the background image)"
                   color="white"
                   textColor="grey-8"
                   accept=".jpg, image/*"
@@ -623,6 +631,9 @@ export default {
       payload.append('contact_phone', self.editCatalogPayload.contact_phone)
       if (self.$refs.editCatalogBgImage.files.length > 0) {
         payload.append('background_image', self.$refs.editCatalogBgImage.files[0])
+      }
+      if (self.$refs.editCatalogLogoImage.files.length > 0) {
+        payload.append('logo_image', self.$refs.editCatalogLogoImage.files[0])
       }
 
       self.$axios.defaults.headers.common = {
