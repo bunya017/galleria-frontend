@@ -7,8 +7,45 @@
       :color="color"
       :text-color="textColor"
       :accept="accept"
+      :multiple
       hide-upload-btn
     >
+      <template v-slot:header="scope">
+        <div
+          class="row no-wrap items-center q-pa-sm q-gutter-xs"
+          :class="{ 'negative-border': error }"
+        >
+          <q-btn
+            v-if="scope.queuedFiles.length > 0"
+            icon="clear_all" @click="scope.removeQueuedFiles"
+            round
+            dense
+            flat
+          />
+          <div class="col">
+            <div class="q-uploader__title" :class="{ 'text-negative': error }">
+              Photos
+            </div>
+            <div class="q-uploader__subtitle" v-if="scope.queuedFiles.length > 0">
+              {{ scope.uploadSizeLabel }}
+            </div>
+            <div class="q-uploader__subtitle text-negative" v-if="error">
+              {{ errorMessage }}
+            </div>
+          </div>
+          <q-btn
+            v-if="error"
+            icon="error"
+            color="negative"
+            round
+            dense
+            flat
+          />
+          <q-btn v-if="scope.canAddFiles" icon="add_box" round dense flat>
+            <q-uploader-add-trigger />
+          </q-btn>
+        </div>
+      </template>
       <template v-slot:list="scope">
         <q-list separator>
           <q-item v-for="file in scope.files" :key="file.name">
@@ -50,7 +87,10 @@ export default {
     label: String,
     color: String,
     textColor: String,
-    accept: String
+    accept: String,
+    error: Boolean,
+    errorMessage: String
+    multiple: Boolean
   },
   computed: {
     files () {
@@ -65,5 +105,10 @@ export default {
   max-height: 56px;
   width: auto;
   border-radius: 5px;
+}
+
+.negative-border {
+  border-bottom: 2px solid #c10015;
+  margin: auto;
 }
 </style>
