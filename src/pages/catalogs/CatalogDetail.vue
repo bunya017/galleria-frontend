@@ -357,7 +357,7 @@
       </div>
 
       <!-- Edit category dialog -->
-      <q-dialog v-model="categoryEdit" position="top" no-backdrop-dismiss>
+      <q-dialog v-model="categoryEdit" @hide="clearEditCategoryPayload" position="top" no-backdrop-dismiss>
         <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
           <q-card-section class="q-py-md">
             <div class="text-h5">Edit Category</div>
@@ -731,6 +731,12 @@ export default {
       this.editCategoryPayload.description = payload.description
       this.editCategoryPayload.catalog = payload.catalog
       this.editCategoryPayload.slug = payload.slug
+    },
+    clearEditCategoryPayload: function (payload) {
+      this.editCategoryPayload.name = ''
+      this.editCategoryPayload.description = ''
+      this.editCategoryPayload.catalog = null
+      this.editCategoryPayload.slug = ''
     }
   },
   created: function () {
