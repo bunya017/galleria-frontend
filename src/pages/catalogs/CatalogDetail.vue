@@ -338,6 +338,14 @@
                             Delete
                           </q-item-section>
                         </q-item>
+                        <q-item clickable @click="makeEditCategoryPayload(category)">
+                          <q-item-section avatar>
+                            <q-avatar rounded icon="edit" />
+                          </q-item-section>
+                          <q-item-section>
+                            Edit
+                          </q-item-section>
+                        </q-item>
                       </q-list>
                     </q-menu>
                   </q-btn>
@@ -348,7 +356,7 @@
         </div>
       </div>
 
-      <!-- Edit catalog dialog -->
+      <!-- Edit category dialog -->
       <q-dialog v-model="categoryEdit" position="top" no-backdrop-dismiss>
         <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
           <q-card-section class="q-py-md">
@@ -498,7 +506,8 @@ export default {
       editCategoryPayload: {
         name: '',
         description: '',
-        catalog: null
+        catalog: null,
+        slug: ''
       },
       deleteCategoryPayload: {
         name: '',
@@ -715,6 +724,13 @@ export default {
             self.showAlert(self.alertPayload)
           }
         })
+    },
+    makeEditCategoryPayload: function (payload) {
+      this.categoryEdit = true
+      this.editCategoryPayload.name = payload.name
+      this.editCategoryPayload.description = payload.description
+      this.editCategoryPayload.catalog = payload.catalog
+      this.editCategoryPayload.slug = payload.slug
     }
   },
   created: function () {
