@@ -2,7 +2,7 @@
   <q-layout view="hHh Lpr fFf"> <!-- Be sure to play with the Layout demo on docs -->
 
     <!-- (Optional) The Header -->
-    <q-header elevated class="bg-white text-primary">
+    <q-header reveal :reveal-offset="75" elevated class="bg-white text-primary">
       <q-toolbar>
         <q-btn
           flat

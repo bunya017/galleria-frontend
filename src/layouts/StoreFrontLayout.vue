@@ -2,7 +2,12 @@
   <q-layout view="hHh Lpr fFf"> <!-- Be sure to play with the Layout demo on docs -->
 
     <!-- (Optional) The Header -->
-    <q-header elevated class="bg-white text-primary q-px-md-lg" v-if="error404State === false">
+    <q-header
+      :reveal="this.$route.name !== 'store-search'"
+      :reveal-offset="75"
+      v-if="error404State === false"
+      elevated class="bg-white text-primary q-px-md-lg"
+    >
       <q-toolbar>
         <q-btn
           flat
@@ -140,7 +145,7 @@
       </q-toolbar>
       <q-toolbar
         inset
-        v-if="$q.screen.gt.md || this.$route.name == 'store-search'"
+        v-if="$q.screen.gt.md || this.$route.name === 'store-search'"
         class="q-px-sm"
       >
         <q-tabs v-model="tab" shrink class="gt-sm q-ml-md">
@@ -183,7 +188,7 @@
           v-model="searchPayload"
           outlined
           placeholder="Search Store..."
-          v-if="$q.screen.lt.sm && this.$route.name == 'store-search'"
+          v-if="$q.screen.lt.sm && this.$route.name === 'store-search'"
           style="width: 99vw;"
           type="search"
           dense
