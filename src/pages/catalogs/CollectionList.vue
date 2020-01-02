@@ -95,7 +95,12 @@
       </div>
 
       <!-- Edit collection dialog -->
-      <q-dialog v-model="collectionEdit" position="top" no-backdrop-dismiss>
+      <q-dialog
+        position="top"
+        no-backdrop-dismiss
+        v-model="collectionEdit"
+        @hide="clearEditCollectionPayload"
+      >
         <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
           <q-card-section class="q-py-md">
             <div class="text-h5">Edit Collection</div>
@@ -338,7 +343,8 @@ export default {
       },
       editCollectionPayload: {
         name: '',
-        description: ''
+        description: '',
+        slug: ''
       },
       alertPayload: {
         color: 'green-1',
@@ -502,6 +508,11 @@ export default {
       this.editCollectionPayload.name = payload.name
       this.editCollectionPayload.description = payload.description
       this.editCollectionPayload.slug = payload.slug
+    },
+    clearEditCollectionPayload () {
+      this.editCollectionPayload.name = ''
+      this.editCollectionPayload.description = ''
+      this.editCollectionPayload.slug = ''
     }
   },
   created: function () {
