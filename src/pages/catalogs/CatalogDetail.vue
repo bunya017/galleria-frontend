@@ -101,7 +101,7 @@
             <div class="row justify-center items-center cursor-pointer" style="min-height: 100px;">
               <div class="text-center">
                 <div class="text-h5">
-                  Edit Details <q-icon name="edit" color="primary" />
+                  <q-icon name="edit" color="primary" /> Edit Details
                 </div>
               </div>
             </div>
@@ -198,7 +198,7 @@
 
       <!-- New category modal/dialog -->
       <q-dialog v-model="newCat" position="top" no-backdrop-dismiss>
-        <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
+        <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
           <q-card-section class="text-center">
             <div class="text-h5">New Category</div>
             <div class="text-subtitle2">Add new product category</div>

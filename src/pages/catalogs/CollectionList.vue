@@ -133,7 +133,7 @@
         no-backdrop-dismiss
         @hide="clearNewCollectionModel"
       >
-        <q-card class="q-mt-lg" style="width: 600px; max-width: 85vw;">
+        <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
           <q-card-section>
             <div class="text-h5">New collection</div>
             <div class="text-subtitle2">Add new product collection</div>

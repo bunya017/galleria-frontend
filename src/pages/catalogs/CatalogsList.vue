@@ -18,7 +18,7 @@
 
       <!-- New catalog dialog/modal -->
       <q-dialog v-model="newCat" position="top" @hide="clearNewCatalogModel" no-backdrop-dismiss>
-        <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
+        <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
           <q-card-section class="text-center">
             <div class="text-h5">New catalog</div>
             <div class="text-subtitle2">Create new product catalog</div>

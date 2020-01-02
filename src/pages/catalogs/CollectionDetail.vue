@@ -115,7 +115,7 @@
         no-backdrop-dismiss
         @hide="newCollectionProduct.product = null"
       >
-        <q-card class="q-mt-lg" style="width: 600px; max-width: 85vw;">
+        <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
           <q-card-section>
             <div class="text-h5">Add product</div>
             <div class="text-subtitle2 text-grey-7 q-py-xs">
