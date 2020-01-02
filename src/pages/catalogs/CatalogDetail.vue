@@ -348,6 +348,61 @@
         </div>
       </div>
 
+      <!-- Edit catalog dialog -->
+      <q-dialog v-model="categoryEdit" position="top" no-backdrop-dismiss>
+        <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
+          <q-card-section class="q-py-md">
+            <div class="text-h5">Edit Category</div>
+            <div class="text-subtitle2">Edit category details</div>
+          </q-card-section>
+          <q-card-section class="q-px-sm q-py-lg">
+            <div class="q-px-md">
+              <form>
+                <q-input
+                  dense
+                  auto-focus
+                  lazy-rules
+                  type="text"
+                  label="Name"
+                  v-model="editCategoryPayload.name"
+                  :rules="[val => !!val || 'Field is required']"
+                />
+                <q-input
+                  dense
+                  lazy-rules
+                  type="text"
+                  label="Description"
+                  v-model="editCategoryPayload.description"
+                  :rules="[val => !!val || 'Field is required']"
+                />
+                <image-input
+                  ref="editCategoryBgImage"
+                  label="Background image (Change the current logo image)"
+                  color="white"
+                  textColor="grey-8"
+                  accept=".jpg, image/*"
+                />
+                <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
+                  <q-btn
+                    flat
+                    label="Cancel"
+                    color="grey-7"
+                    v-close-popup
+                  />
+                  <q-btn
+                    label="Edit Category"
+                    type="submit"
+                    color="primary"
+                    :loading="editCategoryButtonLoading"
+                    :disabled="editCategoryButtonLoading"
+                  />
+                </q-card-actions>
+              </form>
+            </div>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
+
       <!-- Delete category dialog -->
       <q-dialog v-model="deleteCaty" @hide="clearDeleteCategoryPayload" persistent>
         <q-card>
@@ -416,11 +471,13 @@ export default {
       newCategoryButtonLoading: false,
       deleteCategoryButtonLoading: false,
       editCatalogButtonLoading: false,
+      editCategoryButtonLoading: false,
       catalogNotFound: null,
       productCount: 0,
       activeProducts: 0,
       newCat: false,
       catalogEdit: false,
+      categoryEdit: false,
       catalog: {},
       deleteCaty: false,
       confirmDeletePayload: '',
@@ -434,6 +491,11 @@ export default {
         url: ''
       },
       newCategory: {
+        name: '',
+        description: '',
+        catalog: null
+      },
+      editCategoryPayload: {
         name: '',
         description: '',
         catalog: null
