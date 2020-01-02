@@ -34,47 +34,51 @@
         <q-space v-if="this.$route.name != 'store-search'" />
 
         <!-- Search input for md screen & above on search route -->
-        <q-input
-          v-model="searchPayload"
-          outlined
-          placeholder="Search Store..."
-          v-if="$q.screen.gt.sm && this.$route.name == 'store-search'"
-          style="width: 60vw;"
-          class="q-mx-auto"
-          type="search"
-          dense
-        >
-          <template v-slot:after>
-            <q-btn color="primary" icon="search" @click.stop="setQueryParam" />
-          </template>
-        </q-input>
+        <form @submit.prevent.stop="setQueryParam">
+          <q-input
+            v-model="searchPayload"
+            outlined
+            placeholder="Search Store..."
+            v-if="$q.screen.gt.sm && this.$route.name == 'store-search'"
+            style="width: 60vw;"
+            class="q-ml-lg"
+            type="search"
+            dense
+          >
+            <template v-slot:after>
+              <q-btn type="submit" color="primary" icon="search" />
+            </template>
+          </q-input>
+        </form>
 
         <!-- Search input for sm screen & below -->
-        <q-input
-          v-model="searchPayload"
-          autofocus
-          placeholder="Search Store..."
-          style="width: 99vw;"
-          dense
-          v-if="toggleSearch && this.$route.name != 'store-search'"
-        >
-          <template v-slot:before>
-            <q-icon
-              name="keyboard_backspace"
-              color="primary"
-              class="q-mr-md cursor-pointer"
-              @click.stop="toggleSearch = false"
-            />
-          </template>
-          <template v-slot:append v-if="!searchPayload">
-            <q-icon
-              name="search"
-            />
-          </template>
-          <template v-slot:after v-if="searchPayload">
-            <q-btn dense color="primary" icon="search" @click.stop="setQueryParam" />
-          </template>
-        </q-input>
+        <form @submit.prevent.stop="setQueryParam">
+          <q-input
+            v-model="searchPayload"
+            autofocus
+            placeholder="Search Store..."
+            style="width: 99vw;"
+            dense
+            v-if="toggleSearch && this.$route.name != 'store-search'"
+          >
+            <template v-slot:before>
+              <q-icon
+                name="keyboard_backspace"
+                color="primary"
+                class="q-mr-md cursor-pointer"
+                @click.stop="toggleSearch = false"
+              />
+            </template>
+            <template v-slot:append v-if="!searchPayload">
+              <q-icon
+                name="search"
+              />
+            </template>
+            <template v-slot:after v-if="searchPayload">
+              <q-btn dense color="primary" type="submit" icon="search" />
+            </template>
+          </q-input>
+        </form>
 
         <q-btn
           flat
@@ -85,26 +89,28 @@
           @click="toggleSearch = true"
         />
         <!-- Search input for md screen & above -->
-        <q-input
-          v-model="searchPayload"
-          placeholder="Search Store..."
-          :style="{ width: searchInputSize + 'px' }"
-          dense
-          outlined
-          @focus="searchInputSize = 400"
-          @blur="searchInputSize = 200"
-          type="search"
-          v-if="$q.screen.gt.sm && this.$route.name != 'store-search'"
-        >
-          <template v-slot:append v-if="!searchPayload">
-            <q-icon
-              name="search"
-            />
-          </template>
-          <template v-slot:after v-if="searchPayload">
-            <q-btn dense flat color="primary" icon="search" @click.stop="setQueryParam" />
-          </template>
-        </q-input>
+        <form @submit.prevent.stop="setQueryParam">
+          <q-input
+            v-model="searchPayload"
+            placeholder="Search Store..."
+            :style="{ width: searchInputSize + 'px' }"
+            dense
+            outlined
+            @focus="searchInputSize = 400"
+            @blur="searchInputSize = 200"
+            type="search"
+            v-if="$q.screen.gt.sm && this.$route.name != 'store-search'"
+          >
+            <template v-slot:append v-if="!searchPayload">
+              <q-icon
+                name="search"
+              />
+            </template>
+            <template v-slot:after v-if="searchPayload">
+              <q-btn type="submit" dense flat color="primary" icon="search" />
+            </template>
+          </q-input>
+        </form>
 
         <!-- route tabs -->
         <q-tabs v-model="tab" v-if="this.$route.name != 'store-search'" shrink class="gt-sm q-ml-md">
@@ -184,19 +190,21 @@
           />
         </q-tabs>
         <!-- Search input for sm screen & below on search route -->
-        <q-input
-          v-model="searchPayload"
-          outlined
-          placeholder="Search Store..."
-          v-if="$q.screen.lt.sm && this.$route.name === 'store-search'"
-          style="width: 99vw;"
-          type="search"
-          dense
-        >
-          <template v-slot:after>
-            <q-btn color="primary" icon="search" @click.stop="setQueryParam" />
-          </template>
-        </q-input>
+         <form @submit.prevent.stop="setQueryParam">
+          <q-input
+            v-model="searchPayload"
+            outlined
+            placeholder="Search Store..."
+            v-if="$q.screen.lt.sm && this.$route.name === 'store-search'"
+            style="width: 99vw;"
+            type="search"
+            dense
+          >
+            <template v-slot:after>
+              <q-btn color="primary" type="submit" icon="search" />
+            </template>
+          </q-input>
+        </form>
       </q-toolbar>
     </q-header>
 
