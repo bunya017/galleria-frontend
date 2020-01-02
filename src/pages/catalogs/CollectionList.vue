@@ -68,6 +68,14 @@
                   <q-btn size="12px" flat dense round icon="more_vert">
                     <q-menu auto-close>
                       <q-list style="width: 200px;">
+                        <q-item clickable @click="makeEditCollectionPayload(collection)">
+                          <q-item-section avatar>
+                            <q-avatar rounded icon="edit" />
+                          </q-item-section>
+                          <q-item-section>
+                            Edit
+                          </q-item-section>
+                        </q-item>
                         <q-item clickable @click="makeDeleteCollectionPayload(collection)">
                           <q-item-section avatar>
                             <q-avatar rounded icon="delete" />
@@ -330,7 +338,6 @@ export default {
       },
       editCollectionPayload: {
         name: '',
-        catalog: null,
         description: ''
       },
       alertPayload: {
@@ -489,6 +496,12 @@ export default {
       this.deleteCollectionPayload.name = ''
       this.deleteCollectionPayload.slug = ''
       this.confirmDeletePayload = ''
+    },
+    makeEditCollectionPayload (payload) {
+      this.collectionEdit = true
+      this.editCollectionPayload.name = payload.name
+      this.editCollectionPayload.description = payload.description
+      this.editCollectionPayload.slug = payload.slug
     }
   },
   created: function () {
