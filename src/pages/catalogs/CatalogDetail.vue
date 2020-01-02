@@ -97,7 +97,7 @@
         </div>
         <!-- Edit Catalog Info-->
         <div class="col-6 col-md-3">
-          <q-card @click="catalogEdit = true">
+          <q-card @click="makeEditCatalogPayload">
             <div class="row justify-center items-center cursor-pointer" style="min-height: 100px;">
               <div class="text-center">
                 <div class="text-h5">
@@ -166,8 +166,6 @@
                   color="white"
                   textColor="grey-8"
                   accept=".jpg, image/*"
-                  :error="catalogEdit"
-                  errorMessage="This field is required."
                 />
                 <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
                   <q-btn
@@ -424,7 +422,8 @@ export default {
         description: '',
         contact_address: '',
         contact_email: '',
-        contact_phone: ''
+        contact_phone: '',
+        url: ''
       },
       newCategory: {
         name: '',
@@ -594,6 +593,16 @@ export default {
             self.deleteCaty = false
           }
         })
+    },
+    makeEditCatalogPayload: function () {
+      this.catalogEdit = true
+      this.editCatalogPayload.name = this.catalog.name
+      this.editCatalogPayload.description = this.catalog.description
+      this.editCatalogPayload.contact_address = this.catalog.contact_address
+      this.editCatalogPayload.contact_email = this.catalog.contact_email
+      this.editCatalogPayload.contact_phone = this.catalog.contact_phone
+      this.editCatalogPayload.url = process.env.PROD
+        ? this.catalog.url.replace('http://', 'https://') : this.catalog.url
     }
   },
   created: function () {
