@@ -118,7 +118,7 @@
           </q-card-section>
           <q-card-section class="q-px-sm q-py-lg">
             <div class="q-px-md">
-              <form>
+              <form v-on:submit.prevent.stop="editCatalog">
                 <q-input
                   dense
                   auto-focus
@@ -611,6 +611,37 @@ export default {
       this.editCatalogPayload.contact_email = ''
       this.editCatalogPayload.contact_phone = ''
       this.editCatalogPayload.url = ''
+    },
+    editCatalog () {
+      let self = this
+      self.editCatalogButtonLoading = true
+      let payload = new FormData()
+      payload.append('name', self.editCatalogPayload.name)
+      payload.append('description', self.editCatalogPayload.description)
+      payload.append('contact_address', self.editCatalogPayload.contact_address)
+      payload.append('contact_email', self.editCatalogPayload.contact_email)
+      payload.append('contact_phone', self.editCatalogPayload.contact_phone)
+      if (self.$refs.editCatalogBgImage.files.length > 0) {
+        payload.append('background_image', self.$refs.editCatalogBgImage.files[0])
+      }
+
+      self.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken(),
+        'Content-Type': 'multipart/form'
+      }
+      self.$axios.patch(
+        self.editCatalogPayload.url,
+        payload
+      )
+        .then(function (response) {
+          if (response.status === 200) {
+            self.getCatalogDetail()
+            self.alertPayload.message = 'Edited successfully!'
+            self.editCatalogButtonLoading = false
+            self.catalogEdit = false
+            self.showAlert(self.alertPayload)
+          }
+        })
     }
   },
   created: function () {
