@@ -108,7 +108,7 @@
           </q-card-section>
           <q-card-section class="q-px-sm q-py-lg">
             <div class="q-px-md">
-              <form>
+              <form @submit.prevent.stop="editCollection">
                 <q-input
                   dense
                   auto-focus
@@ -513,6 +513,45 @@ export default {
       this.editCollectionPayload.name = ''
       this.editCollectionPayload.description = ''
       this.editCollectionPayload.slug = ''
+    },
+    editCollection: function () {
+      let self = this
+      self.editCollectionButtonLoading = true
+      self.editCollectionPayload.catalog = self.catalog.id
+      let payload = new FormData()
+      payload.append('name', self.editCollectionPayload.name)
+      payload.append('catalog', self.editCollectionPayload.catalog)
+      payload.append('description', self.editCollectionPayload.description)
+      if (this.$refs.editCollectionBgImage.files.length > 0) {
+        payload.append('background_image', this.$refs.editCollectionBgImage.files[0])
+      }
+
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken(),
+        'Content-Type': 'multipart/form'
+      }
+      self.$axios.patch(
+        'catalogs/' + self.catalogSlug + '/collections/' + self.editCollectionPayload.slug + '/',
+        payload
+      )
+        .then(function (response) {
+          if (response.status === 200) {
+            self.getCollectionList()
+            self.alertPayload.message = 'Collection edited successfully!'
+            self.editCollectionButtonLoading = false
+            self.collectionEdit = false
+            self.showAlert(self.alertPayload)
+          }
+        })
+        .catch(function (error) {
+          if (error.response.data.name) {
+            if (error.response.data.name[0].indexOf('A collection named') >= 0) {
+              self.errorAlertPayload.message = error.response.data.name[0]
+              self.showAlert(self.errorAlertPayload)
+            }
+            self.editCollectionButtonLoading = false
+          }
+        })
     }
   },
   created: function () {
