@@ -73,7 +73,7 @@
             </q-card>
           </router-link>
         </div>
-        <div class="col-12 col-md-3">
+        <div class="col-6 col-md-3">
           <router-link
             v-if="catalog.slug"
             :to="{
@@ -95,7 +95,100 @@
             </q-card>
           </router-link>
         </div>
+        <!-- Edit Catalog Info-->
+        <div class="col-6 col-md-3">
+          <q-card @click="catalogEdit = true">
+            <div class="row justify-center items-center cursor-pointer" style="min-height: 100px;">
+              <div class="text-center">
+                <div class="text-h5">
+                  Edit Details <q-icon name="edit" color="primary" />
+                </div>
+              </div>
+            </div>
+          </q-card>
+        </div>
       </div>
+
+      <!-- Edit catalog dialog -->
+      <q-dialog v-model="catalogEdit" position="top" no-backdrop-dismiss>
+        <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
+          <q-card-section class="q-py-md">
+            <div class="text-h5">Edit Catalog</div>
+            <div class="text-subtitle2">Edit catalog details</div>
+          </q-card-section>
+          <q-card-section class="q-px-sm q-py-lg">
+            <div class="q-px-md">
+              <form>
+                <q-input
+                  dense
+                  auto-focus
+                  lazy-rules
+                  type="text"
+                  label="Name"
+                  v-model="editCatalogPayload.name"
+                  :rules="[val => !!val || 'Field is required']"
+                />
+                <q-input
+                  dense
+                  lazy-rules
+                  type="text"
+                  label="Description"
+                  v-model="editCatalogPayload.description"
+                  :rules="[val => !!val || 'Field is required']"
+                />
+                <q-input
+                  dense
+                  lazy-rules
+                  type="text"
+                  label="Shop address"
+                  v-model="editCatalogPayload.contact_address"
+                  :rules="[val => !!val || 'Field is required']"
+                />
+                <q-input
+                  dense
+                  lazy-rules
+                  type="email"
+                  label="Contact email"
+                  v-model="editCatalogPayload.contact_email"
+                  :rules="[val => !!val || 'Field is required']"
+                />
+                <q-input
+                  dense
+                  lazy-rules
+                  type="text"
+                  label="Contact phone"
+                  v-model="editCatalogPayload.contact_phone"
+                  :rules="[val => !!val || 'Field is required']"
+                />
+                <image-input
+                  ref="editCatalogBgImage"
+                  label="Background Image (optional)"
+                  color="white"
+                  textColor="grey-8"
+                  accept=".jpg, image/*"
+                  :error="catalogEdit"
+                  errorMessage="This field is required."
+                />
+                <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
+                  <q-btn
+                    flat
+                    label="Cancel"
+                    color="grey-7"
+                    v-close-popup
+                  />
+                  <q-btn
+                    label="Edit Catalog"
+                    type="submit"
+                    color="primary"
+                    :loading="editCatalogButtonLoading"
+                    :disabled="editCatalogButtonLoading"
+                  />
+                </q-card-actions>
+              </form>
+            </div>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
 
       <!-- New category modal/dialog -->
       <q-dialog v-model="newCat" position="top" no-backdrop-dismiss>
@@ -316,14 +409,23 @@ export default {
     return {
       newCategoryButtonLoading: false,
       deleteCategoryButtonLoading: false,
+      editCatalogButtonLoading: false,
       catalogNotFound: null,
       productCount: 0,
       activeProducts: 0,
       newCat: false,
+      catalogEdit: false,
       catalog: {},
       deleteCaty: false,
       confirmDeletePayload: '',
       deleteCategorySlug: '',
+      editCatalogPayload: {
+        name: '',
+        description: '',
+        contact_address: '',
+        contact_email: '',
+        contact_phone: ''
+      },
       newCategory: {
         name: '',
         description: '',

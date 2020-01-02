@@ -7,7 +7,7 @@
       :color="color"
       :text-color="textColor"
       :accept="accept"
-      :multiple
+      :multiple="multiple"
       hide-upload-btn
     >
       <template v-slot:header="scope">
@@ -89,7 +89,7 @@ export default {
     textColor: String,
     accept: String,
     error: Boolean,
-    errorMessage: String
+    errorMessage: String,
     multiple: Boolean
   },
   computed: {
