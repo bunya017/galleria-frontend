@@ -86,6 +86,61 @@
         </div>
       </div>
 
+      <!-- Edit collection dialog -->
+      <q-dialog v-model="collectionEdit" position="top" no-backdrop-dismiss>
+        <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
+          <q-card-section class="q-py-md">
+            <div class="text-h5">Edit Collection</div>
+            <div class="text-subtitle2">Edit collection details</div>
+          </q-card-section>
+          <q-card-section class="q-px-sm q-py-lg">
+            <div class="q-px-md">
+              <form>
+                <q-input
+                  dense
+                  auto-focus
+                  lazy-rules
+                  type="text"
+                  label="Name"
+                  v-model="editCollectionPayload.name"
+                  :rules="[val => !!val || 'Field is required']"
+                />
+                <q-input
+                  dense
+                  lazy-rules
+                  type="text"
+                  label="Description"
+                  v-model="editCollectionPayload.description"
+                  :rules="[val => !!val || 'Field is required']"
+                />
+                <image-input
+                  ref="editCollectionBgImage"
+                  label="Background image (Change the current logo image)"
+                  color="white"
+                  textColor="grey-8"
+                  accept=".jpg, image/*"
+                />
+                <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
+                  <q-btn
+                    flat
+                    label="Cancel"
+                    color="grey-7"
+                    v-close-popup
+                  />
+                  <q-btn
+                    label="Edit Collection"
+                    type="submit"
+                    color="primary"
+                    :loading="editCollectionButtonLoading"
+                    :disabled="editCollectionButtonLoading"
+                  />
+                </q-card-actions>
+              </form>
+            </div>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
+
       <!-- Delete collection dialog -->
       <q-dialog v-model="deleteColl" persistent @hide="clearDeleteCollectionModel">
         <q-card>
@@ -254,8 +309,10 @@ export default {
     return {
       newCollectionButtonLoading: false,
       deleteCollectionButtonLoading: false,
+      editCollectionButtonLoading: false,
       collListNotFound: null,
       deleteColl: false,
+      collectionEdit: false,
       confirmDeletePayload: '',
       newColl: false,
       catalog: null,
@@ -270,6 +327,11 @@ export default {
       deleteCollectionPayload: {
         name: '',
         slug: ''
+      },
+      editCollectionPayload: {
+        name: '',
+        catalog: null,
+        description: ''
       },
       alertPayload: {
         color: 'green-1',
