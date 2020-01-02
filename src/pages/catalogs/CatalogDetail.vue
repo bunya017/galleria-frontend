@@ -110,7 +110,7 @@
       </div>
 
       <!-- Edit catalog dialog -->
-      <q-dialog v-model="catalogEdit" position="top" no-backdrop-dismiss>
+      <q-dialog v-model="catalogEdit" @hide="clearEditCatalogPayload" position="top" no-backdrop-dismiss>
         <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
           <q-card-section class="q-py-md">
             <div class="text-h5">Edit Catalog</div>
@@ -603,6 +603,14 @@ export default {
       this.editCatalogPayload.contact_phone = this.catalog.contact_phone
       this.editCatalogPayload.url = process.env.PROD
         ? this.catalog.url.replace('http://', 'https://') : this.catalog.url
+    },
+    clearEditCatalogPayload: function () {
+      this.editCatalogPayload.name = ''
+      this.editCatalogPayload.description = ''
+      this.editCatalogPayload.contact_address = ''
+      this.editCatalogPayload.contact_email = ''
+      this.editCatalogPayload.contact_phone = ''
+      this.editCatalogPayload.url = ''
     }
   },
   created: function () {
