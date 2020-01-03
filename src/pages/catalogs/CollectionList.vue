@@ -318,6 +318,11 @@
 <script>
 export default {
   name: 'CollectionList',
+  meta () {
+    return {
+      title: `Collections | ${this.catalog.name}`
+    }
+  },
   data: function () {
     return {
       newCollectionButtonLoading: false,
@@ -328,7 +333,7 @@ export default {
       collectionEdit: false,
       confirmDeletePayload: '',
       newColl: false,
-      catalog: null,
+      catalog: {},
       catalogSlug: this.$route.params.catalogSlug,
       collections: [],
       newCollection: {

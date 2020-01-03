@@ -474,6 +474,11 @@
 <script>
 export default {
   name: 'CatalogDetail',
+  meta () {
+    return {
+      title: this.catalog.name
+    }
+  },
   data: function () {
     return {
       newCategoryButtonLoading: false,

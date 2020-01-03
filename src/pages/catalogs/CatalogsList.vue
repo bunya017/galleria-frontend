@@ -341,6 +341,11 @@
 <script>
 export default {
   name: 'CatalogsList',
+  meta () {
+    return {
+      title: 'Dashboard'
+    }
+  },
   data: function () {
     return {
       isLoading: true,

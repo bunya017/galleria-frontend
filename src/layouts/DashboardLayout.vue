@@ -82,8 +82,13 @@
 
 <script>
 export default {
-  // name: 'LayoutName',
-
+  name: 'DashboardLayout',
+  meta () {
+    return {
+      title: 'Dashboard',
+      titleTemplate: title => `${title} - Galleria`
+    }
+  },
   data () {
     return {
       leftDrawer: false,
