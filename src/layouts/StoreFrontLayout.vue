@@ -340,6 +340,12 @@ export default {
     )
   },
   name: 'StoreFrontLayout',
+  meta () {
+    return {
+      title: 'Home',
+      titleTemplate: title => `${title} - ${this.storeCatalog.name}`
+    }
+  },
   data () {
     return {
       tab: '',

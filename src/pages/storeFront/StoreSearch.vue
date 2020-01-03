@@ -79,6 +79,11 @@
 <script>
 export default {
   name: 'StoreSearch',
+  meta () {
+    return {
+      title: 'Search'
+    }
+  },
   data () {
     return {
       products: [],

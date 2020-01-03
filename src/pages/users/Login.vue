@@ -78,7 +78,12 @@
 
 <script>
 export default {
-  // name: 'PageName',
+  name: 'Login',
+  meta () {
+    return {
+      title: 'Login'
+    }
+  },
   data: function () {
     return {
       loginButtonLoading: false,

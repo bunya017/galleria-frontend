@@ -114,6 +114,11 @@
 <script>
 export default {
   name: 'StoreProductDetail',
+  meta () {
+    return {
+      title: this.product.name
+    }
+  },
   data () {
     return {
       product: {},
