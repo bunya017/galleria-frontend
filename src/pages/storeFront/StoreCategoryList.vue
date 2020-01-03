@@ -77,6 +77,11 @@
 <script>
 export default {
   name: 'StoreCategoryList',
+  meta () {
+    return {
+      title: 'Categories'
+    }
+  },
   data () {
     return {
       catalogSlug: this.$route.params.catalogSlug,

@@ -57,6 +57,12 @@
 <script>
 export default {
   name: 'DefaultLayout',
+  meta () {
+    return {
+      title: 'Welcome',
+      titleTemplate: title => `${title} - Galleria`
+    }
+  },
   data () {
     return {
       leftDrawer: true,

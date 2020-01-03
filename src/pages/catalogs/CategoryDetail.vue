@@ -94,6 +94,11 @@
 <script>
 export default {
   name: 'CategoryDetail',
+  meta () {
+    return {
+      title: `${this.category.name} | ${this.catalog.name}`
+    }
+  },
   data () {
     return {
       categoryNotFound: null,

@@ -116,6 +116,11 @@
 <script>
 export default {
   name: 'ProductDetailView',
+  meta () {
+    return {
+      title: `${this.product.name} | ${this.product.category.catalog.name}`
+    }
+  },
   data: function () {
     return {
       productNotFound: null,

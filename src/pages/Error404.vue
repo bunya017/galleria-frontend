@@ -17,6 +17,12 @@
 <script>
 export default {
   name: 'Error404',
+  meta () {
+    return {
+      title: '404',
+      titleTemplate: title => `${title} - Galleria`
+    }
+  },
   methods: {
     handleBack () {
       if (this.loggedInStatus === true) {

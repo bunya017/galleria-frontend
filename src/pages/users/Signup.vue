@@ -110,7 +110,12 @@
 
 <script>
 export default {
-  // name: 'PageName',
+  name: 'Signup',
+  meta () {
+    return {
+      title: 'Signup'
+    }
+  },
   data: function () {
     return {
       signupButtonLoading: false,

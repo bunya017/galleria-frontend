@@ -449,6 +449,11 @@
 <script>
 export default {
   name: 'ProductsList',
+  meta () {
+    return {
+      title: `Products | ${this.product.category.catalog.name}`
+    }
+  },
   data: function () {
     return {
       addButtonLoading: false,

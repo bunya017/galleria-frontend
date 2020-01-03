@@ -2,7 +2,7 @@
   <q-layout view="hHh Lpr fFf"> <!-- Be sure to play with the Layout demo on docs -->
 
     <!-- (Optional) The Header -->
-    <q-header elevated class="bg-white text-primary">
+    <q-header reveal :reveal-offset="75" elevated class="bg-white text-primary">
       <q-toolbar>
         <q-btn
           flat
@@ -68,6 +68,13 @@
     <q-page-container>
       <!-- This is where pages get injected -->
       <router-view />
+      <div id="footer" class="q-pt-lg">
+        <div id="brand-section" class="bg-grey-3 row q-py-xl q-px-md q-pa-sm-xl">
+          <div class="col-12 text-center">
+            Copyright © {{ date.getFullYear() }}, <span class="text-primary">Galleria</span>. All Rights Reserved.
+          </div>
+        </div>
+      </div>
     </q-page-container>
 
   </q-layout>
@@ -75,11 +82,17 @@
 
 <script>
 export default {
-  // name: 'LayoutName',
-
+  name: 'DashboardLayout',
+  meta () {
+    return {
+      title: 'Dashboard',
+      titleTemplate: title => `${title} - Galleria`
+    }
+  },
   data () {
     return {
-      leftDrawer: false
+      leftDrawer: false,
+      date: new Date()
     }
   },
   methods: {

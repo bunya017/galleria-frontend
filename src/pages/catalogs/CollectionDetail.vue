@@ -232,6 +232,11 @@
 <script>
 export default {
   name: 'CollectionDetail',
+  meta () {
+    return {
+      title: `${this.collection.name} | ${this.catalog.name}`
+    }
+  },
   data: function () {
     return {
       addProductButtonLoading: false,
