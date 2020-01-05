@@ -33,6 +33,7 @@
       </div>
 
       <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
+        <!-- Collection -->
         <div class="col-6 col-md-3">
           <router-link
             v-if="catalog.slug"
@@ -53,6 +54,7 @@
             </q-card>
           </router-link>
         </div>
+        <!-- Products -->
         <div class="col-6 col-md-3">
           <router-link
             v-if="catalog.slug"
@@ -73,7 +75,42 @@
             </q-card>
           </router-link>
         </div>
+        <!-- Featured Products -->
         <div class="col-6 col-md-3">
+          <router-link
+            v-if="catalog.slug"
+            :to="{
+              name: 'featured-products',
+              params: {
+                catalogSlug: catalog.slug
+              }
+            }"
+          >
+            <q-card>
+              <div class="row justify-center items-center" style="min-height: 100px;">
+                <div class="text-center">
+                  <div class="text-h5">
+                    Featured Products
+                  </div>
+                </div>
+              </div>
+            </q-card>
+          </router-link>
+        </div>
+        <!-- Edit Catalog Info -->
+        <div class="col-6 col-md-3">
+          <q-card @click="makeEditCatalogPayload">
+            <div class="row justify-center items-center cursor-pointer" style="min-height: 100px;">
+              <div class="text-center">
+                <div class="text-h5">
+                  <q-icon name="edit" color="primary" /> Edit Details
+                </div>
+              </div>
+            </div>
+          </q-card>
+        </div>
+        <!-- Visit site -->
+        <div class="col-12 col-md-3">
           <router-link
             v-if="catalog.slug"
             :to="{
@@ -85,7 +122,7 @@
             target="_blank"
           >
             <q-card>
-              <div class="row justify-center items-center" style="min-height: 100px;">
+              <div class="row justify-center items-center bg-grey-4" style="min-height: 50px;">
                 <div class="text-center">
                   <div class="text-h5">
                     Visit Site <q-icon name="launch" color="primary" />
@@ -94,18 +131,6 @@
               </div>
             </q-card>
           </router-link>
-        </div>
-        <!-- Edit Catalog Info-->
-        <div class="col-6 col-md-3">
-          <q-card @click="makeEditCatalogPayload">
-            <div class="row justify-center items-center cursor-pointer" style="min-height: 100px;">
-              <div class="text-center">
-                <div class="text-h5">
-                  <q-icon name="edit" color="primary" /> Edit Details
-                </div>
-              </div>
-            </div>
-          </q-card>
         </div>
       </div>
 
