@@ -35,6 +35,15 @@
           </q-breadcrumbs-el>
         </q-breadcrumbs>
       </div>
+
+      <!-- Featured products list -->
+      <div v-if="featuredProducts.length > 0"></div>
+      <div v-else class="row jutify-center text-center" style="padding-top: 10vh;">
+        <div class="col-12 q-px-md">
+          <img height="150" width="150" alt="Quasar logo" src="../../assets/undraw-no-data.svg">
+          <div class="text-body1 q-py-sm">No featured product yet.</div>
+        </div>
+      </div>
     </div>
     <div
       style="padding-top: 25vh;"
