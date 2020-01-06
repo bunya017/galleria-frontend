@@ -13,9 +13,11 @@
             color="white"
             icon="add"
             label="add product"
+            @click="addFeatured = true"
           />
         </div>
       </div>
+
       <!-- Breadcrumbs -->
       <div class="q-pa-sm q-gutter-sm">
         <q-breadcrumbs separator="/" class="text-uppercase breadcrumbs-text" gutter="xs">
@@ -78,7 +80,19 @@ export default {
       collection: {},
       featuredProducts: [],
       notFound: null,
-      catalog: {}
+      catalog: {},
+      products: [],
+      options: [],
+      addFeatured: false,
+      addProductButtonLoading: false,
+      newFeaturedProduct: {
+        collection: null,
+        product: null
+      },
+      productError: {
+        status: false,
+        message: ''
+      }
     }
   },
   methods: {
@@ -125,6 +139,37 @@ export default {
             self.catalog = response.data
           }
         })
+    },
+    getCatalogProducts: function () {
+      let self = this
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.get(
+        'catalogs/' + self.$route.params.catalogSlug + '/products/'
+      )
+        .then(function (response) {
+          if (response.status === 200) {
+            self.products = [] // Clear products & options list before pushing
+            self.options = [] // new productList from server
+            for (let i = 0; i < response.data.length; i++) {
+              self.products.push({
+                label: response.data[i].name,
+                value: response.data[i].id,
+                description: response.data[i].description,
+                thumbnail: response.data[i].photos[0].photo.thumbnail
+              })
+            }
+          }
+        })
+    },
+    filterFunction: function (val, update, abort) {
+      update(() => {
+        const needle = val.toLowerCase()
+        this.options = this.products.filter(
+          v => v.label.toLowerCase().indexOf(needle) > -1
+        )
+      })
     }
   },
   computed: {
@@ -134,6 +179,8 @@ export default {
   },
   created () {
     this.getFeaturedProducts()
+    this.getCatalog()
+    this.getCatalogProducts()
   }
 }
 </script>
