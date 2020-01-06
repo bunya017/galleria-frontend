@@ -39,7 +39,45 @@
       </div>
 
       <!-- Featured products list -->
-      <div v-if="featuredProducts.length > 0"></div>
+      <div class="row q-pt-lg q-col-gutter-md" v-if="featuredProducts.length > 0">
+        <div class="col-12" v-for="product in featuredProducts" :key="product.id">
+          <q-card>
+            <q-list>
+              <q-item>
+                <q-item-section avatar>
+                  <q-avatar v-if="product.product.photos.length > 0" rounded size="56px">
+                    <img :src="product.product.photos[0].photo.thumbnail">
+                  </q-avatar>
+                  <q-avatar v-else color="primary" text-color="white">
+                    {{ product.product.name.charAt(0).toUpperCase() }}
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section>
+                  <router-link
+                    v-if="catalog.slug"
+                    :to="{
+                      name: 'product-detail',
+                      params: {
+                        catalogSlug: catalogSlug,
+                        referenceId: product.product.reference_id,
+                        productSlug: product.product.slug
+                      }
+                    }"
+                  >
+                    <q-item-label>{{ product.product.name }}</q-item-label>
+                    <q-item-label caption>
+                      {{ product.product.description }}
+                    </q-item-label>
+                    <q-item-label caption class="q-pt-sm text-weight-bold">
+                      ₦{{ product.product.price }}
+                    </q-item-label>
+                  </router-link>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-card>
+        </div>
+      </div>
       <div v-else class="row jutify-center text-center" style="padding-top: 10vh;">
         <div class="col-12 q-px-md">
           <img height="150" width="150" alt="Quasar logo" src="../../assets/undraw-no-data.svg">
@@ -334,3 +372,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+a {
+  text-decoration: none;
+  color: inherit;
+}
+</style>
