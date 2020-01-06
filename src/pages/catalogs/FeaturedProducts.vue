@@ -46,6 +46,78 @@
           <div class="text-body1 q-py-sm">No featured product yet.</div>
         </div>
       </div>
+
+      <!-- Add new products to collection dialog -->
+      <q-dialog
+        v-model="addFeatured"
+        position="top"
+        no-backdrop-dismiss
+        @hide="newFeaturedProduct.product = null"
+      >
+        <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
+          <q-card-section>
+            <div class="text-h5">Add product</div>
+            <div class="text-subtitle2 text-grey-7 q-py-xs">
+              Add a featured product
+            </div>
+          </q-card-section>
+          <q-card-section class="q-pa-sm">
+            <div class="q-px-sm-md">
+              <form
+                class="q-gutter-sm"
+              >
+                <q-select
+                  dense
+                  lazy-rules
+                  use-input
+                  :options="options"
+                  label="Product"
+                  hint="Select product"
+                  :error="productError.status"
+                  :error-message="productError.message"
+                  v-model="newFeaturedProduct.product"
+                  @filter="filterFunction"
+                  @input="productError.status = false"
+                >
+                  <template v-slot:option="scope">
+                    <q-item
+                      v-bind="scope.itemProps"
+                      v-on="scope.itemEvents"
+                    >
+                      <q-item-section avatar>
+                        <q-avatar
+                          rounded
+                          size="36px"
+                        >
+                          <img :src="scope.opt.thumbnail">
+                        </q-avatar>
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label v-html="scope.opt.label" />
+                        <q-item-label caption>{{ scope.opt.description }}</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </template>
+                </q-select>
+                <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
+                  <q-btn
+                    flat
+                    label="Cancel"
+                    color="grey-7"
+                    v-close-popup
+                  />
+                  <q-btn
+                    type="submit"
+                    label="Add new"
+                    color="primary"
+                    :loading="addProductButtonLoading"
+                  />
+                </q-card-actions>
+              </form>
+            </div>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
     </div>
     <div
       style="padding-top: 25vh;"
@@ -178,9 +250,9 @@ export default {
     }
   },
   created () {
-    this.getFeaturedProducts()
     this.getCatalog()
     this.getCatalogProducts()
+    this.getFeaturedProducts()
   }
 }
 </script>
