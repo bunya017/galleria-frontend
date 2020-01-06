@@ -90,7 +90,7 @@ export default {
     }
   },
   methods: {
-    getCategoryList: function () {
+    getCategoryList () {
       let self = this
       self.$store.dispatch('navbar/updateIs404Action', false)
       self.$q.loading.show({

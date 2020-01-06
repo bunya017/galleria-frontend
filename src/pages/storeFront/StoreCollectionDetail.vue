@@ -121,7 +121,7 @@ export default {
     }
   },
   methods: {
-    getCollectionDetail: function () {
+    getCollectionDetail () {
       let self = this
       self.$store.dispatch('navbar/updateIs404Action', false)
       this.$q.loading.show({

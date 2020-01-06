@@ -92,7 +92,7 @@ export default {
     }
   },
   methods: {
-    getProductsList: function () {
+    getProductsList () {
       let self = this
       this.$q.loading.show({
         spinnerColor: 'primary',

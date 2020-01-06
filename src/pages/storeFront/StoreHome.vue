@@ -160,7 +160,7 @@ export default {
     }
   },
   methods: {
-    getCatalog: function () {
+    getCatalog () {
       let self = this
       self.$store.dispatch('navbar/updateIs404Action', false)
       this.$q.loading.show({
@@ -186,7 +186,7 @@ export default {
           }
         })
     },
-    getCatalogProducts: function () {
+    getCatalogProducts () {
       let self = this
       self.$axios.get(
         'catalogs/' + self.$route.params.catalogSlug + '/products/'
@@ -197,11 +197,11 @@ export default {
           }
         })
     },
-    noDecimal: function (num) {
+    noDecimal (num) {
       return Number(num).toFixed(0)
     }
   },
-  created: function () {
+  created () {
     this.getCatalog()
     this.getCatalogProducts()
   }
