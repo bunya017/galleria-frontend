@@ -72,6 +72,24 @@
                       ₦{{ product.product.price }}
                     </q-item-label>
                   </router-link>
+                </q-item-section><q-item-section side>
+                  <q-btn size="12px" flat dense round icon="more_vert">
+                    <q-menu auto-close>
+                      <q-list style="width: 200px;">
+                        <q-item
+                          clickable
+                          @click="makeRemoveFeaturedPayload(product.product)"
+                        >
+                          <q-item-section avatar>
+                            <q-avatar rounded icon="delete" />
+                          </q-item-section>
+                          <q-item-section>
+                            Remove
+                          </q-item-section>
+                        </q-item>
+                      </q-list>
+                    </q-menu>
+                  </q-btn>
                 </q-item-section>
               </q-item>
             </q-list>
@@ -159,6 +177,31 @@
         </q-card>
       </q-dialog>
 
+      <!-- Remove product from collection dialog -->
+      <q-dialog v-model="removeFeatured" persistent @hide="clearRemoveFeaturedPayload">
+        <q-card>
+          <q-card-section class="row items-center">
+            <span class="q-ml-md q-py-md text-center">
+              Are you sure you want to remove <span class="text-weight-bold">{{ removeFeaturedPayload.name }}</span> from featured products?
+            </span>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn
+              flat
+              label="Cancel"
+              color="grey-7"
+              v-close-popup
+            />
+            <q-btn
+              label="Remove"
+              color="primary"
+              :loading="removeFeaturedButtonLoading"
+              :disabled="removeFeaturedButtonLoading"
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
       <!-- Floating button -->
       <q-page-sticky class="lt-sm" position="bottom-right" :offset="[20, 20]">
         <q-btn fab icon="add" color="primary" @click="addFeatured = true">
@@ -203,6 +246,8 @@ export default {
       products: [],
       options: [],
       addFeatured: false,
+      removeFeatured: false,
+      removeFeaturedButtonLoading: false,
       addProductButtonLoading: false,
       newFeaturedProduct: {
         collection: null,
@@ -211,6 +256,10 @@ export default {
       productError: {
         status: false,
         message: ''
+      },
+      removeFeaturedPayload: {
+        name: '',
+        productSlug: ''
       },
       alertPayload: {
         color: 'green-1',
@@ -358,6 +407,16 @@ export default {
             self.notFound = true
           }
         })
+    },
+    makeRemoveFeaturedPayload: function (payload) {
+      this.removeFeaturedPayload.name = payload.name
+      this.removeFeaturedPayload.productSlug = payload.slug
+      this.removeFeatured = true
+    },
+    clearRemoveFeaturedPayload: function (payload) {
+      this.removeFeaturedPayload.name = payload.name
+      this.removeFeaturedPayload.productSlug = payload.slug
+      this.removeFeatured = false
     }
   },
   computed: {
