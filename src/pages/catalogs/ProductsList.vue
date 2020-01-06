@@ -454,7 +454,7 @@ export default {
       title: `Products | ${this.product.category.catalog.name}`
     }
   },
-  data: function () {
+  data () {
     return {
       addButtonLoading: false,
       editButtonLoading: false,
@@ -529,10 +529,10 @@ export default {
     }
   },
   methods: {
-    getAuthToken: function () {
+    getAuthToken () {
       return sessionStorage.getItem('authToken')
     },
-    getProductsList: function () {
+    getProductsList () {
       let self = this
       this.$q.loading.show({
         spinnerColor: 'primary',
@@ -558,7 +558,7 @@ export default {
           }
         })
     },
-    getProductsCatalog: function () {
+    getProductsCatalog () {
       let self = this
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
@@ -577,7 +577,7 @@ export default {
           }
         })
     },
-    addNewProduct: function () {
+    addNewProduct () {
       let self = this
       let uploads = this.$refs.photoFiles.files
       let payload = new FormData()
@@ -632,7 +632,7 @@ export default {
           self.addButtonLoading = false
         })
     },
-    showAlert: function (payload) {
+    showAlert (payload) {
       const {
         color, textColor, message, icon,
         position, classes
@@ -647,13 +647,13 @@ export default {
         classes
       })
     },
-    clearNewProductModel: function () {
+    clearNewProductModel () {
       this.newProduct.name = ''
       this.newProduct.category = null
       this.newProduct.price = null
       this.newProduct.description = ''
     },
-    makeDeleteProductPayload: function (payload) {
+    makeDeleteProductPayload (payload) {
       this.deleteProd = true
       this.deleteProductPayload.name = payload.name
       this.deleteProductPayload.description = payload.description
@@ -662,7 +662,7 @@ export default {
       this.deleteProductPayload.url = process.env.PROD
         ? payload.url.replace('http://', 'https://') : payload.url
     },
-    makeEditProductPayload: function (payload) {
+    makeEditProductPayload (payload) {
       this.editProd = true
       this.editProductPayload.name = payload.name
       this.editProductPayload.description = payload.description
@@ -671,7 +671,7 @@ export default {
       this.editProductPayload.url = process.env.PROD
         ? payload.url.replace('http://', 'https://') : payload.url
     },
-    clearDeleteProductPayload: function () {
+    clearDeleteProductPayload () {
       this.deleteProductPayload.name = ''
       this.deleteProductPayload.category = null
       this.deleteProductPayload.price = null
@@ -679,14 +679,14 @@ export default {
       this.deleteProductPayload.url = ''
       this.confirmDeletePayload = ''
     },
-    clearEditProductPayload: function () {
+    clearEditProductPayload () {
       this.editProductPayload.name = ''
       this.editProductPayload.category = null
       this.editProductPayload.price = null
       this.editProductPayload.description = ''
       this.editProductPayload.url = ''
     },
-    deleteProduct: function () {
+    deleteProduct () {
       let self = this
       self.deleteButtonLoading = true
       this.$axios.defaults.headers.common = {
@@ -707,7 +707,7 @@ export default {
           }
         })
     },
-    editProduct: function () {
+    editProduct () {
       let self = this
       let payload = {}
       payload.name = self.editProductPayload.name
@@ -736,7 +736,7 @@ export default {
         })
     }
   },
-  created: function () {
+  created () {
     this.getProductsList()
     this.getProductsCatalog()
   }

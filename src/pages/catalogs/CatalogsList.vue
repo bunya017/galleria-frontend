@@ -346,7 +346,7 @@ export default {
       title: 'Dashboard'
     }
   },
-  data: function () {
+  data () {
     return {
       isLoading: true,
       newCatalogButtonLoading: false,
@@ -399,10 +399,10 @@ export default {
     }
   },
   methods: {
-    getAuthToken: function () {
+    getAuthToken () {
       return sessionStorage.getItem('authToken')
     },
-    getCatalogs: function () {
+    getCatalogs () {
       let self = this
       this.$q.loading.show({
         spinnerColor: 'primary',
@@ -428,7 +428,7 @@ export default {
           self.$q.loading.hide()
         })
     },
-    addNewCatalog: function () {
+    addNewCatalog () {
       let self = this
       self.newCatalogButtonLoading = true
       self.$refs.name.validate()
@@ -498,7 +498,7 @@ export default {
           self.newCatalogButtonLoading = false
         })
     },
-    showAlert: function (payload) {
+    showAlert (payload) {
       const {
         color, textColor, message, icon,
         position, classes
@@ -513,14 +513,14 @@ export default {
         classes
       })
     },
-    clearNewCatalogModel: function () {
+    clearNewCatalogModel () {
       this.newCatalog.name = ''
       this.newCatalog.description = ''
       this.newCatalog.contact_address = ''
       this.newCatalog.contact_email = ''
       this.newCatalog.contact_phone = ''
     },
-    getFirstLetters: function (payload) {
+    getFirstLetters (payload) {
       let wordsList = payload.split(' ')
       if (!!wordsList[1] === true) {
         return wordsList[0].charAt(0).toUpperCase() + wordsList[1].charAt(0)
@@ -528,18 +528,18 @@ export default {
         return wordsList[0].charAt(0).toUpperCase()
       }
     },
-    makeDeleteCatalogPayload: function (payload) {
+    makeDeleteCatalogPayload (payload) {
       this.deleteCat = true
       this.deleteCatalogPayload.name = payload.name
       this.deleteCatalogPayload.url = process.env.PROD
         ? payload.url.replace('http://', 'https://') : payload.url
     },
-    clearDeleteCatalogPayload: function () {
+    clearDeleteCatalogPayload () {
       this.deleteCatalogPayload.name = ''
       this.deleteCatalogPayload.url = ''
       this.confirmDeletePayload = ''
     },
-    deleteCatalog: function () {
+    deleteCatalog () {
       let self = this
       self.deleteCatalogButtonLoading = true
       this.$axios.defaults.headers.common = {

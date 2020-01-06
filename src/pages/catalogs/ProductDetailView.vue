@@ -121,7 +121,7 @@ export default {
       title: `${this.product.name} | ${this.product.category.catalog.name}`
     }
   },
-  data: function () {
+  data () {
     return {
       productNotFound: null,
       product: {},
@@ -143,10 +143,10 @@ export default {
     }
   },
   methods: {
-    getAuthToken: function () {
+    getAuthToken () {
       return sessionStorage.getItem('authToken')
     },
-    getProductDetail: function () {
+    getProductDetail () {
       let self = this
       this.$q.loading.show({
         spinnerColor: 'primary',
@@ -176,7 +176,7 @@ export default {
           }
         })
     },
-    editProductName: function () {
+    editProductName () {
       let self = this
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
@@ -202,7 +202,7 @@ export default {
           }
         })
     },
-    editProductDescription: function () {
+    editProductDescription () {
       let self = this
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
@@ -220,7 +220,7 @@ export default {
           }
         })
     },
-    editProductPrice: function () {
+    editProductPrice () {
       let self = this
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
@@ -238,12 +238,12 @@ export default {
           }
         })
     },
-    clearEditProductModel: function () {
+    clearEditProductModel () {
       this.editProduct.name = ''
       this.editProduct.description = ''
       this.editProduct.price = null
     },
-    showAlert: function (payload) {
+    showAlert (payload) {
       const {
         color, textColor, message, icon,
         position, classes
@@ -259,7 +259,7 @@ export default {
       })
     }
   },
-  created: function () {
+  created () {
     this.getProductDetail()
   }
 }

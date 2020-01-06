@@ -108,10 +108,10 @@ export default {
     }
   },
   methods: {
-    getAuthToken: function () {
+    getAuthToken () {
       return sessionStorage.getItem('authToken')
     },
-    getCategoryDetail: function () {
+    getCategoryDetail () {
       let self = this
       this.$q.loading.show({
         spinnerColor: 'primary',

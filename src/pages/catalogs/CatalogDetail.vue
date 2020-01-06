@@ -504,7 +504,7 @@ export default {
       title: this.catalog.name
     }
   },
-  data: function () {
+  data () {
     return {
       newCategoryButtonLoading: false,
       deleteCategoryButtonLoading: false,
@@ -559,10 +559,10 @@ export default {
     }
   },
   methods: {
-    getAuthToken: function () {
+    getAuthToken () {
       return sessionStorage.getItem('authToken')
     },
-    getCatalogDetail: function () {
+    getCatalogDetail () {
       let self = this
       this.$q.loading.show({
         spinnerColor: 'primary',
@@ -589,14 +589,14 @@ export default {
           }
         })
     },
-    getProductCount: function (payload) {
+    getProductCount (payload) {
       let productsAmount = 0
       for (let i = 0; i < payload.length; i++) {
         productsAmount += payload[i].product_entries.length
       }
       return productsAmount
     },
-    getFirstLetters: function (payload) {
+    getFirstLetters (payload) {
       let wordsList = payload.split(' ')
       if (!!wordsList[1] === true) {
         return wordsList[0].charAt(0).toUpperCase() + wordsList[1].charAt(0)
@@ -604,7 +604,7 @@ export default {
         return wordsList[0].charAt(0).toUpperCase()
       }
     },
-    addNewCategory: function () {
+    addNewCategory () {
       let self = this
       self.newCategoryButtonLoading = true
       self.$refs.name.validate()
@@ -649,7 +649,7 @@ export default {
           })
       }
     },
-    showAlert: function (payload) {
+    showAlert (payload) {
       const {
         color, textColor, message, icon,
         position, classes
@@ -664,25 +664,25 @@ export default {
         classes
       })
     },
-    clearNewCategoryModel: function () {
+    clearNewCategoryModel () {
       this.newCategory.name = ''
       this.newCategory.description = ''
       this.newCategory.catalog = null
     },
-    makeDeleteCategoryPayload: function (payload) {
+    makeDeleteCategoryPayload (payload) {
       this.deleteCaty = true
       this.deleteCategoryPayload.name = payload.name
       this.deleteCategoryPayload.description = payload.description
       this.deleteCategoryPayload.catalog = payload.catalog
       this.deleteCategorySlug = payload.slug
     },
-    clearDeleteCategoryPayload: function () {
+    clearDeleteCategoryPayload () {
       this.deleteCategoryPayload.name = ''
       this.deleteCategoryPayload.description = ''
       this.deleteCategoryPayload.catalog = null
       this.confirmDeletePayload = ''
     },
-    deleteCategory: function () {
+    deleteCategory () {
       let self = this
       self.deleteCategoryButtonLoading = true
       self.newCategory.catalog = self.catalog.id
@@ -703,7 +703,7 @@ export default {
           }
         })
     },
-    makeEditCatalogPayload: function () {
+    makeEditCatalogPayload () {
       this.catalogEdit = true
       this.editCatalogPayload.name = this.catalog.name
       this.editCatalogPayload.description = this.catalog.description
@@ -713,7 +713,7 @@ export default {
       this.editCatalogPayload.url = process.env.PROD
         ? this.catalog.url.replace('http://', 'https://') : this.catalog.url
     },
-    clearEditCatalogPayload: function () {
+    clearEditCatalogPayload () {
       this.editCatalogPayload.name = ''
       this.editCatalogPayload.description = ''
       this.editCatalogPayload.contact_address = ''
@@ -755,14 +755,14 @@ export default {
           }
         })
     },
-    makeEditCategoryPayload: function (payload) {
+    makeEditCategoryPayload (payload) {
       this.categoryEdit = true
       this.editCategoryPayload.name = payload.name
       this.editCategoryPayload.description = payload.description
       this.editCategoryPayload.catalog = payload.catalog
       this.editCategoryPayload.slug = payload.slug
     },
-    clearEditCategoryPayload: function (payload) {
+    clearEditCategoryPayload (payload) {
       this.editCategoryPayload.name = ''
       this.editCategoryPayload.description = ''
       this.editCategoryPayload.catalog = null
@@ -798,7 +798,7 @@ export default {
         })
     }
   },
-  created: function () {
+  created () {
     this.getCatalogDetail()
   }
 }

@@ -237,7 +237,7 @@ export default {
       title: `${this.collection.name} | ${this.catalog.name}`
     }
   },
-  data: function () {
+  data () {
     return {
       addProductButtonLoading: false,
       removeProductButtonLoading: false,
@@ -280,10 +280,10 @@ export default {
     }
   },
   methods: {
-    getAuthToken: function () {
+    getAuthToken () {
       return sessionStorage.getItem('authToken')
     },
-    getCollectionDetail: function () {
+    getCollectionDetail () {
       let self = this
       this.$q.loading.show({
         spinnerColor: 'primary',
@@ -310,7 +310,7 @@ export default {
           }
         })
     },
-    getCatalog: function () {
+    getCatalog () {
       let self = this
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
@@ -324,7 +324,7 @@ export default {
           }
         })
     },
-    getCatalogProducts: function () {
+    getCatalogProducts () {
       let self = this
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
@@ -347,7 +347,7 @@ export default {
           }
         })
     },
-    filterFunction: function (val, update, abort) {
+    filterFunction (val, update, abort) {
       update(() => {
         const needle = val.toLowerCase()
         this.options = this.products.filter(
@@ -355,7 +355,7 @@ export default {
         )
       })
     },
-    addProductToCollection: function () {
+    addProductToCollection () {
       let self = this
       self.addProductButtonLoading = true
       let payload = {}
@@ -392,7 +392,7 @@ export default {
           }
         })
     },
-    showAlert: function (payload) {
+    showAlert (payload) {
       const {
         color, textColor, message, icon,
         position, classes
@@ -407,12 +407,12 @@ export default {
         classes
       })
     },
-    makeRemoveProductPayload: function (payload) {
+    makeRemoveProductPayload (payload) {
       this.removeProductPayload.name = payload.name
       this.removeProductPayload.productSlug = payload.slug
       this.removeProd = true
     },
-    removeCollectionProduct: function () {
+    removeCollectionProduct () {
       let self = this
       self.removeProductButtonLoading = true
       this.$axios.defaults.headers.common = {
@@ -436,7 +436,7 @@ export default {
         })
     }
   },
-  created: function () {
+  created () {
     this.getCatalog()
     this.getCollectionDetail()
     this.getCatalogProducts()

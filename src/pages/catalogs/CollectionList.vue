@@ -323,7 +323,7 @@ export default {
       title: `Collections | ${this.catalog.name}`
     }
   },
-  data: function () {
+  data () {
     return {
       newCollectionButtonLoading: false,
       deleteCollectionButtonLoading: false,
@@ -374,10 +374,10 @@ export default {
     }
   },
   methods: {
-    getAuthToken: function () {
+    getAuthToken () {
       return sessionStorage.getItem('authToken')
     },
-    getCollectionList: function () {
+    getCollectionList () {
       let self = this
       this.$q.loading.show({
         spinnerColor: 'primary',
@@ -403,12 +403,12 @@ export default {
           }
         })
     },
-    makeDeleteCollectionPayload: function (payload) {
+    makeDeleteCollectionPayload (payload) {
       this.deleteColl = true
       this.deleteCollectionPayload.name = payload.name
       this.deleteCollectionPayload.slug = payload.slug
     },
-    deleteCollection: function () {
+    deleteCollection () {
       let self = this
       self.deleteCollectionButtonLoading = true
       this.$axios.defaults.headers.common = {
@@ -427,7 +427,7 @@ export default {
           }
         })
     },
-    showAlert: function (payload) {
+    showAlert (payload) {
       const {
         color, textColor, message, icon,
         position, classes
@@ -442,7 +442,7 @@ export default {
         classes
       })
     },
-    getCollectionsCatalog: function () {
+    getCollectionsCatalog () {
       let self = this
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
@@ -454,7 +454,7 @@ export default {
           self.catalog = response.data
         })
     },
-    addNewCollection: function () {
+    addNewCollection () {
       let self = this
       self.newCollectionButtonLoading = true
       self.newCollection.catalog = self.catalog.id
@@ -495,7 +495,7 @@ export default {
           }
         })
     },
-    clearNewCollectionModel: function () {
+    clearNewCollectionModel () {
       this.newCollection.name = ''
       this.newCollection.description = ''
       this.newCollection.catalog = null
@@ -503,7 +503,7 @@ export default {
       this.nameError.status = false
       this.nameError.message = ''
     },
-    clearDeleteCollectionModel: function () {
+    clearDeleteCollectionModel () {
       this.deleteCollectionPayload.name = ''
       this.deleteCollectionPayload.slug = ''
       this.confirmDeletePayload = ''
@@ -519,7 +519,7 @@ export default {
       this.editCollectionPayload.description = ''
       this.editCollectionPayload.slug = ''
     },
-    editCollection: function () {
+    editCollection () {
       let self = this
       self.editCollectionButtonLoading = true
       self.editCollectionPayload.catalog = self.catalog.id
@@ -559,7 +559,7 @@ export default {
         })
     }
   },
-  created: function () {
+  created () {
     this.getCollectionList()
     this.getCollectionsCatalog()
   }
