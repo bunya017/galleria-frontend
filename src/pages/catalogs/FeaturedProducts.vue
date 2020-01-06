@@ -195,6 +195,7 @@
             <q-btn
               label="Remove"
               color="primary"
+              @click="removeFeaturedProduct"
               :loading="removeFeaturedButtonLoading"
               :disabled="removeFeaturedButtonLoading"
             />
@@ -280,10 +281,10 @@ export default {
     }
   },
   methods: {
-    getAuthToken: function () {
+    getAuthToken () {
       return sessionStorage.getItem('authToken')
     },
-    getFeaturedProducts: function () {
+    getFeaturedProducts () {
       let self = this
       this.$q.loading.show({
         spinnerColor: 'primary',
@@ -311,7 +312,7 @@ export default {
           }
         })
     },
-    getCatalog: function () {
+    getCatalog () {
       let self = this
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
@@ -325,7 +326,7 @@ export default {
           }
         })
     },
-    getCatalogProducts: function () {
+    getCatalogProducts () {
       let self = this
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
@@ -348,7 +349,7 @@ export default {
           }
         })
     },
-    filterFunction: function (val, update, abort) {
+    filterFunction (val, update, abort) {
       update(() => {
         const needle = val.toLowerCase()
         this.options = this.products.filter(
@@ -356,7 +357,7 @@ export default {
         )
       })
     },
-    showAlert: function (payload) {
+    showAlert (payload) {
       const {
         color, textColor, message, icon,
         position, classes
@@ -371,7 +372,7 @@ export default {
         classes
       })
     },
-    addFeaturedProduct: function () {
+    addFeaturedProduct () {
       let self = this
       self.addProductButtonLoading = true
       let payload = {}
@@ -408,15 +409,15 @@ export default {
           }
         })
     },
-    makeRemoveFeaturedPayload: function (payload) {
+    makeRemoveFeaturedPayload (payload) {
       this.removeFeaturedPayload.name = payload.name
       this.removeFeaturedPayload.productSlug = payload.slug
       this.removeFeatured = true
     },
-    clearRemoveFeaturedPayload: function (payload) {
-      this.removeFeaturedPayload.name = payload.name
-      this.removeFeaturedPayload.productSlug = payload.slug
+    clearRemoveFeaturedPayload () {
       this.removeFeatured = false
+      this.removeFeaturedPayload.name = ''
+      this.removeFeaturedPayload.productSlug = ''
     }
   },
   computed: {
