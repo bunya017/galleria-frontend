@@ -96,6 +96,7 @@
                       text-color="white"
                       class="full-width bg-primary"
                       :loading="signupButtonLoading"
+                      :disabled="signupButtonLoading"
                     />
                   </div>
                 </div>

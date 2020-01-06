@@ -47,6 +47,12 @@ const routes = [
         meta: { requiresAuth: true }
       },
       {
+        path: ':catalogSlug/featured-products',
+        name: 'featured-products',
+        component: () => import('pages/catalogs/FeaturedProducts.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
         path: ':catalogSlug/product/:referenceId/:productSlug',
         name: 'product-detail',
         component: () => import('pages/catalogs/ProductDetailView.vue'),

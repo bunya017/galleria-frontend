@@ -62,8 +62,9 @@
                       label="Login"
                       color="primary"
                       text-color="white"
-                      :loading="loginButtonLoading"
                       class="full-width bg-primary"
+                      :loading="loginButtonLoading"
+                      :disabled="loginButtonLoading"
                     />
                   </div>
                 </div>
