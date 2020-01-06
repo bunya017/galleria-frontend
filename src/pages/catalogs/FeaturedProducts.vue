@@ -119,6 +119,13 @@
           </q-card-section>
         </q-card>
       </q-dialog>
+
+      <!-- Floating button -->
+      <q-page-sticky class="lt-sm" position="bottom-right" :offset="[20, 20]">
+        <q-btn fab icon="add" color="primary" @click="addFeatured = true">
+          <q-tooltip>Add a new featured product</q-tooltip>
+        </q-btn>
+      </q-page-sticky>
     </div>
     <div
       style="padding-top: 25vh;"
