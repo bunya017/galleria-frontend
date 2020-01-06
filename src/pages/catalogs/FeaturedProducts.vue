@@ -418,6 +418,28 @@ export default {
       this.removeFeatured = false
       this.removeFeaturedPayload.name = ''
       this.removeFeaturedPayload.productSlug = ''
+    },
+    removeFeaturedProduct () {
+      let self = this
+      self.removeFeaturedButtonLoading = true
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.delete(
+        'catalogs/' + self.catalogSlug + '/collections/featured-products/products/' +
+        self.removeFeaturedPayload.productSlug + '/'
+      )
+        .then(function (response) {
+          if (response.status === 204) {
+            self.removeFeaturedButtonLoading = false
+            self.alertPayload.message = 'Product removed successfully!'
+            self.showAlert(self.alertPayload)
+            self.removeFeatured = false
+            self.getFeaturedProducts()
+            self.getCatalog()
+            self.getCatalogProducts()
+          }
+        })
     }
   },
   computed: {
