@@ -69,7 +69,7 @@
                 <q-select
                   dense
                   lazy-rules
-                  use-input
+                  :use-input="$q.screen.gt.sm"
                   :options="options"
                   label="Product"
                   hint="Select product"
@@ -111,6 +111,7 @@
                     label="Add new"
                     color="primary"
                     :loading="addProductButtonLoading"
+                    :disabled="addProductButtonLoading"
                   />
                 </q-card-actions>
               </form>
