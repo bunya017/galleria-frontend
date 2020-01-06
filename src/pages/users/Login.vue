@@ -85,7 +85,7 @@ export default {
       title: 'Login'
     }
   },
-  data: function () {
+  data () {
     return {
       loginButtonLoading: false,
       isPwd: true,
@@ -112,7 +112,7 @@ export default {
     }
   },
   methods: {
-    login: function () {
+    login () {
       let self = this
       self.loginButtonLoading = true
       self.$axios.post(
@@ -149,7 +149,7 @@ export default {
           self.loginButtonLoading = false
         })
     },
-    showAlert: function (payload) {
+    showAlert (payload) {
       const { color, textColor, message, icon, position, classes } = payload
 
       this.$q.notify({
