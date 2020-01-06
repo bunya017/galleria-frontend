@@ -65,6 +65,7 @@
             <div class="q-px-sm-md">
               <form
                 class="q-gutter-sm"
+                v-on:submit.prevent.stop="addFeaturedProduct"
               >
                 <q-select
                   dense
@@ -172,6 +173,22 @@ export default {
       productError: {
         status: false,
         message: ''
+      },
+      alertPayload: {
+        color: 'green-1',
+        textColor: 'positive',
+        icon: 'check_circle',
+        position: 'top',
+        message: '',
+        classes: 'q-mt-xl'
+      },
+      errorAlertPayload: {
+        color: 'red-1',
+        textColor: 'negative',
+        icon: 'error',
+        position: 'top',
+        message: '',
+        classes: 'q-mt-xl'
       }
     }
   },
@@ -195,6 +212,7 @@ export default {
           if (response.status === 200) {
             self.collection = response.data
             self.featuredProducts = response.data.collection_products
+            self.newFeaturedProduct.collection = response.data.id
             self.notFound = false
             self.$q.loading.hide()
           }
@@ -250,6 +268,58 @@ export default {
           v => v.label.toLowerCase().indexOf(needle) > -1
         )
       })
+    },
+    showAlert: function (payload) {
+      const {
+        color, textColor, message, icon,
+        position, classes
+      } = payload
+
+      this.$q.notify({
+        color,
+        textColor,
+        icon,
+        message,
+        position,
+        classes
+      })
+    },
+    addFeaturedProduct: function () {
+      let self = this
+      self.addProductButtonLoading = true
+      let payload = {}
+      payload.collection = self.newFeaturedProduct.collection
+      payload.product = self.newFeaturedProduct.product.value
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.post(
+        'catalogs/' + self.catalogSlug + '/collections/featured-products/products/',
+        payload
+      )
+        .then(function (response) {
+          if (response.status === 201) {
+            self.getCatalog()
+            self.getFeaturedProducts()
+            self.getCatalogProducts()
+            self.alertPayload.message = 'Product added successfully!'
+            self.showAlert(self.alertPayload)
+            self.addProductButtonLoading = false
+            self.addFeatured = false
+          }
+        })
+        .catch(function (error) {
+          if (error.response.data.non_field_errors[0].indexOf('The fields product, collection') > -1) {
+            self.productError.message = 'You already have this product in this collection!'
+            self.productError.status = true
+            self.errorAlertPayload.message = 'You already have this product in this collection!'
+            self.addProductButtonLoading = false
+            self.showAlert(self.errorAlertPayload)
+          }
+          if (error.response.status === 404) {
+            self.notFound = true
+          }
+        })
     }
   },
   computed: {
