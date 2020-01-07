@@ -98,7 +98,7 @@
         <div
           class="row q-py-sm q-px-sm-md q-col-gutter-md no-wrap"
           style="overflow-x: auto;"
-          v-if="featuredProducts"
+          v-if="featuredProducts.length > 0"
         >
           <div
             v-for="product in featuredProducts"
