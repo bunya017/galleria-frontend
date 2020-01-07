@@ -98,7 +98,7 @@ export default {
         backgroundColor: 'white'
       })
       self.$axios.get(
-        'catalogs/' + self.$route.params.catalogSlug + '/collections/'
+        'catalogs/' + self.$route.params.catalogSlug + '/collections/?is_featured=false'
       )
         .then(function (response) {
           if (response.status === 200) {
