@@ -99,7 +99,7 @@
                   label="Photos"
                   ref="photoFiles"
                   textColor="grey-8"
-                  :error="photosError.status"
+                  :error="noImageInputError ? false : photosError.status"
                   accept=".png, .jpeg, .jpg, .gif"
                   errorMessage="This field is required."
                 />
@@ -391,7 +391,7 @@ export default {
   name: 'ProductsList',
   meta () {
     return {
-      title: `Products | ${this.product.category.catalog.name}`
+      title: `Products | ${this.catalog.name}`
     }
   },
   data () {
@@ -679,6 +679,11 @@ export default {
   created () {
     this.getProductsList()
     this.getProductsCatalog()
+  },
+  computed: {
+    noImageInputError () {
+      return this.$store.state.dashStore.noImageInputError
+    }
   }
 }
 </script>

@@ -1,4 +1,5 @@
 export default {
   isLoggedIn: false,
-  authToken: ''
+  authToken: '',
+  noImageInputError: false
 }

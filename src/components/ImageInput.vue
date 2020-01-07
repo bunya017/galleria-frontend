@@ -1,14 +1,15 @@
 <template>
   <div class="row">
     <q-uploader
-      ref="imageInput"
       class="col"
+      ref="imageInput"
       :label="label"
       :color="color"
-      :text-color="textColor"
       :accept="accept"
-      :multiple="multiple"
       hide-upload-btn
+      :multiple="multiple"
+      :text-color="textColor"
+      @added="updateErrorStatus"
     >
       <template v-slot:header="scope">
         <div
@@ -91,6 +92,13 @@ export default {
     error: Boolean,
     errorMessage: String,
     multiple: Boolean
+  },
+  methods: {
+    updateErrorStatus () {
+      return this.$store.dispatch(
+        'dashStore/setImageInputErrorStatusAction', true
+      )
+    }
   },
   computed: {
     files () {
