@@ -52,7 +52,10 @@
                     bottom-slots
                     :error="descriptionError.status"
                     v-model="newCatalog.description"
-                    :rules="[ val => !!val || 'This field is required.' ]"
+                    :rules="[
+                      val => !!val || 'This field is required.',
+                      val => val.length < 256 || 'Limit exceeded! Ensure this field has no more than 255 characters.'
+                    ]"
                     @input="descriptionError.status = false"
                   >
                     <template v-slot:error>
