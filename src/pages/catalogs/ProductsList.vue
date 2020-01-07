@@ -93,76 +93,16 @@
                   </template>
                 </q-input>
                 <!-- Image uploader -->
-                <div class="row">
-                  <q-uploader
-                    class="col"
-                    ref="photoFiles"
-                    label="Photos"
-                    color="white"
-                    text-color="grey-8"
-                    accept=".png, .jpeg, .jpg, .gif"
-                    multiple
-                    hide-upload-btn
-                  >
-                    <template v-slot:header="scope">
-                      <div class="row no-wrap items-center q-pa-sm q-gutter-xs" :class="{ 'negative-border': photosError.status }">
-                        <q-btn
-                          v-if="scope.queuedFiles.length > 0"
-                          icon="clear_all" @click="scope.removeQueuedFiles"
-                          round
-                          dense
-                          flat
-                        />
-                        <div class="col">
-                          <div class="q-uploader__title" :class="{ 'text-negative': photosError.status }">Photos</div>
-                          <div class="q-uploader__subtitle" v-if="scope.queuedFiles.length > 0">{{ scope.uploadSizeLabel }}</div>
-                          <div class="q-uploader__subtitle text-negative" v-if="photosError.status === true">This field is required.</div>
-                        </div>
-                        <q-btn
-                          v-if="photosError.status === true"
-                          icon="error"
-                          color="negative"
-                          round
-                          dense
-                          flat
-                        />
-                        <q-btn v-if="scope.canAddFiles" icon="add_box" round dense flat>
-                          <q-uploader-add-trigger />
-                        </q-btn>
-                      </div>
-                    </template>
-                    <template v-slot:list="scope">
-                      <q-list separator>
-                        <q-item v-for="file in scope.files" :key="file.name">
-                          <q-item-section>
-                            <q-item-label class="full-width ellipsis">
-                              {{ file.name }}
-                            </q-item-label>
-                            <q-item-label caption>
-                              {{ file.__sizeLabel }}
-                            </q-item-label>
-                          </q-item-section>
-                          <q-item-section
-                            v-if="file.__img"
-                            thumbnail
-                          >
-                            <img :src="file.__img.src" class="product-photo">
-                          </q-item-section>
-                          <q-item-section top side>
-                            <q-btn
-                              size="12px"
-                              flat
-                              dense
-                              round
-                              icon="delete"
-                              @click="scope.removeFile(file)"
-                            />
-                          </q-item-section>
-                        </q-item>
-                      </q-list>
-                    </template>
-                  </q-uploader>
-                </div>
+                <image-input
+                  multiple
+                  color="white"
+                  label="Photos"
+                  ref="photoFiles"
+                  textColor="grey-8"
+                  :error="photosError.status"
+                  accept=".png, .jpeg, .jpg, .gif"
+                  errorMessage="This field is required."
+                />
                 <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
                   <q-btn
                     flat
@@ -744,17 +684,6 @@ export default {
 </script>
 
 <style scoped>
-.product-photo {
-  width: 56px;
-  height: 56px;
-  border-radius: 5px;
-}
-
-.negative-border {
-  border-bottom: 2px solid #c10015;
-  margin: auto;
-}
-
 a {
   text-decoration: none;
   color: inherit;

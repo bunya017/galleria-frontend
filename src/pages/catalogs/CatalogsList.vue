@@ -137,6 +137,7 @@
                     label="Add new"
                     class="bg-primary"
                     :loading="newCatalogButtonLoading"
+                    :disabled="newCatalogButtonLoading"
                   />
                 </q-card-actions>
               </form>
@@ -481,10 +482,5 @@ export default {
 a {
   text-decoration: none;
   color: inherit;
-}
-.product-photo {
-  width: 56px;
-  height: 56px;
-  border-radius: 5px;
 }
 </style>
