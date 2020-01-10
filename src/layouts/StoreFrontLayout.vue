@@ -28,7 +28,7 @@
             }
           }"
         >
-          <q-toolbar-title class="text-primary">{{ storeCatalog.name }}</q-toolbar-title>
+          <q-toolbar-title class="text-primary">{{ catalogNameFromSlug }}</q-toolbar-title>
         </router-link>
 
         <q-space v-if="this.$route.name != 'store-search'" />
@@ -291,7 +291,7 @@
             <img v-if="storeCatalog.logo.thumbnail" :src="storeCatalog.logo.thumbnail">
             <img v-else :src="storeCatalog.backgroundImage.small">
           </q-avatar>
-          <div class="text-weight-bold text-h6">{{ storeCatalog.name }}</div>
+          <div class="text-weight-bold text-h6">{{ catalogNameFromSlug }}</div>
         </div>
       </q-img>
     </q-drawer>
@@ -304,7 +304,7 @@
             <q-avatar size="36px" class="q-mb-sm">
               <img v-if="storeCatalog.logo.thumbnail" :src="storeCatalog.logo.thumbnail">
             </q-avatar>
-            <div class="text-h6">{{ storeCatalog.name }}</div>
+            <div class="text-h6">{{ catalogNameFromSlug }}</div>
             <div class="q-py-md q-gutter-sm text-grey-9">
               <q-icon size="sm" name="ion-logo-facebook" />
               <q-icon size="sm" name="ion-logo-instagram" />
@@ -334,16 +334,16 @@
 
 <script>
 export default {
-  preFetch ({ store, currentRoute }) {
-    return store.dispatch(
-      'navbar/updateCatalogAction', currentRoute.params.catalogSlug
-    )
+  beforeRouteEnter (to, from, next) {
+    next(vm => vm.$store.dispatch(
+      'navbar/updateCatalogAction', to.params.catalogSlug
+    ))
   },
   name: 'StoreFrontLayout',
   meta () {
     return {
       title: 'Home',
-      titleTemplate: title => `${title} - ${this.storeCatalog.name}`
+      titleTemplate: title => `${title} - ${this.catalogNameFromSlug}`
     }
   },
   data () {
@@ -374,6 +374,10 @@ export default {
     },
     error404State () {
       return this.$store.state.navbar.is404
+    },
+    catalogNameFromSlug () {
+      let slug = this.$route.params.catalogSlug
+      return slug.split('-').map(w => w[0].toUpperCase() + w.substr(1).toLowerCase()).join(' ')
     }
   }
 }
