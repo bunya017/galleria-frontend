@@ -3,9 +3,10 @@
 
     <!-- (Optional) The Header -->
     <q-header
-      :reveal="this.$route.name !== 'store-search'"
       :reveal-offset="75"
+      v-model="loadingState"
       v-if="error404State === false"
+      :reveal="this.$route.name !== 'store-search'"
       elevated class="bg-white text-primary q-px-md-lg"
     >
       <q-toolbar>
@@ -210,13 +211,13 @@
 
     <!-- (Optional) A Drawer; you can add one more with side="right" or change this one's side -->
     <q-drawer
-      v-model="leftDrawer"
-      side="left"
       bordered
-      :show-if-above="false"
+      side="left"
+      :width="275"
       no-swipe-open
       no-swipe-close
-      :width="275"
+      v-model="leftDrawer"
+      :show-if-above="false"
       content-class="bg-white"
     >
       <!-- QScrollArea is optional -->
@@ -378,6 +379,9 @@ export default {
     catalogNameFromSlug () {
       let slug = this.$route.params.catalogSlug
       return slug.split('-').map(w => w[0].toUpperCase() + w.substr(1).toLowerCase()).join(' ')
+    },
+    loadingState () {
+      return !this.$store.state.navbar.isLoading
     }
   }
 }
