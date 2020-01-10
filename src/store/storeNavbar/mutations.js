@@ -11,3 +11,7 @@ export function updateCatalog (state, payload) {
 export function updateIs404 (state, payload) {
   state.is404 = payload
 }
+
+export function updateIsLoading (state, payload) {
+  state.isLoading = payload
+}
