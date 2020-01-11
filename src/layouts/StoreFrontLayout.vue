@@ -25,7 +25,7 @@
           :to="{
             name: 'store-home',
             params: {
-              catalogSlug: storeCatalog.slug
+              catalogSlug: this.$route.params.catalogSlug
             }
           }"
         >
@@ -122,7 +122,7 @@
             :to="{
               name: 'store-product-list',
               params: {
-                catalogSlug: storeCatalog.slug
+                catalogSlug: this.$route.params.catalogSlug
               }
             }"
           />
@@ -133,7 +133,7 @@
             :to="{
               name: 'store-category-list',
               params: {
-                catalogSlug: storeCatalog.slug
+                catalogSlug: this.$route.params.catalogSlug
               }
             }"
           />
@@ -144,7 +144,7 @@
             :to="{
               name: 'store-collection-list',
               params: {
-                catalogSlug: storeCatalog.slug
+                catalogSlug: this.$route.params.catalogSlug
               }
             }"
           />
@@ -155,7 +155,7 @@
         v-if="$q.screen.gt.md || this.$route.name === 'store-search'"
         class="q-px-sm"
       >
-        <q-tabs v-model="tab" shrink class="gt-sm q-ml-md">
+        <q-tabs v-model="tab" v-if="loadingState === true" shrink class="gt-sm q-ml-md">
           <q-route-tab
             exact
             name="products"
@@ -163,7 +163,7 @@
             :to="{
               name: 'store-product-list',
               params: {
-                catalogSlug: storeCatalog.slug
+                catalogSlug: this.$route.params.catalogSlug
               }
             }"
           />
@@ -174,7 +174,7 @@
             :to="{
               name: 'store-category-list',
               params: {
-                catalogSlug: storeCatalog.slug
+                catalogSlug: this.$route.params.catalogSlug
               }
             }"
           />
@@ -185,7 +185,7 @@
             :to="{
               name: 'store-collection-list',
               params: {
-                catalogSlug: storeCatalog.slug
+                catalogSlug: this.$route.params.catalogSlug
               }
             }"
           />
@@ -240,7 +240,7 @@
             :to="{
               name: 'store-product-list',
               params: {
-                catalogSlug: storeCatalog.slug
+                catalogSlug: this.$route.params.catalogSlug
               }
             }"
           >
@@ -252,7 +252,7 @@
             :to="{
               name: 'store-category-list',
               params: {
-                catalogSlug: storeCatalog.slug
+                catalogSlug: this.$route.params.catalogSlug
               }
             }"
           >
@@ -264,7 +264,7 @@
             :to="{
               name: 'store-collection-list',
               params: {
-                catalogSlug: storeCatalog.slug
+                catalogSlug: this.$route.params.catalogSlug
               }
             }"
           >
