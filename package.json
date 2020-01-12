@@ -1,6 +1,6 @@
 {
   "name": "galleria-frontend",
-  "version": "0.0.1",
+  "version": "1.0.0-beta.6",
   "description": "A Quasar Framework app",
   "productName": "Galleria Client",
   "cordovaId": "org.cordova.quasar.app",
