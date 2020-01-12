@@ -221,55 +221,66 @@
       content-class="bg-white"
     >
       <!-- QScrollArea is optional -->
-      <q-scroll-area
-        style="max-height: calc(100vh - 200px); margin-top: 200px; border-right: 1px solid #ddd"
-        class="fit q-pa-sm"
-      >
+      <q-scroll-area class="fit">
         <!-- Navigation menu -->
-        <q-list>
-          <!--
-          <q-item class="q-py-md">
-            <q-avatar size="200px">
-              <img :src="storeCatalog.logo.small" />
-            </q-avatar>
-          </q-item>
-        -->
+        <q-list separator>
+          <div class="text-h6 q-py-md q-px-sm">{{ catalogNameFromSlug }}</div>
+          <q-separator />
           <q-item
-            clickable
-            v-ripple
+            exact
+            active-class="bg-deep-orange-1 "
             :to="{
-              name: 'store-product-list',
+              name: 'store-home',
               params: {
                 catalogSlug: this.$route.params.catalogSlug
               }
             }"
+            class="text-body1 text-weight-medium"
           >
-            <q-item-label class="text-black">Products</q-item-label>
+            Home
           </q-item>
           <q-item
-            clickable
-            v-ripple
+            exact
+            active-class="bg-deep-orange-1 "
             :to="{
               name: 'store-category-list',
               params: {
                 catalogSlug: this.$route.params.catalogSlug
               }
             }"
+            class="text-body1 text-weight-medium"
           >
-            <q-item-label class="text-black">Categories</q-item-label>
+            Categories
           </q-item>
+          <q-separator />
           <q-item
-            clickable
-            v-ripple
+            exact
+            active-class="bg-deep-orange-1 "
             :to="{
               name: 'store-collection-list',
               params: {
                 catalogSlug: this.$route.params.catalogSlug
               }
             }"
+            class="text-body1 text-weight-medium"
           >
-            <q-item-label class="text-black">Collections</q-item-label>
+            Collections
           </q-item>
+          <q-separator />
+          <q-item
+            exact
+            active-class="bg-deep-orange-1 "
+            :to="{
+              name: 'store-product-list',
+              params: {
+                catalogSlug: this.$route.params.catalogSlug
+              }
+            }"
+            class="text-body1 text-weight-medium"
+          >
+            Products
+          </q-item>
+          <q-separator />
         </q-list>
       </q-scroll-area>
 
@@ -285,16 +296,6 @@
           @click="leftDrawer = false"
         />
       </div>
-
-      <q-img class="absolute-top" :src="storeCatalog.backgroundImage.small" style="height: 200px">
-        <div class="absolute-bottom bg-transparent">
-          <q-avatar size="72px" class="q-mb-sm">
-            <img v-if="storeCatalog.logo.thumbnail" :src="storeCatalog.logo.thumbnail">
-            <img v-else :src="storeCatalog.backgroundImage.small">
-          </q-avatar>
-          <div class="text-weight-bold text-h6">{{ catalogNameFromSlug }}</div>
-        </div>
-      </q-img>
     </q-drawer>
     <q-page-container>
       <!-- This is where pages get injected -->
