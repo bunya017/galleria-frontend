@@ -96,6 +96,7 @@
                       text-color="white"
                       class="full-width bg-primary"
                       :loading="signupButtonLoading"
+                      :disabled="signupButtonLoading"
                     />
                   </div>
                 </div>
@@ -110,8 +111,13 @@
 
 <script>
 export default {
-  // name: 'PageName',
-  data: function () {
+  name: 'Signup',
+  meta () {
+    return {
+      title: 'Signup'
+    }
+  },
+  data () {
     return {
       signupButtonLoading: false,
       isPwd: true,
@@ -135,7 +141,7 @@ export default {
     }
   },
   methods: {
-    registerUser: function () {
+    registerUser () {
       let self = this
       self.signupButtonLoading = true
       self.$refs.username.validate()
@@ -184,7 +190,7 @@ export default {
           })
       }
     },
-    validateEmail: function (val) {
+    validateEmail (val) {
       var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       return (re.test(val) || 'Please enter a valid email.')
     }

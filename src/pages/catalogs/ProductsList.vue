@@ -93,76 +93,16 @@
                   </template>
                 </q-input>
                 <!-- Image uploader -->
-                <div class="row">
-                  <q-uploader
-                    class="col"
-                    ref="photoFiles"
-                    label="Photos"
-                    color="white"
-                    text-color="grey-8"
-                    accept=".png, .jpeg, .jpg, .gif"
-                    multiple
-                    hide-upload-btn
-                  >
-                    <template v-slot:header="scope">
-                      <div class="row no-wrap items-center q-pa-sm q-gutter-xs" :class="{ 'negative-border': photosError.status }">
-                        <q-btn
-                          v-if="scope.queuedFiles.length > 0"
-                          icon="clear_all" @click="scope.removeQueuedFiles"
-                          round
-                          dense
-                          flat
-                        />
-                        <div class="col">
-                          <div class="q-uploader__title" :class="{ 'text-negative': photosError.status }">Photos</div>
-                          <div class="q-uploader__subtitle" v-if="scope.queuedFiles.length > 0">{{ scope.uploadSizeLabel }}</div>
-                          <div class="q-uploader__subtitle text-negative" v-if="photosError.status === true">This field is required.</div>
-                        </div>
-                        <q-btn
-                          v-if="photosError.status === true"
-                          icon="error"
-                          color="negative"
-                          round
-                          dense
-                          flat
-                        />
-                        <q-btn v-if="scope.canAddFiles" icon="add_box" round dense flat>
-                          <q-uploader-add-trigger />
-                        </q-btn>
-                      </div>
-                    </template>
-                    <template v-slot:list="scope">
-                      <q-list separator>
-                        <q-item v-for="file in scope.files" :key="file.name">
-                          <q-item-section>
-                            <q-item-label class="full-width ellipsis">
-                              {{ file.name }}
-                            </q-item-label>
-                            <q-item-label caption>
-                              {{ file.__sizeLabel }}
-                            </q-item-label>
-                          </q-item-section>
-                          <q-item-section
-                            v-if="file.__img"
-                            thumbnail
-                          >
-                            <img :src="file.__img.src" class="product-photo">
-                          </q-item-section>
-                          <q-item-section top side>
-                            <q-btn
-                              size="12px"
-                              flat
-                              dense
-                              round
-                              icon="delete"
-                              @click="scope.removeFile(file)"
-                            />
-                          </q-item-section>
-                        </q-item>
-                      </q-list>
-                    </template>
-                  </q-uploader>
-                </div>
+                <image-input
+                  multiple
+                  color="white"
+                  label="Photos"
+                  ref="photoFiles"
+                  textColor="grey-8"
+                  :error="noImageInputError ? false : photosError.status"
+                  accept=".png, .jpeg, .jpg, .gif"
+                  errorMessage="This field is required."
+                />
                 <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
                   <q-btn
                     flat
@@ -175,6 +115,7 @@
                     label="Add new"
                     color="primary"
                     :loading="addButtonLoading"
+                    :disabled="addButtonLoading"
                   />
                 </q-card-actions>
               </form>
@@ -194,7 +135,6 @@
             :filter="filter"
             binary-state-sort
             :grid="$q.screen.lt.sm"
-            :hide-bottom="$q.screen.lt.sm"
             no-data-label="You do not have product entries on this catalog"
           >
             <template v-slot:top>
@@ -361,7 +301,7 @@
               color="negative"
               @click="deleteProduct"
               :loading="deleteButtonLoading"
-              :disabled="confirmDeletePayload !== deleteProductPayload.name"
+              :disabled="(confirmDeletePayload !== deleteProductPayload.name) || deleteButtonLoading"
             />
           </q-card-actions>
         </q-card>
@@ -416,6 +356,7 @@
                     type="submit"
                     color="primary"
                     :loading="editButtonLoading"
+                    :disabled="editButtonLoading"
                   />
                 </q-card-actions>
               </form>
@@ -448,7 +389,12 @@
 <script>
 export default {
   name: 'ProductsList',
-  data: function () {
+  meta () {
+    return {
+      title: `Products | ${this.catalog.name}`
+    }
+  },
+  data () {
     return {
       addButtonLoading: false,
       editButtonLoading: false,
@@ -523,10 +469,10 @@ export default {
     }
   },
   methods: {
-    getAuthToken: function () {
+    getAuthToken () {
       return sessionStorage.getItem('authToken')
     },
-    getProductsList: function () {
+    getProductsList () {
       let self = this
       this.$q.loading.show({
         spinnerColor: 'primary',
@@ -552,7 +498,7 @@ export default {
           }
         })
     },
-    getProductsCatalog: function () {
+    getProductsCatalog () {
       let self = this
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
@@ -571,7 +517,7 @@ export default {
           }
         })
     },
-    addNewProduct: function () {
+    addNewProduct () {
       let self = this
       let uploads = this.$refs.photoFiles.files
       let payload = new FormData()
@@ -626,7 +572,7 @@ export default {
           self.addButtonLoading = false
         })
     },
-    showAlert: function (payload) {
+    showAlert (payload) {
       const {
         color, textColor, message, icon,
         position, classes
@@ -641,13 +587,13 @@ export default {
         classes
       })
     },
-    clearNewProductModel: function () {
+    clearNewProductModel () {
       this.newProduct.name = ''
       this.newProduct.category = null
       this.newProduct.price = null
       this.newProduct.description = ''
     },
-    makeDeleteProductPayload: function (payload) {
+    makeDeleteProductPayload (payload) {
       this.deleteProd = true
       this.deleteProductPayload.name = payload.name
       this.deleteProductPayload.description = payload.description
@@ -656,7 +602,7 @@ export default {
       this.deleteProductPayload.url = process.env.PROD
         ? payload.url.replace('http://', 'https://') : payload.url
     },
-    makeEditProductPayload: function (payload) {
+    makeEditProductPayload (payload) {
       this.editProd = true
       this.editProductPayload.name = payload.name
       this.editProductPayload.description = payload.description
@@ -665,7 +611,7 @@ export default {
       this.editProductPayload.url = process.env.PROD
         ? payload.url.replace('http://', 'https://') : payload.url
     },
-    clearDeleteProductPayload: function () {
+    clearDeleteProductPayload () {
       this.deleteProductPayload.name = ''
       this.deleteProductPayload.category = null
       this.deleteProductPayload.price = null
@@ -673,14 +619,14 @@ export default {
       this.deleteProductPayload.url = ''
       this.confirmDeletePayload = ''
     },
-    clearEditProductPayload: function () {
+    clearEditProductPayload () {
       this.editProductPayload.name = ''
       this.editProductPayload.category = null
       this.editProductPayload.price = null
       this.editProductPayload.description = ''
       this.editProductPayload.url = ''
     },
-    deleteProduct: function () {
+    deleteProduct () {
       let self = this
       self.deleteButtonLoading = true
       this.$axios.defaults.headers.common = {
@@ -694,14 +640,14 @@ export default {
           if (response.status === 204) {
             self.getProductsList()
             self.getProductsCatalog()
-            self.alertPayload.message = 'Edited successfully!'
+            self.alertPayload.message = 'Deleted successfully!'
             self.showAlert(self.alertPayload)
             self.deleteButtonLoading = false
             self.deleteProd = false
           }
         })
     },
-    editProduct: function () {
+    editProduct () {
       let self = this
       let payload = {}
       payload.name = self.editProductPayload.name
@@ -730,25 +676,19 @@ export default {
         })
     }
   },
-  created: function () {
+  created () {
     this.getProductsList()
     this.getProductsCatalog()
+  },
+  computed: {
+    noImageInputError () {
+      return this.$store.state.dashStore.noImageInputError
+    }
   }
 }
 </script>
 
 <style scoped>
-.product-photo {
-  width: 56px;
-  height: 56px;
-  border-radius: 5px;
-}
-
-.negative-border {
-  border-bottom: 2px solid #c10015;
-  margin: auto;
-}
-
 a {
   text-decoration: none;
   color: inherit;

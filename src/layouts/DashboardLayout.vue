@@ -2,7 +2,7 @@
   <q-layout view="hHh Lpr fFf"> <!-- Be sure to play with the Layout demo on docs -->
 
     <!-- (Optional) The Header -->
-    <q-header elevated class="bg-white text-primary">
+    <q-header reveal :reveal-offset="75" elevated class="bg-white text-primary">
       <q-toolbar>
         <q-btn
           flat
@@ -29,24 +29,22 @@
       content-class="bg-grey-2"
     >
       <!-- QScrollArea is optional -->
-      <q-scroll-area class="fit q-pa-sm">
+      <q-scroll-area class="fit">
         <!-- Navigation menu -->
-        <q-list padding seperator>
-          <q-item clickable v-ripple :to="{name:'my-catalogs'}">
+        <q-list seperator class="q-pt-lg">
+          <q-item clickable :to="{name:'my-catalogs'}">
             <q-item-section avatar>
               <q-icon name="home" />
             </q-item-section>
             <q-item-section>
-              <q-item-label header class="text-black">Dashboard</q-item-label>
+              <q-item-label>Dashboard</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item clickable v-ripple @click="logout">
+          <q-item clickable @click="logout">
             <q-item-section avatar>
               <q-icon name="reply" />
             </q-item-section>
-            <q-item-section>
-              <q-item-label header class="text-black">Logout</q-item-label>
-            </q-item-section>
+            Logout
           </q-item>
         </q-list>
       </q-scroll-area>
@@ -68,6 +66,13 @@
     <q-page-container>
       <!-- This is where pages get injected -->
       <router-view />
+      <div id="footer" class="q-pt-lg">
+        <div id="brand-section" class="bg-grey-3 row q-py-xl q-px-md q-pa-sm-xl">
+          <div class="col-12 text-center">
+            Copyright © {{ date.getFullYear() }}, <span class="text-primary">Galleria</span>. All Rights Reserved.
+          </div>
+        </div>
+      </div>
     </q-page-container>
 
   </q-layout>
@@ -75,11 +80,17 @@
 
 <script>
 export default {
-  // name: 'LayoutName',
-
+  name: 'DashboardLayout',
+  meta () {
+    return {
+      title: 'Dashboard',
+      titleTemplate: title => `${title} - Galleria`
+    }
+  },
   data () {
     return {
-      leftDrawer: false
+      leftDrawer: false,
+      date: new Date()
     }
   },
   methods: {

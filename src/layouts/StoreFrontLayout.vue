@@ -2,7 +2,13 @@
   <q-layout view="hHh Lpr fFf"> <!-- Be sure to play with the Layout demo on docs -->
 
     <!-- (Optional) The Header -->
-    <q-header elevated class="bg-white text-primary q-px-md-lg" v-if="error404State === false">
+    <q-header
+      :reveal-offset="75"
+      v-model="loadingState"
+      v-if="error404State === false"
+      :reveal="this.$route.name !== 'store-search'"
+      elevated class="bg-white text-primary q-px-md-lg"
+    >
       <q-toolbar>
         <q-btn
           flat
@@ -19,57 +25,61 @@
           :to="{
             name: 'store-home',
             params: {
-              catalogSlug: storeCatalog.slug
+              catalogSlug: this.$route.params.catalogSlug
             }
           }"
         >
-          <q-toolbar-title class="text-primary">{{ storeCatalog.name }}</q-toolbar-title>
+          <q-toolbar-title class="text-primary">{{ catalogNameFromSlug }}</q-toolbar-title>
         </router-link>
 
         <q-space v-if="this.$route.name != 'store-search'" />
 
         <!-- Search input for md screen & above on search route -->
-        <q-input
-          v-model="searchPayload"
-          outlined
-          placeholder="Search Store..."
-          v-if="$q.screen.gt.sm && this.$route.name == 'store-search'"
-          style="width: 60vw;"
-          class="q-mx-auto"
-          type="search"
-          dense
-        >
-          <template v-slot:after>
-            <q-btn color="primary" icon="search" @click.stop="setQueryParam" />
-          </template>
-        </q-input>
+        <form @submit.prevent>
+          <q-input
+            v-model="searchPayload"
+            outlined
+            placeholder="Search Store..."
+            v-if="$q.screen.gt.sm && this.$route.name == 'store-search'"
+            style="width: 60vw;"
+            class="q-mx-auto"
+            type="search"
+            dense
+          >
+            <template v-slot:after>
+              <q-btn color="primary" type="submit" icon="search" @click.stop="setQueryParam" />
+            </template>
+          </q-input>
+        </form>
 
         <!-- Search input for sm screen & below -->
-        <q-input
-          v-model="searchPayload"
-          autofocus
-          placeholder="Search Store..."
-          style="width: 99vw;"
-          dense
-          v-if="toggleSearch && this.$route.name != 'store-search'"
-        >
-          <template v-slot:before>
-            <q-icon
-              name="keyboard_backspace"
-              color="primary"
-              class="q-mr-md cursor-pointer"
-              @click.stop="toggleSearch = false"
-            />
-          </template>
-          <template v-slot:append v-if="!searchPayload">
-            <q-icon
-              name="search"
-            />
-          </template>
-          <template v-slot:after v-if="searchPayload">
-            <q-btn dense color="primary" icon="search" @click.stop="setQueryParam" />
-          </template>
-        </q-input>
+        <form @submit.prevent>
+          <q-input
+            v-model="searchPayload"
+            autofocus
+            placeholder="Search Store..."
+            style="width: 99vw;"
+            dense
+            v-if="toggleSearch && this.$route.name != 'store-search'"
+          >
+            <template v-slot:before>
+              <q-icon
+                name="keyboard_backspace"
+                color="primary"
+                class="q-mr-md cursor-pointer"
+                @click.stop="toggleSearch = false"
+              />
+            </template>
+            <template v-slot:append v-if="!searchPayload">
+              <q-icon
+                name="search"
+              />
+            </template>
+            <template v-slot:after v-if="searchPayload">
+              <q-btn dense color="primary" type="submit" icon="search" @click.stop="setQueryParam" />
+            </template>
+          </q-input>
+        </form>
 
         <q-btn
           flat
@@ -80,26 +90,28 @@
           @click="toggleSearch = true"
         />
         <!-- Search input for md screen & above -->
-        <q-input
-          v-model="searchPayload"
-          placeholder="Search Store..."
-          :style="{ width: searchInputSize + 'px' }"
-          dense
-          outlined
-          @focus="searchInputSize = 400"
-          @blur="searchInputSize = 200"
-          type="search"
-          v-if="$q.screen.gt.sm && this.$route.name != 'store-search'"
-        >
-          <template v-slot:append v-if="!searchPayload">
-            <q-icon
-              name="search"
-            />
-          </template>
-          <template v-slot:after v-if="searchPayload">
-            <q-btn dense flat color="primary" icon="search" @click.stop="setQueryParam" />
-          </template>
-        </q-input>
+        <form @submit.prevent>
+          <q-input
+            v-model="searchPayload"
+            placeholder="Search Store..."
+            :style="{ width: searchInputSize + 'px' }"
+            dense
+            outlined
+            @focus="searchInputSize = 400"
+            @blur="searchInputSize = 200"
+            type="search"
+            v-if="$q.screen.gt.sm && this.$route.name != 'store-search'"
+          >
+            <template v-slot:append v-if="!searchPayload">
+              <q-icon
+                name="search"
+              />
+            </template>
+            <template v-slot:after v-if="searchPayload">
+              <q-btn dense color="primary" type="submit" icon="search" @click.stop="setQueryParam" />
+            </template>
+          </q-input>
+        </form>
 
         <!-- route tabs -->
         <q-tabs v-model="tab" v-if="this.$route.name != 'store-search'" shrink class="gt-sm q-ml-md">
@@ -110,7 +122,7 @@
             :to="{
               name: 'store-product-list',
               params: {
-                catalogSlug: storeCatalog.slug
+                catalogSlug: this.$route.params.catalogSlug
               }
             }"
           />
@@ -121,7 +133,7 @@
             :to="{
               name: 'store-category-list',
               params: {
-                catalogSlug: storeCatalog.slug
+                catalogSlug: this.$route.params.catalogSlug
               }
             }"
           />
@@ -132,7 +144,7 @@
             :to="{
               name: 'store-collection-list',
               params: {
-                catalogSlug: storeCatalog.slug
+                catalogSlug: this.$route.params.catalogSlug
               }
             }"
           />
@@ -140,10 +152,10 @@
       </q-toolbar>
       <q-toolbar
         inset
-        v-if="$q.screen.gt.md || this.$route.name == 'store-search'"
+        v-if="$q.screen.gt.md || this.$route.name === 'store-search'"
         class="q-px-sm"
       >
-        <q-tabs v-model="tab" shrink class="gt-sm q-ml-md">
+        <q-tabs v-model="tab" v-if="loadingState === true" shrink class="gt-sm q-ml-md">
           <q-route-tab
             exact
             name="products"
@@ -151,7 +163,7 @@
             :to="{
               name: 'store-product-list',
               params: {
-                catalogSlug: storeCatalog.slug
+                catalogSlug: this.$route.params.catalogSlug
               }
             }"
           />
@@ -162,7 +174,7 @@
             :to="{
               name: 'store-category-list',
               params: {
-                catalogSlug: storeCatalog.slug
+                catalogSlug: this.$route.params.catalogSlug
               }
             }"
           />
@@ -173,89 +185,102 @@
             :to="{
               name: 'store-collection-list',
               params: {
-                catalogSlug: storeCatalog.slug
+                catalogSlug: this.$route.params.catalogSlug
               }
             }"
           />
         </q-tabs>
         <!-- Search input for sm screen & below on search route -->
-        <q-input
-          v-model="searchPayload"
-          outlined
-          placeholder="Search Store..."
-          v-if="$q.screen.lt.sm && this.$route.name == 'store-search'"
-          style="width: 99vw;"
-          type="search"
-          dense
-        >
-          <template v-slot:after>
-            <q-btn color="primary" icon="search" @click.stop="setQueryParam" />
-          </template>
-        </q-input>
+        <form @submit.prevent>
+          <q-input
+            v-model="searchPayload"
+            outlined
+            placeholder="Search Store..."
+            v-if="$q.screen.lt.sm && this.$route.name === 'store-search'"
+            style="width: 99vw;"
+            type="search"
+            dense
+          >
+            <template v-slot:after>
+              <q-btn color="primary" type="submit" icon="search" @click.stop="setQueryParam" />
+            </template>
+          </q-input>
+        </form>
       </q-toolbar>
     </q-header>
 
     <!-- (Optional) A Drawer; you can add one more with side="right" or change this one's side -->
     <q-drawer
-      v-model="leftDrawer"
-      side="left"
       bordered
-      :show-if-above="false"
+      side="left"
+      :width="275"
       no-swipe-open
       no-swipe-close
-      :width="275"
+      v-model="leftDrawer"
+      :show-if-above="false"
       content-class="bg-white"
     >
       <!-- QScrollArea is optional -->
-      <q-scroll-area
-        style="max-height: calc(100vh - 200px); margin-top: 200px; border-right: 1px solid #ddd"
-        class="fit q-pa-sm"
-      >
+      <q-scroll-area class="fit">
         <!-- Navigation menu -->
-        <q-list>
-          <!--
-          <q-item class="q-py-md">
-            <q-avatar size="200px">
-              <img :src="storeCatalog.logo.small" />
-            </q-avatar>
-          </q-item>
-        -->
+        <q-list separator>
+          <div class="text-h6 q-py-md q-px-sm">{{ catalogNameFromSlug }}</div>
+          <q-separator />
           <q-item
-            clickable
-            v-ripple
+            exact
+            active-class="bg-deep-orange-1 "
             :to="{
-              name: 'store-product-list',
+              name: 'store-home',
               params: {
-                catalogSlug: storeCatalog.slug
+                catalogSlug: this.$route.params.catalogSlug
               }
             }"
+            class="text-body1 text-weight-medium"
           >
-            <q-item-label class="text-black">Products</q-item-label>
+            Home
           </q-item>
           <q-item
-            clickable
-            v-ripple
+            exact
+            active-class="bg-deep-orange-1 "
             :to="{
               name: 'store-category-list',
               params: {
-                catalogSlug: storeCatalog.slug
+                catalogSlug: this.$route.params.catalogSlug
               }
             }"
+            class="text-body1 text-weight-medium"
           >
-            <q-item-label class="text-black">Categories</q-item-label>
+            Categories
           </q-item>
+          <q-separator />
           <q-item
-            clickable
-            v-ripple
+            exact
+            active-class="bg-deep-orange-1 "
             :to="{
               name: 'store-collection-list',
               params: {
-                catalogSlug: storeCatalog.slug
+                catalogSlug: this.$route.params.catalogSlug
               }
             }"
+            class="text-body1 text-weight-medium"
           >
-            <q-item-label class="text-black">Collections</q-item-label>
+            Collections
           </q-item>
+          <q-separator />
+          <q-item
+            exact
+            active-class="bg-deep-orange-1 "
+            :to="{
+              name: 'store-product-list',
+              params: {
+                catalogSlug: this.$route.params.catalogSlug
+              }
+            }"
+            class="text-body1 text-weight-medium"
+          >
+            Products
+          </q-item>
+          <q-separator />
         </q-list>
       </q-scroll-area>
 
@@ -271,16 +296,6 @@
           @click="leftDrawer = false"
         />
       </div>
-
-      <q-img class="absolute-top" :src="storeCatalog.backgroundImage.small" style="height: 200px">
-        <div class="absolute-bottom bg-transparent">
-          <q-avatar size="72px" class="q-mb-sm">
-            <img v-if="storeCatalog.logo.thumbnail" :src="storeCatalog.logo.thumbnail">
-            <img v-else :src="storeCatalog.backgroundImage.small">
-          </q-avatar>
-          <div class="text-weight-bold text-h6">{{ storeCatalog.name }}</div>
-        </div>
-      </q-img>
     </q-drawer>
     <q-page-container>
       <!-- This is where pages get injected -->
@@ -291,7 +306,7 @@
             <q-avatar size="36px" class="q-mb-sm">
               <img v-if="storeCatalog.logo.thumbnail" :src="storeCatalog.logo.thumbnail">
             </q-avatar>
-            <div class="text-h6">{{ storeCatalog.name }}</div>
+            <div class="text-h6">{{ catalogNameFromSlug }}</div>
             <div class="q-py-md q-gutter-sm text-grey-9">
               <q-icon size="sm" name="ion-logo-facebook" />
               <q-icon size="sm" name="ion-logo-instagram" />
@@ -321,12 +336,18 @@
 
 <script>
 export default {
-  preFetch ({ store, currentRoute }) {
-    return store.dispatch(
-      'navbar/updateCatalogAction', currentRoute.params.catalogSlug
-    )
+  beforeRouteEnter (to, from, next) {
+    next(vm => vm.$store.dispatch(
+      'navbar/updateCatalogAction', to.params.catalogSlug
+    ))
   },
   name: 'StoreFrontLayout',
+  meta () {
+    return {
+      title: 'Home',
+      titleTemplate: title => `${title} - ${this.catalogNameFromSlug}`
+    }
+  },
   data () {
     return {
       tab: '',
@@ -355,6 +376,13 @@ export default {
     },
     error404State () {
       return this.$store.state.navbar.is404
+    },
+    catalogNameFromSlug () {
+      let slug = this.$route.params.catalogSlug
+      return slug.split('-').map(w => w[0].toUpperCase() + w.substr(1).toLowerCase()).join(' ')
+    },
+    loadingState () {
+      return !this.$store.state.navbar.isLoading
     }
   }
 }

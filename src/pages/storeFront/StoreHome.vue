@@ -98,7 +98,43 @@
         <div
           class="row q-py-sm q-px-sm-md q-col-gutter-md no-wrap"
           style="overflow-x: auto;"
-          v-if="catalog"
+          v-if="featuredProducts.length > 0"
+        >
+          <div
+            v-for="product in featuredProducts"
+            :key="product.product.id"
+            class="col-4 col-sm-3"
+          >
+            <router-link
+              v-if="catalog.slug"
+              :to="{
+                name: 'store-product-detail',
+                params: {
+                  catalogSlug: catalog.slug,
+                  referenceId: product.product.reference_id,
+                  productSlug: product.product.slug
+                }
+              }"
+            >
+              <q-card>
+                <q-img
+                  :src="product.product.photos[0].photo.small"
+                  :ratio="9/10"
+                />
+                <q-card-section class="q-pa-xs q-pa-sm-sm">
+                  <div class="text-capitalize text-sm-subtitle1 ellipsis">
+                    {{ product.product.name }}
+                  </div>
+                  <div class="text-grey-8 q-px-xs text-subtitle2 text-caption">₦{{ noDecimal(product.product.price) }}</div>
+                </q-card-section>
+              </q-card>
+            </router-link>
+          </div>
+        </div>
+        <div
+          class="row q-py-sm q-px-sm-md q-col-gutter-md no-wrap"
+          style="overflow-x: auto;"
+          v-else
         >
           <div
             v-for="product in products.slice(0,4)"
@@ -156,11 +192,12 @@ export default {
     return {
       catalogNotFound: null,
       catalog: {},
-      products: []
+      products: [],
+      featuredProducts: []
     }
   },
   methods: {
-    getCatalog: function () {
+    getCatalog () {
       let self = this
       self.$store.dispatch('navbar/updateIs404Action', false)
       this.$q.loading.show({
@@ -173,6 +210,11 @@ export default {
         .then(function (response) {
           if (response.status === 200) {
             self.catalog = response.data
+            for (var i = response.data.collections.length - 1; i >= 0; i--) {
+              if (response.data.collections[i].is_featured === true) {
+                self.featuredProducts = response.data.collections[i].collection_products
+              }
+            }
             self.$store.dispatch('navbar/updateIs404Action', false)
             self.catalogNotFound = false
             self.$q.loading.hide()
@@ -186,7 +228,7 @@ export default {
           }
         })
     },
-    getCatalogProducts: function () {
+    getCatalogProducts () {
       let self = this
       self.$axios.get(
         'catalogs/' + self.$route.params.catalogSlug + '/products/'
@@ -197,11 +239,11 @@ export default {
           }
         })
     },
-    noDecimal: function (num) {
+    noDecimal (num) {
       return Number(num).toFixed(0)
     }
   },
-  created: function () {
+  created () {
     this.getCatalog()
     this.getCatalogProducts()
   }

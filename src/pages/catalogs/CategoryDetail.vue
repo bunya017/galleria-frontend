@@ -35,7 +35,7 @@
       </div>
 
       <!-- Category products list-->
-      <div class="row q-pt-lg q-col-gutter-md">
+      <div class="row q-pt-lg q-col-gutter-md" v-if="products.length > 0">
         <div class="col-12" v-for="product in products" :key="product.id">
           <q-card>
             <q-list>
@@ -74,6 +74,17 @@
           </q-card>
         </div>
       </div>
+      <div v-else class="row jutify-center text-center q-pb-md" style="padding-top: 10vh;">
+        <div class="col-12 q-px-md">
+          <img height="150" width="150" alt="Quasar logo" src="../../assets/undraw-no-data.svg">
+          <div class="text-body1 q-py-sm">
+            You have not added any product to this category yet.<!-- Click on the
+            <q-btn v-if="$q.screen.lt.sm" round size="xs" color="primary" icon="add" />
+            <q-btn v-else size="sm" dense class="q-py-xs" color="primary" icon="add" label="ADD PRODUCT" />
+            button to add one.-->
+          </div>
+        </div>
+      </div>
     </div>
     <div class="row jutify-center text-center" style="padding-top: 25vh;" v-if="categoryNotFound === true">
       <div class="col-12 q-px-md">
@@ -94,6 +105,11 @@
 <script>
 export default {
   name: 'CategoryDetail',
+  meta () {
+    return {
+      title: `${this.category.name} | ${this.catalog.name}`
+    }
+  },
   data () {
     return {
       categoryNotFound: null,
@@ -103,10 +119,10 @@ export default {
     }
   },
   methods: {
-    getAuthToken: function () {
+    getAuthToken () {
       return sessionStorage.getItem('authToken')
     },
-    getCategoryDetail: function () {
+    getCategoryDetail () {
       let self = this
       this.$q.loading.show({
         spinnerColor: 'primary',

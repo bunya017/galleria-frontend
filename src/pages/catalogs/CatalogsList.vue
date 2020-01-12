@@ -18,7 +18,7 @@
 
       <!-- New catalog dialog/modal -->
       <q-dialog v-model="newCat" position="top" @hide="clearNewCatalogModel" no-backdrop-dismiss>
-        <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
+        <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
           <q-card-section class="text-center">
             <div class="text-h5">New catalog</div>
             <div class="text-subtitle2">Create new product catalog</div>
@@ -52,7 +52,10 @@
                     bottom-slots
                     :error="descriptionError.status"
                     v-model="newCatalog.description"
-                    :rules="[ val => !!val || 'This field is required.' ]"
+                    :rules="[
+                      val => !!val || 'This field is required.',
+                      val => val.length < 256 || 'Limit exceeded! Ensure this field has no more than 255 characters.'
+                    ]"
                     @input="descriptionError.status = false"
                   >
                     <template v-slot:error>
@@ -105,111 +108,23 @@
                     </template>
                   </q-input>
                   <!-- Logo Image uploader -->
-                  <div class="row q-pb-md">
-                    <q-uploader
-                      class="col"
-                      ref="logoImage"
-                      label="Logo Image"
-                      color="white"
-                      text-color="grey-8"
-                      accept=".png, .jpeg, .jpg, .gif"
-                      hide-upload-btn
-                    >
-                      <template v-slot:list="scope">
-                        <q-list>
-                          <q-item v-for="file in scope.files" :key="file.name">
-                            <q-item-section>
-                              <q-item-label class="full-width ellipsis">
-                                {{ file.name }}
-                              </q-item-label>
-
-                              <q-item-label caption>
-                                Status: {{ file.__status }}
-                              </q-item-label>
-
-                              <q-item-label caption>
-                                {{ file.__sizeLabel }} / {{ file.__progressLabel }}
-                              </q-item-label>
-                            </q-item-section>
-
-                            <q-item-section
-                              v-if="file.__img"
-                              thumbnail
-                              class="gt-xs"
-                            >
-                              <img :src="file.__img.src" class="product-photo">
-                            </q-item-section>
-
-                            <q-item-section top side>
-                              <q-btn
-                                class="gt-xs"
-                                size="12px"
-                                flat
-                                dense
-                                round
-                                icon="delete"
-                                @click="scope.removeFile(file)"
-                              />
-                            </q-item-section>
-                          </q-item>
-
-                        </q-list>
-                      </template>
-                    </q-uploader>
-                  </div>
+                  <image-input
+                    class="q-pb-md"
+                    ref="logoImage"
+                    label="Logo Image"
+                    color="white"
+                    text-color="grey-8"
+                    accept=".png, .jpeg, .jpg, .gif"
+                  />
                   <!-- Background Image uploader -->
-                  <div class="row">
-                    <q-uploader
-                      class="col"
-                      ref="bgImage"
-                      label="Background Image"
-                      color="white"
-                      text-color="grey-8"
-                      accept=".png, .jpeg, .jpg, .gif"
-                      hide-upload-btn
-                    >
-                      <template v-slot:list="scope">
-                        <q-list>
-                          <q-item v-for="file in scope.files" :key="file.name">
-                            <q-item-section>
-                              <q-item-label class="full-width ellipsis">
-                                {{ file.name }}
-                              </q-item-label>
-
-                              <q-item-label caption>
-                                Status: {{ file.__status }}
-                              </q-item-label>
-
-                              <q-item-label caption>
-                                {{ file.__sizeLabel }} / {{ file.__progressLabel }}
-                              </q-item-label>
-                            </q-item-section>
-
-                            <q-item-section
-                              v-if="file.__img"
-                              thumbnail
-                              class="gt-xs"
-                            >
-                              <img :src="file.__img.src" class="product-photo">
-                            </q-item-section>
-
-                            <q-item-section top side>
-                              <q-btn
-                                class="gt-xs"
-                                size="12px"
-                                flat
-                                dense
-                                round
-                                icon="delete"
-                                @click="scope.removeFile(file)"
-                              />
-                            </q-item-section>
-                          </q-item>
-
-                        </q-list>
-                      </template>
-                    </q-uploader>
-                  </div>
+                  <image-input
+                    class="q-pb-md"
+                    ref="bgImage"
+                    label="Background Image"
+                    color="white"
+                    text-color="grey-8"
+                    accept=".png, .jpeg, .jpg, .gif"
+                  />
                 </div>
                 <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
                   <q-btn
@@ -225,6 +140,7 @@
                     label="Add new"
                     class="bg-primary"
                     :loading="newCatalogButtonLoading"
+                    :disabled="newCatalogButtonLoading"
                   />
                 </q-card-actions>
               </form>
@@ -234,7 +150,7 @@
       </q-dialog>
 
       <!-- Catalog List -->
-      <div class="row q-pt-lg q-pb-xl q-col-gutter-md" v-if="catalogs[0]">
+      <div class="row q-pt-lg q-pb-xl q-col-gutter-md" v-if="catalogs.length > 0">
         <div class="col-12">
           <q-card>
             <q-list separator>
@@ -290,6 +206,17 @@
           </q-card>
         </div>
       </div>
+      <div v-else class="row jutify-center text-center q-pb-md" style="padding-top: 10vh;">
+        <div class="col-12 q-px-md">
+          <img height="150" width="150" alt="Quasar logo" src="../../assets/undraw-no-data.svg">
+          <div class="text-body1 q-py-sm">
+            You have not created any catalog yet. Click on the
+            <q-btn v-if="$q.screen.lt.sm" round size="xs" color="primary" icon="add" />
+            <q-btn v-else size="sm" dense class="q-py-xs" color="primary" icon="add" label="NEW CATALOG" />
+            button to create one.
+          </div>
+        </div>
+      </div>
 
       <!-- Delete category dialog -->
       <q-dialog v-model="deleteCat" @hide="clearDeleteCatalogPayload" persistent>
@@ -341,7 +268,12 @@
 <script>
 export default {
   name: 'CatalogsList',
-  data: function () {
+  meta () {
+    return {
+      title: 'Dashboard'
+    }
+  },
+  data () {
     return {
       isLoading: true,
       newCatalogButtonLoading: false,
@@ -394,10 +326,10 @@ export default {
     }
   },
   methods: {
-    getAuthToken: function () {
+    getAuthToken () {
       return sessionStorage.getItem('authToken')
     },
-    getCatalogs: function () {
+    getCatalogs () {
       let self = this
       this.$q.loading.show({
         spinnerColor: 'primary',
@@ -423,7 +355,7 @@ export default {
           self.$q.loading.hide()
         })
     },
-    addNewCatalog: function () {
+    addNewCatalog () {
       let self = this
       self.newCatalogButtonLoading = true
       self.$refs.name.validate()
@@ -493,7 +425,7 @@ export default {
           self.newCatalogButtonLoading = false
         })
     },
-    showAlert: function (payload) {
+    showAlert (payload) {
       const {
         color, textColor, message, icon,
         position, classes
@@ -508,14 +440,14 @@ export default {
         classes
       })
     },
-    clearNewCatalogModel: function () {
+    clearNewCatalogModel () {
       this.newCatalog.name = ''
       this.newCatalog.description = ''
       this.newCatalog.contact_address = ''
       this.newCatalog.contact_email = ''
       this.newCatalog.contact_phone = ''
     },
-    getFirstLetters: function (payload) {
+    getFirstLetters (payload) {
       let wordsList = payload.split(' ')
       if (!!wordsList[1] === true) {
         return wordsList[0].charAt(0).toUpperCase() + wordsList[1].charAt(0)
@@ -523,18 +455,18 @@ export default {
         return wordsList[0].charAt(0).toUpperCase()
       }
     },
-    makeDeleteCatalogPayload: function (payload) {
+    makeDeleteCatalogPayload (payload) {
       this.deleteCat = true
       this.deleteCatalogPayload.name = payload.name
       this.deleteCatalogPayload.url = process.env.PROD
         ? payload.url.replace('http://', 'https://') : payload.url
     },
-    clearDeleteCatalogPayload: function () {
+    clearDeleteCatalogPayload () {
       this.deleteCatalogPayload.name = ''
       this.deleteCatalogPayload.url = ''
       this.confirmDeletePayload = ''
     },
-    deleteCatalog: function () {
+    deleteCatalog () {
       let self = this
       self.deleteCatalogButtonLoading = true
       this.$axios.defaults.headers.common = {
@@ -564,10 +496,5 @@ export default {
 a {
   text-decoration: none;
   color: inherit;
-}
-.product-photo {
-  width: 56px;
-  height: 56px;
-  border-radius: 5px;
 }
 </style>

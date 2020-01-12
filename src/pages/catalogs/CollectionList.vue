@@ -35,7 +35,7 @@
       </div>
 
       <!-- Collections List -->
-      <div class="row q-pt-sm q-col-gutter-md">
+      <div class="row q-pt-sm q-col-gutter-md" v-if="collections.length > 0">
         <div class="col-12" v-for="collection in collections" :key="collection.name">
           <q-card>
             <q-list>
@@ -68,6 +68,14 @@
                   <q-btn size="12px" flat dense round icon="more_vert">
                     <q-menu auto-close>
                       <q-list style="width: 200px;">
+                        <q-item clickable @click="makeEditCollectionPayload(collection)">
+                          <q-item-section avatar>
+                            <q-avatar rounded icon="edit" />
+                          </q-item-section>
+                          <q-item-section>
+                            Edit
+                          </q-item-section>
+                        </q-item>
                         <q-item clickable @click="makeDeleteCollectionPayload(collection)">
                           <q-item-section avatar>
                             <q-avatar rounded icon="delete" />
@@ -85,6 +93,77 @@
           </q-card>
         </div>
       </div>
+      <div v-else class="row jutify-center text-center q-pb-md" style="padding-top: 10vh;">
+        <div class="col-12 q-px-md">
+          <img height="150" width="150" alt="Quasar logo" src="../../assets/undraw-no-data.svg">
+          <div class="text-body1 q-py-sm">
+            You have not added any collection yet. Click on the
+            <q-btn v-if="$q.screen.lt.sm" round size="xs" color="primary" icon="add" />
+            <q-btn v-else size="sm" dense class="q-py-xs" color="primary" icon="add" label="NEW COLLECTION" />
+            button to add one.
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit collection dialog -->
+      <q-dialog
+        position="top"
+        no-backdrop-dismiss
+        v-model="collectionEdit"
+        @hide="clearEditCollectionPayload"
+      >
+        <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
+          <q-card-section class="q-py-md">
+            <div class="text-h5">Edit Collection</div>
+            <div class="text-subtitle2">Edit collection details</div>
+          </q-card-section>
+          <q-card-section class="q-px-sm q-py-lg">
+            <div class="q-px-md">
+              <form @submit.prevent.stop="editCollection">
+                <q-input
+                  dense
+                  auto-focus
+                  lazy-rules
+                  type="text"
+                  label="Name"
+                  v-model="editCollectionPayload.name"
+                  :rules="[val => !!val || 'Field is required']"
+                />
+                <q-input
+                  dense
+                  lazy-rules
+                  type="text"
+                  label="Description"
+                  v-model="editCollectionPayload.description"
+                  :rules="[val => !!val || 'Field is required']"
+                />
+                <image-input
+                  ref="editCollectionBgImage"
+                  label="Background image (Change the current logo image)"
+                  color="white"
+                  textColor="grey-8"
+                  accept=".jpg, image/*"
+                />
+                <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
+                  <q-btn
+                    flat
+                    label="Cancel"
+                    color="grey-7"
+                    v-close-popup
+                  />
+                  <q-btn
+                    label="Edit Collection"
+                    type="submit"
+                    color="primary"
+                    :loading="editCollectionButtonLoading"
+                    :disabled="editCollectionButtonLoading"
+                  />
+                </q-card-actions>
+              </form>
+            </div>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
 
       <!-- Delete collection dialog -->
       <q-dialog v-model="deleteColl" persistent @hide="clearDeleteCollectionModel">
@@ -119,7 +198,8 @@
               color="negative"
               @click="deleteCollection"
               :loading="deleteCollectionButtonLoading"
-              :disabled="confirmDeletePayload !== deleteCollectionPayload.name"
+              :disabled="(confirmDeletePayload !== deleteCollectionPayload.name)
+                || deleteCollectionButtonLoading"
             />
           </q-card-actions>
         </q-card>
@@ -132,7 +212,7 @@
         no-backdrop-dismiss
         @hide="clearNewCollectionModel"
       >
-        <q-card class="q-mt-lg" style="width: 600px; max-width: 85vw;">
+        <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
           <q-card-section>
             <div class="text-h5">New collection</div>
             <div class="text-subtitle2">Add new product collection</div>
@@ -162,61 +242,26 @@
                   :rules="[ val => !!val || 'This field is required.' ]"
                 />
                 <!-- Background Image input -->
-                <div class="row">
-                  <q-uploader
-                    class="col"
-                    ref="bgImageFile"
-                    label="Background Image(optional)"
-                    color="white"
-                    text-color="grey-8"
-                    accept=".jpg, image/*"
-                    hide-upload-btn
-                  >
-                    <template v-slot:list="scope">
-                      <q-list separator>
-                        <q-item v-for="file in scope.files" :key="file.name">
-                          <q-item-section>
-                            <q-item-label class="full-width ellipsis">
-                              {{ file.name }}
-                            </q-item-label>
-                            <q-item-label caption>
-                              {{ file.__sizeLabel }}
-                            </q-item-label>
-                          </q-item-section>
-                          <q-item-section
-                            v-if="file.__img"
-                            thumbnail
-                          >
-                            <img :src="file.__img.src" class="bg-image">
-                          </q-item-section>
-                          <q-item-section side>
-                            <q-btn
-                              size="12px"
-                              flat
-                              dense
-                              round
-                              icon="delete"
-                              @click="scope.removeFile(file)"
-                            />
-                          </q-item-section>
-                        </q-item>
-                      </q-list>
-                    </template>
-                  </q-uploader>
-                </div>
+                <image-input
+                  ref="bgImageFile"
+                  label="Background image (Change the current logo image)"
+                  color="white"
+                  textColor="grey-8"
+                  accept=".jpg, image/*"
+                />
                 <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
                   <q-btn
                     flat
                     label="Cancel"
-                    color="negative"
+                    color="grey-7"
                     v-close-popup
                   />
                   <q-btn
-                    flat
                     type="submit"
                     label="Add new"
                     color="primary"
                     :loading="newCollectionButtonLoading"
+                    :disabled="newCollectionButtonLoading"
                   />
                 </q-card-actions>
               </form>
@@ -249,15 +294,22 @@
 <script>
 export default {
   name: 'CollectionList',
-  data: function () {
+  meta () {
+    return {
+      title: `Collections | ${this.catalog.name}`
+    }
+  },
+  data () {
     return {
       newCollectionButtonLoading: false,
       deleteCollectionButtonLoading: false,
+      editCollectionButtonLoading: false,
       collListNotFound: null,
       deleteColl: false,
+      collectionEdit: false,
       confirmDeletePayload: '',
       newColl: false,
-      catalog: null,
+      catalog: {},
       catalogSlug: this.$route.params.catalogSlug,
       collections: [],
       newCollection: {
@@ -268,6 +320,11 @@ export default {
       },
       deleteCollectionPayload: {
         name: '',
+        slug: ''
+      },
+      editCollectionPayload: {
+        name: '',
+        description: '',
         slug: ''
       },
       alertPayload: {
@@ -293,10 +350,10 @@ export default {
     }
   },
   methods: {
-    getAuthToken: function () {
+    getAuthToken () {
       return sessionStorage.getItem('authToken')
     },
-    getCollectionList: function () {
+    getCollectionList () {
       let self = this
       this.$q.loading.show({
         spinnerColor: 'primary',
@@ -306,7 +363,7 @@ export default {
         'Authorization': 'Token ' + self.getAuthToken()
       }
       self.$axios.get(
-        'catalogs/' + self.$route.params.catalogSlug + '/collections/'
+        'catalogs/' + self.$route.params.catalogSlug + '/collections/?is_featured=false'
       )
         .then(function (response) {
           if (response.status === 200) {
@@ -322,12 +379,12 @@ export default {
           }
         })
     },
-    makeDeleteCollectionPayload: function (payload) {
+    makeDeleteCollectionPayload (payload) {
       this.deleteColl = true
       this.deleteCollectionPayload.name = payload.name
       this.deleteCollectionPayload.slug = payload.slug
     },
-    deleteCollection: function () {
+    deleteCollection () {
       let self = this
       self.deleteCollectionButtonLoading = true
       this.$axios.defaults.headers.common = {
@@ -346,7 +403,7 @@ export default {
           }
         })
     },
-    showAlert: function (payload) {
+    showAlert (payload) {
       const {
         color, textColor, message, icon,
         position, classes
@@ -361,7 +418,7 @@ export default {
         classes
       })
     },
-    getCollectionsCatalog: function () {
+    getCollectionsCatalog () {
       let self = this
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
@@ -373,7 +430,7 @@ export default {
           self.catalog = response.data
         })
     },
-    addNewCollection: function () {
+    addNewCollection () {
       let self = this
       self.newCollectionButtonLoading = true
       self.newCollection.catalog = self.catalog.id
@@ -414,7 +471,7 @@ export default {
           }
         })
     },
-    clearNewCollectionModel: function () {
+    clearNewCollectionModel () {
       this.newCollection.name = ''
       this.newCollection.description = ''
       this.newCollection.catalog = null
@@ -422,13 +479,63 @@ export default {
       this.nameError.status = false
       this.nameError.message = ''
     },
-    clearDeleteCollectionModel: function () {
+    clearDeleteCollectionModel () {
       this.deleteCollectionPayload.name = ''
       this.deleteCollectionPayload.slug = ''
       this.confirmDeletePayload = ''
+    },
+    makeEditCollectionPayload (payload) {
+      this.collectionEdit = true
+      this.editCollectionPayload.name = payload.name
+      this.editCollectionPayload.description = payload.description
+      this.editCollectionPayload.slug = payload.slug
+    },
+    clearEditCollectionPayload () {
+      this.editCollectionPayload.name = ''
+      this.editCollectionPayload.description = ''
+      this.editCollectionPayload.slug = ''
+    },
+    editCollection () {
+      let self = this
+      self.editCollectionButtonLoading = true
+      self.editCollectionPayload.catalog = self.catalog.id
+      let payload = new FormData()
+      payload.append('name', self.editCollectionPayload.name)
+      payload.append('catalog', self.editCollectionPayload.catalog)
+      payload.append('description', self.editCollectionPayload.description)
+      if (this.$refs.editCollectionBgImage.files.length > 0) {
+        payload.append('background_image', this.$refs.editCollectionBgImage.files[0])
+      }
+
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken(),
+        'Content-Type': 'multipart/form'
+      }
+      self.$axios.patch(
+        'catalogs/' + self.catalogSlug + '/collections/' + self.editCollectionPayload.slug + '/',
+        payload
+      )
+        .then(function (response) {
+          if (response.status === 200) {
+            self.getCollectionList()
+            self.alertPayload.message = 'Collection edited successfully!'
+            self.editCollectionButtonLoading = false
+            self.collectionEdit = false
+            self.showAlert(self.alertPayload)
+          }
+        })
+        .catch(function (error) {
+          if (error.response.data.name) {
+            if (error.response.data.name[0].indexOf('A collection named') >= 0) {
+              self.errorAlertPayload.message = error.response.data.name[0]
+              self.showAlert(self.errorAlertPayload)
+            }
+            self.editCollectionButtonLoading = false
+          }
+        })
     }
   },
-  created: function () {
+  created () {
     this.getCollectionList()
     this.getCollectionsCatalog()
   }
@@ -439,10 +546,5 @@ export default {
 a {
   text-decoration: none;
   color: inherit;
-}
-.bg-image {
-  max-height: 56px;
-  width: auto;
-  border-radius: 5px;
 }
 </style>

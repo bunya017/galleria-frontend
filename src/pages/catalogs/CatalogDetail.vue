@@ -33,6 +33,7 @@
       </div>
 
       <div class="row q-pt-lg q-pb-xl q-col-gutter-md">
+        <!-- Collection -->
         <div class="col-6 col-md-3">
           <router-link
             v-if="catalog.slug"
@@ -53,6 +54,7 @@
             </q-card>
           </router-link>
         </div>
+        <!-- Products -->
         <div class="col-6 col-md-3">
           <router-link
             v-if="catalog.slug"
@@ -73,6 +75,40 @@
             </q-card>
           </router-link>
         </div>
+        <!-- Featured Products -->
+        <div class="col-6 col-md-3">
+          <router-link
+            v-if="catalog.slug"
+            :to="{
+              name: 'featured-products',
+              params: {
+                catalogSlug: catalog.slug
+              }
+            }"
+          >
+            <q-card>
+              <div class="row justify-center items-center" style="min-height: 100px;">
+                <div class="text-center">
+                  <div class="text-h5">Featured Products</div>
+                  <div class="text-subtitle2">(Click to view)</div>
+                </div>
+              </div>
+            </q-card>
+          </router-link>
+        </div>
+        <!-- Edit Catalog Info -->
+        <div class="col-6 col-md-3">
+          <q-card @click="makeEditCatalogPayload">
+            <div class="row justify-center items-center cursor-pointer" style="min-height: 100px;">
+              <div class="text-center">
+                <div class="text-h5">
+                  <q-icon name="edit" color="primary" /> Edit Details
+                </div>
+              </div>
+            </div>
+          </q-card>
+        </div>
+        <!-- Visit site -->
         <div class="col-12 col-md-3">
           <router-link
             v-if="catalog.slug"
@@ -85,7 +121,7 @@
             target="_blank"
           >
             <q-card>
-              <div class="row justify-center items-center" style="min-height: 100px;">
+              <div class="row justify-center items-center bg-grey-4" style="min-height: 50px;">
                 <div class="text-center">
                   <div class="text-h5">
                     Visit Site <q-icon name="launch" color="primary" />
@@ -97,9 +133,96 @@
         </div>
       </div>
 
+      <!-- Edit catalog dialog -->
+      <q-dialog v-model="catalogEdit" @hide="clearEditCatalogPayload" position="top" no-backdrop-dismiss>
+        <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
+          <q-card-section class="q-py-md">
+            <div class="text-h5">Edit Catalog</div>
+            <div class="text-subtitle2">Edit catalog details</div>
+          </q-card-section>
+          <q-card-section class="q-px-sm q-py-lg">
+            <div class="q-px-md">
+              <form v-on:submit.prevent.stop="editCatalog">
+                <q-input
+                  dense
+                  auto-focus
+                  lazy-rules
+                  type="text"
+                  label="Name"
+                  v-model="editCatalogPayload.name"
+                  :rules="[val => !!val || 'Field is required']"
+                />
+                <q-input
+                  dense
+                  lazy-rules
+                  type="text"
+                  label="Description"
+                  v-model="editCatalogPayload.description"
+                  :rules="[val => !!val || 'Field is required']"
+                />
+                <q-input
+                  dense
+                  lazy-rules
+                  type="text"
+                  label="Shop address"
+                  v-model="editCatalogPayload.contact_address"
+                  :rules="[val => !!val || 'Field is required']"
+                />
+                <q-input
+                  dense
+                  lazy-rules
+                  type="email"
+                  label="Contact email"
+                  v-model="editCatalogPayload.contact_email"
+                  :rules="[val => !!val || 'Field is required']"
+                />
+                <q-input
+                  dense
+                  lazy-rules
+                  type="text"
+                  label="Contact phone"
+                  v-model="editCatalogPayload.contact_phone"
+                  :rules="[val => !!val || 'Field is required']"
+                />
+                <image-input
+                  class="q-pb-md"
+                  ref="editCatalogLogoImage"
+                  label="Logo image (Change the current logo image)"
+                  color="white"
+                  textColor="grey-8"
+                  accept=".jpg, image/*"
+                />
+                <image-input
+                  ref="editCatalogBgImage"
+                  label="Background image (Change the background image)"
+                  color="white"
+                  textColor="grey-8"
+                  accept=".jpg, image/*"
+                />
+                <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
+                  <q-btn
+                    flat
+                    label="Cancel"
+                    color="grey-7"
+                    v-close-popup
+                  />
+                  <q-btn
+                    label="Edit Catalog"
+                    type="submit"
+                    color="primary"
+                    :loading="editCatalogButtonLoading"
+                    :disabled="editCatalogButtonLoading"
+                  />
+                </q-card-actions>
+              </form>
+            </div>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
+
       <!-- New category modal/dialog -->
       <q-dialog v-model="newCat" position="top" no-backdrop-dismiss>
-        <q-card class="q-mt-lg" style="width: 600px; max-width: 80vw;">
+        <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
           <q-card-section class="text-center">
             <div class="text-h5">New Category</div>
             <div class="text-subtitle2">Add new product category</div>
@@ -134,48 +257,14 @@
                     :rules="[ val => !!val || 'This field is required.' ]"
                   />
                   <!-- Background Image input -->
-                  <div class="row">
-                    <q-uploader
-                      class="col"
-                      ref="bgImageFile"
-                      label="Background Image(optional)"
-                      color="white"
-                      text-color="grey-8"
-                      accept=".jpg, image/*"
-                      hide-upload-btn
-                    >
-                      <template v-slot:list="scope">
-                        <q-list separator>
-                          <q-item v-for="file in scope.files" :key="file.name">
-                            <q-item-section>
-                              <q-item-label class="full-width ellipsis">
-                                {{ file.name }}
-                              </q-item-label>
-                              <q-item-label caption>
-                                {{ file.__sizeLabel }}
-                              </q-item-label>
-                            </q-item-section>
-                            <q-item-section
-                              v-if="file.__img"
-                              thumbnail
-                            >
-                              <img :src="file.__img.src" class="bg-image">
-                            </q-item-section>
-                            <q-item-section side>
-                              <q-btn
-                                size="12px"
-                                flat
-                                dense
-                                round
-                                icon="delete"
-                                @click="scope.removeFile(file)"
-                              />
-                            </q-item-section>
-                          </q-item>
-                        </q-list>
-                      </template>
-                    </q-uploader>
-                  </div>
+                  <image-input
+                    class="q-pb-md"
+                    ref="bgImageFile"
+                    label="Background Image(optional)"
+                    color="white"
+                    text-color="grey-8"
+                    accept=".jpg, image/*"
+                  />
                 </div>
                 <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
                   <q-btn
@@ -188,6 +277,7 @@
                     type="submit"
                     label="Add new"
                     color="primary"
+                    :disabled="newCategoryButtonLoading"
                     :loading="newCategoryButtonLoading"
                   />
                 </q-card-actions>
@@ -199,7 +289,7 @@
 
       <!-- Categories List -->
       <div class="text-h5">Categories</div>
-      <div class="row q-pt-sm q-pb-xl q-col-gutter-md">
+      <div class="row q-pt-sm q-pb-xl q-col-gutter-md" v-if="catalog.categories.length > 0">
         <div class="col-12" v-for="category in catalog.categories" :key="category.name">
           <q-card>
             <q-list>
@@ -230,6 +320,14 @@
                   <q-btn size="12px" flat dense round icon="more_vert">
                     <q-menu auto-close>
                       <q-list style="width: 200px;">
+                        <q-item clickable @click="makeEditCategoryPayload(category)">
+                          <q-item-section avatar>
+                            <q-avatar rounded icon="edit" />
+                          </q-item-section>
+                          <q-item-section>
+                            Edit
+                          </q-item-section>
+                        </q-item>
                         <q-item clickable @click="makeDeleteCategoryPayload(category)">
                           <q-item-section avatar>
                             <q-avatar rounded icon="delete" />
@@ -247,6 +345,72 @@
           </q-card>
         </div>
       </div>
+      <div v-else class="row jutify-center text-center q-pb-md" style="padding-top: 5vh;">
+        <div class="col-12 q-px-md">
+          <img height="150" width="150" alt="Quasar logo" src="../../assets/undraw-no-data.svg">
+          <div class="text-body1 q-py-sm">
+            You have not added any category yet. Click on the
+            <q-btn v-if="$q.screen.lt.sm" round size="xs" color="primary" icon="add" />
+            <q-btn v-else size="sm" dense class="q-py-xs" color="primary" icon="add" label="NEW CATEGORY" />
+            button to add one.
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit category dialog -->
+      <q-dialog v-model="categoryEdit" @hide="clearEditCategoryPayload" position="top" no-backdrop-dismiss>
+        <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
+          <q-card-section class="q-py-md">
+            <div class="text-h5">Edit Category</div>
+            <div class="text-subtitle2">Edit category details</div>
+          </q-card-section>
+          <q-card-section class="q-px-sm q-py-lg">
+            <div class="q-px-md">
+              <form @submit.prevent.stop="editCategory">
+                <q-input
+                  dense
+                  auto-focus
+                  lazy-rules
+                  type="text"
+                  label="Name"
+                  v-model="editCategoryPayload.name"
+                  :rules="[val => !!val || 'Field is required']"
+                />
+                <q-input
+                  dense
+                  lazy-rules
+                  type="text"
+                  label="Description"
+                  v-model="editCategoryPayload.description"
+                  :rules="[val => !!val || 'Field is required']"
+                />
+                <image-input
+                  ref="editCategoryBgImage"
+                  label="Background image (Change the current logo image)"
+                  color="white"
+                  textColor="grey-8"
+                  accept=".jpg, image/*"
+                />
+                <q-card-actions align="right" class="q-gutter-x-md q-pt-lg">
+                  <q-btn
+                    flat
+                    label="Cancel"
+                    color="grey-7"
+                    v-close-popup
+                  />
+                  <q-btn
+                    label="Edit Category"
+                    type="submit"
+                    color="primary"
+                    :loading="editCategoryButtonLoading"
+                    :disabled="editCategoryButtonLoading"
+                  />
+                </q-card-actions>
+              </form>
+            </div>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
 
       <!-- Delete category dialog -->
       <q-dialog v-model="deleteCaty" @hide="clearDeleteCategoryPayload" persistent>
@@ -281,7 +445,7 @@
               color="negative"
               @click="deleteCategory"
               :loading='deleteCategoryButtonLoading'
-              :disabled="confirmDeletePayload !== deleteCategoryPayload.name"
+              :disabled="(confirmDeletePayload !== deleteCategoryPayload.name) || deleteCategoryButtonLoading"
             />
           </q-card-actions>
         </q-card>
@@ -311,22 +475,45 @@
 <script>
 export default {
   name: 'CatalogDetail',
-  data: function () {
+  meta () {
+    return {
+      title: this.catalog.name
+    }
+  },
+  data () {
     return {
       newCategoryButtonLoading: false,
       deleteCategoryButtonLoading: false,
+      editCatalogButtonLoading: false,
+      editCategoryButtonLoading: false,
       catalogNotFound: null,
       productCount: 0,
       activeProducts: 0,
       newCat: false,
+      catalogEdit: false,
+      categoryEdit: false,
       catalog: {},
       deleteCaty: false,
       confirmDeletePayload: '',
       deleteCategorySlug: '',
+      editCatalogPayload: {
+        name: '',
+        description: '',
+        contact_address: '',
+        contact_email: '',
+        contact_phone: '',
+        url: ''
+      },
       newCategory: {
         name: '',
         description: '',
         catalog: null
+      },
+      editCategoryPayload: {
+        name: '',
+        description: '',
+        catalog: null,
+        slug: ''
       },
       deleteCategoryPayload: {
         name: '',
@@ -348,10 +535,10 @@ export default {
     }
   },
   methods: {
-    getAuthToken: function () {
+    getAuthToken () {
       return sessionStorage.getItem('authToken')
     },
-    getCatalogDetail: function () {
+    getCatalogDetail () {
       let self = this
       this.$q.loading.show({
         spinnerColor: 'primary',
@@ -378,14 +565,14 @@ export default {
           }
         })
     },
-    getProductCount: function (payload) {
+    getProductCount (payload) {
       let productsAmount = 0
       for (let i = 0; i < payload.length; i++) {
         productsAmount += payload[i].product_entries.length
       }
       return productsAmount
     },
-    getFirstLetters: function (payload) {
+    getFirstLetters (payload) {
       let wordsList = payload.split(' ')
       if (!!wordsList[1] === true) {
         return wordsList[0].charAt(0).toUpperCase() + wordsList[1].charAt(0)
@@ -393,7 +580,7 @@ export default {
         return wordsList[0].charAt(0).toUpperCase()
       }
     },
-    addNewCategory: function () {
+    addNewCategory () {
       let self = this
       self.newCategoryButtonLoading = true
       self.$refs.name.validate()
@@ -438,7 +625,7 @@ export default {
           })
       }
     },
-    showAlert: function (payload) {
+    showAlert (payload) {
       const {
         color, textColor, message, icon,
         position, classes
@@ -453,25 +640,25 @@ export default {
         classes
       })
     },
-    clearNewCategoryModel: function () {
+    clearNewCategoryModel () {
       this.newCategory.name = ''
       this.newCategory.description = ''
       this.newCategory.catalog = null
     },
-    makeDeleteCategoryPayload: function (payload) {
+    makeDeleteCategoryPayload (payload) {
       this.deleteCaty = true
       this.deleteCategoryPayload.name = payload.name
       this.deleteCategoryPayload.description = payload.description
       this.deleteCategoryPayload.catalog = payload.catalog
       this.deleteCategorySlug = payload.slug
     },
-    clearDeleteCategoryPayload: function () {
+    clearDeleteCategoryPayload () {
       this.deleteCategoryPayload.name = ''
       this.deleteCategoryPayload.description = ''
       this.deleteCategoryPayload.catalog = null
       this.confirmDeletePayload = ''
     },
-    deleteCategory: function () {
+    deleteCategory () {
       let self = this
       self.deleteCategoryButtonLoading = true
       self.newCategory.catalog = self.catalog.id
@@ -491,9 +678,103 @@ export default {
             self.deleteCaty = false
           }
         })
+    },
+    makeEditCatalogPayload () {
+      this.catalogEdit = true
+      this.editCatalogPayload.name = this.catalog.name
+      this.editCatalogPayload.description = this.catalog.description
+      this.editCatalogPayload.contact_address = this.catalog.contact_address
+      this.editCatalogPayload.contact_email = this.catalog.contact_email
+      this.editCatalogPayload.contact_phone = this.catalog.contact_phone
+      this.editCatalogPayload.url = process.env.PROD
+        ? this.catalog.url.replace('http://', 'https://') : this.catalog.url
+    },
+    clearEditCatalogPayload () {
+      this.editCatalogPayload.name = ''
+      this.editCatalogPayload.description = ''
+      this.editCatalogPayload.contact_address = ''
+      this.editCatalogPayload.contact_email = ''
+      this.editCatalogPayload.contact_phone = ''
+      this.editCatalogPayload.url = ''
+    },
+    editCatalog () {
+      let self = this
+      self.editCatalogButtonLoading = true
+      let payload = new FormData()
+      payload.append('name', self.editCatalogPayload.name)
+      payload.append('description', self.editCatalogPayload.description)
+      payload.append('contact_address', self.editCatalogPayload.contact_address)
+      payload.append('contact_email', self.editCatalogPayload.contact_email)
+      payload.append('contact_phone', self.editCatalogPayload.contact_phone)
+      if (self.$refs.editCatalogBgImage.files.length > 0) {
+        payload.append('background_image', self.$refs.editCatalogBgImage.files[0])
+      }
+      if (self.$refs.editCatalogLogoImage.files.length > 0) {
+        payload.append('logo_image', self.$refs.editCatalogLogoImage.files[0])
+      }
+
+      self.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken(),
+        'Content-Type': 'multipart/form'
+      }
+      self.$axios.patch(
+        self.editCatalogPayload.url,
+        payload
+      )
+        .then(function (response) {
+          if (response.status === 200) {
+            self.getCatalogDetail()
+            self.alertPayload.message = 'Edited successfully!'
+            self.editCatalogButtonLoading = false
+            self.catalogEdit = false
+            self.showAlert(self.alertPayload)
+          }
+        })
+    },
+    makeEditCategoryPayload (payload) {
+      this.categoryEdit = true
+      this.editCategoryPayload.name = payload.name
+      this.editCategoryPayload.description = payload.description
+      this.editCategoryPayload.catalog = payload.catalog
+      this.editCategoryPayload.slug = payload.slug
+    },
+    clearEditCategoryPayload (payload) {
+      this.editCategoryPayload.name = ''
+      this.editCategoryPayload.description = ''
+      this.editCategoryPayload.catalog = null
+      this.editCategoryPayload.slug = ''
+    },
+    editCategory () {
+      let self = this
+      self.editCategoryButtonLoading = true
+      let payload = new FormData()
+      payload.append('name', self.editCategoryPayload.name)
+      payload.append('description', self.editCategoryPayload.description)
+      payload.append('catalog', self.editCategoryPayload.catalog)
+      if (self.$refs.editCategoryBgImage.files.length > 0) {
+        payload.append('background_image', self.$refs.editCategoryBgImage.files[0])
+      }
+
+      self.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken(),
+        'Content-Type': 'multipart/form'
+      }
+      self.$axios.patch(
+        'catalogs/' + self.catalog.slug + '/categories/' + self.editCategoryPayload.slug + '/',
+        payload
+      )
+        .then(function (response) {
+          if (response.status === 200) {
+            self.getCatalogDetail()
+            self.alertPayload.message = 'Category edited successfully!'
+            self.editCategoryButtonLoading = false
+            self.categoryEdit = false
+            self.showAlert(self.alertPayload)
+          }
+        })
     }
   },
-  created: function () {
+  created () {
     this.getCatalogDetail()
   }
 }
@@ -503,10 +784,5 @@ export default {
 a {
   text-decoration: none;
   color: inherit;
-}
-.bg-image {
-  max-height: 56px;
-  width: auto;
-  border-radius: 5px;
 }
 </style>

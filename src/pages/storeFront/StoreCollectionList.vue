@@ -77,6 +77,11 @@
 <script>
 export default {
   name: 'StoreCollectionList',
+  meta () {
+    return {
+      title: 'Collections'
+    }
+  },
   data () {
     return {
       catalogSlug: this.$route.params.catalogSlug,
@@ -85,7 +90,7 @@ export default {
     }
   },
   methods: {
-    getCollectionList: function () {
+    getCollectionList () {
       let self = this
       self.$store.dispatch('navbar/updateIs404Action', false)
       this.$q.loading.show({
@@ -93,7 +98,7 @@ export default {
         backgroundColor: 'white'
       })
       self.$axios.get(
-        'catalogs/' + self.$route.params.catalogSlug + '/collections/'
+        'catalogs/' + self.$route.params.catalogSlug + '/collections/?is_featured=false'
       )
         .then(function (response) {
           if (response.status === 200) {

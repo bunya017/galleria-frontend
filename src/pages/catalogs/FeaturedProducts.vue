@@ -1,10 +1,10 @@
 <template>
   <q-page padding>
-    <div v-if="collectionNotFound === false">
+    <div v-if="notFound === false">
       <!-- Title -->
-      <div v-if="collection" class="row items-center q-pt-sm q-pb-none">
+      <div class="row items-center q-pt-sm q-pb-none">
         <div class="text-h4 col-12 col-sm-6">
-          {{ collection.name }} Collection
+          Featured Products
         </div>
         <div class="col-12 col-sm-6 gt-xs">
           <q-btn
@@ -13,7 +13,7 @@
             color="white"
             icon="add"
             label="add product"
-            @click="addProd = true"
+            @click="addFeatured = true"
           />
         </div>
       </div>
@@ -28,29 +28,19 @@
             :to="{
               name:'catalog-detail',
               params: {
-                slug: catalog.slug
-              }
-            }"
-          />
-          <q-breadcrumbs-el
-            v-if="catalog"
-            label="Collection List"
-            :to="{
-              name:'collection-list',
-              params: {
-                slug: this.$route.params.catalogSlug
+                slug: this.catalogSlug
               }
             }"
           />
           <q-breadcrumbs-el>
-            {{ collection.name }}
+            Featured Products
           </q-breadcrumbs-el>
         </q-breadcrumbs>
       </div>
 
-      <!-- Colection products list-->
-      <div class="row q-pt-lg q-col-gutter-md" v-if="collectionProducts.length > 0">
-        <div class="col-12" v-for="product in collectionProducts" :key="product.id">
+      <!-- Featured products list -->
+      <div class="row q-pt-lg q-col-gutter-md" v-if="featuredProducts.length > 0">
+        <div class="col-12" v-for="product in featuredProducts" :key="product.id">
           <q-card>
             <q-list>
               <q-item>
@@ -68,7 +58,7 @@
                     :to="{
                       name: 'product-detail',
                       params: {
-                        catalogSlug: catalog.slug,
+                        catalogSlug: catalogSlug,
                         referenceId: product.product.reference_id,
                         productSlug: product.product.slug
                       }
@@ -82,14 +72,13 @@
                       ₦{{ product.product.price }}
                     </q-item-label>
                   </router-link>
-                </q-item-section>
-                <q-item-section side>
+                </q-item-section><q-item-section side>
                   <q-btn size="12px" flat dense round icon="more_vert">
                     <q-menu auto-close>
                       <q-list style="width: 200px;">
                         <q-item
                           clickable
-                          @click="makeRemoveProductPayload(product.product)"
+                          @click="makeRemoveFeaturedPayload(product.product)"
                         >
                           <q-item-section avatar>
                             <q-avatar rounded icon="delete" />
@@ -111,7 +100,7 @@
         <div class="col-12 q-px-md">
           <img height="150" width="150" alt="Quasar logo" src="../../assets/undraw-no-data.svg">
           <div class="text-body1 q-py-sm">
-            You have not added any product to this collection yet. Click on the
+            You have not added any featured product yet. Click on the
             <q-btn v-if="$q.screen.lt.sm" round size="xs" color="primary" icon="add" />
             <q-btn v-else size="sm" dense class="q-py-xs" color="primary" icon="add" label="ADD PRODUCT" />
             button to add one.
@@ -121,34 +110,34 @@
 
       <!-- Add new products to collection dialog -->
       <q-dialog
-        v-model="addProd"
+        v-model="addFeatured"
         position="top"
         no-backdrop-dismiss
-        @hide="newCollectionProduct.product = null"
+        @hide="newFeaturedProduct.product = null"
       >
         <q-card class="q-mt-lg" style="width: 600px; max-width: 95vw;">
           <q-card-section>
             <div class="text-h5">Add product</div>
             <div class="text-subtitle2 text-grey-7 q-py-xs">
-              Add product to {{ collection.name }} collection
+              Add a featured product
             </div>
           </q-card-section>
           <q-card-section class="q-pa-sm">
             <div class="q-px-sm-md">
               <form
                 class="q-gutter-sm"
-                v-on:submit.prevent.stop="addProductToCollection"
+                v-on:submit.prevent.stop="addFeaturedProduct"
               >
                 <q-select
                   dense
                   lazy-rules
-                  use-input
+                  :use-input="$q.screen.gt.sm"
                   :options="options"
                   label="Product"
                   hint="Select product"
                   :error="productError.status"
                   :error-message="productError.message"
-                  v-model="newCollectionProduct.product"
+                  v-model="newFeaturedProduct.product"
                   @filter="filterFunction"
                   @input="productError.status = false"
                 >
@@ -184,6 +173,7 @@
                     label="Add new"
                     color="primary"
                     :loading="addProductButtonLoading"
+                    :disabled="addProductButtonLoading"
                   />
                 </q-card-actions>
               </form>
@@ -193,11 +183,11 @@
       </q-dialog>
 
       <!-- Remove product from collection dialog -->
-      <q-dialog v-model="removeProd" persistent>
+      <q-dialog v-model="removeFeatured" persistent @hide="clearRemoveFeaturedPayload">
         <q-card>
           <q-card-section class="row items-center">
             <span class="q-ml-md q-py-md text-center">
-              Are you sure you want to remove <span class="text-weight-bold">{{ removeProductPayload.name }}</span> from this collection?
+              Are you sure you want to remove <span class="text-weight-bold">{{ removeFeaturedPayload.name }}</span> from featured products?
             </span>
           </q-card-section>
           <q-card-actions align="right">
@@ -210,8 +200,9 @@
             <q-btn
               label="Remove"
               color="primary"
-              @click="removeCollectionProduct"
-              :loading="removeProductButtonLoading"
+              @click="removeFeaturedProduct"
+              :loading="removeFeaturedButtonLoading"
+              :disabled="removeFeaturedButtonLoading"
             />
           </q-card-actions>
         </q-card>
@@ -219,12 +210,16 @@
 
       <!-- Floating button -->
       <q-page-sticky class="lt-sm" position="bottom-right" :offset="[20, 20]">
-        <q-btn fab icon="add" color="primary" @click="addProd = true">
-          <q-tooltip>Add new product to this collection</q-tooltip>
+        <q-btn fab icon="add" color="primary" @click="addFeatured = true">
+          <q-tooltip>Add a new featured product</q-tooltip>
         </q-btn>
       </q-page-sticky>
     </div>
-    <div class="row jutify-center text-center" style="padding-top: 25vh;" v-if="collectionNotFound === true">
+    <div
+      style="padding-top: 25vh;"
+      v-if="notFound === true"
+      class="row jutify-center text-center"
+    >
       <div class="col-12 q-px-md">
         <div class="text-h2 q-pb-lg">404</div>
         <p class="text-body1">We can't seem to find the page you're looking for.</p>
@@ -242,31 +237,35 @@
 
 <script>
 export default {
-  name: 'CollectionDetail',
+  name: 'FeaturedProducts',
   meta () {
     return {
-      title: `${this.collection.name} | ${this.catalog.name}`
+      title: 'Featured Products'
     }
   },
   data () {
     return {
-      addProductButtonLoading: false,
-      removeProductButtonLoading: false,
-      collectionNotFound: null,
       collection: {},
+      featuredProducts: [],
+      notFound: null,
       catalog: {},
-      collectionProducts: [],
       products: [],
       options: [],
-      addProd: false,
-      removeProd: false,
-      newCollectionProduct: {
+      addFeatured: false,
+      removeFeatured: false,
+      removeFeaturedButtonLoading: false,
+      addProductButtonLoading: false,
+      newFeaturedProduct: {
         collection: null,
         product: null
       },
       productError: {
         status: false,
         message: ''
+      },
+      removeFeaturedPayload: {
+        name: '',
+        productSlug: ''
       },
       alertPayload: {
         color: 'green-1',
@@ -283,10 +282,6 @@ export default {
         position: 'top',
         message: '',
         classes: 'q-mt-xl'
-      },
-      removeProductPayload: {
-        name: '',
-        productSlug: null
       }
     }
   },
@@ -294,7 +289,7 @@ export default {
     getAuthToken () {
       return sessionStorage.getItem('authToken')
     },
-    getCollectionDetail () {
+    getFeaturedProducts () {
       let self = this
       this.$q.loading.show({
         spinnerColor: 'primary',
@@ -304,19 +299,20 @@ export default {
         'Authorization': 'Token ' + self.getAuthToken()
       }
       self.$axios.get(
-        'catalogs/' + self.$route.params.catalogSlug + '/collections/' + self.$route.params.collectionSlug + '/'
+        'catalogs/' + self.catalogSlug + '/collections/featured-products/?is_featured=true'
       )
         .then(function (response) {
           if (response.status === 200) {
             self.collection = response.data
-            self.collectionProducts = response.data.collection_products
-            self.newCollectionProduct.collection = response.data.id
-            self.collectionNotFound = false
+            self.featuredProducts = response.data.collection_products
+            self.newFeaturedProduct.collection = response.data.id
+            self.notFound = false
             self.$q.loading.hide()
           }
         })
         .catch(function (error) {
           if (error.response.status === 404) {
+            self.notFound = true
             self.$q.loading.hide()
           }
         })
@@ -327,7 +323,7 @@ export default {
         'Authorization': 'Token ' + self.getAuthToken()
       }
       self.$axios.get(
-        'catalogs/' + self.$route.params.catalogSlug + '/'
+        'catalogs/' + self.catalogSlug + '/'
       )
         .then(function (response) {
           if (response.status === 200) {
@@ -366,43 +362,6 @@ export default {
         )
       })
     },
-    addProductToCollection () {
-      let self = this
-      self.addProductButtonLoading = true
-      let payload = {}
-      payload.collection = self.newCollectionProduct.collection
-      payload.product = self.newCollectionProduct.product.value
-      this.$axios.defaults.headers.common = {
-        'Authorization': 'Token ' + self.getAuthToken()
-      }
-      self.$axios.post(
-        'catalogs/' + self.$route.params.catalogSlug + '/collections/' + self.$route.params.collectionSlug + '/products/',
-        payload
-      )
-        .then(function (response) {
-          if (response.status === 201) {
-            self.getCatalog()
-            self.getCollectionDetail()
-            self.getCatalogProducts()
-            self.alertPayload.message = 'Product added successfully!'
-            self.showAlert(self.alertPayload)
-            self.addProductButtonLoading = false
-            self.addProd = false
-          }
-        })
-        .catch(function (error) {
-          if (error.response.data.non_field_errors[0].indexOf('The fields product, collection') > -1) {
-            self.productError.message = 'You already have this product in this collection!'
-            self.productError.status = true
-            self.errorAlertPayload.message = 'You already have this product in this collection!'
-            self.addProductButtonLoading = false
-            self.showAlert(self.errorAlertPayload)
-          }
-          if (error.response.status === 404) {
-            self.collectionNotFound = true
-          }
-        })
-    },
     showAlert (payload) {
       const {
         color, textColor, message, icon,
@@ -418,39 +377,85 @@ export default {
         classes
       })
     },
-    makeRemoveProductPayload (payload) {
-      this.removeProductPayload.name = payload.name
-      this.removeProductPayload.productSlug = payload.slug
-      this.removeProd = true
-    },
-    removeCollectionProduct () {
+    addFeaturedProduct () {
       let self = this
-      self.removeProductButtonLoading = true
+      self.addProductButtonLoading = true
+      let payload = {}
+      payload.collection = self.newFeaturedProduct.collection
+      payload.product = self.newFeaturedProduct.product.value
+      this.$axios.defaults.headers.common = {
+        'Authorization': 'Token ' + self.getAuthToken()
+      }
+      self.$axios.post(
+        'catalogs/' + self.catalogSlug + '/collections/featured-products/products/',
+        payload
+      )
+        .then(function (response) {
+          if (response.status === 201) {
+            self.getCatalog()
+            self.getFeaturedProducts()
+            self.getCatalogProducts()
+            self.alertPayload.message = 'Product added successfully!'
+            self.showAlert(self.alertPayload)
+            self.addProductButtonLoading = false
+            self.addFeatured = false
+          }
+        })
+        .catch(function (error) {
+          if (error.response.data.non_field_errors[0].indexOf('The fields product, collection') > -1) {
+            self.productError.message = 'You already have this product in this collection!'
+            self.productError.status = true
+            self.errorAlertPayload.message = 'You already have this product in this collection!'
+            self.addProductButtonLoading = false
+            self.showAlert(self.errorAlertPayload)
+          }
+          if (error.response.status === 404) {
+            self.notFound = true
+          }
+        })
+    },
+    makeRemoveFeaturedPayload (payload) {
+      this.removeFeaturedPayload.name = payload.name
+      this.removeFeaturedPayload.productSlug = payload.slug
+      this.removeFeatured = true
+    },
+    clearRemoveFeaturedPayload () {
+      this.removeFeatured = false
+      this.removeFeaturedPayload.name = ''
+      this.removeFeaturedPayload.productSlug = ''
+    },
+    removeFeaturedProduct () {
+      let self = this
+      self.removeFeaturedButtonLoading = true
       this.$axios.defaults.headers.common = {
         'Authorization': 'Token ' + self.getAuthToken()
       }
       self.$axios.delete(
-        'catalogs/' + self.$route.params.catalogSlug + '/collections/' + self.$route.params.collectionSlug + '/products/' + self.removeProductPayload.productSlug + '/'
+        'catalogs/' + self.catalogSlug + '/collections/featured-products/products/' +
+        self.removeFeaturedPayload.productSlug + '/'
       )
         .then(function (response) {
           if (response.status === 204) {
-            self.products = []
-            self.options = []
-            self.getCatalog()
-            self.getCollectionDetail()
-            self.getCatalogProducts()
-            self.removeProductButtonLoading = false
+            self.removeFeaturedButtonLoading = false
             self.alertPayload.message = 'Product removed successfully!'
             self.showAlert(self.alertPayload)
-            self.removeProd = false
+            self.removeFeatured = false
+            self.getFeaturedProducts()
+            self.getCatalog()
+            self.getCatalogProducts()
           }
         })
     }
   },
+  computed: {
+    catalogSlug () {
+      return this.$route.params.catalogSlug
+    }
+  },
   created () {
     this.getCatalog()
-    this.getCollectionDetail()
     this.getCatalogProducts()
+    this.getFeaturedProducts()
   }
 }
 </script>

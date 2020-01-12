@@ -79,6 +79,11 @@
 <script>
 export default {
   name: 'StoreSearch',
+  meta () {
+    return {
+      title: 'Search'
+    }
+  },
   data () {
     return {
       products: [],
@@ -87,7 +92,7 @@ export default {
     }
   },
   methods: {
-    getProductsList: function () {
+    getProductsList () {
       let self = this
       this.$q.loading.show({
         spinnerColor: 'primary',

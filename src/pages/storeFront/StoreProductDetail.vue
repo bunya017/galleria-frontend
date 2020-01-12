@@ -39,9 +39,8 @@
               swipeable
               arrows
               animated
+              thumbnails
               v-model="imageSlide"
-              :thumbnails="$q.screen.gt.sm"
-              :navigation="$q.screen.lt.md"
             >
               <q-carousel-slide
                 contain
@@ -115,6 +114,11 @@
 <script>
 export default {
   name: 'StoreProductDetail',
+  meta () {
+    return {
+      title: this.product.name
+    }
+  },
   data () {
     return {
       product: {},
@@ -124,7 +128,7 @@ export default {
     }
   },
   methods: {
-    getProductDetail: function () {
+    getProductDetail () {
       let self = this
       self.$store.dispatch('navbar/updateIs404Action', false)
       this.$q.loading.show({

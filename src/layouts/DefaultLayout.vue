@@ -49,6 +49,13 @@
     <q-page-container>
       <!-- This is where pages get injected -->
       <router-view />
+      <div id="footer" class="q-pt-lg">
+        <div id="brand-section" class="bg-grey-3 row q-py-xl q-px-md q-pa-sm-xl">
+          <div class="col-12 text-center">
+            Copyright © {{ date.getFullYear() }}, <span class="text-primary">Galleria</span>. All Rights Reserved.
+          </div>
+        </div>
+      </div>
     </q-page-container>
 
   </q-layout>
@@ -57,10 +64,17 @@
 <script>
 export default {
   name: 'DefaultLayout',
+  meta () {
+    return {
+      title: 'Welcome',
+      titleTemplate: title => `${title} - Galleria`
+    }
+  },
   data () {
     return {
       leftDrawer: true,
-      tab: ''
+      tab: '',
+      date: new Date()
     }
   }
 }

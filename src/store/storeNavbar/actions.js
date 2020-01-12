@@ -1,12 +1,13 @@
 import { axiosInstance } from 'boot/axios'
 
-export function updateCatalogAction ({ commit }, catalogSlug) {
+export function updateCatalogAction ({ commit, dispatch }, catalogSlug) {
   return axiosInstance.get(
     'catalogs/' + catalogSlug + '/'
   )
     .then(function (response) {
       if (response.status === 200) {
         if (response.data.logo_image.thumbnail) {
+          dispatch('navbar/updateIsLoadingAction', false, { root: true })
           return commit(
             'updateCatalog',
             {
@@ -19,6 +20,7 @@ export function updateCatalogAction ({ commit }, catalogSlug) {
               backgroundImage: response.data.background_image
             })
         } else {
+          dispatch('navbar/updateIsLoadingAction', false, { root: true })
           return commit(
             'updateCatalog',
             {
@@ -34,4 +36,8 @@ export function updateCatalogAction ({ commit }, catalogSlug) {
 
 export function updateIs404Action ({ commit }, errorState) {
   return commit('updateIs404', errorState)
+}
+
+export function updateIsLoadingAction ({ commit }, loadingState) {
+  return commit('updateIsLoading', loadingState)
 }

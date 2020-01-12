@@ -62,8 +62,9 @@
                       label="Login"
                       color="primary"
                       text-color="white"
-                      :loading="loginButtonLoading"
                       class="full-width bg-primary"
+                      :loading="loginButtonLoading"
+                      :disabled="loginButtonLoading"
                     />
                   </div>
                 </div>
@@ -78,8 +79,13 @@
 
 <script>
 export default {
-  // name: 'PageName',
-  data: function () {
+  name: 'Login',
+  meta () {
+    return {
+      title: 'Login'
+    }
+  },
+  data () {
     return {
       loginButtonLoading: false,
       isPwd: true,
@@ -106,7 +112,7 @@ export default {
     }
   },
   methods: {
-    login: function () {
+    login () {
       let self = this
       self.loginButtonLoading = true
       self.$axios.post(
@@ -143,7 +149,7 @@ export default {
           self.loginButtonLoading = false
         })
     },
-    showAlert: function (payload) {
+    showAlert (payload) {
       const { color, textColor, message, icon, position, classes } = payload
 
       this.$q.notify({

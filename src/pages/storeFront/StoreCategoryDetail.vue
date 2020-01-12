@@ -106,6 +106,11 @@
 <script>
 export default {
   name: 'StoreCategoryDetail',
+  meta () {
+    return {
+      title: this.category.name
+    }
+  },
   data () {
     return {
       catalogSlug: this.$route.params.catalogSlug,
@@ -115,7 +120,7 @@ export default {
     }
   },
   methods: {
-    getCategoryDetail: function () {
+    getCategoryDetail () {
       let self = this
       self.$store.dispatch('navbar/updateIs404Action', false)
       this.$q.loading.show({

@@ -86,6 +86,11 @@
 <script>
 export default {
   name: 'StoreProductList',
+  meta () {
+    return {
+      title: 'Products'
+    }
+  },
   data () {
     return {
       catalogSlug: this.$route.params.catalogSlug,
@@ -94,7 +99,7 @@ export default {
     }
   },
   methods: {
-    getProductsList: function () {
+    getProductsList () {
       let self = this
       self.$store.dispatch('navbar/updateIs404Action', false)
       this.$q.loading.show({
@@ -121,7 +126,7 @@ export default {
         })
     }
   },
-  created: function () {
+  created () {
     this.getProductsList()
   }
 }
