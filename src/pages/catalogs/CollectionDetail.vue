@@ -49,7 +49,7 @@
       </div>
 
       <!-- Colection products list-->
-      <div class="row q-pt-lg q-col-gutter-md">
+      <div class="row q-pt-lg q-col-gutter-md" v-if="collectionProducts.length > 0">
         <div class="col-12" v-for="product in collectionProducts" :key="product.id">
           <q-card>
             <q-list>
@@ -105,6 +105,17 @@
               </q-item>
             </q-list>
           </q-card>
+        </div>
+      </div>
+      <div v-else class="row jutify-center text-center q-pb-md" style="padding-top: 10vh;">
+        <div class="col-12 q-px-md">
+          <img height="150" width="150" alt="Quasar logo" src="../../assets/undraw-no-data.svg">
+          <div class="text-body1 q-py-sm">
+            You have not added any product to this collection yet. Click on the
+            <q-btn v-if="$q.screen.lt.sm" round size="xs" color="primary" icon="add" />
+            <q-btn v-else size="sm" dense class="q-py-xs" color="primary" icon="add" label="ADD PRODUCT" />
+            button to add one.
+          </div>
         </div>
       </div>
 
