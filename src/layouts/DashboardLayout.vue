@@ -29,24 +29,22 @@
       content-class="bg-grey-2"
     >
       <!-- QScrollArea is optional -->
-      <q-scroll-area class="fit q-pa-sm">
+      <q-scroll-area class="fit">
         <!-- Navigation menu -->
-        <q-list padding seperator>
-          <q-item clickable v-ripple :to="{name:'my-catalogs'}">
+        <q-list seperator class="q-pt-lg">
+          <q-item clickable :to="{name:'my-catalogs'}">
             <q-item-section avatar>
               <q-icon name="home" />
             </q-item-section>
             <q-item-section>
-              <q-item-label header class="text-black">Dashboard</q-item-label>
+              <q-item-label>Dashboard</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item clickable v-ripple @click="logout">
+          <q-item clickable @click="logout">
             <q-item-section avatar>
               <q-icon name="reply" />
             </q-item-section>
-            <q-item-section>
-              <q-item-label header class="text-black">Logout</q-item-label>
-            </q-item-section>
+            Logout
           </q-item>
         </q-list>
       </q-scroll-area>
