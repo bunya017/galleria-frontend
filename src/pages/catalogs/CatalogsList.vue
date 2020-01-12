@@ -150,7 +150,7 @@
       </q-dialog>
 
       <!-- Catalog List -->
-      <div class="row q-pt-lg q-pb-xl q-col-gutter-md" v-if="catalogs[0]">
+      <div class="row q-pt-lg q-pb-xl q-col-gutter-md" v-if="catalogs.length > 0">
         <div class="col-12">
           <q-card>
             <q-list separator>
@@ -204,6 +204,17 @@
               </q-item>
             </q-list>
           </q-card>
+        </div>
+      </div>
+      <div v-else class="row jutify-center text-center q-pb-md" style="padding-top: 10vh;">
+        <div class="col-12 q-px-md">
+          <img height="150" width="150" alt="Quasar logo" src="../../assets/undraw-no-data.svg">
+          <div class="text-body1 q-py-sm">
+            You have not created any catalog yet. Click on the
+            <q-btn v-if="$q.screen.lt.sm" round size="xs" color="primary" icon="add" />
+            <q-btn v-else size="sm" dense class="q-py-xs" color="primary" icon="add" label="NEW CATALOG" />
+            button to create one.
+          </div>
         </div>
       </div>
 
