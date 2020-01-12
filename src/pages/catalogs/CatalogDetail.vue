@@ -89,9 +89,8 @@
             <q-card>
               <div class="row justify-center items-center" style="min-height: 100px;">
                 <div class="text-center">
-                  <div class="text-h5">
-                    Featured Products
-                  </div>
+                  <div class="text-h5">Featured Products</div>
+                  <div class="text-subtitle2">(Click to view)</div>
                 </div>
               </div>
             </q-card>
