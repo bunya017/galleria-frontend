@@ -72,6 +72,12 @@
             </div>
           </q-card-section>
         </q-card>
+        <div class="q-py-md text-center">
+          Don't have an account?
+          <router-link class="text-primary" to="/signup">
+            Sign up
+          </router-link>
+        </div>
       </div>
     </div>
   </q-page>

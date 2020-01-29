@@ -104,6 +104,12 @@
             </div>
           </q-card-section>
         </q-card>
+        <div class="q-py-md text-center">
+          Already have an account?
+          <router-link class="text-primary" to="/login">
+            Log in
+          </router-link>
+        </div>
       </div>
     </div>
   </q-page>
